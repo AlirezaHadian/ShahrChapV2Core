@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ShahrChap.Core.Services;
+using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,10 @@ builder.Services.AddDbContext<ShahrChapContext>(options=>
 {
     options.UseSqlServer(dbConnectionString);
 });
+#endregion
+
+#region IoC
+builder.Services.AddTransient<IUserService, UserService>();
 #endregion
 
 var app = builder.Build();

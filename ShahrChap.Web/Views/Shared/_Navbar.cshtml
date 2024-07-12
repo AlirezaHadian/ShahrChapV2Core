@@ -141,20 +141,28 @@
                     </div>
                 </div>
 
+                
                 <div class="menu-controll userpanel-dropdown">
-                    <a type="button" class="btn userpanel" onclick="dropUserPanel()"><i class="uil uil-user"></i></a>
-                    <div id="userpanel-dropdown" class="userpanel-dropdown-content">
-                        <a href="#"><i class="uil uil-user-circle"></i> علیرضا هادیان</a>
-                        <hr>
-                        <a href="#" class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-start align-items-center"><i class="uil uil-edit"></i> ویرایش اطلاعات </div> <i class="uil uil-angle-left angle-left"></i>
-                        </a>
-                        <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-location-pin-alt"></i> آدرس ها </div><i class="uil uil-angle-left angle-left"></i></a>
-                        <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-shopping-bag"></i> سفارشات </div><i class="uil uil-angle-left angle-left"></i></a>
-                        <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-padlock"></i> تغییر کلمه عبور </div><i class="uil uil-angle-left angle-left"></i></a>
-                        <hr>
-                        <a href="#"><i class="uil uil-signout"></i> خروج از حساب</a>
-                    </div>
+                    @* @if (User.Identity.IsAuthenticated)
+                    {
+                        <a type="button" class="btn userpanel" onclick="dropUserPanel()"><i class="uil uil-user"></i></a>
+                        <div id="userpanel-dropdown" class="userpanel-dropdown-content">
+                            <a href="#"><i class="uil uil-user-circle"></i> علیرضا هادیان</a>
+                            <hr>
+                            <a href="#" class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-start align-items-center"><i class="uil uil-edit"></i> ویرایش اطلاعات </div> <i class="uil uil-angle-left angle-left"></i>
+                            </a>
+                            <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-location-pin-alt"></i> آدرس ها </div><i class="uil uil-angle-left angle-left"></i></a>
+                            <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-shopping-bag"></i> سفارشات </div><i class="uil uil-angle-left angle-left"></i></a>
+                            <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-padlock"></i> تغییر کلمه عبور </div><i class="uil uil-angle-left angle-left"></i></a>
+                            <hr>
+                            <a href="#"><i class="uil uil-signout"></i> خروج از حساب</a>
+                        </div>
+                    }else
+                    {
+                    }*@
+                    <a type="button" class="btn userpanel" href="/Login"><i class="uil uil-user"></i></a>
+
                 </div>
             </div>
         </div>

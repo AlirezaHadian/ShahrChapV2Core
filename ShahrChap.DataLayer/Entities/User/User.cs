@@ -25,13 +25,13 @@ namespace ShahrChap.DataLayer.Entities.User
         [Display(Name = "ایمیل")]
         [MaxLength(450, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Display(Name = "شماره موبایل")]
         [MaxLength(150, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
         [Phone(ErrorMessage = "شماره موبایل وارد شده معتبر نمی باشد")]
         [RegularExpression(@"09([0-9][0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}$", ErrorMessage = "شماره موبایل وارد شده معتبر نمی باشد")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [Display(Name = "کلمه عبور")]
         [MaxLength(50, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]

@@ -1,0 +1,55 @@
+﻿@model ShahrChap.Core.DTOs.RegisterViewModel
+
+@{
+    ViewData["Title"] = "ثبت نام در سایت";
+}
+<section class="container internal-style pt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ثبت نام در سایت</li>
+    </ol>
+</section>
+
+<div class="register-page">
+    <div class="container register-container">
+        <span class="register-title">ثبت نام در سایت</span>
+            <form asp-action="Register" method="post" class="register-form">
+
+            <div class="input-element form-group">
+                <input asp-for="UserName" placeholder="نام کاربری">
+                <i class="uil uil-user icon"></i>
+            </div>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+
+            <div class="input-element form-group">
+                <input asp-for="EmailOrPhone" placeholder="پست الکترونیک، شماره موبایل"  />
+                <i class="uil uil-at icon"></i>
+            </div>
+                <span asp-validation-for="EmailOrPhone" class="text-danger"></span>
+
+            <div class="input-element form-group">
+                <input asp-for="Password" class="password" placeholder="کلمه عبور" />
+                <i class="uil uil-lock icon"></i>
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+            <div class="input-element form-group">
+                <input asp-for="ConfirmPassword" class="password" placeholder="تکرار کلمه عبور" />
+                <i class="uil uil-lock icon"></i>
+                <i class="uil uil-eye-slash showHidePw" id="showHidePw"></i>
+            </div>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+            <div class="register-btn form-group">
+                <input type="submit" class="signup-btn" value="ثبت نام">
+            </div>
+        </form>
+        <div class="login-signup">
+            <span class="text">
+                قبلا عضو شده اید؟
+                <a href="/Login.html" class="text signup-link">وارد شوید</a>
+            </span>
+        </div>
+
+    </div>
+</div>
