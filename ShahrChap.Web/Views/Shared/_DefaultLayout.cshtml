@@ -6,12 +6,13 @@
     
     <partial name="_Styles" />
     <!--Jquery-->
-    <script src="/js/jquery-3.5.1 - min.js"></script>
+    <script src="/js/jquery-3.7.0.min.js"></script>
 
     <title>شهر چاپ - @ViewData["Title"]</title>
 </head>
 
 <body>
+
     <!--PreLoader-->
     <!-- <div class="preloader d-flex justify-content-center align-items-center">
         <img src="/img/preloader.gif" alt="preloader">
@@ -33,11 +34,14 @@
     <!-- Footer -->
 
 </body>
+@RenderSection("Scripts", false)
 <script src="/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/swiper-bundle.min.js"></script>
 <script src="/js/swiped-events.min.js"></script>
 <script src="/js/script.js"></script>
-
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/js/toastr.min.js"></script>
 </html>
 @RenderBody()

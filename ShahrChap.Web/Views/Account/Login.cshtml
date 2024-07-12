@@ -1,0 +1,59 @@
+﻿@model ShahrChap.Core.DTOs.LoginViewModel
+
+@{
+    ViewData["Title"] = "ورود به سایت";
+}
+
+@* @await Html.PartialAsync("_ToastrAlert") *@
+@if(ViewBag.ToastrMessage != null){
+<partial name="_ToastrAlert" />
+    <script>
+        var delay = 3000; 
+        setTimeout(function(){ window.location = "/"; }, delay);
+    </script>
+}
+<section class="container internal-style pt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ورود به سایت</li>
+    </ol>
+</section>
+
+<div class="register-page">
+    <div class="container register-container">
+        <span class="register-title">ورود به سایت</span>
+
+        <form asp-action="Login" class="register-form">
+            <div class="input-element">
+                <input asp-for="EmailOrPhone" placeholder="ایمیل / شماره موبایل">
+                <i class="uil uil-at icon"></i>
+            </div>
+                <span asp-validation-for="EmailOrPhone" class="text-danger"></span>
+
+            <div class="input-element">
+                <input asp-for="Password" class="password" placeholder="کلمه عبور">
+                <i class="uil uil-lock icon"></i>
+                <i class="uil uil-eye-slash showHidePw" id="showHidePw"></i>
+            </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+
+            <div class="checkbox-text">
+                <div class="checkbox-content">
+                    <label for="logCheck" class="text">مرا به خاطر بسپار</label>
+                    <input asp-for="RememberMe" type="checkbox" id="logCheck">
+                </div>
+                <a href="/ForgotPassword" class="text">کلمه عبور خود را فراموش کرده اید؟</a>
+            </div>
+
+            <div class="register-btn">
+                <input type="submit" class="signup-btn" value="ورود">
+            </div
+        </form>
+        <div class="login-signup">
+            <span class="text">
+                عضو نیستید؟
+                <a asp-action="register" class="text signup-link">ثبت نام کنید</a>
+            </span>
+        </div>
+    </div>
+</div>
