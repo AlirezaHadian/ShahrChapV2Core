@@ -1,0 +1,16 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "https://portal.amootsms.com/webservice2.asmx?wsdl&_gl=1*1tpu7r2*_ga*MTk3NjkzODM3MS4xNjU3NTU0NTc3*_ga_X3F2TEMQLW*MTY5MjkwMjIyNS4xNy4xLjE2OTI5MDcwNjEuNTcuMC4w"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, AmootSMS"
+    ],
+    "targetFramework": "net8.0",
+    "typeReuseMode": "All"
+  }
+}

@@ -33,6 +33,16 @@ namespace ShahrChap.Core.Services
             return true;
         }
 
+        public bool ActivePhone(string PhoneNumber)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Phone == PhoneNumber);
+            if(user == null || user.IsPhoneActive) return false;
+
+            user.IsPhoneActive = true;
+            _context.SaveChanges();
+            return true;
+        }
+
         public int AddUser(User user)
         {
             _context.Users.Add(user);

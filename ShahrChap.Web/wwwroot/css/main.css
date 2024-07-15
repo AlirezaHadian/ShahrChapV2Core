@@ -32,12 +32,14 @@
     /* Blue */
     --mainBlue: hsl(198, 63%, 45%);
     --darkBlue: hsl(198, 56%, 35%);
-    --darkerBlue: hsl(212, 14%, 19%);
     --darkerBlue: hsl(220, 53%, 31%);
+    --darkestBlue: hsl(212, 14%, 19%);
     --lighterBlue: hsla(200, 88%, 94%, 0.5);
     --transparentDarkBlue: hsla(220, 53%, 31%, 0.7);
     /* Other */
-    --mainGreen: #70c1b3;
+    --mainOrange: #c9800a;
+    --mainLightGreen: #70c1b3;
+    --mainGreen: #429E73;
     --mainRed: #f25f5c;
     --search-bar: #f2f2f2;
     /* Scroll Bar */
@@ -116,11 +118,240 @@ footer {
     height: 25px !important;
     width: 25px !important;
 }
-/*Custom validation*/
-input:not(:focus):not(:placeholder-shown):invalid {
-    border: 1px solid var(--mainRed);
-    box-shadow: 0 0 5px var(--mainRed);
+/* BACKGROUNDS */
+.bg-yellow {
+    background-color: var(--mainYellow);
 }
+
+.bg-dark-yellow {
+    background-color: var(--darkYellow);
+}
+
+.bg-orange {
+    background-color: var(--mainOrange);
+}
+
+.bg-green {
+    background-color: var(--mainGreen);
+}
+
+.bg-light-green {
+    background-color: var(--mainLightGreen);
+}
+
+.bg-blue {
+    background-color: var(--mainBlue);
+}
+
+.bg-red {
+    background-color: var(--mainRed);
+}
+
+.bg-white {
+    background-color: var(--mainWhite);
+}
+
+.bg-grey {
+    background-color: var(--grey);
+}
+/* TEXT COLOR */
+.txt-yellow {
+    color: var(--mainYellow);
+}
+
+.txt-dark-yellow {
+    color: var(--darkYellow);
+}
+
+.txt-orange {
+    color: var(--mainOrange);
+}
+
+.txt-blue {
+    color: var(--mainBlue);
+}
+
+.txt-red {
+    color: var(--mainRed);
+}
+
+.txt-green {
+    color: var(--mainGreen);
+}
+
+.txt-white {
+    color: var(--mainWhite);
+}
+
+.txt-black {
+    color: var(--mainBlack);
+}
+
+.txt-ligth-grey {
+    color: var(--lightGrey);
+}
+
+.txt-dark-grey {
+    color: var(--darkGrey);
+}
+/* BUTTONS */
+.btn-yellow {
+    background-color: var(--mainYellow);
+    color: var(--mainWhite);
+    transition: .3s all ease;
+}
+
+    .btn-yellow:hover {
+        background-color: transparent;
+        color: var(--mainYellow);
+        border: 1px solid var(--mainYellow);
+    }
+
+.btn-outline-yellow {
+    background-color: transparent;
+    color: var(--mainYellow);
+    border: 1px solid var(--mainYellow);
+    transition: .3s all ease;
+}
+
+    .btn-outline-yellow:hover {
+        background-color: var(--mainYellow);
+        color: var(--mainWhite);
+        transition: .3s all ease;
+    }
+
+.btn-orange {
+    background-color: var(--mainOrange);
+    color: var(--mainWhite);
+    transition: .3s all ease;
+}
+
+    .btn-orange:hover {
+        background-color: transparent;
+        color: var(--mainOrange);
+        border: 1px solid var(--mainOrange);
+    }
+
+.btn-outline-orange {
+    background-color: transparent;
+    color: var(--mainOrange);
+    border: 1px solid var(--mainOrange);
+    transition: .3s all ease;
+}
+
+    .btn-outline-orange:hover {
+        background-color: var(--mainOrange);
+        color: var(--mainWhite);
+        transition: .3s all ease;
+    }
+
+.btn-blue {
+    background-color: var(--mainBlue);
+    color: var(--mainWhite);
+    transition: .3s all ease;
+}
+
+    .btn-blue:hover {
+        background-color: transparent;
+        color: var(--mainBlue);
+        border: 1px solid var(--mainBlue);
+    }
+
+.btn-outline-blue {
+    background-color: transparent;
+    color: var(--mainBlue);
+    border: 1px solid var(--mainBlue);
+    transition: .3s all ease;
+}
+
+    .btn-outline-blue:hover {
+        background-color: var(--mainBlue);
+        color: var(--mainWhite);
+    }
+
+.btn-red {
+    background-color: var(--mainRed);
+    color: var(--mainWhite);
+    transition: .3s all ease;
+}
+
+    .btn-red:hover {
+        background-color: transparent;
+        color: var(--mainRed);
+        border: 1px solid var(--mainRed);
+    }
+
+.btn-outline-red {
+    background-color: transparent;
+    color: var(--mainRed);
+    border: 1px solid var(--mainRed);
+    transition: .3s all ease;
+}
+
+    .btn-outline-red:hover {
+        background-color: var(--mainRed);
+        color: var(--mainWhite);
+    }
+
+.btn-green {
+    background-color: var(--mainGreen);
+    color: white;
+    transition: .3s all ease;
+}
+
+    .btn-green:hover {
+        background-color: transparent;
+        color: var(--mainGreen);
+        border: 1px solid var(--mainGreen);
+    }
+
+.btn-outline-green {
+    background-color: transparent;
+    color: var(--mainGreen);
+    border: 1px solid var(--mainGreen);
+    transition: .3s all ease;
+}
+
+    .btn-outline-green:hover {
+        background-color: var(--mainGreen);
+        color: white;
+    }
+
+.btn-light-green {
+    background-color: var(--mainLightGreen);
+    color: white;
+    transition: .3s all ease;
+}
+
+    .btn-light-green:hover {
+        background-color: transparent;
+        color: var(--mainLightGreen);
+        border: 1px solid var(--mainLightGreen);
+    }
+
+.btn-outline-light-green {
+    background-color: transparent;
+    color: var(--mainLightGreen);
+    border: 1px solid var(--mainLightGreen);
+    transition: .3s all ease;
+}
+
+    .btn-outline-light-green:hover {
+        background-color: var(--mainLightGreen);
+        color: white;
+    }
+
+.btn-white {
+    background-color: var(--mainWhite);
+    color: var(--mainBlack);
+    transition: .3s all ease;
+}
+
+    .btn-white:hover {
+        background-color: var(--mainYellow);
+        color: var(--mainWhite);
+    }
+
 /*Preloadr*/
 .preloader {
     position: fixed;
@@ -170,6 +401,10 @@ input:not(:focus):not(:placeholder-shown):invalid {
 
 .internal-style .breadcrumb .active {
     color: var(--mainYellow) !important;
+}
+/* Box Shadow */
+.drop-shadow {
+    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
 }
 /* ================================= */
 /* Internet Connection Popup */
@@ -336,8 +571,7 @@ nav {
     border-radius: 1rem;
     border: none;
     padding: 0.5rem;
-    border-top: .5px solid var(--mainYellow);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+    border-top: 0.5px solid var(--mainYellow);
     background-color: var(--mainWhite);
     padding: 0 2rem;
 }
@@ -401,10 +635,10 @@ nav {
 }
 
 .dropdown-item::after {
-    content: '';
+    content: "";
     display: none;
-    width: .5rem;
-    height: .5rem;
+    width: 0.5rem;
+    height: 0.5rem;
     background-color: var(--mainYellow);
     border-radius: 50%;
     position: absolute;
@@ -554,14 +788,14 @@ nav {
     display: none;
     position: absolute;
     top: 2.6rem;
-    left: -.5rem;
+    left: -0.5rem;
     background-color: var(--mainWhite);
     width: 360px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
     border-radius: 15px;
     padding: 12px 0;
     z-index: 1;
     transition: opacity 0.3s ease;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
 }
 
     .shopcart-popover.visible {
@@ -596,7 +830,6 @@ nav {
     .shopcart-item img {
         border-radius: 8px;
         border: 1px solid var(--grey);
-        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4);
     }
 
     .shopcart-item input {
@@ -649,7 +882,7 @@ nav {
     align-items: center;
     width: 100%;
     padding: 10px;
-    box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 -3px 3px -3px rgba(0, 0, 0, 0.2);
 }
 
 .shopcart-popover-price p {
@@ -674,7 +907,7 @@ nav {
 
 .popover-footer .btn:hover {
     color: var(--mainYellow);
-    background-color: var(--lightGrey);
+    background-color: transparent;
     border: 1px solid var(--mainYellow);
     border-radius: 0.75rem;
 }
@@ -690,7 +923,7 @@ nav {
     left: 0;
     background-color: var(--mainWhite);
     min-width: 200px;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
     z-index: 1;
 }
@@ -709,7 +942,7 @@ nav {
         .userpanel-dropdown-content a:hover {
             background-color: var(--grey);
             color: var(--mainBlack);
-            border-radius: .5rem;
+            border-radius: 0.5rem;
         }
 
     .userpanel-dropdown-content hr {
@@ -745,10 +978,9 @@ nav {
 }
 
 .carousel-inner {
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
     width: 100%;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
 }
 /*Section*/
 .swiper {
@@ -777,7 +1009,7 @@ nav {
 /* .Bestsellers */
 .box {
     width: 80%;
-    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     overflow: hidden;
     margin: 20px;
@@ -859,7 +1091,6 @@ nav {
     font-weight: 500;
     letter-spacing: 1px;
     border-radius: 0.5rem;
-    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.2);
 }
 
     .buy-btn:hover {
@@ -919,7 +1150,6 @@ nav {
 .product-container {
     width: 100%;
     background: url(../img/ShapeBG.png) repeat 0 0 var(--lighterYellow);
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
 }
 
 .underline-proudcts {
@@ -1060,7 +1290,6 @@ nav {
 }
 
 .internal-style .breadcrumb {
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
     background-color: var(--mainWhite);
 }
 
@@ -1521,7 +1750,6 @@ form .order-submit input {
     background-color: var(--mainWhite);
     border-radius: 8px;
     column-gap: 10px;
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
 }
 
 .product-div-right {
@@ -1558,7 +1786,6 @@ form .order-submit input {
     border-radius: 50%;
     border: 1px solid var(--grey);
     padding: 5px 10px;
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
     transition: 0.3s all ease-in-out;
 }
 
@@ -1581,7 +1808,6 @@ form .order-submit input {
 }
 
     .hover-container div {
-        box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
         padding: 0.5rem;
         border-radius: 3px;
         margin: 0 4px 8px 4px;
@@ -1663,7 +1889,6 @@ form .order-submit input {
     margin: 2rem 0;
     padding: 0.45rem 0.8rem;
     border-radius: 0.5rem;
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
     font-size: 1.25rem;
     font-weight: 500;
 }
@@ -1674,7 +1899,6 @@ form .order-submit input {
     }
 
 .purchase-info .btn {
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
     text-align: center;
     padding: 0.45rem 0.8rem;
@@ -1713,7 +1937,6 @@ form .order-submit input {
 .featured-products {
     background-color: var(--mainWhite);
     border-radius: 8px;
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
 }
 /*End Single product*/
 /*Contact Us*/
@@ -1743,7 +1966,6 @@ form .order-submit input {
     position: relative;
     border-radius: 8px;
     margin-bottom: 10px;
-    border: 1px solid var(--grey);
 }
 
     .contact-info-col section li {
@@ -1806,7 +2028,6 @@ form .order-submit input {
     margin-bottom: 40px;
     background-color: var(--mainWhite);
     border-radius: 8px;
-    border: 1px solid var(--grey);
 }
 
 .contact-layer header {
@@ -1938,7 +2159,7 @@ form .order-submit input {
 }
 /*About Us*/
 .aboutUs {
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    /* border: 1px solid rgba(0, 0, 0, 0.2); */
     border-radius: 3px;
     padding: 20px;
 }
@@ -2013,15 +2234,14 @@ addresses {
 }
 /* Register */
 .register-page {
-    margin: 2rem auto;
-    background: #fff;
+    margin: 5rem auto;
+    background: var(--mainWhite);
     width: 95%; /* Full width */
     max-width: 500px;
     border: 1px solid #ccc;
     border-radius: 15px;
     padding: 1.5rem;
     position: relative;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .container .register-container {
@@ -2119,7 +2339,7 @@ addresses {
 }
 
 .register-container a.text {
-    color: var(--darkYellow);
+    color: var(--mainBlue);
     text-decoration: none;
     font-size: 14px;
 }
@@ -2153,6 +2373,81 @@ addresses {
 .register-container .login-signup {
     margin-top: 30px;
     text-align: center;
+}
+/* OTP Page */
+.otp-page {
+    max-width: 450px;
+}
+
+.otp form {
+    margin-top: 30px;
+}
+
+.otp p {
+    font-weight: 200;
+    font-size: 12px;
+}
+
+.otp .otp-input-field {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.otp-input-field input {
+    height: 45px;
+    width: 42px;
+    border-radius: 6px;
+    outline: none;
+    font-size: 1.125rem;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.otp .otp-input-field input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+}
+
+.input-field input::-webkit-inner-spin-button,
+.input-field input::-webkit-outer-spin-button {
+    display: none;
+}
+
+.otp form .signup-btn {
+    pointer-events: none;
+    transition: all 0.2s ease;
+    background-color: var(--lightYellow);
+}
+
+    .otp form .signup-btn.active {
+        background-color: var(--mainYellow);
+        pointer-events: auto;
+    }
+
+    .otp form .signup-btn:hover {
+        background-color: var(--darkYellow);
+        pointer-events: auto;
+    }
+
+.otp .resend span {
+    font-weight: 200;
+    font-size: 12px;
+}
+
+.otp .resend-text a {
+    color: var(--mainBlue);
+    font-weight: 500;
+}
+
+.otp .resend .disableClick {
+    color: var(--darkGrey);
+    pointer-events: none;
+}
+
+.wrong {
+    border: 1px solid var(--mainRed) !important;
+    box-shadow: 2px 2px 4px var(--mainRed);
 }
 /*404 Webpage*/
 .error-page {
@@ -2245,9 +2540,7 @@ addresses {
 }
 /*===========ALERT==============*/
 .alert {
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
     padding: 0 0;
-    ;
 }
 
 .alert-header {
@@ -2260,10 +2553,7 @@ addresses {
 
 .alert-footer {
     font-weight: 400;
-    padding: 1rem .5rem;
-}
-.notice-text{
-    font-weight: 900;
+    padding: 1rem 0.5rem;
 }
 /*========== SCROLL BAR ==========*/
 ::-webkit-scrollbar {
@@ -2286,6 +2576,15 @@ addresses {
     .print_container {
         margin-left: 8px;
         margin-right: 8px;
+    }
+
+    .otp .otp-input-field {
+        column-gap: 7px;
+    }
+
+    .otp-input-field input {
+        height: 37px;
+        width: 35px;
     }
 }
 /* For medium devices */
@@ -2432,7 +2731,8 @@ addresses {
         background-color: var(--text-color) !important;
     }
 
-    .nav-links li a:hover, .nav-links li a:focus {
+    .nav-links li a:hover,
+    .nav-links li a:focus {
         color: var(--mainWhite);
         background-color: var(--text-color);
     }
@@ -2485,7 +2785,6 @@ addresses {
     }
 
     .carousel-inner {
-        box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
         border-radius: 1rem;
         width: auto;
         overflow: hidden;

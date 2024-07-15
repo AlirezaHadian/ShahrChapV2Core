@@ -7,15 +7,22 @@ using ShahrChap.Core.Generators;
 using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.User;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using ShahrChap.Core.Senders;
+using static System.Net.WebRequestMethods;
 
 namespace ShahrChap.Web.Controllers
 {
     public class AccountController : Controller
     {
         private IUserService _userService;
-        public AccountController(IUserService userService)
+        private IViewRenderService _view;
+        public AccountController(IUserService userService, IViewRenderService view)
         {
             _userService = userService;
+            _view = view;
         }
         #region Register
         [Route("Register")]
@@ -28,10 +35,10 @@ namespace ShahrChap.Web.Controllers
         [HttpPost]
         public IActionResult Register(RegisterViewModel register)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
                 View(register);
 
-            if(_userService.IsUserNameExist(register.UserName))
+            if (_userService.IsUserNameExist(register.UserName))
             {
                 ModelState.AddModelError("UserName", "نام کاربری وارد شده تکراری می باشد");
                 return View(register);
@@ -58,15 +65,22 @@ namespace ShahrChap.Web.Controllers
             {
                 user.Email = FixText.FixEmail(register.EmailOrPhone);
                 _userService.AddUser(user);
+                string emailBody = _view.RenderToStringAsync("_ActivationEmail", user);
+                SendEmail.Send(user.Email, "ایمیل فعالسازی", emailBody);
                 return View("SuccessEmailRegister", user);
             }
             else
             {
                 user.Phone = register.EmailOrPhone;
-               _userService.AddUser(user);
-                //OTP Section
-                //Sending message, Storing the otp code
-                return RedirectToAction("OTP", user);
+                _userService.AddUser(user);
+
+                string OtpCode = NameGenerator.GenerateOTP();
+                MessageSender.SendWithPattern(user.Phone, user.UserName, OtpCode);
+                HttpContext.Session.SetString("OtpCode", OtpCode);
+                HttpContext.Session.SetString("OtpExpireTime", DateTime.Now.AddMinutes(2).ToString());
+                HttpContext.Session.SetString("UserPhone", user.Phone);
+
+                return RedirectToAction("VerifyPhone");
             }
         }
         #endregion
@@ -85,10 +99,24 @@ namespace ShahrChap.Web.Controllers
             }
 
             var user = _userService.LoginUser(login);
-            if (user!=null)
+            if (user != null)
             {
-                if(user.IsEmailActive || user.IsPhoneActive)
+                if (user.IsEmailActive || user.IsPhoneActive)
                 {
+                    var claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                        new Claim(ClaimTypes.Name, user.UserName.ToString())
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var properties = new AuthenticationProperties
+                    {
+                        IsPersistent = login.RememberMe
+                    };
+                    HttpContext.SignInAsync(principal, properties);
+
+                    ViewBag.ToastrType = "Success";
                     ViewBag.ToastrMessage = "خوش آمدید!";
                     ViewBag.ToastrTitle = "ورود با موفقیت انجام شد";
                     return View();
@@ -102,11 +130,72 @@ namespace ShahrChap.Web.Controllers
             return View(login);
         }
         #endregion
-        #region Active Account
+        #region Active Email Account
         public IActionResult ActiveEmail(string id)
         {
             ViewBag.IsActive = _userService.ActiveEmail(id);
             return View();
+        }
+        #endregion
+
+        #region Phone Active
+        public IActionResult VerifyPhone()
+        {
+            ViewBag.PhoneNumber = HttpContext.Session.GetString("UserPhone");
+            return View();
+        }
+        [HttpPost]
+        public IActionResult VerifyPhone(VerifyPhoneViewModel verifyPhone)
+        {
+            if (!ModelState.IsValid)
+                return View(verifyPhone);
+
+            string otp = HttpContext.Session.GetString("OtpCode");
+            string expireTime = HttpContext.Session.GetString("OtpExpireTime");
+            DateTime expirationTime = DateTime.Parse(expireTime);
+            //Check the otp code
+            if (otp == null && expirationTime == null)
+            {
+                ModelState.AddModelError("Otp", "کد اعتبار سنجی نامعتبر می باشد");
+                return View(verifyPhone);
+            }
+            
+            if (verifyPhone.Otp == otp && expirationTime > DateTime.Now)
+            {
+                if (_userService.ActivePhone(verifyPhone.PhoneNumber))
+                {
+                    ViewBag.ToastrType = "Success";
+                    ViewBag.ToastrMessage = "با ورود به سایت از خدمات شهر چاپ بهره مند شوید.";
+                    ViewBag.ToastrTitle = "فعالسازی با موفقیت انجام شد";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else if (expirationTime < DateTime.Now)
+            {
+                ModelState.AddModelError("Otp", "کد اعتبار سنجی منقضی شده است");
+                return View(verifyPhone);
+            }
+            else if (verifyPhone.Otp != otp)
+            {
+                ModelState.AddModelError("Otp", "کد اعتبارسنجی نامعتبر می باشد");
+                return View(verifyPhone);
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetOtp()
+        {
+            var sessionOtp = HttpContext.Session.GetString("OtpCode");
+            return Json(new { otp = sessionOtp });
+        }
+        #endregion
+        #region Logout
+        [Route("Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/?loggedOut=true");
         }
         #endregion
     }

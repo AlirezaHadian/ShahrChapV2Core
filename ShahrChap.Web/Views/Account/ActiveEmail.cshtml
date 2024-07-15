@@ -1,27 +1,27 @@
 ﻿@{
     ViewData["Title"] = "فعالسازی";
 }
-
+ 
 <section class="container internal-style pt-3">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb drop-shadow">
         <li class="breadcrumb-item"><a href="/">خانه</a></li>
         <li class="breadcrumb-item active" aria-current="page">ورود به سایت</li>
     </ol>
 </section>
-<div class="container alert">
+<div class="container alert drop-shadow">
     @if (ViewBag.IsActive)
     {
-        <div class="bg-success px-3 py-3 text-white rounded-top alert-header">
+        <div class="bg-green px-3 py-3 text-white rounded-top alert-header">
             <i class="uil uil-check-circle"></i> حساب کاربری شما با موفقیت فعال شد
         </div>
         <div class="px-4 py-3bg-white rounded-bottom alert-footer">
             <p>با ورود به سایت میتوانید از خدمات شهر چاپ بهره مند شوید.</p>
-            <a asp-action="Login" class="btn btn-success"><i class="uil uil-signin"></i> ورود به سایت</a>
+            <a asp-action="Login" class="btn btn-green"><i class="uil uil-signin"></i> ورود به سایت</a>
         </div>
     }
     else
     {
-        <div class="bg-danger px-3 py-3 text-white rounded-top alert-header">
+        <div class="bg-red px-3 py-3 text-white rounded-top alert-header">
             <i class="uil uil-exclamation-circle"></i> خطایی رخ داده است
         </div>
         <div class="px-4 py-3bg-white rounded-bottom alert-footer">
