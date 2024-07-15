@@ -50,4 +50,13 @@ namespace ShahrChap.Core.DTOs
         [Display(Name = "مرا بخاطر بسپار")]
         public bool RememberMe { get; set; }
     }
+    public class VerifyPhoneViewModel
+    {
+        [Display(Name = "شماره موبایل")]
+        public string PhoneNumber { get; set; }
+        [Display(Name = "کد فعالسازی")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        public string Otp { get; set; }
+    }
+
 }

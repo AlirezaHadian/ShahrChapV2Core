@@ -3,12 +3,12 @@
         <div class="nav-bar">
             <i class="uil uil-bars sidebarOpen"></i>
             <span class="logo navLogo">
-                <a href="/Index.html"><img src="/img/Logo.png" height="60" alt="Shahrchap logo"></a>
+                <a href="/"><img src="/img/Logo.png" height="60" alt="Shahrchap logo"></a>
             </span>
             <div class="menu">
                 <div class="logo-toggle">
                     <span class="logo">
-                        <a href="/Index.html">
+                        <a href="/">
                             <img src="/img/Logo.png" alt="Shahrchap Logo"
                                  height="50px">
                         </a>
@@ -16,7 +16,7 @@
                     <i class="uil uil-bars siderbarClose"></i>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="/Index.html" class="active"><i class="uil uil-estate"></i> خانه</a></li>
+                    <li><a href="/" class="active"><i class="uil uil-estate"></i> خانه</a></li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -143,11 +143,11 @@
 
                 
                 <div class="menu-controll userpanel-dropdown">
-                    @* @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <a type="button" class="btn userpanel" onclick="dropUserPanel()"><i class="uil uil-user"></i></a>
                         <div id="userpanel-dropdown" class="userpanel-dropdown-content">
-                            <a href="#"><i class="uil uil-user-circle"></i> علیرضا هادیان</a>
+                            <a href="#"><i class="uil uil-user-circle"></i> @User.Identity.Name</a>
                             <hr>
                             <a href="#" class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex justify-content-start align-items-center"><i class="uil uil-edit"></i> ویرایش اطلاعات </div> <i class="uil uil-angle-left angle-left"></i>
@@ -156,12 +156,12 @@
                             <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-shopping-bag"></i> سفارشات </div><i class="uil uil-angle-left angle-left"></i></a>
                             <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-padlock"></i> تغییر کلمه عبور </div><i class="uil uil-angle-left angle-left"></i></a>
                             <hr>
-                            <a href="#"><i class="uil uil-signout"></i> خروج از حساب</a>
+                            <a href="/logout"><i class="uil uil-signout"></i> خروج از حساب</a>
                         </div>
                     }else
                     {
-                    }*@
                     <a type="button" class="btn userpanel" href="/Login"><i class="uil uil-user"></i></a>
+                    }
 
                 </div>
             </div>

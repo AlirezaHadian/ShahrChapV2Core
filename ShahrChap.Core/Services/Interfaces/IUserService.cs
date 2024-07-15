@@ -15,5 +15,6 @@ namespace ShahrChap.Core.Services.Interfaces
         int AddUser(User user);
         User LoginUser(LoginViewModel login);
         bool ActiveEmail(string activeCode);
+        bool ActivePhone(string PhoneNumber);
     }
 }
