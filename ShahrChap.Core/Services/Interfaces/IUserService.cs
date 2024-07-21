@@ -14,7 +14,11 @@ namespace ShahrChap.Core.Services.Interfaces
         bool IsEmailOrPhoneExist(string emailOrPhone);
         int AddUser(User user);
         User LoginUser(LoginViewModel login);
+        User GetUserWithEmail(string email);
+        User GetUserWithPhoneNumber(string phoneNumber);
+        User GetUserWithActiveCode(string activeCode);
+        void UpdateUser(User user);
         bool ActiveEmail(string activeCode);
-        bool ActivePhone(string PhoneNumber);
+        bool ActivePhone(string phoneNumber);
     }
 }

@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "فعالسازی حساب کاربری";
+    string phoneNumber = ViewBag.PhoneNumber;
+    string actionType = ViewBag.ActionType;
 }
 
 @* @await Html.PartialAsync("_ToastrAlert") *@
@@ -25,9 +27,10 @@
     <div class="container register-container otp">
         <span class="register-title">کد تایید را وارد کنید</span>
 
-        <p class="mt-3">کد تایید برای شماره @ViewBag.PhoneNumber پیامک شد!</p>
+        <p class="mt-3">کد تایید برای شماره @phoneNumber پیامک شد!</p>
         <form asp-action="VerifyPhone" id="verify-phone">
-            <input type="hidden" asp-for="PhoneNumber" value="@ViewBag.PhoneNumber" />
+            <input type="hidden" asp-for="PhoneNumber" value="@phoneNumber" />
+            <input type="hidden" asp-for="ActionType" value="@actionType"/>
             <div class="otp-input-field" dir="ltr">
                 <input type="number" />
                 <input type="number" disabled />
@@ -37,7 +40,7 @@
             </div>
             <input type="hidden" asp-for="Otp" id="Otp" />
 
-            <span asp-validation-for="Otp"></span>
+            <span asp-validation-for="Otp" class="text-danger mt-2"></span>
             <div class="register-btn otp-verify">
                 <input type="submit" class="signup-btn" value="تایید">
             </div>
@@ -45,66 +48,10 @@
                 <span class="otp-timer" id="otpTimer">1:40</span>
                 <p class="resend-text">
                     کد فعالسازی را دریافت نکردید؟
-                    <a href="" class="disableClick" type="button" id="resendCode" onclick="vibrate()">ارسال مجدد</a>
+                    <a asp-action="ResendOtpCode" asp-route-phone="@phoneNumber" asp-route-type="@actionType" class="disableClick" type="button" id="resendCode" onclick="vibratePhone()">ارسال مجدد</a>
                 </p>
             </div>
         </form>
     </div>
 
 </div>
-
-<script>
-
-
-    // document.addEventListener('DOMContentLoaded', function () {
-        // const inputs = document.querySelectorAll('.otp-input-field input');
-        // const otpField = document.getElementById('Otp');
-        // let backendOtp = '';
-        // // Fetch OTP from backend
-        // fetch('/Account/GetOtp')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         backendOtp = data.otp;
-        //         console.clear()
-        //         console.log(backendOtp)
-        //     });
-
-        // function combineOtp() {
-        //     let otp = '';
-        //     inputs.forEach(input => {
-        //         otp += input.value;
-        //     });
-        //     otpField.value = otp;
-
-        //     if (otp.length === 5) {
-        //         validateOtp(otp);
-        //     }
-        // }
-
-        // function validateOtp(otp) {
-        //     if (otp === backendOtp) {
-        //         document.getElementById('verify-phone').submit();
-        //     } else {
-        //         vibratePhone();
-        //         addWrongClass();
-        //     }
-        // }
-
-        // function vibratePhone() {
-        //     if (navigator.vibrate) {
-        //         navigator.vibrate(500); // Vibrate for 500ms
-        //     }
-        // }
-
-        // function addWrongClass() {
-        //     inputs.forEach(input => input.classList.add('wrong'));
-        //     setTimeout(() => {
-        //         inputs.forEach(input => {
-        //             input.value = '';
-        //             input.classList.remove('wrong');
-        //         });
-        //         inputs[0].focus();
-        //     }, 500);
-        // }
-    // });
-</script>

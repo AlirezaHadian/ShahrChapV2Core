@@ -294,13 +294,13 @@ inputs.forEach((input, index1) => {
             } else {
                 vibratePhone();
                 addWrongClass();
-
+                button.setAttribute("disabled", true);
             }
         }
-
         function vibratePhone() {
             if (navigator.vibrate) {
                 navigator.vibrate(500); // Vibrate for 500ms
+                window.location.href = "/Account/ResendOtp";
             }
         }
 

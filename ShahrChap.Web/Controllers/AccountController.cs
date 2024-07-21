@@ -17,8 +17,8 @@ namespace ShahrChap.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private IUserService _userService;
-        private IViewRenderService _view;
+        private readonly IUserService _userService;
+        private readonly IViewRenderService _view;
         public AccountController(IUserService userService, IViewRenderService view)
         {
             _userService = userService;
@@ -35,6 +35,7 @@ namespace ShahrChap.Web.Controllers
         [HttpPost]
         public IActionResult Register(RegisterViewModel register)
         {
+            //Checking and validating the user inputs
             if (!ModelState.IsValid)
                 View(register);
 
@@ -48,7 +49,8 @@ namespace ShahrChap.Web.Controllers
                 ModelState.AddModelError("EmailOrPhone", "ایمیل/شماره موبایل وارد شده تکراری می باشد");
                 return View(register);
             }
-            //TODO:: Register
+
+            //Creating new user object
             User user = new User()
             {
                 UserName = register.UserName,
@@ -63,7 +65,7 @@ namespace ShahrChap.Web.Controllers
             //Checking input is the phone number or email
             if (register.EmailOrPhone.Contains("@"))
             {
-                user.Email = FixText.FixEmail(register.EmailOrPhone);
+                user.Email = FixText.FixEmail(register.EmailOrPhone); //Sedning email
                 _userService.AddUser(user);
                 string emailBody = _view.RenderToStringAsync("_ActivationEmail", user);
                 SendEmail.Send(user.Email, "ایمیل فعالسازی", emailBody);
@@ -74,13 +76,8 @@ namespace ShahrChap.Web.Controllers
                 user.Phone = register.EmailOrPhone;
                 _userService.AddUser(user);
 
-                string OtpCode = NameGenerator.GenerateOTP();
-                MessageSender.SendWithPattern(user.Phone, user.UserName, OtpCode);
-                HttpContext.Session.SetString("OtpCode", OtpCode);
-                HttpContext.Session.SetString("OtpExpireTime", DateTime.Now.AddMinutes(2).ToString());
-                HttpContext.Session.SetString("UserPhone", user.Phone);
-
-                return RedirectToAction("VerifyPhone");
+                SendOtpCode(user.Phone);
+                return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
             }
         }
         #endregion
@@ -138,10 +135,11 @@ namespace ShahrChap.Web.Controllers
         }
         #endregion
 
-        #region Phone Active
-        public IActionResult VerifyPhone()
+        #region Verify Phone
+        public IActionResult VerifyPhone(string actionType)
         {
             ViewBag.PhoneNumber = HttpContext.Session.GetString("UserPhone");
+            ViewBag.ActionType = actionType;
             return View();
         }
         [HttpPost]
@@ -159,15 +157,22 @@ namespace ShahrChap.Web.Controllers
                 ModelState.AddModelError("Otp", "کد اعتبار سنجی نامعتبر می باشد");
                 return View(verifyPhone);
             }
-            
+
             if (verifyPhone.Otp == otp && expirationTime > DateTime.Now)
             {
-                if (_userService.ActivePhone(verifyPhone.PhoneNumber))
+                if (verifyPhone.ActionType == "VerifyPhone")
                 {
-                    ViewBag.ToastrType = "Success";
-                    ViewBag.ToastrMessage = "با ورود به سایت از خدمات شهر چاپ بهره مند شوید.";
-                    ViewBag.ToastrTitle = "فعالسازی با موفقیت انجام شد";
-                    return RedirectToAction("Index", "Home");
+                    if (_userService.ActivePhone(verifyPhone.PhoneNumber))
+                    {
+                        ViewBag.ToastrType = "Success";
+                        ViewBag.ToastrMessage = "با ورود به سایت از خدمات شهر چاپ بهره مند شوید.";
+                        ViewBag.ToastrTitle = "فعالسازی با موفقیت انجام شد";
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else if (verifyPhone.ActionType == "ForgotPassword")
+                {
+                    return RedirectToAction("ResetPassword", new { resetValue = verifyPhone.PhoneNumber });
                 }
             }
             else if (expirationTime < DateTime.Now)
@@ -183,6 +188,13 @@ namespace ShahrChap.Web.Controllers
             return View();
         }
 
+        //This Actionresult is for the resend button in verify phone page
+        //It will create a new otp, and then redirect to verify phone action
+        public IActionResult ResendOtpCode(string phone, string type)
+        {
+            SendOtpCode(phone);
+            return RedirectToAction("VerifyPhone", new {actionType = type});
+        }
         [HttpGet]
         public IActionResult GetOtp()
         {
@@ -196,6 +208,110 @@ namespace ShahrChap.Web.Controllers
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/?loggedOut=true");
+        }
+        #endregion
+        #region ForgotPassword
+        [Route("ForgotPassword")]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [Route("ForgotPassword")]
+        [HttpPost]
+        public IActionResult ForgotPassword(ForgotPasswordViewModel forgotPassword)
+        {
+            if (!ModelState.IsValid)
+                return View(forgotPassword);
+
+            User user;
+            if (forgotPassword.EmailOrPhone.Contains("@"))
+            {
+                string fixEmail = FixText.FixEmail(forgotPassword.EmailOrPhone);
+                user = _userService.GetUserWithEmail(fixEmail);
+                if (user == null)
+                {
+                    ModelState.AddModelError("EmailOrPhone", "کاربری با مشخصات وارد شده یافت نشد");
+                    return View(forgotPassword);
+                }
+                string forgotPasswordEmailBody = _view.RenderToStringAsync("_ForgotPasswordEmail", user);
+                SendEmail.Send(user.Email, "بازیابی کلمه عبور", forgotPasswordEmailBody);
+                return View("SuccessForgotPasswordEmail", user);
+            }
+            else
+            {
+                user = _userService.GetUserWithPhoneNumber(forgotPassword.EmailOrPhone);
+                if (user == null)
+                {
+                    ModelState.AddModelError("EmailOrPhone", "کاربری با مشخصات وارد شده یافت نشد");
+                    return View(forgotPassword);
+                }
+                SendOtpCode(user.Phone);
+                return RedirectToAction("VerifyPhone", new { actionType = "ForgotPassword" });
+            }
+        }
+
+        #endregion
+        #region Reset Password
+        public IActionResult ResetPassword(string resetValue)
+        {
+            //Reset value is active code or phone number
+            return View(new ResetPasswordEmailViewModel()
+            {
+                ResetValue = resetValue
+            });
+        }
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordEmailViewModel resetPassword)
+        {
+            if (!ModelState.IsValid)
+                return View(resetPassword);
+            User user;
+            //This condition check what is the reset value, is it active code or its phone number
+            //If it's active code, so user entered email for forgoten password
+            //If it's phone, so user entered phone number for forgoten password
+            if (resetPassword.ResetValue.Length == 32)
+            {
+                user = _userService.GetUserWithActiveCode(resetPassword.ResetValue);
+                if (user == null)
+                    return NotFound();
+            }
+            else
+            {
+                user = _userService.GetUserWithPhoneNumber(resetPassword.ResetValue);
+                if (user == null)
+                    return NotFound();
+            }
+
+            string hashPassword = PasswordHelper.EncodePasswordMd5(resetPassword.Password);
+            user.Password = hashPassword;
+            _userService.UpdateUser(user);
+            return Redirect("/Login");
+        }
+
+        #endregion
+
+        #region Send Otp code method
+        public void SendOtpCode(string? phonenumber)
+        {
+            //Clearing the oldest otp's sessions
+            HttpContext.Session.Remove("OtpCode");
+            HttpContext.Session.Remove("OtpExpireTime");
+
+            string userPhone;
+            if (phonenumber != null)
+                userPhone = phonenumber;
+            else
+                userPhone = HttpContext.Session.GetString("UserPhone");
+
+            User user = _userService.GetUserWithPhoneNumber(userPhone);
+            //If send otp was from posting register, the userphone will get from session
+            //If send otp was from resend code button in verify phone, 
+
+            string OtpCode = NameGenerator.GenerateOTP();
+            MessageSender.SendWithPattern(userPhone, user.UserName, OtpCode);
+            HttpContext.Session.SetString("OtpCode", OtpCode);
+            HttpContext.Session.SetString("OtpExpireTime", DateTime.Now.AddMinutes(2).ToString());
+            HttpContext.Session.SetString("UserPhone", user.Phone);
         }
         #endregion
     }
