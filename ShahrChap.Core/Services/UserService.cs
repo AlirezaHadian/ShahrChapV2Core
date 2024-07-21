@@ -20,11 +20,10 @@ namespace ShahrChap.Core.Services
         {
             _context = context;
         }
-
         public bool ActiveEmail(string activeCode)
         {
             var user = _context.Users.SingleOrDefault(u => u.ActiveCode == activeCode);
-            if(user == null || user.IsEmailActive)
+            if (user == null || user.IsEmailActive)
                 return false;
 
             user.IsEmailActive = true;
@@ -33,10 +32,10 @@ namespace ShahrChap.Core.Services
             return true;
         }
 
-        public bool ActivePhone(string PhoneNumber)
+        public bool ActivePhone(string phoneNumber)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Phone == PhoneNumber);
-            if(user == null || user.IsPhoneActive) return false;
+            var user = _context.Users.SingleOrDefault(u => u.Phone == phoneNumber);
+            if (user == null || user.IsPhoneActive) return false;
 
             user.IsPhoneActive = true;
             _context.SaveChanges();
@@ -48,6 +47,21 @@ namespace ShahrChap.Core.Services
             _context.Users.Add(user);
             _context.SaveChanges();
             return user.UserId;
+        }
+
+        public User GetUserWithActiveCode(string activeCode)
+        {
+            return _context.Users.SingleOrDefault(u => u.ActiveCode == activeCode);
+        }
+
+        public User GetUserWithEmail(string email)
+        {
+            return _context.Users.SingleOrDefault(u => u.Email == email);
+        }
+
+        public User GetUserWithPhoneNumber(string phoneNumber)
+        {
+            return _context.Users.SingleOrDefault(u=> u.Phone == phoneNumber);
         }
 
         public bool IsEmailOrPhoneExist(string emailOrPhone)
@@ -72,6 +86,12 @@ namespace ShahrChap.Core.Services
             {
                 return _context.Users.SingleOrDefault(u => u.Phone == emailOrPhone && u.Password == hashPassword);
             }
+        }
+
+        public void UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
     }
 }
