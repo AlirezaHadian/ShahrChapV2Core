@@ -21,6 +21,7 @@ builder.Services.AddAuthentication(options =>
     options.ExpireTimeSpan = TimeSpan.FromMinutes(43200);
 });
 #endregion
+#region Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -28,7 +29,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
+#endregion
 #region DataBase Context
 var dbConnectionString = builder.Configuration.GetSection("ConnectionStrings:ShahrChapDatabase").Value;
 
@@ -37,7 +38,7 @@ builder.Services.AddDbContext<ShahrChapContext>(options=>
     options.UseSqlServer(dbConnectionString);
 });
 #endregion
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 #region IoC
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
@@ -46,9 +47,17 @@ builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseSession();
-app.UseMvcWithDefaultRoute();
 
-app.MapGet("/", () => "Hello World!");
+app.MapControllerRoute(
+    name: "Area",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//app.MapGet("/", () => "Hello World!");
 
 app.Run();

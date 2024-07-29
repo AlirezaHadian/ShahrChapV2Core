@@ -5,12 +5,15 @@
 }
 
 @* @await Html.PartialAsync("_ToastrAlert") *@
-@if(ViewBag.ToastrMessage != null){
-<partial name="_ToastrAlert" />
-    <script>
+@if(ViewBag.ToastrType != null){
+    <partial name="_ToastrAlert" />
+    if (ViewBag.ToastrType == "Login")
+    {
+        <script>
         var delay = 3000; 
         setTimeout(function(){ window.location = "/"; }, delay);
-    </script>
+    </script>    
+    }
 }
 <section class="container internal-style pt-3">
     <ol class="breadcrumb drop-shadow">
@@ -47,7 +50,7 @@
 
             <div class="register-btn">
                 <input type="submit" class="signup-btn" value="ورود">
-            </div
+            </div>
         </form>
         <div class="login-signup">
             <span class="text">

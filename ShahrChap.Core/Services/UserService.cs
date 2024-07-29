@@ -42,6 +42,80 @@ namespace ShahrChap.Core.Services
             return true;
         }
 
+        public InformationUserViewModel GetUserInformation(string username)
+        {
+            var user = GetUserWithUserName(username);
+            InformationUserViewModel informationUser = new InformationUserViewModel()
+            {
+                Email = user.Email,
+                Phone = user.Phone,
+                UserName = user.UserName,
+                RegisterDate = user.RegisterDate,
+                Wallet = 0
+            };
+            return informationUser;
+        }
+
+        public SideBarUserPanelViewMode GetSideBarUserPanelData(string username)
+        {
+            return _context.Users.Where(u=> u.UserName==username).Select(u=> new SideBarUserPanelViewMode()
+            {
+                UserName = u.UserName,
+                ImageName = u.UserAvatar,
+                RegisterDate = u.RegisterDate
+            }).Single();
+        }
+
+        public EditProfileViewModel GetDataForEditProfileUser(string username)
+        {
+            return _context.Users.Where(u => u.UserName == username).Select(u => new EditProfileViewModel()
+            {
+                UserName = u.UserName,
+                Email = u.Email,
+                Phone = u.Phone,
+                CurrentAvatarName = u.UserAvatar
+            }).Single();
+        }
+
+        public void EditProfile(string username, EditProfileViewModel profile)
+        {
+            if (profile.UserAvatar != null)
+            {
+                string imagePath;
+                if (profile.CurrentAvatarName != "DefaultAvatar.jpg")
+                {
+                    imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UserAvatar",
+                        profile.CurrentAvatarName);
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+                profile.CurrentAvatarName = NameGenerator.GenerateUniqCode() + Path.GetExtension(profile.UserAvatar.FileName);
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UserAvatar",
+                    profile.CurrentAvatarName);
+
+                using var stream = new FileStream(imagePath, FileMode.Create);
+                profile.UserAvatar.CopyTo(stream);
+            }
+
+            var user = GetUserWithUserName(username);
+            user.UserName = profile.UserName;
+            if (user.Email != null && user.Email != profile.Email)
+            {
+                user.Email = profile.Email;
+                user.IsEmailActive = false;
+            }
+            if (user.Phone != null && user.Phone != profile.Phone)
+            {
+                user.Phone = profile.Phone;
+                user.IsPhoneActive = false;
+            }
+            
+            user.UserAvatar = profile.CurrentAvatarName;
+            UpdateUser(user);
+        }
+
         public int AddUser(User user)
         {
             _context.Users.Add(user);
@@ -52,6 +126,11 @@ namespace ShahrChap.Core.Services
         public User GetUserWithActiveCode(string activeCode)
         {
             return _context.Users.SingleOrDefault(u => u.ActiveCode == activeCode);
+        }
+
+        public User GetUserWithUserName(string username)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserName == username);
         }
 
         public User GetUserWithEmail(string email)

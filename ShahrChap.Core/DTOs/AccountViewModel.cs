@@ -72,11 +72,11 @@ namespace ShahrChap.Core.DTOs
         public string ResetValue { get; set; }
         [Display(Name = "کلمه عبور")]
         [Required(ErrorMessage = "{0} اجباری می باشد")]
-        [MinLength(8, ErrorMessage = "{0} باید بیشتر از ۸ کاراکتر باشد")]
+        //[MinLength(8, ErrorMessage = "{0} باید بیشتر از ۸ کاراکتر باشد")]
         public string Password { get; set; }
         [Display(Name = "تکرار کلمه عبور")]
         [Required(ErrorMessage = "{0} اجباری می باشد")]
-        [MinLength(8, ErrorMessage = "{0} باید بیشتر از ۸ کاراکتر باشد")]
+        //[MinLength(8, ErrorMessage = "{0} باید بیشتر از ۸ کاراکتر باشد")]
         public string ConfirmPassword { get; set; }
     }
 

@@ -1,0 +1,37 @@
+﻿@using ShahrChap.Core.Convertors
+@using ShahrChap.Core.DTOs
+@using ShahrChap.Core.Services.Interfaces
+@inject IUserService _UserService
+@{
+    SideBarUserPanelViewMode sideBar = _UserService.GetSideBarUserPanelData(User.Identity.Name);
+}
+<div class="col-md-3 col-sm-4 col-xs-12">
+    <aside>
+        <div class="avatar-layer drop-shadow">
+            <div class="img-layer">
+                <a href="" class="change-image"><i class="uil uil-edit"></i></a>
+                <img src="/UserAvatar/@sideBar.ImageName">
+            </div>
+            <div class="detail">
+                <span> @sideBar.UserName </span>
+                <span> عضویت : @sideBar.RegisterDate.ToShamsi() </span>
+            </div>
+        </div>
+
+        <section class="drop-shadow">
+            <header>
+                <h3> میز کار </h3>
+            </header>
+            <div class="inner">
+                <ul>
+                    <li><a href="/UserPanel"> مشاهده حساب کابری </a></li>
+                    <li><a href="/UserPanel/EditProfile"> ویرایش حساب کابری </a></li>
+                    <li><a href="/UserPanel/ChangePassword"> تغییر رمز عبور </a></li>
+                    <li><a href="/UserPanel/Addresses"> آدرس ها </a></li>
+                    <li><a href="/UserPanel/Settings"> تنظیمات حساب کاربری </a></li>
+                    <li><a href="/Logout"> خروج از حساب کاربری </a></li>
+                </ul>
+            </div>
+        </section>
+    </aside>
+</div>
