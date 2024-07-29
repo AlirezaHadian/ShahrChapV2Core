@@ -37,7 +37,7 @@
     --lighterBlue: hsla(200, 88%, 94%, 0.5);
     --transparentDarkBlue: hsla(220, 53%, 31%, 0.7);
     /* Other */
-    --mainOrange: #c9800a;
+    --mainOrange: #ff8c00;
     --mainLightGreen: #70c1b3;
     --mainGreen: #429E73;
     --mainRed: #f25f5c;
@@ -2538,16 +2538,187 @@ addresses {
 .footer_container {
     background-color: #00273f;
 }
+/* ==============USERPANEL========== */
+.user-account aside > section, .user-account .avatar-layer {
+    padding: .5rem;
+    margin-bottom: 25px;
+    background-color: var(--mainWhite);
+    border-radius: 8px;
+}
+
+    .user-account .avatar-layer .img-layer {
+        margin: 25px auto 0;
+        position: relative;
+        z-index: 1;
+        width: 130px;
+        height: 130px;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+    }
+
+        .user-account .avatar-layer .img-layer .change-image {
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 27px;
+            color: var(--mainWhite);
+            background-color: var(--transparentDarkBlue);
+            border-radius: 8px;
+            position: absolute;
+            z-index: 2;
+            opacity: 0;
+        }
+
+        .user-account .avatar-layer .img-layer:hover .change-image {
+            opacity: 1;
+        }
+
+        .user-account .avatar-layer .img-layer img {
+            width: 130px;
+            height: 130px;
+            border: 2px solid var(--lightGrey);
+        }
+
+    .user-account .avatar-layer .detail {
+        width: 100%;
+        padding: 10px 0 15px;
+        text-align: center;
+    }
+
+        .user-account .avatar-layer .detail span {
+            font-size: 14px;
+            line-height: 25px;
+            color: var(--text-color);
+            display: block;
+        }
+
+    .user-account aside > section header {
+        padding: 5px 15px;
+        border-bottom: 1px solid var(--lightGrey);
+        height: auto;
+    }
+
+        .user-account aside > section header h3 {
+            font-size: 15px;
+            line-height: 35px;
+        }
+
+    .user-account aside > section .inner {
+        padding: 10px 15px;
+        border-radius: 8px;
+    }
+
+.user-account ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.user-account aside > section .inner ul li a {
+    display: block;
+    font-size: 12px;
+    line-height: 25px;
+    padding: 4px 0;
+    color: var(--mainBlack);
+}
+
+    .user-account aside > section .inner ul li a:hover {
+        color: var(--mainBlue);
+    }
+
+.user-account .user-account-content {
+    margin-bottom: 25px;
+    background-color: var(--mainWhite);
+    border-radius: 8px;
+}
+
+    .user-account .user-account-content > header {
+        padding: 5px 15px;
+        border-bottom: 1px solid var(--lightGrey);
+        height: auto;
+    }
+
+        .user-account .user-account-content > header h1 {
+            font-size: 15px;
+            line-height: 35px;
+        }
+
+    .user-account .user-account-content .inner {
+        padding: 20px;
+    }
+
+        .user-account .user-account-content .inner .account-information h3 {
+            font-size: 17px;
+            margin-bottom: 10px;
+            color: var(--darkYellow);
+        }
+
+        .user-account .user-account-content .inner .account-information ul li {
+            display: block;
+            font-size: 12px;
+            line-height: 25px;
+            padding: 4px 0;
+            color: var(--mainBlack);
+        }
+
+            .user-account .user-account-content .inner .account-information ul li i {
+                font-size: 16px;
+                color: var(--darkGrey);
+            }
+            /*EDIT USERPANEL*/
+.user-account .input-group {
+    margin-bottom: 14px;
+}
+.account-information .input-group input {
+    padding: 8px 40px 8px 8px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+}
+.account-information .input-group input:focus {
+    outline: none;
+    border-bottom: 1px solid var(--darkYellow);
+    box-shadow: none;
+    z-index: 2;
+}
+.account-information .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #888;
+    z-index: 3;
+}
+.image-upload img {
+    width: 130px;
+    height: 130px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.image-upload {
+    position: relative;
+}
+.file-upload-input {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
 /*===========ALERT==============*/
 .alert {
     padding: 0 0;
 }
-
 .alert-header {
     font-weight: 900;
 }
-
-    .alert-header i {
+.alert-header i {
         font-size: 16px;
     }
 

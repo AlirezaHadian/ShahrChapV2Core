@@ -1,19 +1,47 @@
 ﻿@if (ViewBag.ToastrMessage != null)
 {
+    if (ViewBag.ToastrType == "Success")
+    {
         <script type="text/javascript">
             $(document).ready(function () {
                 toastr.success('@ViewBag.ToastrMessage', '@ViewBag.ToastrTitle');
             });
         </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                toastr.success('@ViewBag.ToastrMessage');
+            });
+        </script> 
+    }
 
 }
+
 <script>
+    $(document).ready(function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('EditProfile=true')) {
+            toastr.success('حساب شما با موفقیت ویرایش شد',"بدلیل بارگزاری مجدد اطلاعات، مجددا وارد شوید!");
+        }
+    });
+    
+    @*$(document).ready(function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('loggedOut')) {
+            toastr.warn('شما از حساب کاربری خود خارج شدید!');
+        }
+    });*@
+    
     $(document).ready(function () {
         var urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('loggedOut')) {
             toastr.error('شما از حساب کاربری خود خارج شدید!');
         }
     });
+
+
 </script>
 
 @section Scripts {

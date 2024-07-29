@@ -17,8 +17,18 @@ namespace ShahrChap.Core.Services.Interfaces
         User GetUserWithEmail(string email);
         User GetUserWithPhoneNumber(string phoneNumber);
         User GetUserWithActiveCode(string activeCode);
+        User GetUserWithUserName(string username);
         void UpdateUser(User user);
         bool ActiveEmail(string activeCode);
         bool ActivePhone(string phoneNumber);
+
+        #region  User Panel
+
+        InformationUserViewModel GetUserInformation(string username);
+        SideBarUserPanelViewMode GetSideBarUserPanelData(string username);
+        EditProfileViewModel GetDataForEditProfileUser(string username);
+        void EditProfile(string username, EditProfileViewModel profile);
+
+        #endregion
     }
 }

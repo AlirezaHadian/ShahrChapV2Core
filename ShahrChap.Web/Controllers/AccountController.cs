@@ -19,10 +19,12 @@ namespace ShahrChap.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly IViewRenderService _view;
-        public AccountController(IUserService userService, IViewRenderService view)
+        private readonly IHttpContextAccessor _context;
+        public AccountController(IUserService userService, IViewRenderService view, IHttpContextAccessor context)
         {
             _userService = userService;
             _view = view;
+            context = _context;
         }
         #region Register
         [Route("Register")]
@@ -65,7 +67,7 @@ namespace ShahrChap.Web.Controllers
             //Checking input is the phone number or email
             if (register.EmailOrPhone.Contains("@"))
             {
-                user.Email = FixText.FixEmail(register.EmailOrPhone); //Sedning email
+                user.Email = FixText.FixEmail(register.EmailOrPhone);
                 _userService.AddUser(user);
                 string emailBody = _view.RenderToStringAsync("_ActivationEmail", user);
                 SendEmail.Send(user.Email, "ایمیل فعالسازی", emailBody);
@@ -76,7 +78,7 @@ namespace ShahrChap.Web.Controllers
                 user.Phone = register.EmailOrPhone;
                 _userService.AddUser(user);
 
-                SendOtpCode(user.Phone);
+                MessageSender.SendOtpCode(user.Phone, _userService, _context);
                 return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
             }
         }
@@ -84,7 +86,17 @@ namespace ShahrChap.Web.Controllers
 
         #region Login
         [Route("Login")]
-        public IActionResult Login() => View();
+        public IActionResult Login(bool EditProfile =false)
+        {
+            if (EditProfile)
+            {
+                ViewBag.ToastrType = "EditProfile";
+                ViewBag.ToastrTitle = "حساب شما با موفقیت ویرایش شد";
+                ViewBag.ToastrMessage = "بدلیل ویرایش حساب و بارگزاری مجدد اطلاعات، لطفا مجددا وارد سایت شوید";
+            }
+            
+            return View();
+        } 
 
         [HttpPost]
         [Route("Login")]
@@ -113,7 +125,7 @@ namespace ShahrChap.Web.Controllers
                     };
                     HttpContext.SignInAsync(principal, properties);
 
-                    ViewBag.ToastrType = "Success";
+                    ViewBag.ToastrType = "Login";
                     ViewBag.ToastrMessage = "خوش آمدید!";
                     ViewBag.ToastrTitle = "ورود با موفقیت انجام شد";
                     return View();
@@ -192,7 +204,7 @@ namespace ShahrChap.Web.Controllers
         //It will create a new otp, and then redirect to verify phone action
         public IActionResult ResendOtpCode(string phone, string type)
         {
-            SendOtpCode(phone);
+            MessageSender.SendOtpCode(phone, _userService,_context);
             return RedirectToAction("VerifyPhone", new {actionType = type});
         }
         [HttpGet]
@@ -245,7 +257,7 @@ namespace ShahrChap.Web.Controllers
                     ModelState.AddModelError("EmailOrPhone", "کاربری با مشخصات وارد شده یافت نشد");
                     return View(forgotPassword);
                 }
-                SendOtpCode(user.Phone);
+                MessageSender.SendOtpCode(user.Phone, _userService,_context);
                 return RedirectToAction("VerifyPhone", new { actionType = "ForgotPassword" });
             }
         }
@@ -291,7 +303,7 @@ namespace ShahrChap.Web.Controllers
         #endregion
 
         #region Send Otp code method
-        public void SendOtpCode(string? phonenumber)
+        /*public void SendOtpCode(string? phonenumber)
         {
             //Clearing the oldest otp's sessions
             HttpContext.Session.Remove("OtpCode");
@@ -312,7 +324,7 @@ namespace ShahrChap.Web.Controllers
             HttpContext.Session.SetString("OtpCode", OtpCode);
             HttpContext.Session.SetString("OtpExpireTime", DateTime.Now.AddMinutes(2).ToString());
             HttpContext.Session.SetString("UserPhone", user.Phone);
-        }
+        }*/
         #endregion
     }
 }
