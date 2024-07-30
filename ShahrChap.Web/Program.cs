@@ -20,6 +20,7 @@ builder.Services.AddAuthentication(options =>
     options.LogoutPath = "/Logout";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(43200);
 });
+builder.Services.AddAuthorization();
 #endregion
 #region Session
 builder.Services.AddDistributedMemoryCache();

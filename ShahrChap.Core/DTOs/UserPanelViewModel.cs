@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace ShahrChap.Core.DTOs;
 
@@ -25,4 +26,20 @@ public class EditProfileViewModel
     public string? Phone { get; set; }
     public IFormFile? UserAvatar { get; set; }
     public string CurrentAvatarName { get; set; }
+}
+
+public class ChangePasswordViewModel
+{
+    public string oldPassword { get; set; }
+    [Display(Name = "کلمه عبور")]
+    [Required(ErrorMessage = "{0} اجباری می باشد")]
+    [MaxLength(50, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
+    [DataType(DataType.Password)]
+    public string newPassword { get; set; }
+    [Display(Name = "تکرار کلمه عبور")]
+    [Required(ErrorMessage = "{0} اجباری می باشد")]
+    [MaxLength(50, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
+    [Compare("newPassword", ErrorMessage = "کلمه های عبور مطابقت ندارند")]
+    [DataType(DataType.Password)]
+    public string confirmNewPassword { get; set; }
 }

@@ -40,35 +40,42 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> EditProfile(EditProfileViewModel editProfile)
     {
-        string username = User.Identity.Name;
-//Getting the current information to check with the new information
+        var username = User.Identity.Name;
+        // Getting the current information to check with the new information
         var currentUserInformation = _userService.GetUserInformation(username);
-        
+
         #region validation
+
         if (!ModelState.IsValid)
             return View(_userService.GetDataForEditProfileUser(username));
-        if (currentUserInformation.UserName != editProfile.UserName &&_userService.IsUserNameExist(editProfile.UserName))
+        if (currentUserInformation.UserName != editProfile.UserName &&
+            _userService.IsUserNameExist(editProfile.UserName))
         {
             ModelState.AddModelError("UserName", "نام کاربری وارد شده تکراری می باشد");
-            return View(editProfile);   
+            return View(editProfile);
         }
-        if (currentUserInformation.Email != editProfile.Email && _userService.IsEmailOrPhoneExist(FixText.FixEmail(editProfile.Email)))
+
+        if (currentUserInformation.Email != editProfile.Email &&
+            _userService.IsEmailOrPhoneExist(FixText.FixEmail(editProfile.Email)))
         {
             ModelState.AddModelError("Email", "ایمیل وارد شده تکراری می باشد");
             return View(editProfile);
         }
+
         if (currentUserInformation.Phone != editProfile.Phone && _userService.IsEmailOrPhoneExist(editProfile.Phone))
         {
             ModelState.AddModelError("Phone", "شماره موبایل وارد شده تکراری می باشد");
             return View(editProfile);
         }
+
         #endregion
-        
+
         _userService.EditProfile(currentUserInformation.UserName, editProfile);
 
-        //If Username changed => resignin 
+        // If Username changed => resignin 
         #region ReSignIn User
-        //get the user ispersistent option
+        var user = HttpContext.User;
+        
         var authResult = await HttpContext.AuthenticateAsync();
         bool isPersistent = false;
 
@@ -77,69 +84,49 @@ public class HomeController : Controller
             isPersistent = authResult.Properties.IsPersistent;
         }
         
-        //logged out
-        Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
-        
-        var identity = (ClaimsIdentity)User.Identity;
-        var claims = identity.Claims.ToList();
-        
-        var existingClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+        var identity = (ClaimsIdentity)user.Identity;
+        var existingClaim = identity.FindFirst(ClaimTypes.Name);
+
         if (existingClaim != null)
         {
             identity.RemoveClaim(existingClaim);
         }
-        
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        HttpContext.Session.Clear();
-        
-        //get the user
-        var user = _userService.GetUserWithUserName(editProfile.UserName);
-        if (user != null)
-        {
-            //create claims
-            var newClaim = new Claim(ClaimTypes.Name, editProfile.UserName);
-            
-        // Create identity and principal
-        identity.AddClaim(newClaim);
-        var principal = new ClaimsPrincipal(identity);
-        
-        // Create authentication properties
-        var properties = new AuthenticationProperties
-        {
-            IsPersistent = isPersistent
-        };
-        // Sign in the user
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, properties);
-        //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, properties);
-        }
-        else
-        {
-            Redirect("/Login");
-        }
+        identity.AddClaim(new Claim(ClaimTypes.Name, editProfile.UserName));
+
+        HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(identity),
+            new AuthenticationProperties
+            {
+                IsPersistent = isPersistent
+            });
         #endregion
-        
+
+        var loggedInUser = _userService.GetUserWithUserName(user.Identity.Name);
         //TODO: If email changed => send activation email
         if (currentUserInformation.Email != editProfile.Email)
         {                                                          
             //string emailBody = _view.RenderToStringAsync("_ChangeEmailActivation", user);
             string emailBody =
-                _view.RenderToStringAsync("_ChangeEmailActivation", user);
-            SendEmail.Send(user.Email, "ایمیل فعالسازی", emailBody);
+                _view.RenderToStringAsync("_ChangeEmailActivation", loggedInUser);
+            SendEmail.Send(loggedInUser.Email, "ایمیل فعالسازی", emailBody);
         }
         
         //TODO: If phone number changed => redirect verify phone 
         if (currentUserInformation.Phone != editProfile.Phone)
         {
-            MessageSender.SendOtpCode(user.Phone, _userService,_context);
+            MessageSender.SendOtpCode(loggedInUser.Phone, _userService,_context);
             return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
         }
         
         ViewBag.ToastrMessage = "اطلاعات شما با موفقیت ویرایش شد";
-        return View("Index");
-    }
-    
+
+        //return View("Index");
+        return RedirectToAction("Index", "Home"); }
+  
     #region Active Changed Email
-    [Route("UserPanel/ActiveChangedEmail")]
+    [Route("UserPanel/ActiveChangedEmail/{id}")]
     public IActionResult ActiveChangedEmail(string id)
     {
         ViewBag.IsActive = _userService.ActiveEmail(id);
@@ -147,4 +134,29 @@ public class HomeController : Controller
     }
     #endregion
 
+    #region Change password
+    [Route("UserPanel/ChangePassword")]
+    public IActionResult ChangePassword()
+    {
+        return View();
+    }
+    [HttpPost]
+    [Route("UserPanel/ChangePassword")]
+    public IActionResult ChangePassword(ChangePasswordViewModel change)
+    {
+        string username = User.Identity.Name;
+        if(!ModelState.IsValid)
+            return View(change);
+
+        if (!_userService.CompareOldPassword(change.oldPassword, username))
+        {
+            ModelState.AddModelError("oldPassword","کلمه عبور فعلی صحیح نمی باشد");
+            return View(change);
+        }
+        
+        _userService.ChangePassword(username, change.newPassword);
+        return RedirectToAction("Index","Home");
+    }
+    #endregion
+    
 }

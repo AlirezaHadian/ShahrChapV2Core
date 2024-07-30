@@ -64,7 +64,7 @@
                                             <img src="/UserAvatar/@Model.CurrentAvatarName" class="mb-2" alt="">
                                             <label for="file-upload" class="file-upload-button btn btn-outline-orange">
                                                 <i class="uil uil-upload"></i> بارگزاری تصویر</label>
-                                            <input type="file" accept=".jpg,.jpeg,.png" asp-for="UserAvatar" id="file-upload" class="file-upload-input"/>
+                                            <input type="file" accept=".jpg,.jpeg,.png" asp-for="UserAvatar" onchange="validateFileSize(this)" id="file-upload" class="file-upload-input"/>
                                             <span class="txt-red" asp-validation-for="UserAvatar" id="file-validation"></span>
                                         </div>
                                     </div>
@@ -86,24 +86,16 @@
 </section>
 
 <script>
-    document.getElementById('uploadForm').addEventListener('submit', function (e) {
-        var fileInput = document.getElementById('file-upload');
-        var file = fileInput.files[0];
-        var errorSpan = document.getElementById('file-validation');
+    function validateFileSize(input) {
+        const maxFileSize = 5 * 1024 * 1024; // 5 MB in bytes
+        const file = input.files[0];
+        const validationSpan = document.getElementById("file-validation");
 
-        if (file) {
-            var fileType = file.type;
-            var fileSize = file.size;
-
-            if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
-                errorSpan.textContent = 'نوع فایل نامعتبر است. فقط JPEG، JPG و PNG مجاز هستند.';
-                e.preventDefault();
-            } else if (fileSize > 5 * 1024 * 1024) { // 5MB in bytes
-                errorSpan.textContent = 'حجم فایل باید کمتر از ۵ مگابایت باشد';
-                e.preventDefault();
-            } else {
-                errorSpan.textContent = '';
-            }
+        if (file && file.size > maxFileSize) {
+            validationSpan.textContent = "حجم فایل باید کمتر از 5 مگابایت باشد";
+            input.value = ""; // Clear the input
+        } else {
+            validationSpan.textContent = "";
         }
-    });
+    }
 </script>

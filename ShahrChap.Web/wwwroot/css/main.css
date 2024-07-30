@@ -118,6 +118,9 @@ footer {
     height: 25px !important;
     width: 25px !important;
 }
+.input-validation-error {
+    border-bottom: 1px solid var(--mainRed);
+}
 /* BACKGROUNDS */
 .bg-yellow {
     background-color: var(--mainYellow);
@@ -195,6 +198,9 @@ footer {
     color: var(--darkGrey);
 }
 /* BUTTONS */
+.btn-check:focus+.btn, .btn:focus{
+    box-shadow: none;
+}
 .btn-yellow {
     background-color: var(--mainYellow);
     color: var(--mainWhite);
@@ -404,7 +410,7 @@ footer {
 }
 /* Box Shadow */
 .drop-shadow {
-    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1) !important;
 }
 /* ================================= */
 /* Internet Connection Popup */
@@ -2444,7 +2450,6 @@ addresses {
     color: var(--darkGrey);
     pointer-events: none;
 }
-
 .wrong {
     border: 1px solid var(--mainRed) !important;
     box-shadow: 2px 2px 4px var(--mainRed);
