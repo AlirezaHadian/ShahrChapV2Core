@@ -116,6 +116,20 @@ namespace ShahrChap.Core.Services
             UpdateUser(user);
         }
 
+        public bool CompareOldPassword(string oldPassword, string username)
+        {
+            string hashOldPassword = PasswordHelper.EncodePasswordMd5(oldPassword);
+            return _context.Users.Any(u => u.UserName == username && hashOldPassword == u.Password);
+        }
+
+        public void ChangePassword(string username, string newPassword)
+        {
+            var user = _context.Users.SingleOrDefault(u => u.UserName == username);
+            user.Password = PasswordHelper.EncodePasswordMd5(newPassword);
+            _context.Update(user);
+            _context.SaveChanges();
+        }
+
         public int AddUser(User user)
         {
             _context.Users.Add(user);

@@ -57,6 +57,7 @@ namespace ShahrChap.DataLayer.Entities.User
 
         #region Relation
         public virtual List<UserRole> UserRoles { get; set; }
+        public virtual List<Wallet.Wallet> Wallets { get; set; }
         #endregion
     }
 }

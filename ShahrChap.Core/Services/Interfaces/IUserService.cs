@@ -28,6 +28,8 @@ namespace ShahrChap.Core.Services.Interfaces
         SideBarUserPanelViewMode GetSideBarUserPanelData(string username);
         EditProfileViewModel GetDataForEditProfileUser(string username);
         void EditProfile(string username, EditProfileViewModel profile);
+        bool CompareOldPassword(string oldPassword, string username);
+        void ChangePassword(string username, string newPassword);
 
         #endregion
     }
