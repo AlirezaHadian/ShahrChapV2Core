@@ -26,6 +26,7 @@
     --beige: hsl(34, 75%, 92%);
     --transparentYellow: hsla(46, 95%, 60%, 0.8);
     /* Grey */
+    --darkestGrey: hsl(0, 0%,53%);
     --darkGrey: hsl(30, 1%, 71%);
     --grey: hsl(48, 5%, 82%);
     --lightGrey: hsl(48, 5%, 95%);
@@ -660,7 +661,6 @@ nav {
 .menu-controll,
 .searchToggle {
     height: 40px;
-    width: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1582,6 +1582,7 @@ select {
     font-size: 16px;
     border-bottom-width: 2px;
     transition: all 0.3s ease;
+    padding-right: 2rem !important;
 }
 
     .product-detail .product-input-box input:focus,
@@ -2678,7 +2679,7 @@ addresses {
 .user-account .input-group {
     margin-bottom: 14px;
 }
-.account-information .input-group input {
+.account-information .input-group input, select {
     padding: 8px 40px 8px 8px;
     box-sizing: border-box;
     border: none;
@@ -2698,8 +2699,8 @@ addresses {
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
-    color: #888;
-    z-index: 3;
+    color: var(--darkestGrey);
+    z-index: 10;
 }
 .image-upload img {
     width: 130px;
@@ -2715,6 +2716,63 @@ addresses {
     width: 100%;
     height: 100%;
     cursor: pointer;
+}
+/* ==========Address============ */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+.select-wrapper select {
+    font-size: 14px;
+    color: var(--darkestGrey);
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none !important;
+    box-shadow: none !important;
+    padding-right: 2rem;
+    padding-left: 30px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+#dropdownIcon {
+    position: absolute;
+    left: 10px;
+    top: 40%;
+    transform: translateX(-98%);
+    pointer-events: none;
+    color: var(--darkestGrey);
+    transition: transform 0.3s ease;
+}
+.select-wrapper select:focus {
+    border-bottom-color: var(--mainYellow);
+}
+.select-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.select-wrapper {
+    width: 100%;
+    position: relative;
+}
+.select-wrapper select:focus + #dropdownIcon {
+    color: var(--mainYellow);
+}
+.input-group textarea{
+    font-size: 14px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none !important;
+    box-shadow: none !important;
+    padding-right: 2rem;
+    padding-left: 30px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.input-group textarea:focus{
+    border-color: var(--mainYellow);
 }
 /*===========ALERT==============*/
 .alert {

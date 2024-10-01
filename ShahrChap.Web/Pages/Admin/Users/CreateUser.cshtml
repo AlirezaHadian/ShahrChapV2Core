@@ -1,0 +1,90 @@
+﻿@page
+@using ShahrChap.DataLayer.Entities.User
+@model ShahrChap.Web.Pages.Admin.Users.CreateUserModel
+@{
+    ViewData["Title"] = "افزودن کاربر";
+    List<Role> Roles = ViewData["Roles"] as List<Role>;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">افزودن کاربر جدید</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <form method="post" enctype="multipart/form-data">
+        <div class="col-md-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    اطلاعات کاربر
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>نام کاربری</label>
+                        <input type="text" asp-for="CreateUser.UserName" class="form-control">
+                        <span asp-validation-for="CreateUser.UserName"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>شماره موبایل</label>
+                        <input type="text" asp-for="CreateUser.Phone" class="form-control">
+                        <span asp-validation-for="CreateUser.Phone"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>ایمیل</label>
+                        <input type="text" asp-for="CreateUser.Email" class="form-control">
+                        <span asp-validation-for="CreateUser.Email"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>کلمه عبور</label>
+                        <input type="text" asp-for="CreateUser.Password" class="form-control">
+                        <span asp-validation-for="CreateUser.Password"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>انتخاب نقش کاربر</label>
+                        @foreach (var item in Roles)
+                        {
+                            <div class="checkbox">
+                                <lable>
+                                    <input type="checkbox" name="SelectedRoles" value="@item.RoleId" />@item.RoleTitle
+                                </lable>
+                            </div>
+                        }
+                    </div>
+                    <input type="submit" value="ثبت کاربر جدید" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    تصویر پرفایل کاربر
+                </div>
+                <div class="panel-body">
+                    <img src="/UserAvatar/DefaultAvatar.jpg" id="imgAvatar" class="thumbnail" style="max-height:250px; max-width:280px; margin: 0 auto;" />
+                    <div class="form-group mt-2">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" asp-for="CreateUser.UserAvatar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#CreateUser_UserAvatar').change(function (event) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            });
+        });
+    </script>
+}

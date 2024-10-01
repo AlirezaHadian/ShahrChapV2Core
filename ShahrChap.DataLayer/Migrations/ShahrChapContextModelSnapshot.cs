@@ -22,6 +22,86 @@ namespace ShahrChap.DataLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CityId");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.Province", b =>
+                {
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProvinceName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("ProvinceId");
+
+                    b.ToTable("Provinces");
+                });
+
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.UserAddress", b =>
+                {
+                    b.Property<int>("UserAddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAddressId"));
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FullAddress")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("HouseNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserAddressId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAddresses");
+                });
+
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.User.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -165,6 +245,44 @@ namespace ShahrChap.DataLayer.Migrations
                     b.ToTable("WalletTypes");
                 });
 
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.City", b =>
+                {
+                    b.HasOne("ShahrChap.DataLayer.Entities.Address.Province", "Province")
+                        .WithMany("Cities")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Province");
+                });
+
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.UserAddress", b =>
+                {
+                    b.HasOne("ShahrChap.DataLayer.Entities.Address.City", "City")
+                        .WithMany("UserAddresses")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShahrChap.DataLayer.Entities.Address.Province", "Province")
+                        .WithMany("UserAddresses")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ShahrChap.DataLayer.Entities.User.User", "User")
+                        .WithMany("UserAddresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("Province");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.User.UserRole", b =>
                 {
                     b.HasOne("ShahrChap.DataLayer.Entities.User.Role", "Role")
@@ -203,6 +321,18 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Navigation("WalletType");
                 });
 
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.City", b =>
+                {
+                    b.Navigation("UserAddresses");
+                });
+
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.Province", b =>
+                {
+                    b.Navigation("Cities");
+
+                    b.Navigation("UserAddresses");
+                });
+
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.User.Role", b =>
                 {
                     b.Navigation("UserRoles");
@@ -210,6 +340,8 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.User.User", b =>
                 {
+                    b.Navigation("UserAddresses");
+
                     b.Navigation("UserRoles");
 
                     b.Navigation("Wallets");

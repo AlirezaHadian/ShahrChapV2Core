@@ -1,8 +1,33 @@
-﻿@model dynamic
-
+﻿
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "نتیجه پرداخت";
 }
 
-<h2>title</h2>
+<section class="container internal-style pt-3">
+    <ol class="breadcrumb drop-shadow">
+        <li class="breadcrumb-item"><a href="/">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">نتیجه پرداخت</li>
+    </ol>
+</section>
+<div class="container alert drop-shadow text-center">
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div class="bg-green px-3 py-3 text-white rounded-top alert-header">
+            <i class="uil uil-check-circle"></i> تراکنش موفق
+        </div>
+        <div class="px-4 py-3bg-white rounded-bottom alert-footer">
+            <p>کیف پول شما به مبلغ @ViewBag.Amount تومان شارژ شد.</p>
+            <p>کد پیگیری: @ViewBag.Code</p>
+        </div>
+    }
+    else
+    {
+        <div class="bg-red px-3 py-3 text-white rounded-top alert-header">
+            <i class="uil uil-exclamation-circle"></i> تراکنش ناموفق
+        </div>
+        <div class="px-4 py-3bg-white rounded-bottom alert-footer">
+            <p>تراکنش انجام نشد!</p>
+            <p></p>
+        </div>
+    }
+</div>

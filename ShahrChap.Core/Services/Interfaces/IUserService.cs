@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using ShahrChap.DataLayer.Entities.Address;
+using ShahrChap.DataLayer.Entities.Wallet;
 
 namespace ShahrChap.Core.Services.Interfaces
 {
@@ -14,6 +17,7 @@ namespace ShahrChap.Core.Services.Interfaces
         bool IsEmailOrPhoneExist(string emailOrPhone);
         int AddUser(User user);
         User LoginUser(LoginViewModel login);
+        User GetUserWithId(int userId);
         User GetUserWithEmail(string email);
         User GetUserWithPhoneNumber(string phoneNumber);
         User GetUserWithActiveCode(string activeCode);
@@ -21,7 +25,9 @@ namespace ShahrChap.Core.Services.Interfaces
         void UpdateUser(User user);
         bool ActiveEmail(string activeCode);
         bool ActivePhone(string phoneNumber);
-
+        int GetUserIdWithUserName(string username);
+        string AddProfileImage(IFormFile profileImage);
+        void DeleteProfileImage(string currentAvatarName);
         #region  User Panel
 
         InformationUserViewModel GetUserInformation(string username);
@@ -30,6 +36,36 @@ namespace ShahrChap.Core.Services.Interfaces
         void EditProfile(string username, EditProfileViewModel profile);
         bool CompareOldPassword(string oldPassword, string username);
         void ChangePassword(string username, string newPassword);
+
+        #endregion
+
+        #region Wallet
+        int BalanceUserWallet(string username);
+        List<WalletViewModel> GetWalletDetailUser(string username);
+        int ChargeWallet(string username, int amount, string description, bool isPay = false);
+        int AddWallet(Wallet wallet);
+        Wallet GetWalletWithWalletId(int walletId);
+        void UpdateWallet(Wallet wallet);
+
+        #endregion
+        #region Address
+        UserAddress GetUserAddressWithAddressId(int userAddressId);
+        List<ShowAddressViewModel> GetUserAdresses(string username);
+        List<Province> GetAllProvince();
+        List<City> GetProvincCities(int provinceId);
+        City GetCityWithCityId(int cityId);
+        Province GetProvinceWithProvinceId(int provinceId);
+        void AddAddress(UserAddress address);
+        bool UpdateAddress(UserAddress address);
+        bool DeleteAddress(UserAddress address);
+
+        #endregion
+
+        #region Admin Panel
+        UserForAdminViewModel GetUsers(int pageId = 1, string filterUser = "");
+        int AddUserForAdmin(CreateUserViewModel user);
+        EditUserViewModel GetUserForShowInEditMode(int userId);
+        void EditUserForAdmin(EditUserViewModel editUser);
 
         #endregion
     }

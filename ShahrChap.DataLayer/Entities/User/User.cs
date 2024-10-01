@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShahrChap.DataLayer.Entities.Address;
 
 namespace ShahrChap.DataLayer.Entities.User
 {
@@ -18,7 +19,7 @@ namespace ShahrChap.DataLayer.Entities.User
         public int UserId { get; set; }
 
         [Display(Name = "نام کاربری")]
-        [Required(ErrorMessage = "{0} اجباری می باشد")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(250, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
         public string UserName { get; set; }
 
@@ -58,6 +59,8 @@ namespace ShahrChap.DataLayer.Entities.User
         #region Relation
         public virtual List<UserRole> UserRoles { get; set; }
         public virtual List<Wallet.Wallet> Wallets { get; set; }
+        public virtual List<UserAddress> UserAddresses { get; set; }
         #endregion
     }
 }
+

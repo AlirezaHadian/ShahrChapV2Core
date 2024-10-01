@@ -1,5 +1,100 @@
-﻿@model dynamic
+﻿@using ShahrChap.Core.Convertors
+@using ShahrChap.Core.DTOs
+@model ShahrChap.Core.DTOs.ChargeWalletViewModel
 
 @{
     ViewBag.Title = "کیف پول";
 }
+
+<section class="container internal-style pt-3">
+    <ol class="breadcrumb drop-shadow">
+        <li class="breadcrumb-item"><a href="/">خانه</a></li>
+        <li class="breadcrumb-item"><a href="/UserPanel">حساب کاربری</a></li>
+        <li class="breadcrumb-item active" aria-current="page">کیف پول</li>
+    </ol>
+</section>
+
+<section class="container">
+    <div class="user-account">
+        <div class="row">
+            <partial name="_SideBar"/>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+                <section class="user-account-content  drop-shadow">
+                    <header>
+                        <h1> شارژ کیف پول </h1>
+                    </header>
+                    <div class="inner">
+                        <div class="account-information">
+                            <form asp-action="Index" method="post" id="wallet-form">
+                                <div class="row">
+                                    <div class="col-md-8 col-sm-12 col-xs-12">
+                                        <div class="col-md-7 col-sm-10 col-xs-12">
+                                            <div class="input-group">
+                                                <i class="icon uil uil-money-bill"></i>
+                                                <input type="text" asp-for="Amount" class="form-control" oninput="formatPrice(this)" id="price" placeholder="مبلغ به تومان">
+                                            </div>
+                                            <span class="txt-red" asp-validation-for="Amount"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 col-sm-10 col-xs-12">
+                                        <div class="input-group">
+                                            <button class="btn btn-blue">
+                                                <i class="uil uil-money-insert"></i>
+                                                شارژ حساب </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr/>
+                            @{
+                                List<WalletViewModel> list = ViewBag.WalletDetails as List<WalletViewModel>;
+                            }
+                            <table class="table table-light table-bordered">
+                                <tr class="text-center">
+                                    <th>مبلغ</th>
+                                    <th>تاریخ</th>
+                                    <th>نوع تراکنش</th>
+                                    <th>شرح</th>
+                                </tr>
+                                @foreach (var item in list)
+                                {
+                                    <tr class="text-center">
+                                        <td>@item.Amount.ToString("#,0 تومان")</td>
+                                        <td>@item.DateTime.ToShamsi()</td>
+                                        <td>
+                                            @if (item.Type == 1)
+                                            {
+                                                <p class="txt-green">واریز به حساب</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="txt-red">برداشت از حساب</p>
+                                            }
+                                        </td>
+                                        <td>@item.Descirption</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    document.getElementById('price').addEventListener('input', function(event) {
+        // حذف کاراکترهای غیر عددی
+        let value = this.value.replace(/[^0-9]/g, '');
+
+        // اضافه کردن کاما بین هر ۳ رقم
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        this.value = value;
+    });
+    document.getElementById('wallet-form').addEventListener('submit', function(event) {
+        // حذف کاماها قبل از ارسال فرم
+        let priceInput = document.getElementById('price');
+        priceInput.value = priceInput.value.replace(/,/g, '');
+    });
+</script>

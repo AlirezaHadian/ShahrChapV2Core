@@ -11,16 +11,16 @@ public class Wallet
     [Key]
     public int WalletId { get; set; }
     [Display(Name = "نوع تراکنش")]
-    [Required(ErrorMessage = "{0} اجباری می باشد")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     public int WalletTypeId { get; set; }
     [Display(Name = "کاربر")]
-    [Required(ErrorMessage = "{0} اجباری می باشد")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     public int UserId { get; set; }
     [Display(Name = "مبلغ")]
-    [Required(ErrorMessage = "{0} اجباری می باشد")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     public int Amount { get; set; }
     [Display(Name = "شرح")]
-    [MaxLength(500,ErrorMessage = "")]
+    [MaxLength(500, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
     public string Description { get; set; }
     [Display(Name = "وضعیت پرداخت")]
     public bool IsPay { get; set; }

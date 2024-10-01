@@ -21,15 +21,15 @@ namespace ShahrChap.Core.Senders
             _contextAccessor = contextAccessor;
             _userService = userService;
         }
-        public static void SendWithPattern(string phone, string username, string code)
+        public static void SendWithPattern(string phone, string code)
         {
             var client = new AmootSMS.WebService2SoapClient(AmootSMS.WebService2SoapClient.EndpointConfiguration.WebService2Soap12,
 "https://portal.amootsms.com/webservice2.asmx");
             string UserName = "09397673794";
             string Password = "1274255325";
             string Mobile = phone;
-            int PatternCodeID = 2078;
-            string[] PatternValues = new string[] { username, code };
+            int PatternCodeID = 2638;
+            string[] PatternValues = new string[] { code };
 
             AmootSMS.WebService2SoapClient webService = client;
 
@@ -53,7 +53,7 @@ namespace ShahrChap.Core.Senders
             //If send otp was from resend code button in verify phone, 
 
             string OtpCode = NameGenerator.GenerateOTP();
-            MessageSender.SendWithPattern(userPhone, user.UserName, OtpCode);
+            MessageSender.SendWithPattern(userPhone, OtpCode);
             contextAccessor.HttpContext.Session.SetString("OtpCode", OtpCode);
             contextAccessor.HttpContext.Session.SetString("OtpExpireTime", DateTime.Now.AddMinutes(2).ToString());
             contextAccessor.HttpContext.Session.SetString("UserPhone", user.Phone);

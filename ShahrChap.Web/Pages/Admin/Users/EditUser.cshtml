@@ -1,19 +1,93 @@
-﻿@page
-@model ShahrChap.Web.Pages.Admin.Users.EditUser
+﻿@page "{id}"
+@using ShahrChap.DataLayer.Entities.User
+@model ShahrChap.Web.Pages.Admin.Users.EditUserModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "ویرایش کاربر";
+    List<Role> Roles = ViewData["Roles"] as List<Role>;
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">ویرایش @Model.EditUserViewModel.UserName</h1>
+    </div>
 </div>
-</body>
-</html>
+
+<div class="row">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="EditUserViewModel.UserId" />
+        <input type="hidden" asp-for="EditUserViewModel.CurrentUserAvatar" />
+
+        <div class="col-md-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    اطلاعات کاربر
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>نام کاربری</label>
+                        <input type="hidden" asp-for="EditUserViewModel.UserName" />
+                        <label class="text-success">@Model.EditUserViewModel.UserName</label>
+                    </div>
+                    <div class="form-group">
+                        <label>شماره موبایل</label>
+                        <input type="text" asp-for="EditUserViewModel.Phone" class="form-control">
+                        <span asp-validation-for="EditUserViewModel.Phone"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>ایمیل</label>
+                        <input type="text" asp-for="EditUserViewModel.Email" class="form-control">
+                        <span asp-validation-for="EditUserViewModel.Email"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>کلمه عبور</label>
+                        <input type="text" asp-for="EditUserViewModel.Password" class="form-control">
+                        <span asp-validation-for="EditUserViewModel.Password"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>انتخاب نقش کاربر</label>
+                        @foreach (var item in Roles)
+                        {
+                            <div class="checkbox">
+                                <lable>
+                                    <input type="checkbox" name="SelectedRoles" value="@item.RoleId" @((Model.EditUserViewModel.UserRoles.Any(r => r == item.RoleId)? "checked":"")) />@item.RoleTitle
+                                </lable>
+                            </div>
+                        }
+                    </div>
+                    <input type="submit" value="ویرایش اطلاعات" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    تصویر پرفایل کاربر
+                </div>
+                <div class="panel-body">
+                    <img src="/UserAvatar/@Model.EditUserViewModel.CurrentUserAvatar" id="imgAvatar" class="thumbnail" style="max-height:250px; max-width:280px; margin: 0 auto;" />
+                    <div class="form-group mt-2">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" asp-for="EditUserViewModel.UserAvatar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#EditUserViewModel_UserAvatar').change(function (event) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            });
+        });
+    </script>
+}

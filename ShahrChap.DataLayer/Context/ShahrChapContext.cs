@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShahrChap.DataLayer.Entities.Address;
 using ShahrChap.DataLayer.Entities.Wallet;
 
 namespace ShahrChap.DataLayer.Context
@@ -21,11 +22,43 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         #endregion
-
+        
         #region wallet
-
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<WalletType> WalletTypes { get; set; }
-        #endregion 
+        #endregion
+
+        #region Address
+        public DbSet<UserAddress> UserAddresses { get; set; }
+        public DbSet<Province> Provinces { get; set; }
+        public DbSet<City> City { get; set; }
+        #endregion
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Province -> City (One-to-Many)
+            modelBuilder.Entity<Province>()
+                .HasMany(p => p.Cities)
+                .WithOne(c => c.Province)
+                .HasForeignKey(c => c.ProvinceId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
+
+            // Province -> UserAddress (One-to-Many)
+            modelBuilder.Entity<Province>()
+                .HasMany(p => p.UserAddresses)
+                .WithOne(ua => ua.Province)
+                .HasForeignKey(ua => ua.ProvinceId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
+
+            // City -> UserAddress (One-to-Many)
+            modelBuilder.Entity<City>()
+                .HasMany(c => c.UserAddresses)
+                .WithOne(ua => ua.City)
+                .HasForeignKey(ua => ua.CityId)
+                .OnDelete(DeleteBehavior.Cascade); // Allow cascade delete
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
+    
 }

@@ -18,7 +18,7 @@ namespace ShahrChap.DataLayer.Entities.User
         public int RoleId { get; set; }
 
         [Display(Name = "عنوان دسترسی")]
-        [Required(ErrorMessage = "{0} اجباری می باشد")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(300, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
         public string RoleTitle { get; set; }
 
