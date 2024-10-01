@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ShahrChap.Core.Convertors;
 using ShahrChap.Core.Services;
@@ -8,6 +9,7 @@ using ShahrChap.DataLayer.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(options=> options.EnableEndpointRouting = false);
+builder.Services.AddRazorPages();
 #region Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -39,10 +41,11 @@ builder.Services.AddDbContext<ShahrChapContext>(options=>
     options.UseSqlServer(dbConnectionString);
 });
 #endregion
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 #region IoC
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
+builder.Services.AddTransient<IPermissionService, PermissionService>();
 #endregion
 
 var app = builder.Build();
@@ -50,6 +53,13 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+app.MapRazorPages(); 
+
+// app.UseMvc(routes =>
+// {
+//     routes.MapRoute(name: "Area", template: "{areas:exists}/{controller=Home}/{action=Index}/{id?}");
+//     routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+// });
 
 app.MapControllerRoute(
     name: "Area",
