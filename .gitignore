@@ -364,3 +364,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ShahrChap.Web/appsettings.json
+/ShahrChap.Web/appsettings.Development.json
