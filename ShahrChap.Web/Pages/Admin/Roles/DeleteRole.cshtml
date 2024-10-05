@@ -1,0 +1,30 @@
+﻿@page "{id}"
+@using ShahrChap.DataLayer.Entities.Permissions
+@model ShahrChap.Web.Pages.Admin.Roles.DeleteRoleModel
+@{
+    ViewData["Title"] = "حذف نقش";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">حذف نقش</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Role.RoleId" />
+    <input type="hidden" asp-for="Role.RoleTitle" />
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            حذف نقش "@Model.Role.RoleTitle"
+        </div>
+        <div class="panel-body">
+            <p>آیا از حذف نقش "@Model.Role.RoleTitle" مطمئن هستید؟</p>
+        </div>
+        <div class="panel-footer">
+            <a asp-page="index" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+            <input type="submit" value="حذف" class="btn btn-danger" />
+        </div>
+    </div>
+</form>

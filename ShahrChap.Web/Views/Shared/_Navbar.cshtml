@@ -17,60 +17,7 @@
                 </div>
                 <ul class="nav-links">
                     <li><a href="/" class="active"><i class="uil uil-estate"></i> خانه</a></li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="uil uil-files-landscapes-alt"></i> خدمات چاپی
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <ul>
-                                <li><a class="dropdown-item" href="#">چاپ تراکت</a></li>
-                                <li><a class="dropdown-item" href="#">تراکت دو رو</a></li>
-                                <li><a class="dropdown-item" href="#">تراکت یک رو</a></li>
-                                <li><a class="dropdown-item" href="#">تراکت براق</a></li>
-                            </ul>
-                            <hr>
-                            <ul>
-                                <li><a class="dropdown-item" href="#">کارت ویزیت</a></li>
-                                <li><a class="dropdown-item" href="#">کارت ویزیت براق</a></li>
-                                <li><a class="dropdown-item" href="#">کارت ویزیت یک رو</a></li>
-                                <li><a class="dropdown-item" href="#">کارت ویزیت مات</a></li>
-                            </ul>
-                            <hr>
-                            <ul>
-                                <li><a class="dropdown-item" href="#">سربرگ</a></li>
-                                <li><a class="dropdown-item" href="#">سربرگ A4</a></li>
-                                <li><a class="dropdown-item" href="#">سربرگ A5</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="uil uil-layers"></i> چاپ سابلیمیشن
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <ul>
-                                <li><a class="dropdown-item" href="#">ماگ</a></li>
-                                <li><a class="dropdown-item" href="#">تراکت دو رو</a></li>
-                                <li><a class="dropdown-item" href="#">تراکت یک رو</a></li>
-                                <li><a class="dropdown-item" href="#">تراکت براق</a></li>
-                            </ul>
-                            <hr>
-                            <ul>
-                                <li><a class="dropdown-item" href="#">تی شرت</a></li>
-                                <li><a class="dropdown-item" href="#">کارت ویزیت براق</a></li>
-                                <li><a class="dropdown-item" href="#">کارت ویزیت یک رو</a></li>
-                                <li><a class="dropdown-item" href="#">کارت ویزیت مات</a></li>
-                            </ul>
-                            <hr>
-                            <ul>
-                                <li><a class="dropdown-item" href="#">پد موس</a></li>
-                                <li><a class="dropdown-item" href="#">سربرگ A4</a></li>
-                                <li><a class="dropdown-item" href="#">سربرگ A5</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="/Print.html"><i class="uil uil-print"></i> سفارش پرینت</a></li>
+                    @await Component.InvokeAsync("ProductGroupComponent")
                     <li><a href="/AboutUs.html"><i class="uil uil-users-alt"></i> درباره ما</a></li>
                 </ul>
             </div>

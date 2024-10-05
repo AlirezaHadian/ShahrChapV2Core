@@ -13,6 +13,7 @@ using ShahrChap.Core.Convertors;
 using ShahrChap.Core.Generators;
 using ShahrChap.DataLayer.Entities.Address;
 using ShahrChap.DataLayer.Entities.Wallet;
+using Microsoft.EntityFrameworkCore;
 
 namespace ShahrChap.Core.Services
 {
@@ -440,6 +441,47 @@ namespace ShahrChap.Core.Services
 
             _context.Users.Update(user);
             _context.SaveChanges();
+        }
+
+        public UserForAdminViewModel GetDeleteUsers(int pageId = 1, string filterUser = "")
+        {
+            IQueryable<User> result = _context.Users.IgnoreQueryFilters().Where(u=> u.IsDelete);
+
+            if (!string.IsNullOrEmpty(filterUser))
+            {
+                result = result.Where(u =>
+                    u.Email.Contains(filterUser) || u.Phone.Contains(filterUser) || u.UserName.Contains(filterUser));
+            }
+
+            int take = 20;
+            int skip = (pageId - 1) * take;
+
+            UserForAdminViewModel list = new UserForAdminViewModel();
+            list.CurrentPage = pageId;
+            list.PageCount = result.Count() / take;
+            list.Users = result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take).ToList();
+            return list;
+        }
+
+        public void DeleteUser(int userId)
+        {
+            User user = GetUserWithId(userId);
+            user.IsDelete = true;
+            UpdateUser(user);
+        }
+
+        public InformationUserViewModel GetUserInformation(int userId)
+        {
+            var user = GetUserWithId(userId);
+            InformationUserViewModel informationUser = new InformationUserViewModel()
+            {
+                Email = user.Email,
+                Phone = user.Phone,
+                UserName = user.UserName,
+                RegisterDate = user.RegisterDate,
+                Wallet = BalanceUserWallet(user.UserName)
+            };
+            return informationUser;
         }
     }
 }

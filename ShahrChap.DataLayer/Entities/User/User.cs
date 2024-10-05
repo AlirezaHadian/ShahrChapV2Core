@@ -54,7 +54,7 @@ namespace ShahrChap.DataLayer.Entities.User
 
         [Display(Name = "وضعیت شماره موبایل")]
         public bool IsPhoneActive { get; set; }
-
+        public bool IsDelete { get; set; }
 
         #region Relation
         public virtual List<UserRole> UserRoles { get; set; }

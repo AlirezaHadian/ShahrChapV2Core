@@ -1,0 +1,51 @@
+﻿@page "{id}"
+@using ShahrChap.Core.Convertors
+@model ShahrChap.Web.Pages.Admin.Users.DeleteUserModel
+@{
+    ViewData["Title"] = "حذف کاربر";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">حذف @Model.InformationUserViewModel.UserName</h1>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            اطلاعات کاربر
+        </div>
+        <div class="panel-body">
+            <form method="post">
+                <input type="hidden" name="userId" value="@ViewData["UserId"].ToString()" />
+
+                <dl class="dl-horizontal">
+                    <dt>نام کاربری:</dt>
+                    <dd>@Model.InformationUserViewModel.UserName</dd>
+                    @if (Model.InformationUserViewModel.Phone != null)
+                    {
+                        <dt>شماره موبایل:</dt>
+                        <dd>@Model.InformationUserViewModel.Phone</dd>
+                    }
+                    @if (Model.InformationUserViewModel.Email != null)
+                    {
+                        <dt>ایمیل:</dt>
+                        <dd>@Model.InformationUserViewModel.Email</dd>
+                    }
+                    <dt>موجودی:</dt>
+                    <dd>@Model.InformationUserViewModel.Wallet</dd>
+                    <dt>تاریخ عضویت:</dt>
+                    <dd>@Model.InformationUserViewModel.RegisterDate.ToShamsi()</dd>
+                    <dt></dt>
+                    <dd>
+                        <input type="submit" value="حذف" class="btn btn-danger" />
+                        <a asp-action="Index" class="btn btn-default">بازگشت</a>
+                    </dd>
+                </dl>
+            </form>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>
