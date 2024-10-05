@@ -29,7 +29,6 @@ namespace ShahrChap.Core.Services.Interfaces
         string AddProfileImage(IFormFile profileImage);
         void DeleteProfileImage(string currentAvatarName);
         #region  User Panel
-
         InformationUserViewModel GetUserInformation(string username);
         SideBarUserPanelViewMode GetSideBarUserPanelData(string username);
         EditProfileViewModel GetDataForEditProfileUser(string username);
@@ -62,10 +61,13 @@ namespace ShahrChap.Core.Services.Interfaces
         #endregion
 
         #region Admin Panel
+        InformationUserViewModel GetUserInformation(int userId);
         UserForAdminViewModel GetUsers(int pageId = 1, string filterUser = "");
+        UserForAdminViewModel GetDeleteUsers(int pageId = 1, string filterUser = "");
         int AddUserForAdmin(CreateUserViewModel user);
         EditUserViewModel GetUserForShowInEditMode(int userId);
         void EditUserForAdmin(EditUserViewModel editUser);
+        void DeleteUser(int userId);
 
         #endregion
     }

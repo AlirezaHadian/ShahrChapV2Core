@@ -38,6 +38,8 @@ public class UserAddress
     [Display(Name = "پلاک")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     public int HouseNumber { get; set; }
+    [Display(Name ="حذف شده؟")]
+    public bool IsDelete { get; set; }
 
     #region Relations
     public virtual User.User User { get; set; }

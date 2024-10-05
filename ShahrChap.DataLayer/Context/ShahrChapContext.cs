@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ShahrChap.DataLayer.Entities.Address;
 using ShahrChap.DataLayer.Entities.Wallet;
+using ShahrChap.DataLayer.Entities.Permissions;
+using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.DataLayer.Context
 {
@@ -22,20 +24,29 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         #endregion
-        
+        #region Permission
+        public DbSet<Permission> Permission { get; set; }
+        public DbSet<RolePermission> RolePermission { get; set; }
+
+        #endregion
         #region wallet
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<WalletType> WalletTypes { get; set; }
         #endregion
-
         #region Address
         public DbSet<UserAddress> UserAddresses { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<City> City { get; set; }
         #endregion
-        
+        #region Product
+        public DbSet<ProductGroup> ProductGroups { get; set; }
+        #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<Role>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
+
             // Province -> City (One-to-Many)
             modelBuilder.Entity<Province>()
                 .HasMany(p => p.Cities)

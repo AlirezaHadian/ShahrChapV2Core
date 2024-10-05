@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShahrChap.Core.DTOs;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.User;
@@ -8,6 +9,7 @@ using System.Globalization;
 
 namespace ShahrChap.Web.Pages.Admin.Users
 {
+    [PermissionChecker(4)]
     public class EditUserModel : PageModel
     {
         private IUserService _userService;

@@ -46,6 +46,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
 builder.Services.AddTransient<IPermissionService, PermissionService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 #endregion
 
 var app = builder.Build();
