@@ -3,7 +3,7 @@
 @foreach(var item in Model.Where(g=> g.ParentId == null))
 {
     <li class="nav-item dropdown">
-        <a class="@((Model.Any(g=> g.ParentId == item.GroupId)? "nav-link dropdown-toggle":""))" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="@item.IconClass"></i> @item.GroupTitle
         </a>
         @if(Model.Any(g=> g.ParentId == item.GroupId))
@@ -12,7 +12,7 @@
                 @foreach(var sub in Model.Where(g=> g.ParentId == item.GroupId))
                 {
                 <ul>
-                    <li><a class="dropdown-item" href="#">چاپ تراکت</a></li>
+                    <li><a class="dropdown-item" href="#">@sub.GroupTitle</a></li>
                         @if(Model.Any(g=> g.ParentId == sub.GroupId))
                         {
                             @foreach(var underSub in Model.Where(g=> g.ParentId == sub.GroupId))

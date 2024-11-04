@@ -328,8 +328,8 @@ namespace ShahrChap.Core.Services
         {
             try
             {
-                _context.UserAddresses.Remove(address);
-                _context.SaveChanges();
+                address.IsDelete = true;
+                UpdateAddress(address);
                 return true;
             }
             catch

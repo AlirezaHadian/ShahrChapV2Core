@@ -29,7 +29,8 @@ namespace ShahrChap.DataLayer.Entities.Product
 
         #region Relation
         [ForeignKey("ParentId")]
-        public List<ProductGroup> ProductGroups { get; set; }
+        public virtual List<ProductGroup> ProductGroups { get; set; }
+        public virtual GroupDetail GroupDetail { get; set; }
         #endregion
     }
 }
