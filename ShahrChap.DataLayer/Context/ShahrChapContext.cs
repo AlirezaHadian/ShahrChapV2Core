@@ -45,6 +45,7 @@ namespace ShahrChap.DataLayer.Context
         {
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Role>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<UserAddress>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
 
             // Province -> City (One-to-Many)

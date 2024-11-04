@@ -18,6 +18,7 @@
                 <ul class="nav-links">
                     <li><a href="/" class="active"><i class="uil uil-estate"></i> خانه</a></li>
                     @await Component.InvokeAsync("ProductGroupComponent")
+                    <li><a href="/Print.html"><i class="uil uil-print"></i> سفارش پرینت</a></li>
                     <li><a href="/AboutUs.html"><i class="uil uil-users-alt"></i> درباره ما</a></li>
                 </ul>
             </div>
@@ -31,46 +32,46 @@
                         </span>
                     </a>
                     <div class="shopcart-popover">
-                         <div class="shopcart-emtpy">
-                          <p>آیتمی یافت نشد!</p>
-                          <hr>
-                          <img src="/img/undraw_empty_cart_co35.svg" alt="" srcset="">
+                        <div class="shopcart-emtpy">
+                            <p>آیتمی یافت نشد!</p>
+                            <hr>
+                            <img src="/img/undraw_empty_cart_co35.svg" alt="" srcset="">
                         </div>
                         @* <div class="popover-content">
-                            <div class="shopcart-item">
-                                <a href="/Single-Product.html">
-                                    <img src="/img/Product1.jpg" alt="Product Name">
-                                    <span>کارت ویزیت دو رو</span>
-                                </a>
-                                <input type="number" min="0" value="1">
-                                <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
-                            </div>
-                            <div class="shopcart-item">
-                                <a href="path-to-product-page">
-                                    <img src="/img/Product1.jpg" alt="Product Name">
-                                    <span>Product Name</span>
-                                </a>
-                                <input type="number" min="0" value="1">
-                                <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
-                            </div>
-                            <div class="shopcart-item">
-                                <a href="path-to-product-page">
-                                    <img src="/img/Product1.jpg" alt="Product Name">
-                                    <span>Product Name</span>
-                                </a>
-                                <input class="shopcart-popover-count" type="number" min="0" value="1">
-                                <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
-                            </div>
+                        <div class="shopcart-item">
+                        <a href="/Single-Product.html">
+                        <img src="/img/Product1.jpg" alt="Product Name">
+                        <span>کارت ویزیت دو رو</span>
+                        </a>
+                        <input type="number" min="0" value="1">
+                        <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
+                        </div>
+                        <div class="shopcart-item">
+                        <a href="path-to-product-page">
+                        <img src="/img/Product1.jpg" alt="Product Name">
+                        <span>Product Name</span>
+                        </a>
+                        <input type="number" min="0" value="1">
+                        <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
+                        </div>
+                        <div class="shopcart-item">
+                        <a href="path-to-product-page">
+                        <img src="/img/Product1.jpg" alt="Product Name">
+                        <span>Product Name</span>
+                        </a>
+                        <input class="shopcart-popover-count" type="number" min="0" value="1">
+                        <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
+                        </div>
                         </div>
                         <div class="popover-footer">
-                            <div class="shopcart-popover-price">
-                                <p>مبلغ قابل پرداخت:</p>
-                                <span>
-                                    1,000,000
-                                    <img src="/img/Toman.svg" class="currency-svg" alt="">
-                                </span>
-                            </div>
-                            <a href="/Basket.html" class="btn">سبد خرید</a>
+                        <div class="shopcart-popover-price">
+                        <p>مبلغ قابل پرداخت:</p>
+                        <span>
+                        1,000,000
+                        <img src="/img/Toman.svg" class="currency-svg" alt="">
+                        </span>
+                        </div>
+                        <a href="/Basket.html" class="btn">سبد خرید</a>
                         </div> *@
                     </div>
                 </div>
@@ -88,7 +89,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="menu-controll userpanel-dropdown">
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -106,9 +107,10 @@
                             <hr>
                             <a href="/logout"><i class="uil uil-signout"></i> خروج از حساب</a>
                         </div>
-                    }else
+                    }
+                    else
                     {
-                    <a type="button" class="btn userpanel" href="/Login"><i class="uil uil-user"></i></a>
+                        <a type="button" class="btn userpanel" href="/Login"><i class="uil uil-user"></i></a>
                     }
 
                 </div>

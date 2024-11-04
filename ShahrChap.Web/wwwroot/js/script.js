@@ -1,49 +1,42 @@
 /*=============INTERNET CONNECTION ============== */
 const popup = document.querySelector(".popup"),
-  wifiIcon = document.querySelector(".icon i"),
-  popupTitle = document.querySelector(".popup .title"),
-  popupDesc = document.querySelector(".desc"),
-  reconnectBtn = document.querySelector(".reconnect");
+    wifiIcon = document.querySelector(".icon i"),
+    popupTitle = document.querySelector(".popup .title");
 let isOnline = true,
-  intervalId,
-  timer = 10;
+    intervalId,
+    timer = 10;
 const checkConnection = async () => {
-  try {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    isOnline = response.status >= 200 && response.status < 300;
-  } catch (error) {
-    isOnline = false; // If there is an error, the connection is considered offline
-  }
-  timer = 10;
-  clearInterval(intervalId);
-  handlePopup(isOnline);
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+        isOnline = response.status >= 200 && response.status < 300;
+    } catch (error) {
+        isOnline = false; // If there is an error, the connection is considered offline
+    }
+    timer = 8;
+    clearInterval(intervalId);
+    handlePopup(isOnline);
 };
 const handlePopup = (status) => {
-  if (status) {
-    // If the status is true (online), update icon, title, and description accordingly
-    wifiIcon.className = "uil uil-wifi";
-    popupTitle.innerText = "اتصال بازیابی شد";
-    popupDesc.innerHTML = "دستگاه شما اکنون با موفقیت به اینترنت متصل شده است.";
-    popup.classList.add("online");
-    return setTimeout(() => popup.classList.remove("show"), 2000);
-  }
-  // If the status is false (offline), update the icon, title, and description accordingly
-  wifiIcon.className = "uil uil-wifi-slash";
-  popupTitle.innerText = "ارتباط از دست رفته";
-  popupDesc.innerHTML =
-    "شبکه در دسترس نیست. ما تلاش خواهیم کرد تا در  <b>10</b> ثانیه دوباره وصل کنیم.";
-  popup.className = "popup show";
+    if (status) {
+        // If the status is true (online), update icon, title, and description accordingly
+        wifiIcon.className = "uil uil-wifi";
+        popupTitle.innerText = "اتصال بازیابی شد";
+        popup.classList.add("online");
+        return setTimeout(() => popup.classList.remove("show"), 2000);
+    }
+    // If the status is false (offline), update the icon, title, and description accordingly
+    wifiIcon.className = "uil uil-wifi-slash";
+    popupTitle.innerText = "خطا در برقراری ارتباط";
+    popup.className = "popup show";
 
-  intervalId = setInterval(() => {
-    // Set an interval to decrease the timer by 1 every second
-    timer--;
-    if (timer === 0) checkConnection(); // If the timer reaches 0, check the connection again
-    popup.querySelector(".desc b").innerText = timer;
-  }, 1000);
+    intervalId = setInterval(() => {
+        // Set an interval to decrease the timer by 1 every second
+        timer--;
+        if (timer === 0) checkConnection(); // If the timer reaches 0, check the connection again
+    }, 1000);
 };
 // Only if isOnline is true, check the connection status every 3 seconds
 setInterval(() => isOnline && checkConnection(), 3000);
-reconnectBtn.addEventListener("click", checkConnection);
 /*============== NAVIGATION ==============*/
 const body = document.querySelector("body"),
   nav = document.querySelector("nav"),
