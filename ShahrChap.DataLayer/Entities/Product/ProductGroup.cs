@@ -18,7 +18,7 @@ namespace ShahrChap.DataLayer.Entities.Product
         public int GroupId { get; set; }
         [Display(Name = "عنوان گروه")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(250, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
+        [MaxLength(250, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
         public string GroupTitle { get; set; }
         [Display(Name = "آیکون")]
         public string? IconClass { get; set; }
@@ -30,7 +30,7 @@ namespace ShahrChap.DataLayer.Entities.Product
         #region Relation
         [ForeignKey("ParentId")]
         public virtual List<ProductGroup> ProductGroups { get; set; }
-        public virtual GroupDetail GroupDetail { get; set; }
+        public virtual List<Product> Products { get; set; }
         #endregion
     }
 }

@@ -9,6 +9,7 @@ using ShahrChap.DataLayer.Entities.Address;
 using ShahrChap.DataLayer.Entities.Wallet;
 using ShahrChap.DataLayer.Entities.Permissions;
 using ShahrChap.DataLayer.Entities.Product;
+using ShahrChap.DataLayer.Entities.Product.Service;
 
 namespace ShahrChap.DataLayer.Context
 {
@@ -40,6 +41,13 @@ namespace ShahrChap.DataLayer.Context
         #endregion
         #region Product
         public DbSet<ProductGroup> ProductGroups { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductGallery> ProductGalleries { get; set; }
+        public DbSet<ProductPrice> ProductPrices { get; set; }
+        public DbSet<ProductFeature> ProductFeatures  { get; set; }
+        public DbSet<ProductFeatureValue> ProductFeatureValues  { get; set; }
+        public DbSet<ProductService> ProductServices  { get; set; }
+        public DbSet<ProductServicePrice> ProductServicePrices  { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +56,9 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<UserAddress>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
 
+            modelBuilder.Entity<ProductPrice>()
+            .HasIndex(pc => new { pc.ProductId, pc.Configuration })
+            .IsUnique();
             // Province -> City (One-to-Many)
             modelBuilder.Entity<Province>()
                 .HasMany(p => p.Cities)
