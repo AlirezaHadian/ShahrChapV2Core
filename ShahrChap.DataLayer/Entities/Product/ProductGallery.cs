@@ -19,9 +19,7 @@ public class ProductGallery
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(50, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
     public string ImageName { get; set; }
-    [Display(Name = "حذف شده؟")]
-    public bool IsDelete { get; set; }
-    
+
     #region Relations
     public virtual Product Product { get; set; }
     #endregion

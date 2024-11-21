@@ -10,14 +10,15 @@ using ShahrChap.DataLayer.Entities.Wallet;
 using ShahrChap.DataLayer.Entities.Permissions;
 using ShahrChap.DataLayer.Entities.Product;
 using ShahrChap.DataLayer.Entities.Product.Service;
+using System.Text.RegularExpressions;
 
 namespace ShahrChap.DataLayer.Context
 {
-    public class ShahrChapContext:DbContext
+    public class ShahrChapContext : DbContext
     {
         public ShahrChapContext(DbContextOptions<ShahrChapContext> options) : base(options)
         {
-            
+
         }
 
         #region User
@@ -44,17 +45,24 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductGallery> ProductGalleries { get; set; }
         public DbSet<ProductPrice> ProductPrices { get; set; }
-        public DbSet<ProductFeature> ProductFeatures  { get; set; }
-        public DbSet<ProductFeatureValue> ProductFeatureValues  { get; set; }
-        public DbSet<ProductService> ProductServices  { get; set; }
-        public DbSet<ProductServicePrice> ProductServicePrices  { get; set; }
+        public DbSet<Feature> Features { get; set; }
+        public DbSet<FeatureValue> FeatureValues { get; set; }
+        public DbSet<ProductFeature> ProductFeatures { get; set; }
+        public DbSet<ProductService> ProductServices { get; set; }
+        public DbSet<ProductServicePrice> ProductServicePrices { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Role>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<UserAddress>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<Product>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<Tag>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<Feature>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<ProductService>().HasQueryFilter(u => !u.IsDelete);
 
             modelBuilder.Entity<ProductPrice>()
             .HasIndex(pc => new { pc.ProductId, pc.Configuration })
@@ -80,8 +88,13 @@ namespace ShahrChap.DataLayer.Context
                 .HasForeignKey(ua => ua.CityId)
                 .OnDelete(DeleteBehavior.Cascade); // Allow cascade delete
 
+            modelBuilder.Entity<ProductServicePrice>()
+        .HasOne(psp => psp.ProductService)
+        .WithMany(ps => ps.ProductServicePrices)
+        .HasForeignKey(psp => psp.ProductServiceId)
+        .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(modelBuilder);
         }
     }
-    
+
 }

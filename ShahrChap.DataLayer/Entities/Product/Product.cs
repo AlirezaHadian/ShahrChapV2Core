@@ -44,6 +44,7 @@ public class Product
     public virtual List<ProductGallery> ProductGalleries { get; set; }
     public virtual List<ProductPrice> ProductPrices { get; set; }
     public virtual List<ProductService> ProductServices { get; set; }
+    public virtual List<ProductFeature> ProductFeatures { get; set; }
     public virtual List<Tag> Tags { get; set; }
     #endregion
 }
