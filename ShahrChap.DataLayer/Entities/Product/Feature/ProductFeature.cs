@@ -10,6 +10,7 @@ public class ProductFeature
     {
             
     }
+    
     [Key]
     public int PF_ID { get; set; }
     [ForeignKey("FeatureId")]
