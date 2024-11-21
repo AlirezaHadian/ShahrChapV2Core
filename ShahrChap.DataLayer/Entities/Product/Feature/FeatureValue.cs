@@ -3,24 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShahrChap.DataLayer.Entities.Product;
 
-public class ProductFeatureValue
+public class FeatureValue
 {
-    public ProductFeatureValue()
+    public FeatureValue()
     {
-        
+
     }
-[Key]
-    public int ProductFeatureValueId { get; set; }
+    [Key]
+    public int FeatureValueId { get; set; }
     [Required]
-    public int ProductFeatureId { get; set; }
+    public int FeatureId { get; set; }
     [Display(Name = "مقدار ویژگی")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(350, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
     public string ValueTitle { get; set; }
-    [Display(Name = "حذف شده؟")]
-    public bool IsDelete { get; set; }
+
 
     #region Relations
-    public virtual ProductFeature ProductFeature { get; set; }
+    public virtual Feature Feature { get; set; }
     #endregion
 }
