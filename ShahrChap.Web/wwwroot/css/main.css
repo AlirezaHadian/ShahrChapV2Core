@@ -2772,7 +2772,7 @@ addresses {
     }
 /*===========ALERT==============*/
 .alert {
-    padding: 0 0;
+    padding: 0 .75rem !important;
 }
 
 .alert-header {

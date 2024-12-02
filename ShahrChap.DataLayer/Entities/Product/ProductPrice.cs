@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ShahrChap.DataLayer.Entities.Product.Service;
 
 namespace ShahrChap.DataLayer.Entities.Product;
 
@@ -24,7 +23,7 @@ public class ProductPrice
     #region Relations
 
     public virtual Product Product { get; set; }
-    public virtual List<ProductServicePrice> ProductServicePrices { get; set; }
+    public virtual List<ServicePrice> ServicePrices { get; set; }
 
     #endregion
 }

@@ -13,10 +13,12 @@
     <!-- Core CSS - Include with every page -->
     <link href="/AdminContent/css/bootstrap-rtl.css" rel="stylesheet">
     <link href="/AdminContent//font-awesome/css/font-awesome.css" rel="stylesheet">
-
+    <!--unicons-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <!-- Page-Level Plugin CSS - Blank -->
     <!-- SB Admin CSS - Include with every page -->
-    <link href="/AdminContent/css/sb-admin.css" rel="stylesheet">
+    <link href="/AdminContent/css/sb-admin.css" rel="stylesheet">   
+    <link href="/AdminContent/css/custom-styles.css" rel="stylesheet">
 
 </head>
 
@@ -51,16 +53,31 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="/Admin"><i class="fa fa-dashboard fa-fw"></i> داشبورد</a>
+                            <a href="/Admin"><i class="uil uil-create-dashboard"></i> داشبورد</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-users fa-fw"></i> مدیریت کاربران <span class="fa arrow"></span></a>
+                            <a href="#"><i class="uil uil-users-alt"></i> مدیریت کاربران <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="/admin/roles">دسترسی ها</a>
                                 </li>
                                 <li>
                                     <a href="/admin/users">کاربران</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/users/ListDeleteUsers">کاربران حذف شده</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="uil uil-archive"></i> مدیریت محصولات <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/products/">گروه محصولات</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/subproducts">محصولات</a>
                                 </li>
                                 <li>
                                     <a href="/admin/users/ListDeleteUsers">کاربران حذف شده</a>

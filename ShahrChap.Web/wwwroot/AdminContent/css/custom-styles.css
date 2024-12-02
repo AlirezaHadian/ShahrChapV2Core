@@ -1,0 +1,15 @@
+﻿.user-avatar {
+    max-height: 250px;
+    max-width: 280px;
+    margin: 0 auto;
+}
+.table-text-center {
+    text-align: center;
+    vertical-align: central;
+}
+.mb1 {
+    margin-bottom: 1rem!important;
+}
+.mb05 {
+    margin-bottom: 0.5rem !important;
+}

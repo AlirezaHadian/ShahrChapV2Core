@@ -9,7 +9,6 @@ using ShahrChap.DataLayer.Entities.Address;
 using ShahrChap.DataLayer.Entities.Wallet;
 using ShahrChap.DataLayer.Entities.Permissions;
 using ShahrChap.DataLayer.Entities.Product;
-using ShahrChap.DataLayer.Entities.Product.Service;
 using System.Text.RegularExpressions;
 
 namespace ShahrChap.DataLayer.Context
@@ -18,29 +17,40 @@ namespace ShahrChap.DataLayer.Context
     {
         public ShahrChapContext(DbContextOptions<ShahrChapContext> options) : base(options)
         {
-
         }
 
         #region User
+
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+
         #endregion
+
         #region Permission
+
         public DbSet<Permission> Permission { get; set; }
         public DbSet<RolePermission> RolePermission { get; set; }
 
         #endregion
+
         #region wallet
+
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<WalletType> WalletTypes { get; set; }
+
         #endregion
+
         #region Address
+
         public DbSet<UserAddress> UserAddresses { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<City> City { get; set; }
+
         #endregion
+
         #region Product
+
         public DbSet<ProductGroup> ProductGroups { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductGallery> ProductGalleries { get; set; }
@@ -48,10 +58,13 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<Feature> Features { get; set; }
         public DbSet<FeatureValue> FeatureValues { get; set; }
         public DbSet<ProductFeature> ProductFeatures { get; set; }
-        public DbSet<ProductService> ProductServices { get; set; }
-        public DbSet<ProductServicePrice> ProductServicePrices { get; set; }
+        public DbSet<ProductFeatureValue> ProductFeatureValues { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<ServicePrice> ServicePrices { get; set; }
         public DbSet<Tag> Tags { get; set; }
+
         #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDelete);
@@ -62,11 +75,11 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Tag>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Feature>().HasQueryFilter(u => !u.IsDelete);
-            modelBuilder.Entity<ProductService>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<Service>().HasQueryFilter(u => !u.IsDelete);
 
             modelBuilder.Entity<ProductPrice>()
-            .HasIndex(pc => new { pc.ProductId, pc.Configuration })
-            .IsUnique();
+                .HasIndex(pc => new { pc.ProductId, pc.Configuration })
+                .IsUnique();
             // Province -> City (One-to-Many)
             modelBuilder.Entity<Province>()
                 .HasMany(p => p.Cities)
@@ -88,13 +101,39 @@ namespace ShahrChap.DataLayer.Context
                 .HasForeignKey(ua => ua.CityId)
                 .OnDelete(DeleteBehavior.Cascade); // Allow cascade delete
 
-            modelBuilder.Entity<ProductServicePrice>()
-        .HasOne(psp => psp.ProductService)
-        .WithMany(ps => ps.ProductServicePrices)
-        .HasForeignKey(psp => psp.ProductServiceId)
-        .OnDelete(DeleteBehavior.Restrict);
+            // Features Relationships
+            // FeatureValue -> Feature (One-to-Many)
+            modelBuilder.Entity<FeatureValue>()
+                .HasOne(fv => fv.Feature)
+                .WithMany(f => f.FeatureValues)
+                .HasForeignKey(fv => fv.FeatureId)
+                .OnDelete(DeleteBehavior.Cascade); // Keep cascading for Features -> FeatureValues
+
+            // ProductFeatureValue Relationships
+            modelBuilder.Entity<ProductFeatureValue>()
+                .HasOne(pfv => pfv.Product)
+                .WithMany(p => p.ProductFeatureValues)
+                .HasForeignKey(pfv => pfv.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ProductFeatureValue>()
+                .HasOne(pfv => pfv.Feature)
+                .WithMany(p => p.ProductFeatureValues)
+                .HasForeignKey(pfv => pfv.FeatureId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ProductFeatureValue>()
+                .HasOne(pfv => pfv.FeatureValue)
+                .WithMany(fv => fv.ProductFeatureValues)
+                .HasForeignKey(pfv => pfv.FeatureValueId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete to avoid multiple paths
+
+            modelBuilder.Entity<ServicePrice>()
+                .HasOne(psp => psp.Service)
+                .WithMany(ps => ps.ServicePrices)
+                .HasForeignKey(psp => psp.ProductServiceId)
+                .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(modelBuilder);
         }
     }
-
 }

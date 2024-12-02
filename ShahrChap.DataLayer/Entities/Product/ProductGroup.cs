@@ -30,7 +30,10 @@ namespace ShahrChap.DataLayer.Entities.Product
         #region Relation
         [ForeignKey("ParentId")]
         public virtual List<ProductGroup> ProductGroups { get; set; }
+        [InverseProperty("Group")]
         public virtual List<Product> Products { get; set; }
+        [InverseProperty("SubGroup")]
+        public virtual List<Product> SubGroup { get; set; }
         #endregion
     }
 }

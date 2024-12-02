@@ -1,14 +1,16 @@
-﻿@page
-@* @using ShahrChap.DataLayer.Entities.Product *@
-@model ShahrChap.Web.Pages.Admin.Products.CreateProductModel
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.Products.EditProductModel
 @{
-    ViewData["Title"] = "افزودن محصول جدید";
-}
+    ViewData["Title"] = "ویرایش محصول";
 
+}
 <div class="row">
     <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Product.ProductId" />
+        <input type="hidden" asp-for="Product.CreateDate" />
+        <input type="hidden" asp-for="Product.Image" />
         <div class="col-md-8">
-            <h2>افزودن گروه محصولات جدید</h2>
+            <h2>ویرایش گروه محصول</h2>
             <hr />
             <div class="form-group">
                 <label asp-for="Product.ProductTitle"></label>
@@ -51,7 +53,7 @@
 
         <div class="col-md-4 border-1">
             <br />
-            <img id="imgProduct" class="thumbnail mb05 user-avatar" src="/product/image/NoImage.jpg" />
+            <img id="imgProduct" class="thumbnail mb05 user-avatar" src="/product/image/@Model.Product.Image" />
             <div class="form-group">
                 <label>انتخاب تصویر</label>
                 <input type="file" name="imgProduct" asp-for="Product.Image" />

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShahrChap.DataLayer.Entities.Product.Service
+namespace ShahrChap.DataLayer.Entities.Product
 {
     public class Service
     {

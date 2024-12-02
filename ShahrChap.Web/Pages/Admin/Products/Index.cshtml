@@ -29,72 +29,35 @@
                         </div> *@
                         <div class="row">
                             <div class="col-md-12" style="margin-bottom:1rem">
-                                <a asp-page="CreateProduct" class="btn btn-outline btn-success"><i class="uil uil-user-plus"></i> افزودن محصول جدید</a>
+                                <a asp-page="CreateProduct" class="btn btn-outline btn-success"><i class="uil uil-archive"></i> افزودن محصول جدید</a>
                             </div>
                         </div>
-                        @* <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info" style="text-align:center;vertical-align:central;">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info" style="text-align:center;vertical-align:central;">
                             <thead>
                                 <tr>
-                                    <td>نام کاربری</td>
-                                    <td>ایمیل</td>
-                                    <td>شماره موبایل</td>
-                                    <td>تاریخ ثبت نام</td>
-                                    <td>دستورات</td>
+                                    <th>تصویر</th>
+                                    <th>عنوان دوره</th>
+                                    <th>دستورات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.)
+                                @foreach (var item in Model.ProductList)
                                 {
                                     <tr>
-                                        <td>@item.UserName</td>
                                         <td>
-                                            @if(item.Email != null)
-                                            {
-                                                @item.Email
-                                                @if (item.IsEmailActive)
-                                                {
-                                                    <span class="badge rounded-pill text-bg-success">فعال</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge rounded-pill text-bg-danger">غیرفعال</span>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <p>ایمیلی ثبت نشده است</p>
-                                            }
-
+                                            <img src="/product/thumb/@item.ImageName" class="thumbnail" />
                                         </td>
+                                        <td>@item.ProductTitle</td>
                                         <td>
-                                            @if (item.Phone != null)
-                                            {
-                                                @item.Phone
-                                                @if (item.IsPhoneActive)
-                                                {
-                                                    <span class="badge rounded-pill text-bg-success">فعال</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge rounded-pill text-bg-danger">غیرفعال</span>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <p>شماره موبایلی ثبت نشده است</p>
-                                            }
-
-                                        </td>
-                                        <td>@item.RegisterDate.ToShamsi()</td>
-                                        <td>
-                                            <a asp-page="UserAddresses" asp-route-id="@item.UserId" class="btn btn-sm btn-info"><i class="uil uil-location-point"></i></a>
-                                            <a asp-page="EditUser" asp-route-id="@item.UserId" class="btn btn-sm btn-warning"><i class="uil uil-edit"></i></a>
-                                            <a asp-page="DeleteUser" asp-route-id="@item.UserId" class="btn btn-sm btn-danger"><i class="uil uil-trash-alt"></i></a>
+                                            <a asp-page="ProductFeatures" asp-route-id="@item.ProductId" class="btn btn-sm btn-info"><i class="uil uil-label-alt"></i></a>
+                                            <a asp-page="ProductServices" asp-route-id="@item.ProductId" class="btn btn-sm btn-info"><i class="uil uil-plus-circle"></i></a>
+                                            <a asp-page="EditProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-warning"><i class="uil uil-edit"></i></a>
+                                            <a asp-page="DeleteProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger"><i class="uil uil-trash-alt"></i></a>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
-                        </table> *@
+                        </table>
                         @* <div class="row">
                             <div class="col-sm-6">
                                 <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
