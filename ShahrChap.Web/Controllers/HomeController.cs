@@ -37,5 +37,32 @@ namespace ShahrChap.Web.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        [Route("file-upload")]
+        public IActionResult UploadImage(IFormFile upload, string CKEditorFuncNum, string CKEditor, string langCode)
+        {
+            if (upload.Length <= 0) return null;
+
+            var fileName = Guid.NewGuid() + Path.GetExtension(upload.FileName).ToLower();
+
+
+
+            var path = Path.Combine(
+                Directory.GetCurrentDirectory(), "wwwroot/images",
+                fileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                upload.CopyTo(stream);
+
+            }
+
+            var url = $"{"/images/"}{fileName}";
+
+
+            return Json(new { uploaded = true, url });
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShahrChap.DataLayer.Context;
 
@@ -11,9 +12,11 @@ using ShahrChap.DataLayer.Context;
 namespace ShahrChap.DataLayer.Migrations
 {
     [DbContext(typeof(ShahrChapContext))]
-    partial class ShahrChapContextModelSnapshot : ModelSnapshot
+    [Migration("20241123091838_ProductSubGroup_Mig")]
+    partial class ProductSubGroup_Mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,11 +252,11 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductFeature", b =>
                 {
-                    b.Property<int>("PF_Id")
+                    b.Property<int>("PF_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PF_Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PF_ID"));
 
                     b.Property<int>("FeatureId")
                         .HasColumnType("int");
@@ -261,41 +264,13 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("PF_Id");
+                    b.HasKey("PF_ID");
 
                     b.HasIndex("FeatureId");
 
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductFeatures");
-                });
-
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductFeatureValue", b =>
-                {
-                    b.Property<int>("PF_ValueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PF_ValueId"));
-
-                    b.Property<int>("FeatureId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FeatureValueId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PF_ValueId");
-
-                    b.HasIndex("FeatureId");
-
-                    b.HasIndex("FeatureValueId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductFeatureValues");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductGallery", b =>
@@ -379,13 +354,13 @@ namespace ShahrChap.DataLayer.Migrations
                     b.ToTable("ProductPrices");
                 });
 
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service", b =>
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service.ProductService", b =>
                 {
-                    b.Property<int>("ServiceId")
+                    b.Property<int>("ProductServiceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductServiceId"));
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
@@ -398,20 +373,20 @@ namespace ShahrChap.DataLayer.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.HasKey("ServiceId");
+                    b.HasKey("ProductServiceId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Services");
+                    b.ToTable("ProductServices");
                 });
 
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ServicePrice", b =>
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service.ProductServicePrice", b =>
                 {
-                    b.Property<int>("ServicePriceId")
+                    b.Property<int>("ProductServicePriceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServicePriceId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductServicePriceId"));
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -422,13 +397,13 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<int>("ProductServiceId")
                         .HasColumnType("int");
 
-                    b.HasKey("ServicePriceId");
+                    b.HasKey("ProductServicePriceId");
 
                     b.HasIndex("ProductPriceId");
 
                     b.HasIndex("ProductServiceId");
 
-                    b.ToTable("ServicePrices");
+                    b.ToTable("ProductServicePrices");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Tag", b =>
@@ -721,33 +696,6 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductFeatureValue", b =>
-                {
-                    b.HasOne("ShahrChap.DataLayer.Entities.Product.Feature", "Feature")
-                        .WithMany("ProductFeatureValues")
-                        .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ShahrChap.DataLayer.Entities.Product.FeatureValue", "FeatureValue")
-                        .WithMany("ProductFeatureValues")
-                        .HasForeignKey("FeatureValueId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ShahrChap.DataLayer.Entities.Product.Product", "Product")
-                        .WithMany("ProductFeatureValues")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Feature");
-
-                    b.Navigation("FeatureValue");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductGallery", b =>
                 {
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.Product", "Product")
@@ -777,10 +725,10 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service", b =>
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service.ProductService", b =>
                 {
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.Product", "Product")
-                        .WithMany("Services")
+                        .WithMany("ProductServices")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -788,23 +736,23 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ServicePrice", b =>
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service.ProductServicePrice", b =>
                 {
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.ProductPrice", "ProductPrice")
-                        .WithMany("ServicePrices")
+                        .WithMany("ProductServicePrices")
                         .HasForeignKey("ProductPriceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShahrChap.DataLayer.Entities.Product.Service", "Service")
-                        .WithMany("ServicePrices")
+                    b.HasOne("ShahrChap.DataLayer.Entities.Product.Service.ProductService", "ProductService")
+                        .WithMany("ProductServicePrices")
                         .HasForeignKey("ProductServiceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ProductPrice");
 
-                    b.Navigation("Service");
+                    b.Navigation("ProductService");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Tag", b =>
@@ -879,29 +827,20 @@ namespace ShahrChap.DataLayer.Migrations
                 {
                     b.Navigation("FeatureValues");
 
-                    b.Navigation("ProductFeatureValues");
-
                     b.Navigation("ProductFeatures");
-                });
-
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.FeatureValue", b =>
-                {
-                    b.Navigation("ProductFeatureValues");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Product", b =>
                 {
-                    b.Navigation("ProductFeatureValues");
-
                     b.Navigation("ProductFeatures");
 
                     b.Navigation("ProductGalleries");
 
                     b.Navigation("ProductPrices");
 
-                    b.Navigation("Products");
+                    b.Navigation("ProductServices");
 
-                    b.Navigation("Services");
+                    b.Navigation("Products");
 
                     b.Navigation("Tags");
                 });
@@ -917,12 +856,12 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductPrice", b =>
                 {
-                    b.Navigation("ServicePrices");
+                    b.Navigation("ProductServicePrices");
                 });
 
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service", b =>
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service.ProductService", b =>
                 {
-                    b.Navigation("ServicePrices");
+                    b.Navigation("ProductServicePrices");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.User.Role", b =>

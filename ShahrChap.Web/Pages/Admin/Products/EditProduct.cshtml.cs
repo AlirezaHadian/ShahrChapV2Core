@@ -6,34 +6,27 @@ using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.Web.Pages.Admin.Products
 {
-    public class CreateProductModel : PageModel
+    public class EditProductModel : PageModel
     {
         private IProductService _productService;
-        public CreateProductModel(IProductService productService)
+        public EditProductModel(IProductService productService)
         {
             _productService = productService;
         }
         [BindProperty]
         public Product Product { get; set; }
-        public void OnGet()
+        public void OnGet(int id)
         {
-            var groups = _productService.GetGroupForManageProducts();
-            ViewData["Groups"] = new SelectList(groups, "Value", "Text");
-        }
-        //Change the view page default image location
-        public IActionResult OnPost(IFormFile? imgProduct)
-        {
-            var groups = _productService.GetGroupForManageProducts();
-            ViewData["Groups"] = new SelectList(groups, "Value", "Text");
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            Product = _productService.GetProductById(id);
 
-            _productService.AddProudct(Product, imgProduct);
+            var groups = _productService.GetGroupForManageProducts();
+            ViewData["Groups"] = new SelectList(groups, "Value", "Text", Product.GroupId);
 
-            return RedirectToPage("Index");
+            var subGroups = _productService.GetSubGroupForManageProducts(Product.GroupId);
+            ViewData["SubGroups"] = new SelectList(groups, "Value", "Text", Product.SubGroupId);
+
         }
+
         public JsonResult OnGetJson(int id)
         {
             var subGroup = _productService.GetSubGroupForManageProducts(id);

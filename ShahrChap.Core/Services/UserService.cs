@@ -376,13 +376,6 @@ namespace ShahrChap.Core.Services
             #region Save Avatar
             if (user.UserAvatar != null)
             {
-                // addUser.UserAvatar = NameGenerator.GenerateUniqCode() + Path.GetExtension(user.UserAvatar.FileName);
-                // string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UserAvatar", addUser.UserAvatar);
-                // using (var stream = new FileStream(imagePath, FileMode.Create))
-                // {
-                //     user.UserAvatar.CopyTo(stream);
-                // }
-
                 addUser.UserAvatar = AddProfileImage(user.UserAvatar);
             }
             else
