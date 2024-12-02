@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ShahrChap.DataLayer.Entities.Product.Service
 {
-    public class ProductService
+    public class Service
     {
-        public ProductService()
+        public Service()
         {
 
         }
         [Key]
-        public int ProductServiceId { get; set; }
+        public int ServiceId { get; set; }
         [ForeignKey("Product")]
         public int ProductId { get; set; }
         [Display(Name = "عنوان خدمات پس از فروش")]
@@ -26,7 +26,7 @@ namespace ShahrChap.DataLayer.Entities.Product.Service
 
         #region Relations
         public virtual Product Product { get; set; }
-        public virtual List<ProductServicePrice> ProductServicePrices { get; set; }
+        public virtual List<ServicePrice> ServicePrices { get; set; }
         #endregion
     }
 }
