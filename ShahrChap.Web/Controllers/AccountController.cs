@@ -20,11 +20,13 @@ namespace ShahrChap.Web.Controllers
         private readonly IUserService _userService;
         private readonly IViewRenderService _view;
         private readonly IHttpContextAccessor _context;
-        public AccountController(IUserService userService, IViewRenderService view, IHttpContextAccessor context)
+        private readonly MessageSender _message;
+        public AccountController(IUserService userService, IViewRenderService view, IHttpContextAccessor context, MessageSender message)
         {
             _userService = userService;
             _view = view;
-            context = _context;
+            _context = context;
+            _message = message;
         }
         #region Register
         [Route("Register")]
@@ -78,7 +80,8 @@ namespace ShahrChap.Web.Controllers
                 user.Phone = register.EmailOrPhone;
                 _userService.AddUser(user);
 
-                MessageSender.SendOtpCode(user.Phone, _userService, _context);
+                //MessageSender.SendOtpCode(user.Phone);
+                _message.SendOtpCode(user.Phone);
                 return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
             }
         }
@@ -204,7 +207,7 @@ namespace ShahrChap.Web.Controllers
         //It will create a new otp, and then redirect to verify phone action
         public IActionResult ResendOtpCode(string phone, string type)
         {
-            MessageSender.SendOtpCode(phone, _userService,_context);
+            _message.SendOtpCode(phone);
             return RedirectToAction("VerifyPhone", new {actionType = type});
         }
         [HttpGet]
@@ -257,7 +260,8 @@ namespace ShahrChap.Web.Controllers
                     ModelState.AddModelError("EmailOrPhone", "کاربری با مشخصات وارد شده یافت نشد");
                     return View(forgotPassword);
                 }
-                MessageSender.SendOtpCode(user.Phone, _userService,_context);
+                _message.SendOtpCode(user.Phone);
+                //MessageSender.SendOtpCode(user.Phone, _userService,_context);
                 return RedirectToAction("VerifyPhone", new { actionType = "ForgotPassword" });
             }
         }

@@ -56,7 +56,7 @@
             <img id="imgProduct" class="thumbnail mb05 user-avatar" src="/product/image/@Model.Product.Image" />
             <div class="form-group">
                 <label>انتخاب تصویر</label>
-                <input type="file" name="imgProduct" asp-for="Product.Image" />
+                <input type="file" name="imgProduct" id="ImageUpload" asp-for="Product.Image" />
             </div>
         </div>
     </form>
@@ -64,6 +64,16 @@
 
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            $('#ImageUpload').change(function (event) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgProduct').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            });
+        });
+
         $("#Product_GroupId").change(function(){
             $("#Product_SubGroupId").empty();
             $("#Product_SubGroupId").append('<option value=0> انتخاب کنید </option>');
@@ -75,16 +85,6 @@
                 });
             });
         })
-
-        $(document).ready(function () {
-            $('#Product_Image').change(function (event) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imgProduct').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(event.target.files[0]);
-            });
-        });
     </script>
     <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
     <script>

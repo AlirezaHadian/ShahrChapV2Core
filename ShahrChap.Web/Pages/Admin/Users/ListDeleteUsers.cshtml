@@ -35,7 +35,6 @@
                                     <td>ایمیل</td>
                                     <td>شماره موبایل</td>
                                     <td>تاریخ ثبت نام</td>
-                                    <td>دستورات</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,11 +81,11 @@
 
                                         </td>
                                         <td>@item.RegisterDate.ToShamsi()</td>
-                                        <td>
+                                       @*  <td>
                                             <a asp-page="UserAddresses" asp-route-id="@item.UserId" class="btn btn-sm btn-info"><i class="uil uil-location-point"></i></a>
-                                            @* <a asp-page="" asp-route-id="" class="btn btn-sm btn-primary"><i class="uil uil-key-"></i></a> *@
+                                             <a asp-page="" asp-route-id="" class="btn btn-sm btn-primary"><i class="uil uil-key-"></i></a> 
                                             <a asp-page="EditUser" asp-route-id="@item.UserId" class="btn btn-sm btn-warning"><i class="uil uil-edit"></i></a>
-                                        </td>
+                                        </td> *@
                                     </tr>
                                 }
                             </tbody>

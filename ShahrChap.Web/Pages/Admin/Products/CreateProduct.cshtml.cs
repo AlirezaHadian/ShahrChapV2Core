@@ -23,10 +23,11 @@ namespace ShahrChap.Web.Pages.Admin.Products
         //Change the view page default image location
         public IActionResult OnPost(IFormFile? imgProduct)
         {
-            var groups = _productService.GetGroupForManageProducts();
-            ViewData["Groups"] = new SelectList(groups, "Value", "Text");
             if (!ModelState.IsValid)
             {
+                var groups = _productService.GetGroupForManageProducts();
+                ViewData["Groups"] = new SelectList(groups, "Value", "Text");
+                
                 return Page();
             }
 

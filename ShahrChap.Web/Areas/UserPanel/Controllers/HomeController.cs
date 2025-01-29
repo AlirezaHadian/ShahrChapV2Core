@@ -18,18 +18,20 @@ public class HomeController : Controller
     private readonly IUserService _userService;
     private readonly IViewRenderService _view;
     private readonly IHttpContextAccessor _context;
+    private readonly MessageSender _message;
     
-    public HomeController(IUserService UserService, IViewRenderService view, IHttpContextAccessor context)
+    public HomeController(IUserService UserService, IViewRenderService view, IHttpContextAccessor context, MessageSender message)
     {
         _userService = UserService;
         _view = view;
         context = _context;
+        _message = message;
     }
     public IActionResult Index()
     {
         return View(_userService.GetUserInformation(User.Identity.Name));
     }
-
+    #region Edit Profile
     [Route("UserPanel/EditProfile")]
     public IActionResult EditProfile()
     {
@@ -116,7 +118,8 @@ public class HomeController : Controller
         //TODO: If phone number changed => redirect verify phone 
         if (currentUserInformation.Phone != editProfile.Phone)
         {
-            MessageSender.SendOtpCode(loggedInUser.Phone, _userService,_context);
+            _message.SendOtpCode(loggedInUser.Phone);
+            //MessageSender.SendOtpCode(loggedInUser.Phone, _userService,_context);
             return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
         }
         
@@ -124,7 +127,8 @@ public class HomeController : Controller
 
         //return View("Index");
         return RedirectToAction("Index", "Home"); }
-  
+    #endregion
+
     #region Active Changed Email
     [Route("UserPanel/ActiveChangedEmail/{id}")]
     public IActionResult ActiveChangedEmail(string id)

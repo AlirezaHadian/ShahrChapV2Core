@@ -52,7 +52,7 @@ namespace ShahrChap.Core.Services
             product.CreateDate = DateTime.Now;
             product.Image = "NoImage.jpg";
             //Check image
-            if(product.SubGroupId == 0)
+            if (product.SubGroupId == 0)
                 product.SubGroupId = null;
 
             if (imgProduct != null && imgProduct.IsImage())
@@ -91,18 +91,16 @@ namespace ShahrChap.Core.Services
                 string thumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/thumb",
                     currentProductName);
                 if (File.Exists(imagePath))
-                {
                     File.Delete(imagePath);
 
-                    if(File.Exists(thumbPath))
-                        File.Delete(thumbPath);
-                }
+                if (File.Exists(thumbPath))
+                    File.Delete(thumbPath);
             }
         }
 
         public List<ShowProductForAdminViewModel> GetProductsForAdmin()
         {
-            return _context.Products.Select(p=> new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
+            return _context.Products.Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
         }
 
         public Product GetProductById(int productId)
@@ -118,16 +116,26 @@ namespace ShahrChap.Core.Services
 
             if (imgProduct != null && imgProduct.IsImage())
             {
-                if(product.Image != null)
+                if (product.Image != null)
                 {
                     //Delete old image
-                    //DeleteProductImage();
+                    DeleteProductImage(product.Image);
                 }
                 product.Image = AddProductImage(imgProduct);
             }
 
             _context.Products.Update(product);
             _context.SaveChanges();
+        }
+
+        public List<ProductFeature> GetProductFeatures(int productId)
+        {
+            return _context.ProductFeatures.Where(f=> f.ProductId == productId).Include(feature=> feature.Feature).ToList();
+        }
+
+        public List<Feature> GetAllFeatures()
+        {
+            return _context.Features.ToList();
         }
     }
 }
