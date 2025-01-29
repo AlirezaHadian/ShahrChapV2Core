@@ -36,7 +36,7 @@
                             <thead>
                                 <tr>
                                     <th>تصویر</th>
-                                    <th>عنوان دوره</th>
+                                    <th>عنوان محصول</th>
                                     <th>دستورات</th>
                                 </tr>
                             </thead>
@@ -49,10 +49,10 @@
                                         </td>
                                         <td>@item.ProductTitle</td>
                                         <td>
-                                            <a asp-page="ProductFeatures" asp-route-id="@item.ProductId" class="btn btn-sm btn-info"><i class="uil uil-label-alt"></i></a>
-                                            <a asp-page="ProductServices" asp-route-id="@item.ProductId" class="btn btn-sm btn-info"><i class="uil uil-plus-circle"></i></a>
-                                            <a asp-page="EditProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-warning"><i class="uil uil-edit"></i></a>
-                                            <a asp-page="DeleteProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger"><i class="uil uil-trash-alt"></i></a>
+                                            <a asp-page="ProductFeatures" asp-route-id="@item.ProductId" class="btn btn-sm btn-success">ویژگی ها <i class="uil uil-label-alt"></i></a>
+                                            <a asp-page="ProductServices" asp-route-id="@item.ProductId" class="btn btn-sm btn-info">خدمات <i class="uil uil-plus-circle"></i></a>
+                                            <a asp-page="EditProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">ویرایش <i class="uil uil-edit"></i></a>
+                                            @* <a asp-page="DeleteProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger">حذف <i class="uil uil-trash-alt"></i></a> *@
                                         </td>
                                     </tr>
                                 }

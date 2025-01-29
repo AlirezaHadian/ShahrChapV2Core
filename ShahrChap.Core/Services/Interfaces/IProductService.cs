@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using ShahrChap.Core.DTOs.Products;
+using System.ComponentModel;
 
 namespace ShahrChap.Core.Services.Interfaces
 {
@@ -25,6 +26,9 @@ namespace ShahrChap.Core.Services.Interfaces
         string AddProductImage(IFormFile productImage);
         void DeleteProductImage(string currentProductName);
         #endregion
-
+        #region Feature
+        List<Feature> GetAllFeatures();
+        List<ProductFeature> GetProductFeatures(int productId);
+        #endregion
     }
 }

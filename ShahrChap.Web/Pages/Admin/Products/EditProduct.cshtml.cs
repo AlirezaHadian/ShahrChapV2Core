@@ -27,6 +27,25 @@ namespace ShahrChap.Web.Pages.Admin.Products
 
         }
 
+        public IActionResult OnPost(IFormFile? imgProduct)
+        {
+            if (!ModelState.IsValid)
+            {
+                Product = _productService.GetProductById(Product.ProductId);
+
+                var groups = _productService.GetGroupForManageProducts();
+                ViewData["Groups"] = new SelectList(groups, "Value", "Text", Product.GroupId);
+
+                var subGroups = _productService.GetSubGroupForManageProducts(Product.GroupId);
+                ViewData["SubGroups"] = new SelectList(groups, "Value", "Text", Product.SubGroupId);
+                return Page();
+            }
+
+            _productService.UpdateProduct(Product, imgProduct);
+
+            return RedirectToPage("Index");
+        }
+
         public JsonResult OnGetJson(int id)
         {
             var subGroup = _productService.GetSubGroupForManageProducts(id);
