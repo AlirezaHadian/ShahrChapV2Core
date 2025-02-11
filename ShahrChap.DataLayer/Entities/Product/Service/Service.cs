@@ -25,8 +25,8 @@ namespace ShahrChap.DataLayer.Entities.Product
         public bool IsDelete { get; set; }
 
         #region Relations
-        public virtual Product Product { get; set; }
-        public virtual List<ServicePrice> ServicePrices { get; set; }
+        public virtual Product? Product { get; set; }
+        public virtual List<ServicePrice>? ServicePrices { get; set; }
         #endregion
     }
 }

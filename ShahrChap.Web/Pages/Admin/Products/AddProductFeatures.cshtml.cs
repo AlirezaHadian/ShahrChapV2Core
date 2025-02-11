@@ -44,7 +44,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
             }
             else // Add New Feature
             {
-                _productService.AddFeature(feature);
+                _productService.CreateFeature(feature);
             }
 
             return new JsonResult(new { success = true });

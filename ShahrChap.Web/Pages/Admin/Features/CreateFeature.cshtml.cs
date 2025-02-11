@@ -23,7 +23,7 @@ namespace ShahrChap.Web.Pages.Admin.Features
                 return Page();
 
             Feature.IsDelete = false;
-            _productService.AddFeature(Feature);
+            _productService.CreateFeature(Feature);
 
             return RedirectToPage("Index");
         }
