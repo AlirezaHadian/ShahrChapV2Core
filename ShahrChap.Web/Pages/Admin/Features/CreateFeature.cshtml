@@ -1,0 +1,39 @@
+﻿@page
+@model ShahrChap.Web.Pages.Admin.Features.CreateFeatureModel
+@{
+    ViewData["Title"] = "- افزودن ویژگی";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Features">لیست ویژگی ها</a></li>
+            <li class="breadcrumb-item active">افزودن ویژگی</li>
+
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form method="post">
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        افزودن ویژگی جدید
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>عنوان ویژگی</label>
+                            <input type="text" asp-for="Feature.FeatureTitle" class="form-control">
+                            <span asp-validation-for="Feature.FeatureTitle"></span>
+                        </div>
+                        <a href="/Admin/Features" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+                        <input type="submit" value="ثبت نقش" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

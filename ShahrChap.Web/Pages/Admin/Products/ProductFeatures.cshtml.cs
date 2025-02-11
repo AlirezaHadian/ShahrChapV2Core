@@ -12,10 +12,12 @@ namespace ShahrChap.Web.Pages.Admin.Products
         {
             _productService = productService;
         }
+        public Product CurrentProduct { get; set; }
         public List<ProductFeature> ProductFeatures { get; set; }
         public void OnGet(int id)
         {
             ViewData["ProductId"] = id;
+            CurrentProduct = _productService.GetProductById(id);
             ProductFeatures = _productService.GetProductFeatures(id);
         }
     }

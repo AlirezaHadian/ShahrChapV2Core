@@ -1,0 +1,29 @@
+﻿@using ShahrChap.Core.Services.Interfaces
+@inject IUserService _UserService
+
+<li class="nav-item dropdown user-menu">
+    <!-- User Icon Trigger -->
+    <a href="#" class="nav-link" data-toggle="dropdown">
+        <i class="far fa-user-circle fa-1x"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right rounded-0">
+
+        <!-- Dropdown Header with User Info -->
+        <div class="dropdown-header text-center">
+            <i class="fas fa-user fa-3x mb-2 text-muted"></i>
+            <p class="mb-0 font-weight-bold">@User.Identity?.Name</p>
+            <small class="text-muted"> @_UserService.GetCurrentUserRole() </small> 
+        </div>
+
+        <!-- Divider -->
+        <div class="dropdown-divider"></div>
+        <!-- Dropdown Footer with Buttons -->
+        <div class="user-dropdown pb-2 pt-3">
+            <!-- Logout Button (right) -->
+            <a href="/" class="btn btn-danger float-right">
+                <i class="fas fa-sign-out-alt"></i> 
+            </a>
+        </div>
+        <div class="pb-2 mb-2"></div> 
+    </div>
+</li>

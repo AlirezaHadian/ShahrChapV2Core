@@ -2,10 +2,16 @@
 @using ShahrChap.Core.Convertors
 @model ShahrChap.Web.Pages.Admin.Users.DeleteUserModel
 @{
-    ViewData["Title"] = "حذف کاربر";
+    ViewData["Title"] = "- حذف کاربر";
 }
-
-<div class="row">
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Users">لیست کاربران</a></li>
+            <li class="breadcrumb-item active">حذف @Model.InformationUserViewModel.UserName</li>
+        </ol>
+    </div>
     <div class="col-lg-12">
         <h1 class="page-header">حذف @Model.InformationUserViewModel.UserName</h1>
     </div>
@@ -16,11 +22,12 @@
         <div class="panel-heading">
             اطلاعات کاربر
         </div>
+        <hr />
         <div class="panel-body">
             <form method="post">
                 <input type="hidden" name="userId" value="@ViewData["UserId"].ToString()" />
 
-                <dl class="dl-horizontal">
+                <dl class="dl-vertical">
                     <dt>نام کاربری:</dt>
                     <dd>@Model.InformationUserViewModel.UserName</dd>
                     @if (Model.InformationUserViewModel.Phone != null)
@@ -39,8 +46,8 @@
                     <dd>@Model.InformationUserViewModel.RegisterDate.ToShamsi()</dd>
                     <dt></dt>
                     <dd>
+                        <a href="/Admin/Users" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
                         <input type="submit" value="حذف" class="btn btn-danger" />
-                        <a asp-action="Index" class="btn btn-default">بازگشت</a>
                     </dd>
                 </dl>
             </form>

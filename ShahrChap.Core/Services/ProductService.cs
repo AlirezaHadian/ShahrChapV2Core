@@ -13,6 +13,7 @@ using ShahrChap.Core.Generators;
 using ShahrChap.Core.DTOs.Products;
 using ShahrChap.Core.Convertors;
 using ShahrChap.Core.Security;
+using ShahrChap.DataLayer.Entities.User;
 
 namespace ShahrChap.Core.Services
 {
@@ -23,7 +24,7 @@ namespace ShahrChap.Core.Services
         {
             _context = context;
         }
-
+        #region Group
         public List<ProductGroup> GetAllGroups()
         {
             return _context.ProductGroups.ToList();
@@ -46,7 +47,8 @@ namespace ShahrChap.Core.Services
                 Value = g.GroupId.ToString()
             }).ToList();
         }
-
+        #endregion
+        #region Product
         public int AddProudct(Product product, IFormFile imgProduct)
         {
             product.CreateDate = DateTime.Now;
@@ -127,7 +129,8 @@ namespace ShahrChap.Core.Services
             _context.Products.Update(product);
             _context.SaveChanges();
         }
-
+        #endregion
+        #region Feature
         public List<ProductFeature> GetProductFeatures(int productId)
         {
             return _context.ProductFeatures.Where(f=> f.ProductId == productId).Include(feature=> feature.Feature).ToList();
@@ -137,5 +140,65 @@ namespace ShahrChap.Core.Services
         {
             return _context.Features.ToList();
         }
+
+        public Feature GetFeatureById(int featureId)
+        {
+            return _context.Features.Find(featureId);
+        }
+
+        public int CreateFeature(Feature feature)
+        {
+            _context.Features.Add(feature);
+            _context.SaveChanges();
+            return feature.FeatureId;
+        }
+
+        public void UpdateFeature(Feature feature)
+        {
+            _context.Features.Update(feature);
+            _context.SaveChanges();
+        }
+
+        public void DeleteFeature(Feature feature)
+        {
+            feature.IsDelete = true;
+            UpdateFeature(feature);
+        }
+        #endregion
+        #region Service
+        public List<Service> GetAllServices()
+        {
+            return _context.Services.ToList();
+        }
+
+        public List<Service> GetProductServices(int productId)
+        {
+            return _context.Services.Where(f => f.ProductId == productId).ToList();
+        }
+
+        public int CreateService(Service service)
+        {
+            _context.Services.Add(service);
+            _context.SaveChanges();
+            return service.ServiceId;
+        }
+
+        public Service GetServiceById(int serviceId)
+        {
+            return _context.Services.Find(serviceId);
+        }
+
+        public void UpdateService(Service service)
+        {
+            _context.Services.Update(service);
+            _context.SaveChanges();
+        }
+
+        public void DeleteService(Service service)
+        {
+            service.IsDelete = true;
+            UpdateService(service);
+        }
+        #endregion
     }
 }

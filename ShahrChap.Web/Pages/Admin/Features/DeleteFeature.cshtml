@@ -1,0 +1,32 @@
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.Features.DeleteFeatureModel
+@{
+    ViewData["Title"] = "- حذف ویژگی";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Features">لیست ویژگی ها</a></li>
+            <li class="breadcrumb-item active">ویرایش ویژگی @Model.Feature.FeatureTitle</li>
+        </ol>
+    </div>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Feature.FeatureId" />
+    <input type="hidden" asp-for="Feature.FeatureTitle" />
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            حذف نقش "@Model.Feature.FeatureTitle"
+        </div>
+        <div class="panel-body">
+            <p>آیا از حذف نقش "@Model.Feature.FeatureTitle" مطمئن هستید؟</p>
+        </div>
+        <div class="panel-footer">
+            <a href="/Admin/Features" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+            <input type="submit" value="حذف" class="btn btn-danger" />
+        </div>
+    </div>
+</form>

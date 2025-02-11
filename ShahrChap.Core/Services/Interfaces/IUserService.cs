@@ -68,7 +68,7 @@ namespace ShahrChap.Core.Services.Interfaces
         EditUserViewModel GetUserForShowInEditMode(int userId);
         void EditUserForAdmin(EditUserViewModel editUser);
         void DeleteUser(int userId);
-
+        string GetCurrentUserRole();
         #endregion
     }
 }

@@ -14,15 +14,18 @@ using ShahrChap.Core.Generators;
 using ShahrChap.DataLayer.Entities.Address;
 using ShahrChap.DataLayer.Entities.Wallet;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ShahrChap.Core.Services
 {
     public class UserService : IUserService
     {
-        ShahrChapContext _context;
-        public UserService(ShahrChapContext context)
+        private ShahrChapContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserService(ShahrChapContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
         public bool ActiveEmail(string activeCode)
         {
@@ -475,6 +478,19 @@ namespace ShahrChap.Core.Services
                 Wallet = BalanceUserWallet(user.UserName)
             };
             return informationUser;
+        }
+
+        public string GetCurrentUserRole()
+        {
+            int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+
+            if (userId == null || userId == 0)
+            {
+                return null; 
+            }
+
+            string userRoleTitle = _context.UserRoles.Where(u=> u.UserId == userId).Select(u=> u.Role.RoleTitle).FirstOrDefault();
+            return userRoleTitle;
         }
     }
 }
