@@ -2,77 +2,88 @@
 @using ShahrChap.DataLayer.Entities.User
 @model ShahrChap.Web.Pages.Admin.Users.CreateUserModel
 @{
-    ViewData["Title"] = "افزودن کاربر";
+    ViewData["Title"] = "- افزودن کاربر";
     List<Role> Roles = ViewData["Roles"] as List<Role>;
 }
-
-<div class="row">
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Users">لیست کاربران</a></li>
+            <li class="breadcrumb-item active">افزودن کاربر جدید</li>
+        </ol>
+    </div>
     <div class="col-lg-12">
         <h1 class="page-header">افزودن کاربر جدید</h1>
     </div>
-    <!-- /.col-lg-12 -->
 </div>
 
 <div class="row">
-    <form method="post" enctype="multipart/form-data">
-        <div class="col-md-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    اطلاعات کاربر
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label>نام کاربری</label>
-                        <input type="text" asp-for="CreateUser.UserName" class="form-control">
-                        <span asp-validation-for="CreateUser.UserName"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>شماره موبایل</label>
-                        <input type="text" asp-for="CreateUser.Phone" class="form-control">
-                        <span asp-validation-for="CreateUser.Phone"></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label>ایمیل</label>
-                        <input type="text" asp-for="CreateUser.Email" class="form-control">
-                        <span asp-validation-for="CreateUser.Email"></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label>کلمه عبور</label>
-                        <input type="text" asp-for="CreateUser.Password" class="form-control">
-                        <span asp-validation-for="CreateUser.Password"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>انتخاب نقش کاربر</label>
-                        @foreach (var item in Roles)
-                        {
-                            <div class="checkbox">
-                                <lable>
-                                    <input type="checkbox" name="SelectedRoles" value="@item.RoleId" />@item.RoleTitle
-                                </lable>
+    <div class="col-lg-12">
+        <form method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            اطلاعات کاربر
+                        </div>
+                        <hr />
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label>نام کاربری</label>
+                                <input type="text" asp-for="CreateUser.UserName" class="form-control">
+                                <span asp-validation-for="CreateUser.UserName"></span>
                             </div>
-                        }
+                            <div class="form-group">
+                                <label>شماره موبایل</label>
+                                <input type="text" asp-for="CreateUser.Phone" class="form-control">
+                                <span asp-validation-for="CreateUser.Phone"></span>
+
+                            </div>
+                            <div class="form-group">
+                                <label>ایمیل</label>
+                                <input type="text" asp-for="CreateUser.Email" class="form-control">
+                                <span asp-validation-for="CreateUser.Email"></span>
+
+                            </div>
+                            <div class="form-group">
+                                <label>کلمه عبور</label>
+                                <input type="text" asp-for="CreateUser.Password" class="form-control">
+                                <span asp-validation-for="CreateUser.Password"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>انتخاب نقش کاربر</label>
+                                @foreach (var item in Roles)
+                                {
+                                    <div class="checkbox">
+                                        <lable>
+                                            <input type="checkbox" name="SelectedRoles" value="@item.RoleId" />@item.RoleTitle
+                                        </lable>
+                                    </div>
+                                }
+                            </div>
+                            <a href="/Admin/Users" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+                            <input type="submit" value="ثبت کاربر جدید" class="btn btn-success" />
+                        </div>
                     </div>
-                    <input type="submit" value="ثبت کاربر جدید" class="btn btn-success" />
+                </div>
+                <div class="col-md-3 border-1 d-flex flex-column">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            تصویر پرفایل کاربر
+                        </div>
+                        <div class="panel-body">
+                            <img src="/UserAvatar/DefaultAvatar.jpg" id="imgAvatar" class="thumbnail user-avatar" />
+                            <div class="form-group mt-2">
+                                <label>انتخاب تصویر</label>
+                                <input type="file" asp-for="CreateUser.UserAvatar">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    تصویر پرفایل کاربر
-                </div>
-                <div class="panel-body">
-                    <img src="/UserAvatar/DefaultAvatar.jpg" id="imgAvatar" class="thumbnail user-avatar" />
-                    <div class="form-group mt-2">
-                        <label>انتخاب تصویر</label>
-                        <input type="file" asp-for="CreateUser.UserAvatar">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 @section Scripts {

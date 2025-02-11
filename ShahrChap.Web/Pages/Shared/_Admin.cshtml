@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>پنل مدیریت شهرچاپ | @ViewData["Title"]</title>
+
+    <!--==================== UNICONS ====================-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <!-- Core CSS - Include with every page -->
+    <link href="/AdminContent/css/bootstrap-rtl.css" rel="stylesheet">
+    <link href="/AdminContent//font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!--unicons-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <!-- Page-Level Plugin CSS - Blank -->
+    <!-- SB Admin CSS - Include with every page -->
+    <link href="/AdminContent/css/sb-admin.css" rel="stylesheet">   
+    <link href="/AdminContent/css/custom-styles.css" rel="stylesheet">
+    <link href="/AdminContent/css/custom-styles.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">پنل ادمین</a>
+            </div>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="/Admin"><i class="uil uil-create-dashboard"></i> داشبورد</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="uil uil-users-alt"></i> مدیریت کاربران <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/roles">دسترسی ها</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/users">کاربران</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/users/ListDeleteUsers">کاربران حذف شده</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="uil uil-archive"></i> مدیریت محصولات <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/products/">محصولات</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/users/ListDeleteUsers">محصولات حذف شده</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    @RenderBody()
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- Core Scripts - Include with every page -->
+    <script src="/AdminContent/js/jquery-1.10.2.js"></script>
+    <script src="/AdminContent/js/bootstrap.min.js"></script>
+    <script src="/AdminContent/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- Page-Level Plugin Scripts - Blank -->
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="/AdminContent/js/sb-admin.js"></script>
+
+    <!-- Page-Level Demo Scripts - Blank - Use for reference -->
+    @RenderSection("Scripts", false)
+</body>
+
+</html>

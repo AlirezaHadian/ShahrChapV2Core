@@ -1,65 +1,79 @@
 ﻿@page "{id}"
 @model ShahrChap.Web.Pages.Admin.Products.EditProductModel
 @{
-    ViewData["Title"] = "ویرایش محصول";
+    ViewData["Title"] = "- ویرایش محصول";
 
 }
-<div class="row">
-    <form method="post" enctype="multipart/form-data">
-        <input type="hidden" asp-for="Product.ProductId" />
-        <input type="hidden" asp-for="Product.CreateDate" />
-        <input type="hidden" asp-for="Product.Image" />
-        <div class="col-md-8">
-            <h2>ویرایش گروه محصول</h2>
-            <hr />
-            <div class="form-group">
-                <label asp-for="Product.ProductTitle"></label>
-                <input asp-for="Product.ProductTitle" class="form-control">
-                <span asp-validation-for="Product.ProductTitle"></span>
-            </div>
-            <div class="form-group">
-                <label>گروه اصلی</label>
-                <select class="form-control" asp-for="Product.GroupId" asp-items="@(ViewData["Groups"] as SelectList)">
-                    <option value="" selected="">انتخاب کنید</option>
-                </select>
-                <span asp-validation-for="Product.GroupId"></span>
-            </div>
-            <div class="form-group">
-                <label>زیر گروه</label>
-                <select class="form-control" asp-for="Product.SubGroupId" asp-items="@(ViewData["SubGroup"] as SelectList)">
-                    <option value="null" selected="">انتخاب کنید</option>
-                </select>
-                <p class="text-warning">درصورتی که محصول شما زیرگروهی ندارد، این گزینه را به حالت انتخاب کنید قرار دهید.</p>
-                <span asp-validation-for="Product.SubGroupId"></span>
-            </div>
-            <div class="form-group">
-                <label>شرح دوره</label>
-                <textarea class="form-control" asp-for="Product.Description" rows="7"></textarea>
-                <span asp-validation-for="Product.Description"></span>
-            </div>
-            <div class="form-group">
-                <label>نکات چاپ</label>
-                <textarea class="form-control" asp-for="Product.PrintingTips" rows="7"></textarea>
-                <span asp-validation-for="Product.PrintingTips"></span>
-            </div>
-            <div class="form-group">
-                <label>کلمات کلیدی</label>
-                <input class="form-control" asp-for="Product.Tags">
-                <p class="text-warning">کلمات کلیدی را با - جدا کنید</p>
-                <span asp-validation-for="Product.Tags"></span>
-            </div>
-            <input type="submit" value="ذخیره" class="btn btn-success">
-        </div>
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products">لیست محصولات</a></li>
+            <li class="breadcrumb-item active">ویرایش @Model.Product.ProductTitle</li>
+        </ol>
+    </div>
+</div>
 
-        <div class="col-md-4 border-1">
-            <br />
-            <img id="imgProduct" class="thumbnail mb05 user-avatar" src="/product/image/@Model.Product.Image" />
-            <div class="form-group">
-                <label>انتخاب تصویر</label>
-                <input type="file" name="imgProduct" id="ImageUpload" asp-for="Product.Image" />
+<div class="row">
+    <div class="col-lg-12">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Product.ProductId" />
+            <input type="hidden" asp-for="Product.CreateDate" />
+            <input type="hidden" asp-for="Product.Image" />
+            <div class="row">
+                <div class="col-md-8">
+                    <h2>ویرایش گروه محصول</h2>
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="Product.ProductTitle"></label>
+                        <input asp-for="Product.ProductTitle" class="form-control">
+                        <span asp-validation-for="Product.ProductTitle"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>گروه اصلی</label>
+                        <select class="form-control" asp-for="Product.GroupId" asp-items="@(ViewData["Groups"] as SelectList)">
+                            <option value="" selected="">انتخاب کنید</option>
+                        </select>
+                        <span asp-validation-for="Product.GroupId"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>زیر گروه</label>
+                        <select class="form-control" asp-for="Product.SubGroupId" asp-items="@(ViewData["SubGroup"] as SelectList)">
+                            <option value="null" selected="">انتخاب کنید</option>
+                        </select>
+                        <p class="text-warning">درصورتی که محصول شما زیرگروهی ندارد، این گزینه را به حالت انتخاب کنید قرار دهید.</p>
+                        <span asp-validation-for="Product.SubGroupId"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>شرح دوره</label>
+                        <textarea class="form-control" asp-for="Product.Description" rows="7"></textarea>
+                        <span asp-validation-for="Product.Description"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>نکات چاپ</label>
+                        <textarea class="form-control" asp-for="Product.PrintingTips" rows="7"></textarea>
+                        <span asp-validation-for="Product.PrintingTips"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>کلمات کلیدی</label>
+                        <input class="form-control" asp-for="Product.Tags">
+                        <p class="text-warning">کلمات کلیدی را با - جدا کنید</p>
+                        <span asp-validation-for="Product.Tags"></span>
+                    </div>
+                    <a href="/Admin/Products" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+                    <input type="submit" value="ذخیره" class="btn btn-success">
+                </div>
+                <div class="col-md-4 border-1 d-flex flex-column align-items-center">
+                    <br />
+                    <img id="imgProduct" class="thumbnail mb05 user-avatar" src="/product/image/@Model.Product.Image" />
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" name="imgProduct" id="ImageUpload" asp-for="Product.Image" />
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 @section Scripts {

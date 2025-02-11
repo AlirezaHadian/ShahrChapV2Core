@@ -18,8 +18,8 @@ public class Feature
     public bool IsDelete { get; set; }
 
     #region Relations
-    public List<ProductFeature> ProductFeatures  { get; set; }
-    public List<FeatureValue> FeatureValues { get; set; }
-    public List<ProductFeatureValue> ProductFeatureValues { get; set; }
+    public List<ProductFeature>? ProductFeatures  { get; set; }
+    public List<FeatureValue>? FeatureValues { get; set; }
+    public List<ProductFeatureValue>? ProductFeatureValues { get; set; }
     #endregion
 }

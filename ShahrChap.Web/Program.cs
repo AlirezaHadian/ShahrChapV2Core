@@ -12,6 +12,7 @@ using ShahrChap.DataLayer.Entities.Product;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(options=> options.EnableEndpointRouting = false);
 builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
 #region Authentication
 builder.Services.AddAuthentication(options =>
 {

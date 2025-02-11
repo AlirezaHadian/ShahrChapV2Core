@@ -2,23 +2,26 @@
 @using ShahrChap.DataLayer.Entities.Permissions
 @model ShahrChap.Web.Pages.Admin.Roles.CreateRoleModel
 @{
-    ViewData["Title"] = "افزودن نقش";
+    ViewData["Title"] = "- افزودن نقش";
     List<Permission> permissions = ViewData["Permissions"] as List<Permission>;
 }
-
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">افزودن نقس جدید</h1>
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Roles">لیست نقش ها</a></li>
+            <li class="breadcrumb-item active">افزودن نقش جدید</li>
+        </ol>
     </div>
-    <!-- /.col-lg-12 -->
 </div>
 
 <div class="row">
+    <div class="col-lg-12">
     <form method="post">
         <div class="col-md-9">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    نقش
+                    افزودن نقش جدید
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -26,10 +29,11 @@
                         <input type="text" asp-for="Role.RoleTitle" class="form-control">
                         <span asp-validation-for="Role.RoleTitle"></span>
                     </div>
-                    <input type="submit" value="ثبت نقش" class="btn btn-success" />
+                        
                 </div>
             </div>
         </div>
+        <hr />
         <div class="col-md-3">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -68,6 +72,9 @@
                     </ul>
                 </div>
             </div>
+                <a href="/Admin/Roles" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+                <input type="submit" value="ثبت نقش" class="btn btn-success" />
         </div>
     </form>
+    </div>
 </div>
