@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Build.Framework;
+using ShahrChap.Core.Services;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
 
@@ -15,51 +16,29 @@ namespace ShahrChap.Web.Pages.Admin.Products
         }
         public Product CurrentProduct { get; set; }
         public List<Feature> Features { get; set; }
-        [BindProperty]
-        public Feature Feature { get; set; }
 
         public void OnGet(int id)
         {
+            //GET THE SELECTED FEATURES FOR THIS PRODUCT AND CHECKED IN THE VIEW
             CurrentProduct = _productService.GetProductById(id);
             Features = _productService.GetAllFeatures();
+            ViewData["SelectedFeatures"] = _productService.ProductFeatures(id);
         }
-        public IActionResult OnPost()
-        {
 
-            return Page();
-        }
-        public IActionResult OnPostAddOrEdit([FromBody] Feature feature)
+        public IActionResult OnPost(int ProductId, List<int> SelectedFeature)
         {
+            CurrentProduct = _productService.GetProductById(ProductId);
+            Features = _productService.GetAllFeatures();
+            ViewData["SelectedFeatures"] = _productService.ProductFeatures(ProductId);
+
+            Features = _productService.GetAllFeatures();
             if (!ModelState.IsValid)
-                return new JsonResult(new { success = false, message = "اطلاعات نامعتبر است" });
+                return Page();
 
-            if (feature.FeatureId > 0) // Edit Feature
-            {
-                Feature existingFeature = _productService.GetFeatureById(feature.FeatureId);
-                if (existingFeature != null)
-                {
-                    existingFeature.FeatureTitle = feature.FeatureTitle;
-                    _productService.UpdateFeature(existingFeature);
-                }
-            }
-            else // Add New Feature
-            {
-                _productService.CreateFeature(feature);
-            }
+            //Add Features to product with product id
+            _productService.UpdateFeaturesProduct(ProductId, SelectedFeature);
 
-            return new JsonResult(new { success = true });
-        }
-
-        public IActionResult OnPostDelete([FromBody] int featureId)
-        {
-            Feature feature = _productService.GetFeatureById(featureId);
-            if (feature == null)
-            {
-                return new JsonResult(new { success = false, message = "ویژگی یافت نشد" });
-            }
-
-            //_productService.DeleteFeature();
-            return new JsonResult(new { success = true });
+            return RedirectToPage("Index");
         }
     }
 }
