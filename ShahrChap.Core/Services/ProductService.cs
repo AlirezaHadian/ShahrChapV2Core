@@ -133,9 +133,8 @@ namespace ShahrChap.Core.Services
         #region Feature
         public List<ProductFeature> GetProductFeatures(int productId)
         {
-            return _context.ProductFeatures.Where(f=> f.ProductId == productId).Include(feature=> feature.Feature).ToList();
+            return _context.ProductFeatures.Where(f => f.ProductId == productId).Include(feature => feature.Feature).ToList();
         }
-
         public List<Feature> GetAllFeatures()
         {
             return _context.Features.ToList();
@@ -163,6 +162,32 @@ namespace ShahrChap.Core.Services
         {
             feature.IsDelete = true;
             UpdateFeature(feature);
+        }
+        public void AddFeaturesToProduct(int productId, List<int> features)
+        {
+            for (int i = 0; i < features.Count(); i++)
+            {
+                _context.ProductFeatures.Add(new ProductFeature()
+                {
+                    ProductId = productId,
+                    FeatureId = features[i]
+                });
+            }
+            _context.SaveChanges();
+        }
+        public void UpdateFeaturesProduct(int productId, List<int> features)
+        {
+            _context.ProductFeatures
+                .Where(p => p.ProductId == productId).ToList()
+                .ForEach(p => _context.ProductFeatures.Remove(p));
+            AddFeaturesToProduct(productId, features);
+        }
+
+        public List<int> ProductFeatures(int productId)
+        {
+            return _context.ProductFeatures
+                .Where(p=> p.ProductId == productId)
+                .Select(p=> p.FeatureId).ToList();
         }
         #endregion
         #region Service

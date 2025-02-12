@@ -2,13 +2,13 @@
 @model ShahrChap.Web.Pages.Admin.Products.AddProductFeaturesModel
 @{
     ViewData["Title"] = "- افزودن ویژگی‌ها";
+    List<int> SelectedFeatures = ViewData["SelectedFeatures"] as List<int>;
 }
 <div class="row mb-2">
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
             <li class="breadcrumb-item"><a href="/Admin/Products">لیست محصولات</a></li>
-            <li class="breadcrumb-item"><a href="/Admin/Products/ProductFeatures/@Model.CurrentProduct.ProductId">لیست ویژگی‌ها</a></li>
             <li class="breadcrumb-item active">افزودن ویژگی به @Model.CurrentProduct.ProductTitle</li>
         </ol>
     </div>
@@ -16,149 +16,32 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="col-md-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading">افزودن ویژگی جدید</div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label>عنوان ویژگی</label>
-                        <input type="hidden" id="featureId" value="">
-                        <input type="text" id="featureName" asp-for="Feature.FeatureTitle" class="form-control">
-                        <span asp-validation-for="Feature.FeatureTitle"></span>
+        <form method="post">
+            <input type="hidden" name="ProductId" value="@Model.CurrentProduct.ProductId" />
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">افزودن ویژگی به @Model.CurrentProduct.ProductTitle</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <ul class="feature-list mt-3">
+                                @foreach (var feature in Model.Features)
+                                {
+                                    <li id="featureItem_@feature.FeatureId">
+                                        <input type="checkbox" @((SelectedFeatures.Any(p => p == feature.FeatureId) ? "checked" : "")) name="SelectedFeature" id="Feature_@feature.FeatureId" value="@feature.FeatureId">
+                                        <label for="Feature_@feature.FeatureId">@feature.FeatureTitle</label>
+                                    </li>
+
+                                }
+                            </ul>
+                        </div>
+                        <a href="/Admin/Products" class="btn btn-default">
+                            <i class="uil uil-angle-right"></i> بازگشت
+                        </a>
+                        <input type="submit" value="ثبت" class="btn btn-success" />
                     </div>
-                    <a href="/Admin/Products/ProductFeatures/@Model.CurrentProduct.ProductId" class="btn btn-default">
-                        <i class="uil uil-angle-right"></i> بازگشت
-                    </a>
-                    <button type="button" id="saveFeature" class="btn btn-success">ثبت ویژگی</button>
-                    <button type="button" id="cancelEdit" class="btn btn-secondary d-none">لغو</button>
                 </div>
             </div>
-        </div>
-        <hr />
-    </div>
-    <ul class="feature-list">
-        @foreach (var feature in Model.Features)
-        {
-            <li id="featureItem_@feature.FeatureId">
-                <input type="checkbox" id="Feature_@feature.FeatureId" value="@feature.FeatureId">
-                <label for="Feature_@feature.FeatureId">@feature.FeatureTitle</label>
-
-                <!-- دکمه ویرایش -->
-                <i class="uil uil-edit editFeature text-warning" data-id="@feature.FeatureId" data-name="@feature.FeatureTitle" title="ویرایش"></i>
-
-                <!-- دکمه حذف -->
-                <i class="uil uil-trash-alt deleteFeature text-danger" data-id="@feature.FeatureId" title="حذف"></i>
-            </li>
-        }
-    </ul>
-</div>
-
-<!-- مدال تأیید حذف ویژگی -->
-<div class="modal fade" id="deleteFeatureModal" tabindex="-1" role="dialog" aria-labelledby="deleteFeatureModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteFeatureModalLabel">حذف ویژگی</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                آیا مطمئن هستید که می‌خواهید این ویژگی را حذف کنید؟
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
-                <button type="button" id="confirmDeleteFeature" class="btn btn-danger">حذف</button>
-            </div>
-        </div>
+            <hr />
+        </form>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        let selectedFeatureId = null;
-        let productId = @Model.CurrentProduct.ProductId; // Get the product ID from the model
-
-        // ویرایش ویژگی
-        $(".editFeature").click(function () {
-            let id = $(this).data("id");
-            let name = $(this).data("name");
-
-            $("#featureId").val(id);
-            $("#featureName").val(name);
-            $("#saveFeature").text("ویرایش ویژگی").removeClass("btn-success").addClass("btn-primary");
-            $("#cancelEdit").removeClass("d-none");
-        });
-
-        // لغو ویرایش
-        $("#cancelEdit").click(function () {
-            $("#featureId").val("");
-            $("#featureName").val("");
-            $("#saveFeature").text("ثبت ویژگی").removeClass("btn-primary").addClass("btn-success");
-            $("#cancelEdit").addClass("d-none");
-        });
-
-        // ذخیره یا ویرایش ویژگی
-        $("#saveFeature").click(function () {
-            let featureId = $("#featureId").val();
-            let featureTitle = $("#featureName").val();
-
-            let feature = {
-                FeatureId: featureId ? parseInt(featureId) : 0,
-                FeatureTitle: featureTitle
-            };
-
-                @* url: '/Admin/Products/AddProductFeatures/${productId}/OnPostAddOrUpdate', // Include productId in the URL *@
-            $.ajax({
-                url: '@Url.Page("/Admin/Products/AddProductFeatures", "OnPostDelete")' + "?id=" + productId + "&featureId=" + featureId,
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(feature),
-                success: function (response) {
-                    if (response.success) {
-                        location.reload(); // Reload the page to reflect changes
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function () {
-                    alert("خطایی رخ داد. لطفا دوباره تلاش کنید.");
-                }
-            });
-        });
-
-        // نمایش مدال حذف
-        $(".deleteFeature").click(function () {
-            selectedFeatureId = $(this).data("id");
-            $("#deleteFeatureModal").modal("show");
-        });
-
-                @* url: `/Admin/Products/AddProductFeatures/${productId}/OnPostDelete`, // Include productId in the URL *@
-        // اجرای حذف ویژگی
-        $("#confirmDeleteFeature").click(function () {
-            $.ajax({
-                url: '/Admin/Products/AddProductFeatures/${productId}/OnPostDelete',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(selectedFeatureId),
-                success: function (response) {
-                    if (response.success) {
-                        location.reload(); // Reload the page to reflect changes
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function () {
-                    alert("خطایی رخ داد. لطفا دوباره تلاش کنید.");
-                }
-            });
-
-            $("#deleteFeatureModal").modal("hide"); // بستن مدال پس از حذف
-        });
-
-        // بستن مدال
-        $(".close, .btn-secondary").click(function () {
-            $("#deleteFeatureModal").modal("hide");
-        });
-    });
-</script>

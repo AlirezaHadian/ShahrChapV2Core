@@ -33,6 +33,9 @@ namespace ShahrChap.Core.Services.Interfaces
         Feature GetFeatureById(int featureId);
         void UpdateFeature(Feature feature);
         void DeleteFeature(Feature feature);
+        void AddFeaturesToProduct(int productId, List<int> features);
+        void UpdateFeaturesProduct(int productId, List<int> features);
+        List<int> ProductFeatures(int productId);
         #endregion
         #region Service
         List<Service> GetAllServices();
