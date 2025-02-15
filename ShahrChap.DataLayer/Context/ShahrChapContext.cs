@@ -75,6 +75,7 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Tag>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Feature>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<FeatureValue>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Service>().HasQueryFilter(u => !u.IsDelete);
 
             modelBuilder.Entity<ProductPrice>()

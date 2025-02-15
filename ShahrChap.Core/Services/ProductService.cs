@@ -151,7 +151,6 @@ namespace ShahrChap.Core.Services
             _context.SaveChanges();
             return feature.FeatureId;
         }
-
         public void UpdateFeature(Feature feature)
         {
             _context.Features.Update(feature);
@@ -189,6 +188,32 @@ namespace ShahrChap.Core.Services
                 .Where(p=> p.ProductId == productId)
                 .Select(p=> p.FeatureId).ToList();
         }
+        public List<FeatureValue> GetFeatureValues(int featureId)
+        {
+            return _context.FeatureValues.Where(f=> f.FeatureId == featureId).ToList();
+        }
+        public int CreateFeatureValue(FeatureValue value)
+        {
+            _context.FeatureValues.Add(value);
+            _context.SaveChanges();
+            return value.FeatureValueId;
+        }
+        public FeatureValue GetFeatureValueById(int valueId)
+        {
+            return _context.FeatureValues.Find(valueId);
+        }
+
+        public void UpdateFeatureValue(FeatureValue value)
+        {
+            _context.FeatureValues.Update(value);
+            _context.SaveChanges();
+        }
+
+        public void DeleteFeatureValue(FeatureValue value)
+        {
+            value.IsDelete = true;
+            UpdateFeatureValue(value);
+        }    
         #endregion
         #region Service
         public List<Service> GetAllServices()

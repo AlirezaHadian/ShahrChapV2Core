@@ -1,4 +1,7 @@
-﻿.user-avatar {
+﻿.field-validation-error{
+    color: red;
+}
+.user-avatar {
     max-height: 250px;
     max-width: 280px;
     margin: 0 auto;
