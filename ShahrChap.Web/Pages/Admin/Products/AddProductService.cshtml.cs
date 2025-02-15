@@ -26,12 +26,15 @@ namespace ShahrChap.Web.Pages.Admin.Products
 
         public IActionResult OnPostCreateService()
         {
+            ProductId = Service.ProductId;
+            ViewData["ProductTitle"] = _productService.GetProductById(ProductId).ProductTitle;
+            ProductServices = _productService.GetProductServices(ProductId);
+
             //Model state check
             if (!ModelState.IsValid)
                 return Page();
 
-            ProductId = Service.ProductId;
-            if (!string.IsNullOrWhiteSpace(Service.Title))
+            if (!string.IsNullOrWhiteSpace(Service.ServiceTitle))
             {
                 //Service.ProductId = ProductId;
                 Service.IsDelete = false;

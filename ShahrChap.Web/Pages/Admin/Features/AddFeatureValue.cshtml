@@ -1,15 +1,15 @@
 ﻿@page "{id}"
-@model ShahrChap.Web.Pages.Admin.Products.AddProductServiceModel
+@model ShahrChap.Web.Pages.Admin.Features.AddFeatureValueModel
 @{
-    ViewData["Title"] = "- خدمات پس از چاپ";
-    var productTitle = ViewData["ProductTitle"];
+    ViewData["Title"] = "- مقادیر ویژگی";
+    var featureTitle = ViewData["FeatureTitle"];
 }
 <div class="row mb-2">
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
-            <li class="breadcrumb-item"><a href="/Admin/Products">لیست محصولات</a></li>
-            <li class="breadcrumb-item active">خدمات پس از چاپ @productTitle</li>
+            <li class="breadcrumb-item"><a href="/Admin/Features">لیست ویژگی ها</a></li>
+            <li class="breadcrumb-item active">مقادیر ویژگی @featureTitle</li>
         </ol>
     </div>
 </div>
@@ -18,20 +18,20 @@
     <div class="col-lg-12">
         <form method="post">
             @* TODO: CHECK THE PRODUCT ID TO NOT BE 0 *@
-            <input type="hidden" asp-for="Service.ProductId" value="@Model.ProductId" />
+            <input type="hidden" asp-for="FeatureValue.FeatureId" value="@Model.FeatureId" /> 
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">افزودن خدمت جدید به @productTitle</div>
+                    <div class="panel-heading">افزودن مقدار جدید به @featureTitle</div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label>عنوان خدمت</label>
-                            <input type="text" asp-for="Service.ServiceTitle" class="form-control">
-                            <span asp-validation-for="Service.ServiceTitle"></span>
+                            <label>عنوان مقدار</label>
+                            <input type="text" asp-for="FeatureValue.ValueTitle" class="form-control">
+                            <span asp-validation-for="FeatureValue.ValueTitle"></span>
                         </div>
-                        <a href="/Admin/Products" class="btn btn-default">
+                        <a href="/Admin/Features" class="btn btn-default">
                             <i class="uil uil-angle-right"></i> بازگشت
                         </a>
-                        <input type="submit" value="ثبت خدمت" asp-page-handler="CreateService" class="btn btn-success" />
+                        <input type="submit" value="ثبت مقدار" asp-page-handler="CreateFeatureValue" class="btn btn-success" />
                     </div>
                 </div>
             </div>
@@ -40,20 +40,20 @@
         <table class="table table-striped table-bordered table-hover dataTable no-footer table-text-center" id="dataTables-example" aria-describedby="dataTables-example_info">
             <thead>
                 <tr>
-                    <td>عنوان ویژگی</td>
+                    <td>عنوان مقدار</td>
                     <td>دستورات</td>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.ProductServices)
+                @foreach (var item in Model.FeatureValues)
                 {
                     <tr>
-                        <td>@item.ServiceTitle</td>
+                        <td>@item.ValueTitle</td>
                         <td>
                             @* <a asp-page-handler="EditService" asp-route-id="@item.ServiceId" class="btn btn-sm btn-warning"><i class="uil uil-edit"></i></a> *@
-                            <form method="post" id="deleteForm" asp-page-handler="DeleteService">
-                                <input type="hidden" name="productId" value="@Model.ProductId" />
-                                <input type="hidden" name="serviceId" value="@item.ServiceId" />
+                            <form method="post" id="deleteForm" asp-page-handler="DeleteFeatureValue">
+                                <input type="hidden" name="featureId" value="@Model.FeatureId" />
+                                <input type="hidden" name="featureValueId" value="@item.FeatureValueId" />
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete()">
                                     <i class="uil uil-trash-alt"></i>
                                 </button>
@@ -69,7 +69,7 @@
 
 <script>
     function confirmDelete() {
-        if (confirm("آیا از حذف این خدمت مطمئن هستید؟")) {
+        if (confirm("آیا از حذف این مقدار مطمئن هستید؟")) {
             document.getElementById("deleteForm").submit();
         }
     }

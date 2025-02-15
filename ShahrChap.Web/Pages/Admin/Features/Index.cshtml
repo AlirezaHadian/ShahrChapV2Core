@@ -30,6 +30,7 @@
                         <thead>
                             <tr>
                                 <td>عنوان ویژگی</td>
+                                <td>مقادیر</td>
                                 <td>دستورات</td>
                             </tr>
                         </thead>
@@ -39,6 +40,16 @@
                                 <tr>
                                     <td>@item.FeatureTitle</td>
                                     <td>
+                                        @* @if(item.FeatureValues.Any()){
+                                            <ul>
+                                            @foreach(var sub in item.FeatureValues){
+                                                <li>@sub.ValueTitle</li>
+                                            }
+                                        </ul>
+                                        } *@
+                                    </td>
+                                    <td>
+                                        <a asp-page="AddFeatureValue" asp-route-id="@item.FeatureId" class="btn btn-sm btn-primary"><i class="uil uil-plus-circle"></i></a>
                                         <a asp-page="EditFeature" asp-route-id="@item.FeatureId" class="btn btn-sm btn-warning"><i class="uil uil-edit"></i></a>
                                         <a asp-page="DeleteFeature" asp-route-id="@item.FeatureId" class="btn btn-sm btn-danger"><i class="uil uil-trash-alt"></i></a>
                                     </td>

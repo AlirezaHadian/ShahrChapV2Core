@@ -17,9 +17,11 @@ public class FeatureValue
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(350, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
     public string ValueTitle { get; set; }
-    
+    [Display(Name = "حذف شده؟")]
+    public bool IsDelete { get; set; }
+
     #region Relations
-    public Feature Feature { get; set; } = null!;
-    public List<ProductFeatureValue> ProductFeatureValues { get; set; }
+    public Feature? Feature { get; set; }
+    public List<ProductFeatureValue>? ProductFeatureValues { get; set; }
     #endregion
 }
