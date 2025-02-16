@@ -1,0 +1,41 @@
+﻿@page "{id}"
+@using ShahrChap.Core.Convertors
+@model ShahrChap.Web.Pages.Admin.Products.DeleteProductModel
+@{
+    ViewData["Title"] = "- حذف محصول";
+}
+
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-light p-2 rounded-3">
+                    <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+                    <li class="breadcrumb-item"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+                    <li class="breadcrumb-item active text-danger" aria-current="page"><i class="uil uil-trash-alt"></i> حذف @Model.Product.ProductTitle</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card border-danger shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0"><i class="uil uil-exclamation-triangle"></i> حذف محصول "@Model.Product.ProductTitle"</h5>
+        </div>
+        <div class="card-body text-center">
+            <p class="text-muted">آیا از حذف محصول زیر مطمئن هستید؟</p>
+            <div class="d-flex justify-content-center">
+                <img src="~/product/thumb/@Model.Product.Image" class="img-thumbnail shadow-sm" style="max-width: 200px; border-radius: 10px;" />
+            </div>
+            <p class="mt-3 text-secondary">@FixText.GetPlainText(Model.Product.Description)</p>
+
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <a href="/Admin/Products" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+            <form method="post">
+                <input type="hidden" asp-for="Product.ProductId" />
+                <button type="submit" class="btn btn-danger"><i class="uil uil-trash-alt"></i> حذف</button>
+            </form>
+        </div>
+    </div>
+</div>

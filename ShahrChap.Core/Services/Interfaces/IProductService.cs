@@ -23,6 +23,7 @@ namespace ShahrChap.Core.Services.Interfaces
         int AddProudct(Product product, IFormFile imgProduct);
         Product GetProductById(int productId);
         void UpdateProduct(Product product, IFormFile imgProduct);
+        void DeleteProduct(Product product);
         string AddProductImage(IFormFile productImage);
         void DeleteProductImage(string currentProductName);
         #endregion

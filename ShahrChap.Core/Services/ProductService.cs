@@ -129,6 +129,13 @@ namespace ShahrChap.Core.Services
             _context.Products.Update(product);
             _context.SaveChanges();
         }
+        public void DeleteProduct(Product product)
+        {
+            product.IsDelete = true;
+            _context.Products.Update(product);
+            _context.SaveChanges();
+            //UpdateProduct(product);
+        }
         #endregion
         #region Feature
         public List<ProductFeature> GetProductFeatures(int productId)
@@ -262,7 +269,7 @@ namespace ShahrChap.Core.Services
             {
                 gallery.ImageName = AddImageToProductGallery(imgGallery);
             }
-           _context.ProductGalleries.Add(gallery);
+            _context.ProductGalleries.Add(gallery);
             _context.SaveChanges();
             return gallery.ProductGalleryId;
         }
