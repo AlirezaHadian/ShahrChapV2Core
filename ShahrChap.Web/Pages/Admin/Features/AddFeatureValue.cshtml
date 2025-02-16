@@ -18,7 +18,7 @@
     <div class="col-lg-12">
         <form method="post">
             @* TODO: CHECK THE PRODUCT ID TO NOT BE 0 *@
-            <input type="hidden" asp-for="FeatureValue.FeatureId" value="@Model.FeatureId" /> 
+            <input type="hidden" asp-for="FeatureValue.FeatureId" value="@Model.FeatureId" />
             <div class="col-md-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading">افزودن مقدار جدید به @featureTitle</div>
@@ -50,14 +50,20 @@
                     <tr>
                         <td>@item.ValueTitle</td>
                         <td>
-                            @* <a asp-page-handler="EditService" asp-route-id="@item.ServiceId" class="btn btn-sm btn-warning"><i class="uil uil-edit"></i></a> *@
-                            <form method="post" id="deleteForm" asp-page-handler="DeleteFeatureValue">
-                                <input type="hidden" name="featureId" value="@Model.FeatureId" />
-                                <input type="hidden" name="featureValueId" value="@item.FeatureValueId" />
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete()">
-                                    <i class="uil uil-trash-alt"></i>
-                                </button>
-                            </form>
+                            <div class="d-inline-block">
+                                <a href="javascript:void(0);" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editFeatureModal"
+                                   onclick="setEditValues('@item.FeatureValueId', '@item.ValueTitle')">
+                                    <i class="uil uil-edit"></i>
+                                </a>
+
+                                <form method="post" class="d-inline-block" asp-page-handler="DeleteFeatureValue">
+                                    <input type="hidden" name="featureId" value="@Model.FeatureId" />
+                                    <input type="hidden" name="featureValueId" value="@item.FeatureValueId" />
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete()">
+                                        <i class="uil uil-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
                             @* <a asp-page-handler="DeleteService" onclick="return confirm('آیا مطمئن هستید؟');" asp-route-id="@item.ProductId" asp-route-serviceid="@item.ServiceId" class="btn btn-sm btn-danger"><i class="uil uil-trash-alt"></i></a> *@
                         </td>
                     </tr>
@@ -66,8 +72,39 @@
         </table>
     </div>
 </div>
-
+<div class="modal fade" id="editFeatureModal" tabindex="-1" role="dialog" aria-labelledby="editFeatureModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editFeatureModalLabel">ویرایش مقدار ویژگی</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-page-handler="EditFeatureValue">
+                <div class="modal-body">
+                    <input type="hidden" asp-for="FeatureValue.FeatureValueId" id="editFeatureValueId" />
+                    <input type="hidden" asp-for="FeatureValue.FeatureId" value="@Model.FeatureId" />
+                    <div class="form-group">
+                        <label>عنوان مقدار</label>
+                        <input type="text" asp-for="FeatureValue.ValueTitle" class="form-control" id="editValueTitle" required />
+                        <span asp-validation-for="FeatureValue.ValueTitle"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">لغو</button>
+                    <button type="submit" class="btn btn-primary">ثبت تغییرات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
+    function setEditValues(featureValueId, valueTitle) {
+        document.getElementById("editFeatureValueId").value = featureValueId;
+        document.getElementById("editValueTitle").value = valueTitle;
+    }
+
     function confirmDelete() {
         if (confirm("آیا از حذف این مقدار مطمئن هستید؟")) {
             document.getElementById("deleteForm").submit();
