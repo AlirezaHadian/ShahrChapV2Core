@@ -15,7 +15,7 @@ namespace ShahrChap.Core.Services.Interfaces
     {
         #region Group
         List<ProductGroup> GetAllGroups();
-        List<SelectListItem> GetGroupForManageProducts(); 
+        List<SelectListItem> GetGroupForManageProducts();
         List<SelectListItem> GetSubGroupForManageProducts(int groupId);
         #endregion
         #region Product
@@ -49,6 +49,15 @@ namespace ShahrChap.Core.Services.Interfaces
         Service GetServiceById(int serviceId);
         void UpdateService(Service service);
         void DeleteService(Service service);
+        #endregion
+        #region ProductGallery
+        List<ProductGallery> GetProductGalleryListById(int productId);
+        int AddImageToProduct(ProductGallery gallery, IFormFile imgGallery);
+        ProductGallery GetGalleryById(int galleryId);
+        void UpdateGallery(ProductGallery gallery, IFormFile imgGallery);
+        void DeleteGallery(ProductGallery gallery);
+        string AddImageToProductGallery(IFormFile imageGallery);
+        void DeleteGalleryImage(string currentGalleryName);
         #endregion
     }
 }

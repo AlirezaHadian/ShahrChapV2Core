@@ -185,12 +185,12 @@ namespace ShahrChap.Core.Services
         public List<int> ProductFeatures(int productId)
         {
             return _context.ProductFeatures
-                .Where(p=> p.ProductId == productId)
-                .Select(p=> p.FeatureId).ToList();
+                .Where(p => p.ProductId == productId)
+                .Select(p => p.FeatureId).ToList();
         }
         public List<FeatureValue> GetFeatureValues(int featureId)
         {
-            return _context.FeatureValues.Where(f=> f.FeatureId == featureId).ToList();
+            return _context.FeatureValues.Where(f => f.FeatureId == featureId).ToList();
         }
         public int CreateFeatureValue(FeatureValue value)
         {
@@ -213,7 +213,7 @@ namespace ShahrChap.Core.Services
         {
             value.IsDelete = true;
             UpdateFeatureValue(value);
-        }    
+        }
         #endregion
         #region Service
         public List<Service> GetAllServices()
@@ -248,6 +248,81 @@ namespace ShahrChap.Core.Services
         {
             service.IsDelete = true;
             UpdateService(service);
+        }
+        #endregion
+        #region Product Gallery
+        public List<ProductGallery> GetProductGalleryListById(int productId)
+        {
+            return _context.ProductGalleries.Where(p => p.ProductId == productId).ToList();
+        }
+
+        public int AddImageToProduct(ProductGallery gallery, IFormFile imgGallery)
+        {
+            if (imgGallery != null && imgGallery.IsImage())
+            {
+                gallery.ImageName = AddImageToProductGallery(imgGallery);
+            }
+           _context.ProductGalleries.Add(gallery);
+            _context.SaveChanges();
+            return gallery.ProductGalleryId;
+        }
+
+        public ProductGallery GetGalleryById(int galleryId)
+        {
+            return _context.ProductGalleries.Find(galleryId);
+        }
+
+        public void UpdateGallery(ProductGallery gallery, IFormFile imgGallery)
+        {
+            if (imgGallery != null && imgGallery.IsImage())
+            {
+                if (gallery.ImageName != null)
+                {
+                    //Delete old image
+                    DeleteProductImage(gallery.ImageName);
+                }
+                gallery.ImageName = AddProductImage(imgGallery);
+            }
+            _context.ProductGalleries.Update(gallery);
+            _context.SaveChanges();
+        }
+
+        public void DeleteGallery(ProductGallery gallery)
+        {
+            DeleteGalleryImage(gallery.ImageName);
+            _context.ProductGalleries.Remove(gallery);
+            _context.SaveChanges();
+        }
+
+        public string AddImageToProductGallery(IFormFile imageGallery)
+        {
+            string productGalleryName = NameGenerator.GenerateUniqCode() + Path.GetExtension(imageGallery.FileName);
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/image", productGalleryName);
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                imageGallery.CopyTo(stream);
+            }
+
+            ImageConvertor imgResizer = new ImageConvertor();
+            string thumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/thumb", productGalleryName);
+            imgResizer.ResizeImage(imagePath, thumbPath, 150);
+            return productGalleryName;
+        }
+
+        public void DeleteGalleryImage(string currentGalleryName)
+        {
+            if (currentGalleryName != null)
+            {
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/image",
+                    currentGalleryName);
+                string thumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/thumb",
+                    currentGalleryName);
+                if (File.Exists(imagePath))
+                    File.Delete(imagePath);
+
+                if (File.Exists(thumbPath))
+                    File.Delete(thumbPath);
+            }
         }
         #endregion
     }

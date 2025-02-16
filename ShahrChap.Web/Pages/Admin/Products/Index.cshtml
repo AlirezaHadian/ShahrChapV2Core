@@ -59,7 +59,8 @@
                                         <td>
                                             <a asp-page="AddProductFeatures" asp-route-id="@item.ProductId" class="btn btn-sm btn-success">ویژگی ها <i class="uil uil-label-alt"></i></a>
                                             <a asp-page="AddProductService" asp-route-id="@item.ProductId" class="btn btn-sm btn-info">خدمات پس از چاپ <i class="uil uil-plus-circle"></i></a>
-                                            <a asp-page="EditProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary">ویرایش <i class="uil uil-edit"></i></a>
+                                            <a href="/Admin/ImageGallery/@item.ProductId" class="btn btn-sm btn-primary">نمونه کار <i class="uil uil-images"></i></a> 
+                                            <a asp-page="EditProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-warning">ویرایش <i class="uil uil-edit"></i></a>
                                             @* <a asp-page="DeleteProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger">حذف <i class="uil uil-trash-alt"></i></a> *@
                                         </td>
                                     </tr>
@@ -82,10 +83,7 @@
                         </div> *@
                     </div>
                 </div>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
         </div>
-        <!-- /.col-lg-12 -->
     </div>
 </div>
