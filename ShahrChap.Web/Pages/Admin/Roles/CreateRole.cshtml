@@ -8,73 +8,98 @@
 <div class="row mb-2">
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
-            <li class="breadcrumb-item"><a href="/Admin/Roles">لیست نقش ها</a></li>
-            <li class="breadcrumb-item active">افزودن نقش جدید</li>
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Roles"><i class="uil uil-list-ul"></i> لیست نقش ها</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-plus-circle"></i> افزودن نقش جدید</li>
         </ol>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-12">
-    <form method="post">
-        <div class="col-md-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    افزودن نقش جدید
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label>عنوان نقش</label>
-                        <input type="text" asp-for="Role.RoleTitle" class="form-control">
-                        <span asp-validation-for="Role.RoleTitle"></span>
+        <form method="post">
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        افزودن نقش جدید
                     </div>
-                        
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>عنوان نقش</label>
+                            <input type="text" asp-for="Role.RoleTitle" class="form-control">
+                            <span asp-validation-for="Role.RoleTitle"></span>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
-        <hr />
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    دسترسی های نقش
+            <hr />
+            <div class="col-md-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">دسترسی های نقش</div>
+                    <div class="panel-body">
+                        <ul class="feature-list">
+                            @foreach (var item in permissions.Where(p => p.ParentId == null))
+                            {
+                                <li class="permission-item">
+                                    <input type="checkbox" class="permission-checkbox" value="@item.PermissionId">
+                                    <label>@item.PermissionTitle</label>
+
+                                    @if (permissions.Any(p => p.ParentId == item.PermissionId))
+                                    {
+                                        <ul class="feature-list">
+                                            @foreach (var sub in permissions.Where(p => p.ParentId == item.PermissionId))
+                                            {
+                                                <li class="permission-item">
+                                                    <input type="checkbox" class="permission-checkbox" value="@sub.PermissionId">
+                                                    <label>@sub.PermissionTitle</label>
+
+                                                    @if (permissions.Any(p => p.ParentId == sub.PermissionId))
+                                                    {
+                                                        <ul class="feature-list">
+                                                            @foreach (var underSub in permissions.Where(p => p.ParentId == sub.PermissionId))
+                                                            {
+                                                                <li class="permission-item">
+                                                                    <input type="checkbox" class="permission-checkbox" value="@underSub.PermissionId">
+                                                                    <label>@underSub.PermissionTitle</label>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <ul>
-                        @foreach (var item in permissions.Where(p => p.ParentId == null))
-                        {
-                            <li>
-                                <input type="checkbox" name="SelectedPermission" value="@item.PermissionId" /> @item.PermissionTitle
-                                @if (permissions.Any(p => p.ParentId == item.PermissionId))
-                                {
-                                    <ul>
-                                        @foreach (var sub in permissions.Where(p => p.ParentId == item.PermissionId))
-                                        {
-                                            <li>
-                                                <input type="checkbox" name="SelectedPermission" value="@sub.PermissionId" /> @sub.PermissionTitle
-                                                @if (permissions.Any(p => p.ParentId == sub.PermissionId))
-                                                {
-                                                    <ul>
-                                                        @foreach (var underSub in permissions.Where(p => p.ParentId == sub.PermissionId))
-                                                        {
-                                                            <li>
-                                                                <input type="checkbox" name="SelectedPermission" value="@underSub.PermissionId" /> @underSub.PermissionTitle
-                                                            </li>
-                                                        }
-                                                    </ul>
-                                                }
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
+
                 <a href="/Admin/Roles" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
-                <input type="submit" value="ثبت نقش" class="btn btn-success" />
-        </div>
-    </form>
+                <button type="submit" class="btn btn-success"><i class="uil uil-plus-circle"></i> ثبت نقش</button>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll(".permission-item").forEach(item => {
+        item.addEventListener("click", function (event) {
+            // اگر مستقیماً روی چک‌باکس کلیک شده، دخالتی نکن
+            if (event.target.tagName.toLowerCase() === "input") return;
+
+            let checkbox = this.querySelector(".permission-checkbox");
+            checkbox.checked = !checkbox.checked;
+
+            // مدیریت انتخاب فرزندان هنگام انتخاب والد
+            let childCheckboxes = this.querySelectorAll("ul .permission-checkbox");
+            childCheckboxes.forEach(child => {
+                child.checked = checkbox.checked;
+            });
+
+            // جلوگیری از اجرای کلیک در سطوح بالاتر
+            event.stopPropagation();
+        });
+    });
+</script>

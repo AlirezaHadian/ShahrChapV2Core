@@ -132,9 +132,9 @@ namespace ShahrChap.Core.Services
         public void DeleteProduct(Product product)
         {
             product.IsDelete = true;
-            _context.Products.Update(product);
+            //_context.Products.Update(product);
+            UpdateProduct(product, null);
             _context.SaveChanges();
-            //UpdateProduct(product);
         }
         #endregion
         #region Feature

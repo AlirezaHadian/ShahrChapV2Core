@@ -4,55 +4,48 @@
 @{
     ViewData["Title"] = "- حذف کاربر";
 }
-<div class="row mb-2">
-    <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
-            <li class="breadcrumb-item"><a href="/Admin/Users">لیست کاربران</a></li>
-            <li class="breadcrumb-item active">حذف @Model.InformationUserViewModel.UserName</li>
-        </ol>
-    </div>
-    <div class="col-lg-12">
-        <h1 class="page-header">حذف @Model.InformationUserViewModel.UserName</h1>
-    </div>
-</div>
 
-<div class="col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            اطلاعات کاربر
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb p-2">
+                    <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+                    <li class="breadcrumb-item"><a href="/Admin/Users"><i class="uil uil-users-alt"></i> لیست کاربران</a></li>
+                    <li class="breadcrumb-item active text-danger" aria-current="page"><i class="uil uil-user-minus"></i> حذف @Model.InformationUserViewModel.UserName</li>
+                </ol>
+            </nav>
         </div>
-        <hr />
-        <div class="panel-body">
+    </div>
+
+    <div class="card border-danger shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0"><i class="uil uil-exclamation-triangle"></i> حذف کاربر "@Model.InformationUserViewModel.UserName"</h5>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">آیا از حذف این کاربر مطمئن هستید؟</p>
+
+            <ul class="list-group mb-3">
+                <li class="list-group-item"><strong>نام کاربری:</strong> @Model.InformationUserViewModel.UserName</li>
+                @if (Model.InformationUserViewModel.Phone != null)
+                {
+                    <li class="list-group-item"><strong>شماره موبایل:</strong> @Model.InformationUserViewModel.Phone</li>
+                }
+                @if (Model.InformationUserViewModel.Email != null)
+                {
+                    <li class="list-group-item"><strong>ایمیل:</strong> @Model.InformationUserViewModel.Email</li>
+                }
+                <li class="list-group-item"><strong>موجودی:</strong> @Model.InformationUserViewModel.Wallet تومان</li>
+                <li class="list-group-item"><strong>تاریخ عضویت:</strong> @Model.InformationUserViewModel.RegisterDate.ToShamsi()</li>
+            </ul>
+
             <form method="post">
                 <input type="hidden" name="userId" value="@ViewData["UserId"].ToString()" />
-
-                <dl class="dl-vertical">
-                    <dt>نام کاربری:</dt>
-                    <dd>@Model.InformationUserViewModel.UserName</dd>
-                    @if (Model.InformationUserViewModel.Phone != null)
-                    {
-                        <dt>شماره موبایل:</dt>
-                        <dd>@Model.InformationUserViewModel.Phone</dd>
-                    }
-                    @if (Model.InformationUserViewModel.Email != null)
-                    {
-                        <dt>ایمیل:</dt>
-                        <dd>@Model.InformationUserViewModel.Email</dd>
-                    }
-                    <dt>موجودی:</dt>
-                    <dd>@Model.InformationUserViewModel.Wallet</dd>
-                    <dt>تاریخ عضویت:</dt>
-                    <dd>@Model.InformationUserViewModel.RegisterDate.ToShamsi()</dd>
-                    <dt></dt>
-                    <dd>
-                        <a href="/Admin/Users" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
-                        <input type="submit" value="حذف" class="btn btn-danger" />
-                    </dd>
-                </dl>
+                <div class="d-flex justify-content-between">
+                    <a href="/Admin/Users" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+                    <button type="submit" class="btn btn-danger"><i class="uil uil-user-minus"></i> حذف کاربر</button>
+                </div>
             </form>
         </div>
-        <!-- /.panel-body -->
     </div>
-    <!-- /.panel -->
 </div>

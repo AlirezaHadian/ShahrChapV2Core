@@ -13,6 +13,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
         {
             _productService = productService;
         }
+        [BindProperty]
         public Product Product { get; set; }
         public void OnGet(int id)
         {
@@ -21,6 +22,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
 
         public IActionResult OnPost()
         {
+            Product = _productService.GetProductById(Product.ProductId);
             _productService.DeleteProduct(Product);
             return RedirectToPage("Index");
         }

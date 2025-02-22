@@ -7,9 +7,9 @@
 <div class="row mb-2">
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
-            <li class="breadcrumb-item"><a href="/Admin/Products">لیست محصولات</a></li>
-            <li class="breadcrumb-item active">افزودن محصول</li>
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i>صفحه نخست</a></li>
+            <li class="breadcrumb-item text-primary"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-plus-circle"></i>افزودن محصول</li>
         </ol>
     </div>
 </div>
@@ -58,7 +58,7 @@
                         <span asp-validation-for="Product.Tags"></span>
                     </div>
                     <a href="/Admin/Products" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
-                    <input type="submit" value="ذخیره" class="btn btn-success">
+                    <button type="submit" class="btn btn-success"><i class="uil uil-plus-circle"></i> افزودن</button>
                 </div>
                 <div class="col-md-4 border-1 d-flex flex-column align-items-center">
                     <br />
