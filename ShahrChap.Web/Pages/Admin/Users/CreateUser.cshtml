@@ -8,9 +8,9 @@
 <div class="row mb-2">
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
-            <li class="breadcrumb-item"><a href="/Admin/Users">لیست کاربران</a></li>
-            <li class="breadcrumb-item active">افزودن کاربر جدید</li>
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Users"><i class="uil uil-list-ul"></i> لیست کاربران</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-user-plus"></i> افزودن کاربر جدید</li>
         </ol>
     </div>
     <div class="col-lg-12">
@@ -53,17 +53,19 @@
                             </div>
                             <div class="form-group">
                                 <label>انتخاب نقش کاربر</label>
-                                @foreach (var item in Roles)
-                                {
-                                    <div class="checkbox">
-                                        <lable>
-                                            <input type="checkbox" name="SelectedRoles" value="@item.RoleId" />@item.RoleTitle
-                                        </lable>
-                                    </div>
-                                }
+                                <ul class="feature-list mt-3">
+                                    @foreach (var item in Roles)
+                                    {
+                                        <li id="role_@item.RoleId">
+                                            <input type="checkbox" name="SelectedRoles" id="role_@item.RoleId" value="@item.RoleId">
+                                            <label for="role_@item.RoleId">@item.RoleTitle</label>
+                                        </li>
+
+                                    }
+                                </ul>
                             </div>
                             <a href="/Admin/Users" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
-                            <input type="submit" value="ثبت کاربر جدید" class="btn btn-success" />
+                            <button type="submit" class="btn btn-success"><i class="uil uil-user-plus"></i> افزودن کاربر جدید</button>
                         </div>
                     </div>
                 </div>

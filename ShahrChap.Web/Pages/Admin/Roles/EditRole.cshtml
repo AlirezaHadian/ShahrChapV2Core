@@ -10,9 +10,9 @@
 <div class="row mb-2">
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
-            <li class="breadcrumb-item"><a href="/Admin/Roles">لیست نقش ها</a></li>
-            <li class="breadcrumb-item active">ویرایش نقش @Model.Role.RoleTitle</li>
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Roles"><i class="uil uil-list-ul"></i> لیست نقش ها</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-edit"></i> ویرایش نقش @Model.Role.RoleTitle</li>
         </ol>
     </div>
 </div>
@@ -43,25 +43,36 @@
                         دسترسی های نقش
                     </div>
                     <div class="panel-body">
-                        <ul>
+                        <ul class="feature-list">
                             @foreach (var item in permissions.Where(p => p.ParentId == null))
                             {
-                                <li>
-                                    <input type="checkbox" @((SelectedPermissions.Any(p => p == item.PermissionId) ? "checked" : "")) name="SelectedPermission" value="@item.PermissionId" /> @item.PermissionTitle
+                                <li class="permission-item">
+                                    <input type="checkbox" id="perm_@item.PermissionId" class="permission-checkbox"
+                                           value="@item.PermissionId"
+                                    @(SelectedPermissions.Any(p => p == item.PermissionId) ? "checked" : "")>
+                                    <label for="perm_@item.PermissionId">@item.PermissionTitle</label>
+
                                     @if (permissions.Any(p => p.ParentId == item.PermissionId))
                                     {
-                                        <ul>
+                                        <ul class="feature-list">
                                             @foreach (var sub in permissions.Where(p => p.ParentId == item.PermissionId))
                                             {
-                                                <li>
-                                                    <input type="checkbox" @((SelectedPermissions.Any(p => p == sub.PermissionId) ? "checked" : "")) name="SelectedPermission" value="@sub.PermissionId" /> @sub.PermissionTitle
+                                                <li class="permission-item">
+                                                    <input type="checkbox" id="perm_@sub.PermissionId" class="permission-checkbox"
+                                                           value="@sub.PermissionId"
+                                                    @(SelectedPermissions.Any(p => p == sub.PermissionId) ? "checked" : "")>
+                                                    <label for="perm_@sub.PermissionId">@sub.PermissionTitle</label>
+
                                                     @if (permissions.Any(p => p.ParentId == sub.PermissionId))
                                                     {
-                                                        <ul>
+                                                        <ul class="feature-list">
                                                             @foreach (var underSub in permissions.Where(p => p.ParentId == sub.PermissionId))
                                                             {
-                                                                <li>
-                                                                    <input type="checkbox" @((SelectedPermissions.Any(p => p == underSub.PermissionId) ? "checked" : "")) name="SelectedPermission" value="@underSub.PermissionId" /> @underSub.PermissionTitle
+                                                                <li class="permission-item">
+                                                                    <input type="checkbox" id="perm_@underSub.PermissionId" class="permission-checkbox"
+                                                                           value="@underSub.PermissionId"
+                                                                    @(SelectedPermissions.Any(p => p == underSub.PermissionId) ? "checked" : "")>
+                                                                    <label for="perm_@underSub.PermissionId">@underSub.PermissionTitle</label>
                                                                 </li>
                                                             }
                                                         </ul>
@@ -73,12 +84,33 @@
                                 </li>
                             }
                         </ul>
-                        
                     </div>
+
                 </div>
                 <a href="/Admin/Roles" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
-                <input type="submit" value="ویرایش نقش" class="btn btn-success" />
+                <button type="submit" class="btn btn-success"><i class="uil uil-edit"></i> ویرایش نقش</button>
             </div>
         </form>
     </div>
 </div>
+<script>
+    document.querySelectorAll(".permission-checkbox").forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            // انتخاب یا عدم انتخاب تمام فرزندان
+            let children = this.closest("li").querySelectorAll(".feature-list .permission-checkbox");
+            children.forEach(child => {
+                child.checked = this.checked;
+            });
+
+            // بررسی انتخاب والدین در صورت انتخاب شدن همه فرزندان
+            let parentUl = this.closest("ul");
+            while (parentUl && parentUl.closest("li")) {
+                let parentCheckbox = parentUl.closest("li").querySelector(".permission-checkbox");
+                let allSiblingsChecked = [...parentUl.children].every(li => li.querySelector(".permission-checkbox").checked);
+
+                parentCheckbox.checked = allSiblingsChecked;
+                parentUl = parentUl.closest("ul").closest("li")?.closest("ul");
+            }
+        });
+    });
+</script>

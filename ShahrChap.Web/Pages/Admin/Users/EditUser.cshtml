@@ -11,7 +11,7 @@
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/Admin">صفحه نخست</a></li>
             <li class="breadcrumb-item"><a href="/Admin/Users">لیست کاربران</a></li>
-            <li class="breadcrumb-item active">ویرایش کاربر @Model.EditUserViewModel.UserName</li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-edit-alt"></i> ویرایش کاربر @Model.EditUserViewModel.UserName</li>
 
         </ol>
     </div>
@@ -57,17 +57,19 @@
                             </div>
                             <div class="form-group">
                                 <label>انتخاب نقش کاربر</label>
-                                @foreach (var item in Roles)
-                                {
-                                    <div class="checkbox">
-                                        <lable>
-                                            <input type="checkbox" name="SelectedRoles" value="@item.RoleId" @((Model.EditUserViewModel.UserRoles.Any(r => r == item.RoleId) ? "checked" : "")) />@item.RoleTitle
-                                        </lable>
-                                    </div>
-                                }
+                                <ul class="feature-list mt-3">
+                                    @foreach (var item in Roles)
+                                    {
+                                        <li id="role_@item.RoleId">
+                                            <input type="checkbox" @((Model.EditUserViewModel.UserRoles.Any(r => r == item.RoleId) ? "checked" : "")) name="SelectedRoles" id="role_@item.RoleId" value="@item.RoleId">
+                                            <label for="role_@item.RoleId">@item.RoleTitle</label>
+                                        </li>
+
+                                    }
+                                </ul>
                             </div>
                             <a href="/Admin/Users" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
-                            <input type="submit" value="ویرایش اطلاعات" class="btn btn-success" />
+                            <button type="submit" class="btn btn-success"><i class="uil uil-edit-alt"></i> ویرایش اطلاعات</button>
                         </div>
                     </div>
                 </div>
