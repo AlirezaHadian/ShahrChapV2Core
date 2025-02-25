@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using ShahrChap.Core.DTOs.Products;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Razor.Language;
 
 namespace ShahrChap.Core.Services.Interfaces
 {
@@ -59,6 +60,9 @@ namespace ShahrChap.Core.Services.Interfaces
         void DeleteGallery(ProductGallery gallery);
         string AddImageToProductGallery(IFormFile imageGallery);
         void DeleteGalleryImage(string currentGalleryName);
+        #endregion
+        #region SubProduct
+        List<ShowProductForAdminViewModel> GetSubProductForAdmin(int id);
         #endregion
     }
 }

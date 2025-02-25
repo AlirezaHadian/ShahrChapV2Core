@@ -102,7 +102,7 @@ namespace ShahrChap.Core.Services
 
         public List<ShowProductForAdminViewModel> GetProductsForAdmin()
         {
-            return _context.Products.Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
+            return _context.Products.Where(p=> p.ParentId == null).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
         }
 
         public Product GetProductById(int productId)
@@ -330,6 +330,13 @@ namespace ShahrChap.Core.Services
                 if (File.Exists(thumbPath))
                     File.Delete(thumbPath);
             }
+        }
+
+        #endregion
+        #region SubProduct
+        public List<ShowProductForAdminViewModel> GetSubProductForAdmin(int id)
+        {
+            return _context.Products.Where(p=> p.ParentId == id).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
         }
         #endregion
     }

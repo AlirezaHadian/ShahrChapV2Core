@@ -18,12 +18,11 @@ namespace ShahrChap.Web.Pages.Admin.Products
         public void OnGet(int id)
         {
             Product = _productService.GetProductById(id);
-
             var groups = _productService.GetGroupForManageProducts();
             ViewData["Groups"] = new SelectList(groups, "Value", "Text", Product.GroupId);
 
             var subGroups = _productService.GetSubGroupForManageProducts(Product.GroupId);
-            ViewData["SubGroups"] = new SelectList(groups, "Value", "Text", Product.SubGroupId);
+            ViewData["SubGroups"] = new SelectList(subGroups, "Value", "Text", Product.SubGroupId);
 
         }
 

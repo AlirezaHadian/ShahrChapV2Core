@@ -34,7 +34,9 @@ public class Product
     [Display(Name = "نکات چاپ")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     public string PrintingTips { get; set; }
-
+    [Display(Name = "تگ ها")]
+    [MaxLength(600)]
+    public string Tags { get; set; }
     [Display(Name = "تاریخ ثبت")] public DateTime CreateDate { get; set; }
     [Display(Name = "حذف شده؟")] public bool IsDelete { get; set; }
 
@@ -50,7 +52,7 @@ public class Product
     public List<Service>? Services { get; set; }
     public List<ProductFeature>? ProductFeatures { get; set; }
     public List<ProductFeatureValue>? ProductFeatureValues { get; set; }
-    public List<Tag>? Tags { get; set; }
+    //public List<Tag>? Tags { get; set; }
 
     #endregion
 }
