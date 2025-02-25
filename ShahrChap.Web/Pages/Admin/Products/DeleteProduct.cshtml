@@ -31,7 +31,15 @@
 
         </div>
         <div class="card-footer d-flex justify-content-between">
-            <a href="/Admin/Products" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+            @if (Model.Product.ParentId != null)
+            {
+                <a href="/Admin/Products/IndexSubProduct/@Model.Product.ParentId" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+            }
+            else
+            {
+                <a href="/Admin/Products" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+            }
+
             <form method="post">
                 <input type="hidden" asp-for="Product.ProductId" />
                 <button type="submit" class="btn btn-danger"><i class="uil uil-trash-alt"></i> حذف</button>

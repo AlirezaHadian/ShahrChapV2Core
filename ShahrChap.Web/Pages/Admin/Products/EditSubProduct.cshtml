@@ -1,0 +1,99 @@
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.Products.EditSubProductModel
+@{
+    ViewData["Title"] = "- ویرایش زیر محصول";
+}
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i>صفحه نخست</a></li>
+            <li class="breadcrumb-item text-primary"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-edit"></i>ویرایش زیرمحصول</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="SubProduct.ParentId" />
+            <input type="hidden" asp-for="SubProduct.ProductId" />
+            <input type="hidden" asp-for="SubProduct.CreateDate" />
+            <input type="hidden" asp-for="SubProduct.Image" />
+            <div class="row">
+                <div class="col-md-8">
+                    <h2>ویرایش @Model.SubProduct.ProductTitle</h2>
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="SubProduct.ProductTitle"></label>
+                        <input asp-for="SubProduct.ProductTitle" class="form-control">
+                        <span asp-validation-for="SubProduct.ProductTitle"></span>
+                    </div>
+                    @if (Model.Parent.SubGroupId != null)
+                    {
+                        <div class="form-group">
+                            <label>گروه</label>
+                            <select class="form-control" asp-for="SubProduct.GroupId" asp-items="@(ViewData["Groups"] as SelectList)">
+                                <option value="" selected="">انتخاب کنید</option>
+                            </select>
+                            <span asp-validation-for="SubProduct.GroupId"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="SubProduct.GroupId" value="@Model.Parent.GroupId" />
+                    }
+                    <div class="form-group">
+                        <label>شرح دوره</label>
+                        <textarea class="form-control" asp-for="SubProduct.Description" rows="7"></textarea>
+                        <span asp-validation-for="SubProduct.Description"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>نکات چاپ</label>
+                        <textarea class="form-control" asp-for="SubProduct.PrintingTips" rows="7"></textarea>
+                        <span asp-validation-for="SubProduct.PrintingTips"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>کلمات کلیدی</label>
+                        <input class="form-control" asp-for="SubProduct.Tags">
+                        <p class="text-warning">کلمات کلیدی را با - جدا کنید</p>
+                        <span asp-validation-for="SubProduct.Tags"></span>
+                    </div>
+                    <a href="/Admin/Products" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+                    <button type="submit" class="btn btn-success"><i class="uil uil-edit"></i> ویرایش</button>
+                </div>
+                <div class="col-md-4 border-1 d-flex flex-column align-items-center">
+                    <br />
+                    <img id="imgProduct" class="thumbnail mb05 user-avatar" src="/product/image/@Model.SubProduct.Image" />
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" name="imgProduct" id="ImageUpload" asp-for="SubProduct.Image" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+        $('#ImageUpload').change(function (event) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgProduct').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            });
+        });
+    </script>
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('SubProduct_Description', {
+                customConfig: '/js/Config.js'
+            });
+            CKEDITOR.replace('SubProduct_PrintingTips', {
+                customConfig: '/js/Config.js'
+            });
+    </script>
+}

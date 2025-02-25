@@ -50,7 +50,6 @@ namespace ShahrChap.DataLayer.Context
         #endregion
 
         #region Product
-
         public DbSet<ProductGroup> ProductGroups { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductGallery> ProductGalleries { get; set; }
@@ -61,8 +60,7 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<ProductFeatureValue> ProductFeatureValues { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServicePrice> ServicePrices { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-
+        //public DbSet<Tag> Tags { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -73,7 +71,7 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<Product>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
-            modelBuilder.Entity<Tag>().HasQueryFilter(u => !u.IsDelete);
+            //modelBuilder.Entity<Tag>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Feature>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<FeatureValue>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Service>().HasQueryFilter(u => !u.IsDelete);

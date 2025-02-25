@@ -24,6 +24,10 @@ namespace ShahrChap.Web.Pages.Admin.Products
         {
             Product = _productService.GetProductById(Product.ProductId);
             _productService.DeleteProduct(Product);
+            if(Product.ParentId != null)
+            {
+                return RedirectToPage("IndexSubProduct", new { id = Product.ParentId });
+            }
             return RedirectToPage("Index");
         }
     }
