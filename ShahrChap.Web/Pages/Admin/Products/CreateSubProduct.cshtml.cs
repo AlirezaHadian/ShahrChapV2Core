@@ -39,7 +39,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
             Parent = _productService.GetProductById((int)SubProduct.ParentId);
             if (!ModelState.IsValid)
             {
-                var groups = _productService.GetGroupForManageProducts();
+                var groups = _productService.GetSubGroupForManageProducts(Parent.SubGroupId.Value);
                 ViewData["Groups"] = new SelectList(groups, "Value", "Text");
 
                 return Page();
@@ -47,7 +47,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
 
             _productService.AddProudct(SubProduct, imgProduct);
 
-            return RedirectToPage("IndexSubProduct");
+            return RedirectToPage("IndexSubProduct", new { id = SubProduct.ParentId });
         }
     }
 }

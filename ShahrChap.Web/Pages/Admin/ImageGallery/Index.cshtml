@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "- گالری تصاویر";
     var productTitle = ViewData["ProductTitle"];
+    var parentId = ViewData["ParentId"];
 }
 
 <div class="row mb-2">
@@ -36,7 +37,14 @@
                             <input type="text" asp-for="ImageGallery.ImageTitle" class="form-control">
                             <span asp-validation-for="ImageGallery.ImageTitle"></span>
                         </div>
-                        <a href="/Admin/Products" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+                        @if (parentId != null)
+                        {
+                            <a href="/Admin/Products/IndexSubProduct/@parentId" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+                        }
+                        else
+                        {
+                            <a href="/Admin/Products" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+                        }
                         <button type="submit" asp-page-handler="CreateGallery" class="btn btn-success"><i class="uil uil-upload"></i> آپلود</button>
                     </div>
                 </div>

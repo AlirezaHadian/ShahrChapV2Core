@@ -40,13 +40,15 @@
                                 <tr>
                                     <td>@item.FeatureTitle</td>
                                     <td>
-                                        @* @if(item.FeatureValues.Any()){
+                                        @if (item.FeatureValues.Any())
+                                        {
                                             <ul>
-                                            @foreach(var sub in item.FeatureValues){
-                                                <li>@sub.ValueTitle</li>
-                                            }
-                                        </ul>
-                                        } *@
+                                                @foreach (var sub in item.FeatureValues)
+                                                {
+                                                    <li>@sub.ValueTitle</li>
+                                                }
+                                            </ul>
+                                        }
                                     </td>
                                     <td>
                                         <a asp-page="AddFeatureValue" asp-route-id="@item.FeatureId" class="btn btn-sm btn-primary"><i class="uil uil-plus-circle"></i></a>
