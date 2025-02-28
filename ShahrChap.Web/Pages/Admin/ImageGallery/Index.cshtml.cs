@@ -20,6 +20,7 @@ namespace ShahrChap.Web.Pages.Admin.ImageGallery
         public void OnGet(int productId)
         {
             ProductId = productId;
+            ViewData["ParentId"] = _productService.GetProductById(productId).ParentId;
             ViewData["ProductTitle"] = _productService.GetProductById(productId).ProductTitle;
             GalleryList = _productService.GetProductGalleryListById(productId);
         }
@@ -27,6 +28,7 @@ namespace ShahrChap.Web.Pages.Admin.ImageGallery
         public IActionResult OnPostCreateGallery(IFormFile imgProduct)
         {
             ProductId = ImageGallery.ProductId;
+            ViewData["ParentId"] = _productService.GetProductById(ProductId).ParentId;
             ViewData["ProductTitle"] = _productService.GetProductById(ProductId);
             GalleryList = _productService.GetProductGalleryListById(ProductId);
 

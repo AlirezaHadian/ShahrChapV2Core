@@ -58,12 +58,9 @@
                                         </td>
                                         <td>@item.ProductTitle</td>
                                         <td>
-                                            @* <a asp-page="IndexSubProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-dark">زیر محصولات <i class="uil uil-sort-amount-down"></i></a> *@
-                                            @* <a asp-page="AddProductFeatures" asp-route-id="@item.ProductId" class="btn btn-sm btn-success">ویژگی ها <i class="uil uil-label-alt"></i></a> *@
-                                            @* <a asp-page="AddProductService" asp-route-id="@item.ProductId" class="btn btn-sm btn-info">خدمات پس از چاپ <i class="uil uil-plus-circle"></i></a> *@
-                                            <a href="/Admin/ImageGallery/@item.ProductId" class="btn btn-sm btn-primary">نمونه کار <i class="uil uil-images"></i></a>
+                                            <a asp-page="AddSubProductFeatures" asp-route-id="@item.ProductId" class="btn btn-sm btn-success">ویژگی ها <i class="uil uil-label-alt"></i></a>
+                                            <a href="/Admin/ImageGallery/@item.ProductId" class="btn btn-sm btn-primary">گالری تصاویر <i class="uil uil-images"></i></a>
                                             <a asp-page="EditSubProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-warning">ویرایش <i class="uil uil-edit"></i></a>
-                                            @* <a asp-page="DeleteSubProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-danger">حذف <i class="uil uil-trash-alt"></i></a> *@
                                             <a href="/Admin/Products/DeleteProduct/@item.ProductId" class="btn btn-sm btn-danger">حذف <i class="uil uil-trash-alt"></i></a>
                                         </td>
                                     </tr>

@@ -1,0 +1,54 @@
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.Products.AddSubProductFeaturesModel
+@{
+    ViewData["Title"] = "- افزودن ویژگی‌ها";
+    List<int> SelectedValues = ViewData["SelectedFeatureValues"] as List<int>;
+}
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products/IndexSubProducts/@Model.CurrentProduct.ProductId"><i class="uil uil-sort-amount-down"></i> لیست زیر محصولات</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-plus-circle"></i>افزودن ویژگی به @Model.CurrentProduct.ProductTitle</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form method="post">
+            <input type="hidden" name="ProductId" value="@Model.CurrentProduct.ProductId" />
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">افزودن ویژگی به @Model.CurrentProduct.ProductTitle</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @foreach (var feature in Model.ProductFeatures)
+                            {
+                                <label>@feature.Feature.FeatureTitle:</label>
+                                <ul class="feature-list mt-3">
+                                    @* بر اساس فیچر ها لیست بندی شود و مرتب شود  *@
+                                    @foreach (var value in feature.Feature.FeatureValues)
+                                    {
+                                        <li id="valueItem_@value.FeatureValueId">
+                                            <input type="checkbox" @((SelectedValues.Any(p => p == value.FeatureValueId) ? "checked" : "")) name="SelectedFeatureValue" id="Value_@value.FeatureValueId" value="@value.FeatureValueId">
+                                            <label for="Value_@value.FeatureValueId">@value.ValueTitle</label>
+                                        </li>
+
+                                    }
+                                </ul>
+                            }
+                            
+                        </div>
+                        <a href="/Admin/Products/IndexSubProduct/@Model.CurrentProduct.ParentId" class="btn btn-default">
+                            <i class="uil uil-angle-right"></i> بازگشت
+                        </a>
+                        <button type="submit" class="btn btn-success"><i class="uil uil-plus-circle"></i> افزودن</button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        </form>
+    </div>
+</div>

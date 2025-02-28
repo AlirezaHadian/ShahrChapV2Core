@@ -54,7 +54,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
 
             _productService.UpdateProduct(SubProduct, imgProduct);
 
-            return RedirectToPage("IndexSubProduct");
+            return RedirectToPage("IndexSubProduct", new { id = SubProduct.ParentId });
         }
     }
 }

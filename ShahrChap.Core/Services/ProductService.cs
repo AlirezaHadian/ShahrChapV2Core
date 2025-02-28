@@ -35,7 +35,7 @@ namespace ShahrChap.Core.Services
             return _context.ProductGroups.Where(g => g.ParentId == null).Select(g => new SelectListItem()
             {
                 Text = g.GroupTitle,
-                Value = g.GroupId.ToString()
+                Value = nameof(g.GroupId)
             }).ToList();
         }
 
@@ -44,7 +44,7 @@ namespace ShahrChap.Core.Services
             return _context.ProductGroups.Where(g => g.ParentId == groupId).Select(g => new SelectListItem()
             {
                 Text = g.GroupTitle,
-                Value = g.GroupId.ToString()
+                Value = nameof(g.GroupId)
             }).ToList();
         }
         #endregion
@@ -102,7 +102,7 @@ namespace ShahrChap.Core.Services
 
         public List<ShowProductForAdminViewModel> GetProductsForAdmin()
         {
-            return _context.Products.Where(p=> p.ParentId == null).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
+            return _context.Products.Where(p => p.ParentId == null).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
         }
 
         public Product GetProductById(int productId)
@@ -144,7 +144,7 @@ namespace ShahrChap.Core.Services
         }
         public List<Feature> GetAllFeatures()
         {
-            return _context.Features.ToList();
+            return _context.Features.Include(f => f.FeatureValues).ToList();
         }
 
         public Feature GetFeatureById(int featureId)
@@ -188,7 +188,6 @@ namespace ShahrChap.Core.Services
                 .ForEach(p => _context.ProductFeatures.Remove(p));
             AddFeaturesToProduct(productId, features);
         }
-
         public List<int> ProductFeatures(int productId)
         {
             return _context.ProductFeatures
@@ -209,7 +208,6 @@ namespace ShahrChap.Core.Services
         {
             return _context.FeatureValues.Find(valueId);
         }
-
         public void UpdateFeatureValue(FeatureValue value)
         {
             _context.FeatureValues.Update(value);
@@ -336,7 +334,56 @@ namespace ShahrChap.Core.Services
         #region SubProduct
         public List<ShowProductForAdminViewModel> GetSubProductForAdmin(int id)
         {
-            return _context.Products.Where(p=> p.ParentId == id).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
+            return _context.Products.Where(p => p.ParentId == id).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image)).ToList();
+        }
+        #endregion
+        #region FeatureValues
+        public List<FeatureValue> GetAllFeatureValues(int parentId)
+        {
+            List<FeatureValue> Values = new List<FeatureValue>();
+            List<ProductFeature> ProductFeatures = GetProductFeatures(parentId);
+            foreach (var feature in ProductFeatures)
+            {
+                //List<Feature> features = .ToList();
+                Values.AddRange(_context.FeatureValues.Where(f => f.FeatureId == feature.FeatureId).Include(f => f.Feature));
+            }
+            return Values;
+        }
+
+        public List<int> SubProductFeatureValues(int productId)
+        {
+            return _context.ProductFeatureValues
+                .Where(p=> p.ProductId == productId)
+                .Select(p=> p.FeatureValueId).ToList();
+        }
+
+        public void AddFeatureValuesToProduct(int productId, List<int> featureValues)
+        {
+            var featureMappings = _context.FeatureValues
+            .Where(fv => featureValues.Contains(fv.FeatureValueId))
+            .Select(fv => new { fv.FeatureValueId, fv.FeatureId })
+            .ToList();
+
+            for (int i = 0; i < featureMappings.Count; i++)
+            {
+                var productFeatureValue = new ProductFeatureValue
+                {
+                    ProductId = productId,
+                    FeatureId = featureMappings[i].FeatureId,
+                    FeatureValueId = featureMappings[i].FeatureValueId
+                };
+                _context.ProductFeatureValues.Add(productFeatureValue);
+            }
+
+            _context.SaveChanges();
+        }
+        public void UpdateFeatureValuesProduct(int productId, List<int> values)
+        {
+            _context.ProductFeatureValues
+                .Where(p => p.ProductId == productId).ToList()
+                .ForEach(p => _context.ProductFeatureValues.Remove(p));
+
+            AddFeatureValuesToProduct(productId, values);
         }
         #endregion
     }

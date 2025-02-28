@@ -64,5 +64,12 @@ namespace ShahrChap.Core.Services.Interfaces
         #region SubProduct
         List<ShowProductForAdminViewModel> GetSubProductForAdmin(int id);
         #endregion
+        #region FeatureValues
+        List<FeatureValue> GetAllFeatureValues(int productId);
+        List<int> SubProductFeatureValues(int productId);
+        void AddFeatureValuesToProduct(int productId, List<int> values);
+        void UpdateFeatureValuesProduct(int productId, List<int> featureValues);
+        //List<FeatureValue> GetFeaturesByFeatureValues(List<int> values);
+        #endregion
     }
 }
