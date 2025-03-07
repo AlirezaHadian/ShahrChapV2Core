@@ -374,7 +374,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductPriceId"));
 
-                    b.Property<string>("Configuration")
+                    b.Property<string>("Combination")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -386,7 +386,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("ProductPriceId");
 
-                    b.HasIndex("ProductId", "Configuration")
+                    b.HasIndex("ProductId", "Combination")
                         .IsUnique();
 
                     b.ToTable("ProductPrices");

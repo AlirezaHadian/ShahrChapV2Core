@@ -9,7 +9,7 @@
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i>صفحه نخست</a></li>
-            <li class="breadcrumb-item"><a href="/Admin/Products/@ProductId"><i class="uil uil-list-ul"></i>لیست محصولات</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products/@Model.Product.ParentId"><i class="uil uil-list-ul"></i>لیست محصولات</a></li>
             <li class="breadcrumb-item active text-primary"><i class="uil uil-sort-amount-down"></i>لیست زیر محصولات</li>
         </ol>
     </div>
@@ -58,6 +58,7 @@
                                         </td>
                                         <td>@item.ProductTitle</td>
                                         <td>
+                                            <a asp-page="SetProductPrices" asp-route-id="@item.ProductId" class="btn btn-sm btn-info">قیمت دهی <i class="uil uil-money-bill"></i></a>
                                             <a asp-page="AddSubProductFeatures" asp-route-id="@item.ProductId" class="btn btn-sm btn-success">ویژگی ها <i class="uil uil-label-alt"></i></a>
                                             <a href="/Admin/ImageGallery/@item.ProductId" class="btn btn-sm btn-primary">گالری تصاویر <i class="uil uil-images"></i></a>
                                             <a asp-page="EditSubProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-warning">ویرایش <i class="uil uil-edit"></i></a>

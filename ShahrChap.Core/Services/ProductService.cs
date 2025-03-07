@@ -14,6 +14,8 @@ using ShahrChap.Core.DTOs.Products;
 using ShahrChap.Core.Convertors;
 using ShahrChap.Core.Security;
 using ShahrChap.DataLayer.Entities.User;
+using Microsoft.IdentityModel.Protocols.WsTrust;
+using ShahrChap.DataLayer.Migrations;
 
 namespace ShahrChap.Core.Services
 {
@@ -353,8 +355,8 @@ namespace ShahrChap.Core.Services
         public List<int> SubProductFeatureValues(int productId)
         {
             return _context.ProductFeatureValues
-                .Where(p=> p.ProductId == productId)
-                .Select(p=> p.FeatureValueId).ToList();
+                .Where(p => p.ProductId == productId)
+                .Select(p => p.FeatureValueId).ToList();
         }
 
         public void AddFeatureValuesToProduct(int productId, List<int> featureValues)
@@ -385,6 +387,92 @@ namespace ShahrChap.Core.Services
 
             AddFeatureValuesToProduct(productId, values);
         }
+        #endregion
+        #region Pricing
+        public bool AreCombinationsChanged(int productId, List<string> Combintations)
+        {
+            List<string> ProductCombinations = _context.ProductPrices.Where(p=> p.ProductId == productId).Select(p=> p.Combination).ToList();
+            return !new HashSet<string>(ProductCombinations).SetEquals(Combintations);
+        }
+        public List<string> GetFeatureCombinations(int productId)
+        {
+            var productFeatureValues = _context.ProductFeatureValues
+                .Where(pfv => pfv.ProductId == productId)
+                .Include(pfv => pfv.Feature)
+                .Include(pfv => pfv.FeatureValue)
+                .ToList();
+
+            // Group feature values by feature
+            var featureValueLists = productFeatureValues
+                .GroupBy(pfv => pfv.FeatureId)
+                .Select(g => g.Select(pfv => pfv.FeatureValue.ValueTitle).ToList())
+                .ToList();
+
+            return GenerateCombinations(featureValueLists, 0, new List<string>());
+        }
+        private List<string> GenerateCombinations(List<List<string>> featureValues, int index, List<string> current)
+        {
+            if (index == featureValues.Count)
+            {
+                return new List<string> { string.Join(" - ", current) };
+            }
+
+            var combinations = new List<string>();
+            foreach (var value in featureValues[index])
+            {
+                var newCurrent = new List<string>(current) { value };
+                combinations.AddRange(GenerateCombinations(featureValues, index + 1, newCurrent));
+            }
+            return combinations;
+        }
+        public void AddProductPrices(int productId, List<ProductPrice> price)
+        {
+            for(int i=0; i < price.Count; i++)
+            {
+                _context.ProductPrices.Add(new ProductPrice
+                {
+                    ProductId = productId,
+                    Combination = price[i].Combination,
+                    Price = price[i].Price
+                });
+            }
+            _context.SaveChanges();
+        }
+        public void UpdateProductPrices(int productId, List<ProductPrice> price)
+        {
+            _context.ProductPrices
+                .Where(p => p.ProductId == productId).ToList()
+                .ForEach(p => _context.ProductPrices.Remove(p));
+            AddProductPrices(productId, price);
+        }
+
+        public List<ProductPrice> GetProductPrices(int productId)
+        {
+            return _context.ProductPrices.Where(p=> p.ProductId == productId).ToList();
+        }
+
+        public void AddServicePrices(int productId, List<int> servicePrices, int CombinationsCount)
+        {
+            List<Service> ProductServices = GetProductServices(productId);
+            for(int i=0; i<CombinationsCount; i++)
+            {
+                for(int j=0; j< ProductServices.Count; j++)
+                {
+                    ServicePrice servicePrice = new ServicePrice()
+                    {
+                        Price = servicePrices[i+j],
+                        ProductServiceId = ProductServices[j].ServiceId,
+                        ProductPriceId = 
+                    }
+                    _context.ServicePrices.Add()
+                }
+            }
+
+            throw new NotImplementedException();
+        }
+
+        
+
         #endregion
     }
 }

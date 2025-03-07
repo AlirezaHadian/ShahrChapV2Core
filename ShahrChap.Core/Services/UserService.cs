@@ -54,7 +54,7 @@ namespace ShahrChap.Core.Services
             return _context.Users.Single(u => u.UserName == username).UserId;
         }
 
-        public string AddProfileImage(IFormFile profileImage)
+        private string AddProfileImage(IFormFile profileImage)
         {
             string avatarName = NameGenerator.GenerateUniqCode() + Path.GetExtension(profileImage.FileName);
             string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UserAvatar", avatarName);
@@ -65,7 +65,7 @@ namespace ShahrChap.Core.Services
             return avatarName;
         }
 
-        public void DeleteProfileImage(string currentAvatarName)
+        private void DeleteProfileImage(string currentAvatarName)
         {
             if (currentAvatarName != "DefaultAvatar.jpg")
             {
@@ -135,7 +135,7 @@ namespace ShahrChap.Core.Services
                 user.IsPhoneActive = false;
             }
 
-            user.UserAvatar = profile.CurrentAvatarName;
+            //user.UserAvatar = profile.CurrentAvatarName;
             UpdateUser(user);
         }
 

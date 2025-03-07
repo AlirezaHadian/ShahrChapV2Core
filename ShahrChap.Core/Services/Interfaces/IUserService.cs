@@ -26,8 +26,8 @@ namespace ShahrChap.Core.Services.Interfaces
         bool ActiveEmail(string activeCode);
         bool ActivePhone(string phoneNumber);
         int GetUserIdWithUserName(string username);
-        string AddProfileImage(IFormFile profileImage);
-        void DeleteProfileImage(string currentAvatarName);
+        //string AddProfileImage(IFormFile profileImage);
+        //void DeleteProfileImage(string currentAvatarName);
         #region  User Panel
         InformationUserViewModel GetUserInformation(string username);
         SideBarUserPanelViewMode GetSideBarUserPanelData(string username);

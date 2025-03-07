@@ -1,0 +1,88 @@
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.Products.SetProductPricesModel
+@{
+    ViewData["Title"] = "- تعیین قیمت محصول";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products/IndexSubProducts/@Model.Product.ProductId"><i class="uil uil-sort-amount-down"></i> لیست زیر محصولات</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-money-bill"></i> تعیین قیمت @Model.Product.ProductTitle</li>
+        </ol>
+    </div>
+    <div class="col-lg-12">
+        <h1 class="page-header">مدیریت قیمت @Model.Product.ProductTitle</h1>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                    <form method="post" onsubmit="removeSeparatorsBeforeSubmit()">
+                        <input type="hidden" name="productId" value="@Model.Product.ProductId">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer table-text-center" id="dataTables-example" aria-describedby="dataTables-example_info">
+                            <thead>
+                                <tr>
+                                    <th>ترکیب ویژگی ها</th>
+                                    <th>قیمت (تومان)</th>
+                                     @for (int i = 0; i < Model.ProductServices.Count; i++)
+                                    {
+                                        <th>خدمت پس از چاپ</th>
+                                        <th>قیمت (تومان)</th>
+                                    } 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Prices.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>@Model.Prices[i].Combination</strong>
+                                            <input type="hidden" asp-for="Prices[i].Combination" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control text-center price-input" asp-for="Prices[i].Price" min="0" step="1" oninput="formatNumberInput(this)" />
+                                        </td>
+                                        @for (int j = 0; j < Model.ProductServices.Count; j++)
+                                        {
+                                            <td>
+                                                <strong>@Model.ProductServices[j].ServiceTitle</strong>
+                                                <input type="hidden" asp-for="ProductServices[j].ServiceTitle" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control text-center price-input" name="ServicePrices" value="0" min="0" step="1" oninput="formatNumberInput(this)" />
+                                            </td>
+                                        }
+                                    </tr>
+                                } 
+                            </tbody>
+                        </table>
+
+                        <a href="/Admin/Products/IndexSubProduct/@Model.Product.ParentId" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+                        <button type="submit" class="btn btn-success"><i class="uil uil-money-bill"></i> ذخیره قیمت‌ها</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function formatNumberInput(input) {
+        let value = input.value.replace(/,/g, ''); // حذف کاماهای قبلی
+        if (!isNaN(value) && value !== "") {
+            input.value = Number(value).toLocaleString('en-US'); // اضافه کردن جداکننده سه‌رقمی
+        }
+    }
+
+    function removeSeparatorsBeforeSubmit() {
+        document.querySelectorAll('.price-input').forEach(input => {
+            input.value = input.value.replace(/,/g, ''); // حذف کاماها قبل از ارسال فرم
+        });
+    }
+</script>
