@@ -77,7 +77,7 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<Service>().HasQueryFilter(u => !u.IsDelete);
 
             modelBuilder.Entity<ProductPrice>()
-                .HasIndex(pc => new { pc.ProductId, pc.Configuration })
+                .HasIndex(pc => new { pc.ProductId, pc.Combination })
                 .IsUnique();
             // Province -> City (One-to-Many)
             modelBuilder.Entity<Province>()

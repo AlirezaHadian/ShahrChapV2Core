@@ -71,5 +71,13 @@ namespace ShahrChap.Core.Services.Interfaces
         void UpdateFeatureValuesProduct(int productId, List<int> featureValues);
         //List<FeatureValue> GetFeaturesByFeatureValues(List<int> values);
         #endregion
+        #region Pricing
+        List<string> GetFeatureCombinations(int productId);
+        void AddProductPrices(int productId, List<ProductPrice> price);
+        void UpdateProductPrices(int productId, List<ProductPrice> price);
+        List<ProductPrice> GetProductPrices(int productId);
+        void AddServicePrices(int productId, List<int> servicePrices, int CombinationsCount);
+        bool AreCombinationsChanged(int productId, List<string> Combintations);
+        #endregion
     }
 }

@@ -79,3 +79,9 @@ i {
         .feature-list li .fa-trash-alt:hover {
             color: #dc3545; /* رنگ قرمز برای حذف */
         }
+.price-input {
+    width: 100%;
+    max-width: 250px; /* Adjust the max width as needed */
+    font-size: 18px; /* Make text larger */
+    padding: 8px; /* Add padding for better spacing */
+}

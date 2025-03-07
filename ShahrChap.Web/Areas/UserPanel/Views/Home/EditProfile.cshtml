@@ -61,14 +61,14 @@
                                     </div>
                                     <div class="col-md-4 col-sm-12 col-xs-12">
                                         <div class="image-upload d-flex flex-column align-items-center">
-                                            <img src="/UserAvatar/@Model.CurrentAvatarName" class="mb-2" alt="">
-                                            <label for="file-upload" class="file-upload-button btn btn-outline-orange">
+                                            <img src="/UserAvatar/@Model.CurrentAvatarName" id="imgAvatar" class="mb-2" alt="">
+                                            <label for="avatar-upload" class="file-upload-button btn btn-outline-orange">
                                                 <i class="uil uil-upload"></i> بارگزاری تصویر</label>
-                                            <input type="file" accept=".jpg,.jpeg,.png" asp-for="UserAvatar" onchange="validateFileSize(this)" id="file-upload" class="file-upload-input"/>
+                                            <input type="file" accept=".jpg,.jpeg,.png" asp-for="UserAvatar" onchange="validateFileSize(this)" id="avatar-upload" class="file-upload-input"/>
                                             <span class="txt-red" asp-validation-for="UserAvatar" id="file-validation"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-7 col-sm-10 col-xs-12">
+                                    <div class="col-md-7 col-sm-10 col-xs-12 mt-3">
                                         <div class="input-group">
                                             <button class="btn btn-blue">
                                                 <i class="uil uil-file-edit-alt"></i>
@@ -86,6 +86,16 @@
 </section>
 
 <script>
+    $(document).ready(function () {
+            $('#avatar-upload').change(function (event) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            });
+        });
+
     function validateFileSize(input) {
         const maxFileSize = 5 * 1024 * 1024; // 5 MB in bytes
         const file = input.files[0];

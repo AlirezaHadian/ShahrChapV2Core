@@ -16,7 +16,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <form method="post">
+        <form method="post" asp-page-handler="CreateFeatureValue">
             @* TODO: CHECK THE PRODUCT ID TO NOT BE 0 *@
             <input type="hidden" asp-for="FeatureValue.FeatureId" value="@Model.FeatureId" />
             <div class="col-md-9">
@@ -31,7 +31,10 @@
                         <a href="/Admin/Features" class="btn btn-default">
                             <i class="uil uil-angle-right"></i> بازگشت
                         </a>
-                        <button type="submit" class="btn btn-success"><i class="uil uil-plus-circle"></i> ثبت مقدار</button>
+                            <button type="submit" class="btn btn-success">
+                                <i class="uil uil-plus-circle"></i> ثبت مقدار
+                            </button>
+ 
                     </div>
                 </div>
             </div>
