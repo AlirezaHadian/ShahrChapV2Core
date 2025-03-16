@@ -148,12 +148,10 @@ namespace ShahrChap.Core.Services
         {
             return _context.Features.Include(f => f.FeatureValues).ToList();
         }
-
         public Feature GetFeatureById(int featureId)
         {
             return _context.Features.Find(featureId);
         }
-
         public int CreateFeature(Feature feature)
         {
             _context.Features.Add(feature);
@@ -165,7 +163,6 @@ namespace ShahrChap.Core.Services
             _context.Features.Update(feature);
             _context.SaveChanges();
         }
-
         public void DeleteFeature(Feature feature)
         {
             feature.IsDelete = true;
@@ -188,9 +185,10 @@ namespace ShahrChap.Core.Services
             _context.ProductFeatures
                 .Where(p => p.ProductId == productId).ToList()
                 .ForEach(p => _context.ProductFeatures.Remove(p));
+
             AddFeaturesToProduct(productId, features);
         }
-        public List<int> ProductFeatures(int productId)
+        public List<int> ProductFeatureIds(int productId)
         {
             return _context.ProductFeatures
                 .Where(p => p.ProductId == productId)
@@ -351,14 +349,12 @@ namespace ShahrChap.Core.Services
             }
             return Values;
         }
-
-        public List<int> SubProductFeatureValues(int productId)
+        public List<int> SubProductFeatureValueIds(int productId)
         {
             return _context.ProductFeatureValues
                 .Where(p => p.ProductId == productId)
                 .Select(p => p.FeatureValueId).ToList();
         }
-
         public void AddFeatureValuesToProduct(int productId, List<int> featureValues)
         {
             var featureMappings = _context.FeatureValues
@@ -391,7 +387,7 @@ namespace ShahrChap.Core.Services
         #region Pricing
         public bool AreCombinationsChanged(int productId, List<string> Combintations)
         {
-            List<string> ProductCombinations = _context.ProductPrices.Where(p=> p.ProductId == productId).Select(p=> p.Combination).ToList();
+            List<string> ProductCombinations = _context.ProductPrices.Where(p => p.ProductId == productId).Select(p => p.Combination).ToList();
             return !new HashSet<string>(ProductCombinations).SetEquals(Combintations);
         }
         public List<string> GetFeatureCombinations(int productId)
@@ -427,7 +423,9 @@ namespace ShahrChap.Core.Services
         }
         public void AddProductPrices(int productId, List<ProductPrice> price)
         {
-            for(int i=0; i < price.Count; i++)
+            DeleteProductPrices(productId);
+
+            for (int i = 0; i < price.Count; i++)
             {
                 _context.ProductPrices.Add(new ProductPrice
                 {
@@ -438,41 +436,100 @@ namespace ShahrChap.Core.Services
             }
             _context.SaveChanges();
         }
-        public void UpdateProductPrices(int productId, List<ProductPrice> price)
+        public void UpdateProductPrices(int productId, List<ProductPrice> prices)
         {
-            _context.ProductPrices
-                .Where(p => p.ProductId == productId).ToList()
-                .ForEach(p => _context.ProductPrices.Remove(p));
-            AddProductPrices(productId, price);
-        }
-
-        public List<ProductPrice> GetProductPrices(int productId)
-        {
-            return _context.ProductPrices.Where(p=> p.ProductId == productId).ToList();
-        }
-
-        public void AddServicePrices(int productId, List<int> servicePrices, int CombinationsCount)
-        {
-            List<Service> ProductServices = GetProductServices(productId);
-            for(int i=0; i<CombinationsCount; i++)
+            foreach (var price in prices)
             {
-                for(int j=0; j< ProductServices.Count; j++)
+                var existingPrice = _context.ProductPrices
+                    .Include(p => p.ServicePrices)
+                    .FirstOrDefault(p => p.ProductPriceId == price.ProductPriceId);
+
+                if (existingPrice != null)
                 {
-                    ServicePrice servicePrice = new ServicePrice()
+                    // Update ProductPrice fields
+                    existingPrice.Price = price.Price;
+
+                    foreach (var servicePrice in price.ServicePrices)
                     {
-                        Price = servicePrices[i+j],
-                        ProductServiceId = ProductServices[j].ServiceId,
-                        ProductPriceId = 
+                        var existingServicePrice = existingPrice.ServicePrices
+                            .FirstOrDefault(sp => sp.ProductServiceId == servicePrice.ProductServiceId);
+
+                        if (existingServicePrice != null)
+                        {
+                            // Update existing service price
+                            existingServicePrice.Price = servicePrice.Price;
+                        }
+                        else
+                        {
+                            // Add new service price if not found
+                            existingPrice.ServicePrices.Add(servicePrice);
+                        }
                     }
-                    _context.ServicePrices.Add()
+
+                    _context.ProductPrices.Update(existingPrice);
                 }
             }
-
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
 
-        
+        public void DeleteProductPrices(int productId)
+        {
+            _context.ProductPrices
+                            .Where(p => p.ProductId == productId).ToList()
+                            .ForEach(p => _context.ProductPrices.Remove(p));
+        }
+        public List<ProductPrice> GetProductPrices(int productId)
+        {
+            return _context.ProductPrices.Where(p => p.ProductId == productId).ToList();
+        }
+        public void AddServicePrices(List<ServicePrice> servicePrices)
+        {
+            //Change the function and delete the old prices
+            foreach (var servicePrice in servicePrices)
+            {
+                var existingServicePrice = _context.ServicePrices
+                    .FirstOrDefault(sp => sp.ProductPriceId == servicePrice.ProductPriceId &&
+                                          sp.ProductServiceId == servicePrice.ProductServiceId);
 
+                if (existingServicePrice != null)
+                {
+                    existingServicePrice.Price = servicePrice.Price; // Update price
+                }
+                else
+                {
+                    _context.ServicePrices.Add(servicePrice);
+                }
+            }
+            _context.SaveChanges();
+        }
+        public List<ServicePrice> GetServicePricesForProduct(int productId)
+        {
+            List<ProductPrice> productPrices = GetProductPrices(productId);
+            Product product = GetProductById(productId);
+            List<ServicePrice> servicePrices = new List<ServicePrice>();
+
+            for (int i = 0; i < productPrices.Count; i++)
+            {
+                List<ServicePrice> currentProductPrice = _context.ServicePrices
+                    .Where(sp => sp.ProductPriceId == productPrices[i].ProductPriceId)
+                    .ToList();
+
+                if (!currentProductPrice.Any())
+                {
+                    currentProductPrice = _context.Services
+                        .Where(s => s.ProductId == product.ParentId)
+                        .Select(s => new ServicePrice
+                        {
+                            ProductPriceId = productPrices[i].ProductPriceId,
+                            ProductServiceId = s.ServiceId,
+                            Price = 0
+                        }).ToList();
+                }
+
+                servicePrices.AddRange(currentProductPrice);
+            }
+            return servicePrices;
+        }
         #endregion
     }
 }

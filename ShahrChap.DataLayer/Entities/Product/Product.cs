@@ -12,10 +12,13 @@ public class Product
     {
     }
 
-    [Key] public int ProductId { get; set; }
-    [Required] public int GroupId { get; set; }
+    [Key]
+    public int ProductId { get; set; }
+    [Required]
+    public int GroupId { get; set; }
     public int? SubGroupId { get; set; }
-    [Display(Name = "نوع محصول")] public int? ParentId { get; set; }
+    [Display(Name = "نوع محصول")] 
+    public int? ParentId { get; set; }
 
     [Display(Name = "عنوان نوع محصول")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -37,8 +40,12 @@ public class Product
     [Display(Name = "تگ ها")]
     [MaxLength(600)]
     public string Tags { get; set; }
-    [Display(Name = "تاریخ ثبت")] public DateTime CreateDate { get; set; }
-    [Display(Name = "حذف شده؟")] public bool IsDelete { get; set; }
+    [Display(Name = "تاریخ ثبت")]
+    public DateTime CreateDate { get; set; }
+    [Display(Name = "حذف شده؟")]
+    public bool IsDelete { get; set; }
+    [Display(Name = "نیاز به طراحی؟")]
+    public bool IsDesignable { get; set; }
 
     #region Relations
     [ForeignKey("GroupId")]
@@ -52,7 +59,6 @@ public class Product
     public List<Service>? Services { get; set; }
     public List<ProductFeature>? ProductFeatures { get; set; }
     public List<ProductFeatureValue>? ProductFeatureValues { get; set; }
-    //public List<Tag>? Tags { get; set; }
-
+    public DesignPrice? DesignPrice { get; set; }
     #endregion
 }
