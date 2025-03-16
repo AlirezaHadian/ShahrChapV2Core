@@ -60,7 +60,7 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<ProductFeatureValue> ProductFeatureValues { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServicePrice> ServicePrices { get; set; }
-        //public DbSet<Tag> Tags { get; set; }
+        public DbSet<DesignPrice> DesignPrices { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

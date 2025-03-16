@@ -11,6 +11,4 @@ namespace ShahrChap.Core.DTOs.Products
             string ProductTitle,
             string ImageName
         );
-
-
 }

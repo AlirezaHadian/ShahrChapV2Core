@@ -37,7 +37,7 @@ namespace ShahrChap.Core.Services.Interfaces
         void DeleteFeature(Feature feature);
         void AddFeaturesToProduct(int productId, List<int> features);
         void UpdateFeaturesProduct(int productId, List<int> features);
-        List<int> ProductFeatures(int productId);
+        List<int> ProductFeatureIds(int productId);
         List<FeatureValue> GetFeatureValues(int featureId);
         int CreateFeatureValue(FeatureValue value);
         FeatureValue GetFeatureValueById(int valueId);
@@ -66,7 +66,7 @@ namespace ShahrChap.Core.Services.Interfaces
         #endregion
         #region FeatureValues
         List<FeatureValue> GetAllFeatureValues(int productId);
-        List<int> SubProductFeatureValues(int productId);
+        List<int> SubProductFeatureValueIds(int productId);
         void AddFeatureValuesToProduct(int productId, List<int> values);
         void UpdateFeatureValuesProduct(int productId, List<int> featureValues);
         //List<FeatureValue> GetFeaturesByFeatureValues(List<int> values);
@@ -75,9 +75,13 @@ namespace ShahrChap.Core.Services.Interfaces
         List<string> GetFeatureCombinations(int productId);
         void AddProductPrices(int productId, List<ProductPrice> price);
         void UpdateProductPrices(int productId, List<ProductPrice> price);
+        void DeleteProductPrices(int productId);
         List<ProductPrice> GetProductPrices(int productId);
-        void AddServicePrices(int productId, List<int> servicePrices, int CombinationsCount);
+        void AddServicePrices(List<ServicePrice> servicePrices);
         bool AreCombinationsChanged(int productId, List<string> Combintations);
+        List<ServicePrice> GetServicePricesForProduct(int productId);
+        //List<ServicePrice> GetServicePricesForProduct(int productId);
+        //void UpdateServicePrices(int productId, List<ServicePrice> servicePrices);
         #endregion
     }
 }
