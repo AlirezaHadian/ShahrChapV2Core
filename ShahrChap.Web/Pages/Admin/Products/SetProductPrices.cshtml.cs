@@ -29,6 +29,14 @@ namespace ShahrChap.Web.Pages.Admin.Products
             ProductServices = _productService.GetProductServices(Product.ParentId.Value);
 
             Prices = _productService.GetProductPrices(id);
+            
+            foreach (var price in Prices)
+            {
+                if (price.DesignPrice == null)
+                {
+                    price.DesignPrice = new DesignPrice { Price = 0 };
+                }
+            }
 
             ServicePrices = _productService.GetServicePricesForProduct(id);
         }

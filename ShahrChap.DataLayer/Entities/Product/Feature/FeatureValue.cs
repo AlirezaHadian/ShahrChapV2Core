@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ShahrChap.DataLayer.Entities.Product.Form;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShahrChap.DataLayer.Entities.Product;
@@ -23,5 +24,6 @@ public class FeatureValue
     #region Relations
     public Feature? Feature { get; set; }
     public List<ProductFeatureValue>? ProductFeatureValues { get; set; }
+    public List<FormInput>? FormInputs { get; set; }
     #endregion
 }

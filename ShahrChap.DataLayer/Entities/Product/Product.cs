@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ShahrChap.DataLayer.Entities.Product.Form;
 
 namespace ShahrChap.DataLayer.Entities.Product;
 
@@ -59,6 +60,6 @@ public class Product
     public List<Service>? Services { get; set; }
     public List<ProductFeature>? ProductFeatures { get; set; }
     public List<ProductFeatureValue>? ProductFeatureValues { get; set; }
-    public DesignPrice? DesignPrice { get; set; }
+    public List<FormInput>? ProductAttributes { get; set; }
     #endregion
 }

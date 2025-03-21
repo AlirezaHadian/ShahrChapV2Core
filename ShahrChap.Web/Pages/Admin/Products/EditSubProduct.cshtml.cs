@@ -52,6 +52,9 @@ namespace ShahrChap.Web.Pages.Admin.Products
                 return Page();
             }
 
+            if (Parent.IsDesignable == true)
+                SubProduct.IsDesignable = true;
+
             _productService.UpdateProduct(SubProduct, imgProduct);
 
             return RedirectToPage("IndexSubProduct", new { id = SubProduct.ParentId });

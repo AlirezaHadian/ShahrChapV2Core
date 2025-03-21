@@ -10,6 +10,7 @@ using ShahrChap.DataLayer.Entities.Wallet;
 using ShahrChap.DataLayer.Entities.Permissions;
 using ShahrChap.DataLayer.Entities.Product;
 using System.Text.RegularExpressions;
+using ShahrChap.DataLayer.Entities.Product.Form;
 
 namespace ShahrChap.DataLayer.Context
 {
@@ -61,6 +62,8 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<Service> Services { get; set; }
         public DbSet<ServicePrice> ServicePrices { get; set; }
         public DbSet<DesignPrice> DesignPrices { get; set; }
+        public DbSet<ProductForm> ProductForms { get; set; }
+        public DbSet<FormInput> FormInputs { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -71,10 +74,10 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<Product>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductGroup>().HasQueryFilter(u => !u.IsDelete);
-            //modelBuilder.Entity<Tag>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Feature>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<FeatureValue>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Service>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<ProductForm>().HasQueryFilter(u => !u.IsDelete);
 
             modelBuilder.Entity<ProductPrice>()
                 .HasIndex(pc => new { pc.ProductId, pc.Combination })

@@ -51,6 +51,14 @@
                         <span asp-validation-for="Product.PrintingTips"></span>
                     </div>
                     <div class="form-group">
+                        <ul class="feature-list mt-3">
+                            <li id="isDesignCheckBox">
+                                <label for="IsDesign">محصول طراحی میشود؟</label>
+                                <input type="checkbox" asp-for="Product.IsDesignable" id="IsDesign" />
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
                         <label>کلمات کلیدی</label>
                         <input class="form-control" asp-for="Product.Tags">
                         <p class="text-warning">کلمات کلیدی را با - جدا کنید</p>

@@ -2625,16 +2625,26 @@ addresses {
 }
 
     .user-account .user-account-content > header {
+        position: relative;
         padding: 5px 15px;
         border-bottom: 1px solid var(--lightGrey);
         height: auto;
     }
 
         .user-account .user-account-content > header h1 {
-            font-size: 15px;
+            padding: 0 15px;
+            position: relative;
+            top: 5px;
+            font-size: 16px;
+            font-weight: bold;
             line-height: 35px;
         }
-
+        .user-account .user-account-content > header span {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            line-height: 20px;
+        }
     .user-account .user-account-content .inner {
         padding: 20px;
     }

@@ -18,12 +18,13 @@ public class WalletController : Controller
     public IActionResult Index()
     {
         ViewBag.WalletDetails = _userService.GetWalletDetailUser(User.Identity.Name);
+        ViewData["TotalCash"] = _userService.BalanceUserWallet(User.Identity.Name);
         return View();
     }
 
     [HttpPost]
     [Route("UserPanel/Wallet")]
-    public IActionResult index(ChargeWalletViewModel charge)
+    public IActionResult Index(ChargeWalletViewModel charge)
     {
         if (!ModelState.IsValid)
         {
