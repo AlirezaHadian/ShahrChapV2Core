@@ -438,9 +438,11 @@ namespace ShahrChap.Core.Services
         }
         public void UpdateProductPrices(int productId, List<ProductPrice> prices)
         {
+            Product product = GetProductById(productId);
             foreach (var price in prices)
             {
                 var existingPrice = _context.ProductPrices
+                    .Include(p=> p.DesignPrice)
                     .Include(p => p.ServicePrices)
                     .FirstOrDefault(p => p.ProductPriceId == price.ProductPriceId);
 
@@ -465,13 +467,16 @@ namespace ShahrChap.Core.Services
                             existingPrice.ServicePrices.Add(servicePrice);
                         }
                     }
-
+                    if (product.IsDesignable)
+                    {
+                        existingPrice.DesignPrice = price.DesignPrice;
+                    }
+                    
                     _context.ProductPrices.Update(existingPrice);
                 }
             }
             _context.SaveChanges();
         }
-
         public void DeleteProductPrices(int productId)
         {
             _context.ProductPrices
@@ -480,7 +485,7 @@ namespace ShahrChap.Core.Services
         }
         public List<ProductPrice> GetProductPrices(int productId)
         {
-            return _context.ProductPrices.Where(p => p.ProductId == productId).ToList();
+            return _context.ProductPrices.Where(p => p.ProductId == productId).Include(p=> p.DesignPrice).ToList();
         }
         public void AddServicePrices(List<ServicePrice> servicePrices)
         {

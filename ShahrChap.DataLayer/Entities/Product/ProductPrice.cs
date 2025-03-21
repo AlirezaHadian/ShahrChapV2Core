@@ -24,6 +24,7 @@ public class ProductPrice
 
     public virtual Product? Product { get; set; }
     public virtual List<ServicePrice>? ServicePrices { get; set; }
+    public virtual DesignPrice? DesignPrice { get; set; }
 
     #endregion
 }

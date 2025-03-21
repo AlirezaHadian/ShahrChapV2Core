@@ -1,3 +1,4 @@
+using ShahrChap.DataLayer.Entities.Product.Form;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,6 +28,7 @@ namespace ShahrChap.DataLayer.Entities.Product
         #region Relations
         public virtual Product? Product { get; set; }
         public virtual List<ServicePrice>? ServicePrices { get; set; }
+        public virtual List<FormInput>? FormInputs { get; set; }
         #endregion
     }
 }

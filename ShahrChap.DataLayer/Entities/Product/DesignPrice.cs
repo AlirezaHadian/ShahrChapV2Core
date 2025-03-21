@@ -16,14 +16,14 @@ namespace ShahrChap.DataLayer.Entities.Product
         }
         [Key]
         public int DesignPriceId { get; set; }
-        public int ProductId { get; set; }
+        public int ProductPriceId { get; set; }
         [Display(Name = "قیمت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int Price { get; set; }
 
         #region Relations
-        [ForeignKey("ProductId")]
-        public Product Product { get; set; }
+        [ForeignKey("ProductPriceId")]
+        public ProductPrice? ProductPrice { get; set; }
         #endregion
     }
 }

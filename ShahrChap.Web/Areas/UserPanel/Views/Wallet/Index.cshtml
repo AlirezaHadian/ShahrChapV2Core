@@ -21,7 +21,8 @@
             <div class="col-md-9 col-sm-8 col-xs-12">
                 <section class="user-account-content  drop-shadow">
                     <header>
-                        <h1> شارژ کیف پول </h1>
+                        <h1> کیف پول </h2>
+                        <span>موجودی شما: @ViewData["TotalCash"]</span>
                     </header>
                     <div class="inner">
                         <div class="account-information">
@@ -37,11 +38,13 @@
                                         </div>
                                     </div>
                                     <div class="col-md-7 col-sm-10 col-xs-12">
-                                        <div class="input-group">
                                             <button class="btn btn-blue">
                                                 <i class="uil uil-money-insert"></i>
                                                 شارژ حساب </button>
-                                        </div>
+                                            <button class="btn btn-red">
+                                                <i class="uil uil-money-withdraw"></i>
+                                                برداشت وجه
+                                            </button>
                                     </div>
                                 </div>
                             </form>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShahrChap.DataLayer.Context;
 
@@ -11,9 +12,11 @@ using ShahrChap.DataLayer.Context;
 namespace ShahrChap.DataLayer.Migrations
 {
     [DbContext(typeof(ShahrChapContext))]
-    partial class ShahrChapContextModelSnapshot : ModelSnapshot
+    [Migration("20250316135737_InitialDesingPrice_Mig")]
+    partial class InitialDesingPrice_Mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,12 +165,12 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductPriceId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("DesignPriceId");
 
-                    b.HasIndex("ProductPriceId")
+                    b.HasIndex("ProductId")
                         .IsUnique();
 
                     b.ToTable("DesignPrices");
@@ -684,13 +687,13 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.DesignPrice", b =>
                 {
-                    b.HasOne("ShahrChap.DataLayer.Entities.Product.ProductPrice", "ProductPrice")
+                    b.HasOne("ShahrChap.DataLayer.Entities.Product.Product", "Product")
                         .WithOne("DesignPrice")
-                        .HasForeignKey("ShahrChap.DataLayer.Entities.Product.DesignPrice", "ProductPriceId")
+                        .HasForeignKey("ShahrChap.DataLayer.Entities.Product.DesignPrice", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProductPrice");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.FeatureValue", b =>
@@ -903,6 +906,8 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Product", b =>
                 {
+                    b.Navigation("DesignPrice");
+
                     b.Navigation("ProductFeatureValues");
 
                     b.Navigation("ProductFeatures");
@@ -927,8 +932,6 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductPrice", b =>
                 {
-                    b.Navigation("DesignPrice");
-
                     b.Navigation("ServicePrices");
                 });
 

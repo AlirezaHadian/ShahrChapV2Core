@@ -32,6 +32,10 @@
                                     <tr>
                                         <th>ترکیب ویژگی‌ها</th>
                                         <th>قیمت (تومان)</th>
+                                        @if (Model.Product.IsDesignable)
+                                        {
+                                            <th>هزینه طراحی</th>
+                                        }
                                         @for (int i = 0; i < Model.ProductServices.Count; i++)
                                         {
                                             <th>@Model.ProductServices[i].ServiceTitle</th>
@@ -54,7 +58,15 @@
                                                        name="Prices[@i].Price" value="@price.Price"
                                                        min="0" step="1" oninput="formatNumberInput(this)" />
                                             </td>
-
+                                            @if (Model.Product.IsDesignable == true)
+                                            {
+                                                <td>
+                                                    <input type="hidden" asp-for="Prices[@i].DesignPrice.ProductPriceId" value="@price.ProductPriceId" />
+                                                    <input type="text" class="form-control text-center price-input"
+                                                           name="Prices[@i].DesignPrice.Price" value="@price.DesignPrice.Price"
+                                                           min="0" step="1" oninput="formatNumberInput(this)" />
+                                                </td>
+                                            }
                                             @for (int j = 0; j < Model.ProductServices.Count; j++)
                                             {
                                                 var service = Model.ProductServices[j];
@@ -83,19 +95,19 @@
                                 <i class="uil uil-money-bill"></i> ذخیره قیمت‌ها
                             </button>
                         </form>
-
+                        <hr />
                         <div class="mt-3">
                             <div class="card card-warning">
                                 <div class="card-header">
                                     <h3 class="card-title">هشدار</h3>
                                 </div>
                                 <div class="card-body">
-                                    قبل از دخیره و ثبت قیمت‌ها، اطمینان حاصل کنید که تمامی ویژگی‌های مورد نظر را به درستی ثبت و انتخاب کرده باشید.
+                                    قبل از دخیره و ثبت قیمت‌ها، اطمینان حاصل کنید که تمامی ویژگی‌ها و خدمات پس از جاپ مورد نظر را به درستی ثبت و انتخاب کرده باشید.
                                 </div>
                             </div>
                         </div>
 
-                    </div> 
+                    </div>
                 </div> <!-- table-responsive -->
             </div> <!-- panel-body -->
         </div> <!-- panel -->
