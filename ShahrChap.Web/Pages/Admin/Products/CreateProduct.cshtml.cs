@@ -18,7 +18,9 @@ namespace ShahrChap.Web.Pages.Admin.Products
         public void OnGet()
         {
             var groups = _productService.GetGroupForManageProducts();
+            var types = _productService.GetTypes();
             ViewData["Groups"] = new SelectList(groups, "Value", "Text");
+            ViewData["Types"] = new SelectList(types, "Value", "Text");
         }
         //Change the view page default image location
         public IActionResult OnPost(IFormFile? imgProduct)
@@ -26,8 +28,11 @@ namespace ShahrChap.Web.Pages.Admin.Products
             if (!ModelState.IsValid)
             {
                 var groups = _productService.GetGroupForManageProducts();
+                var types = _productService.GetTypes();
                 ViewData["Groups"] = new SelectList(groups, "Value", "Text");
-                
+                ViewData["Types"] = new SelectList(types, "Value", "Text");
+
+
                 return Page();
             }
 

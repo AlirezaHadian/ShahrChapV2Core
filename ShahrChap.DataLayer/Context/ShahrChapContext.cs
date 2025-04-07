@@ -64,6 +64,7 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<DesignPrice> DesignPrices { get; set; }
         public DbSet<ProductForm> ProductForms { get; set; }
         public DbSet<FormInput> FormInputs { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -136,6 +137,7 @@ namespace ShahrChap.DataLayer.Context
                 .HasForeignKey(psp => psp.ProductServiceId)
                 .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(modelBuilder);
+
         }
     }
 }

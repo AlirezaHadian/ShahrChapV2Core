@@ -1,0 +1,64 @@
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.Form.IndexModel
+@{
+    ViewData["Title"] = "- مدیریت فرم سفارش";
+}
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-file-graph"></i> فرم سفارش @Model.Product.ProductTitle</li>
+        </ol>
+    </div>
+    <div class="col-lg-12">
+        <h1 class="page-header">مدیریت فرم سفارش محصول @Model.Product.ProductTitle</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                        @if (Model.State != ShahrChap.Core.Enums.FormCreationState.NoFormAllowed)
+                        {
+                            <div class="row">
+                                <div class="col-md-12" style="margin-bottom:1rem">
+                                    <a asp-page="CreateForm" asp-route-id="@Model.Product.ProductId" class="btn btn-outline btn-success"><i class="uil uil-archive"></i> افزودن فرم جدید</a>
+                                </div>
+                            </div>
+                        }
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info" style="text-align:center;vertical-align:central;">
+                            <thead>
+                                <tr>
+                                    <th>عنوان فرم</th>
+                                    <th>دستورات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Forms.Any())
+                                {
+                                    @foreach (var item in Model.Forms)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.ProductFormTitle
+                                            </td>
+                                            <td>
+                                                <a asp-page="EditForm" asp-route-id="@item.ProductFormId" class="btn btn-sm btn-warning">ویرایش <i class="uil uil-edit"></i></a>
+                                                <a asp-page="DeleteForm" asp-route-id="@item.ProductFormId" class="btn btn-sm btn-danger">حذف <i class="uil uil-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

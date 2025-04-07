@@ -1,0 +1,54 @@
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.Form.CreateFormModel
+@using ShahrChap.Core.Enums;
+@{
+    ViewData["Title"] = "- افزودن فرم سفارش";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Form/Index/@Model.Product.ProductId"><i class="uil uil-list-ul"></i> فرم‌های محصول</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-plus-circle"></i> افزودن فرم جدید</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form method="post">
+            <input type="hidden" asp-for="Form.ProductId" value="@Model.Product.ProductId" />
+            <h2>افزودن فرم جدید</h2>
+            <hr />
+            <div class="form-group">
+                <label asp-for="Form.Description"></label>
+                <textarea asp-for="Form.Description" class="form-control"></textarea>
+                <span asp-validation-for="Form.Description"></span>
+            </div>
+            <div class="form-group">
+                <label>نوع فرم</label>
+                <select asp-for="Form.IsDesignable" class="custom-select rounded-0" id="exampleSelectRounded0">
+
+                    @if (Model.State == FormCreationState.BothFormsAllowed)
+                    {
+                        <option value="true">درخواست طراحی</option>
+                        <option value="false">آپلود فایل</option>
+                    }
+                    else if(Model.State == FormCreationState.FileUploadOnly)
+                    {
+                        <option value="false">آپلود فایل</option>
+                    }
+                    else if (Model.State == FormCreationState.CustomDesignOnly)
+                    {
+                        <option value="true">درخواست طراحی</option>
+                    }
+                    <span asp-validation-for="Form.IsDesignable"></span>
+                </select>
+            </div>
+            <a href="/Admin/Form/@Model.Product.ProductId" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+            <button type="submit" class="btn btn-success"><i class="uil uil-plus-circle"></i> افزودن</button>
+        </form>
+    </div>
+</div>

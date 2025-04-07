@@ -30,9 +30,14 @@
                         <span asp-validation-for="Product.ProductTitle"></span>
                     </div>
                     <div class="form-group">
+                        <label>نوع محصول</label>
+                        <select class="form-control" asp-for="Product.ProductTypeId" asp-items="@(ViewData["Types"] as SelectList)">
+                        </select>
+                        <span asp-validation-for="Product.ProductTypeId"></span>
+                    </div>
+                    <div class="form-group">
                         <label>گروه اصلی</label>
                         <select class="form-control" asp-for="Product.GroupId" asp-items="@(ViewData["Groups"] as SelectList)">
-                            <option value="" selected="">انتخاب کنید</option>
                         </select>
                         <span asp-validation-for="Product.GroupId"></span>
                     </div>
@@ -53,14 +58,6 @@
                         <label>نکات چاپ</label>
                         <textarea class="form-control" asp-for="Product.PrintingTips" rows="7"></textarea>
                         <span asp-validation-for="Product.PrintingTips"></span>
-                    </div>
-                    <div class="form-group">
-                        <ul class="feature-list mt-3">
-                            <li id="isDesignCheckBox">
-                                <label for="IsDesign">محصول طراحی میشود؟</label>
-                                <input type="checkbox" asp-for="Product.IsDesignable" id="IsDesign" />
-                            </li>
-                        </ul>
                     </div>
                     <div class="form-group">
                         <label>کلمات کلیدی</label>

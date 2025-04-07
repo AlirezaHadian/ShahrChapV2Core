@@ -45,8 +45,8 @@ public class Product
     public DateTime CreateDate { get; set; }
     [Display(Name = "حذف شده؟")]
     public bool IsDelete { get; set; }
-    [Display(Name = "نیاز به طراحی؟")]
-    public bool IsDesignable { get; set; }
+    [Display(Name = "نوع محصول")]
+    public int ProductTypeId { get; set; }
 
     #region Relations
     [ForeignKey("GroupId")]
@@ -61,5 +61,7 @@ public class Product
     public List<ProductFeature>? ProductFeatures { get; set; }
     public List<ProductFeatureValue>? ProductFeatureValues { get; set; }
     public List<FormInput>? ProductAttributes { get; set; }
+    [ForeignKey("ProductTypeId")]
+    public ProductType? ProductType { get; set; }
     #endregion
 }

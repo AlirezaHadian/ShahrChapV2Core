@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using ShahrChap.Core.DTOs.Products;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Razor.Language;
+using ShahrChap.DataLayer.Entities.Product.Form;
+using ShahrChap.Core.Enums;
 
 namespace ShahrChap.Core.Services.Interfaces
 {
@@ -18,6 +20,11 @@ namespace ShahrChap.Core.Services.Interfaces
         List<ProductGroup> GetAllGroups();
         List<SelectListItem> GetGroupForManageProducts();
         List<SelectListItem> GetSubGroupForManageProducts(int groupId);
+        #endregion
+        #region Type
+        //This type will specified the type of product for the forms
+        List<SelectListItem> GetTypes();
+        int GetTypeFormsCount(int typeId);
         #endregion
         #region Product
         List<ShowProductForAdminViewModel> GetProductsForAdmin();
@@ -80,6 +87,12 @@ namespace ShahrChap.Core.Services.Interfaces
         void AddServicePrices(List<ServicePrice> servicePrices);
         bool AreCombinationsChanged(int productId, List<string> Combintations);
         List<ServicePrice> GetServicePricesForProduct(int productId);
+        #endregion
+        #region Forms
+        List<ProductForm> GetProductForms(int productId);
+        //This method is for determining the status of the product's created forms and handling it. 
+        FormCreationState GetPendingForms(int productId);
+        ProductForm GetProductFormById(int formId);
         #endregion
     }
 }
