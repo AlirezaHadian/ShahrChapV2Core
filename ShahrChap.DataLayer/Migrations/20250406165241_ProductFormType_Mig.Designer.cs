@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShahrChap.DataLayer.Context;
 
@@ -11,9 +12,11 @@ using ShahrChap.DataLayer.Context;
 namespace ShahrChap.DataLayer.Migrations
 {
     [DbContext(typeof(ShahrChapContext))]
-    partial class ShahrChapContextModelSnapshot : ModelSnapshot
+    [Migration("20250406165241_ProductFormType_Mig")]
+    partial class ProductFormType_Mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,8 +284,8 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDesignable")
-                        .HasColumnType("bit");
+                    b.Property<int>("PF_TypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProductFormTitle")
                         .IsRequired()
@@ -294,9 +297,32 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("ProductFormId");
 
+                    b.HasIndex("PF_TypeId");
+
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductForms");
+                });
+
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Form.ProductFormType", b =>
+                {
+                    b.Property<int>("PF_TypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PF_TypeId"));
+
+                    b.Property<int>("FormsCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeTitle")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("PF_TypeId");
+
+                    b.ToTable("ProductFormTypes");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Product", b =>
@@ -313,6 +339,9 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FormTypeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -337,9 +366,6 @@ namespace ShahrChap.DataLayer.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ProductTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("SubGroupId")
                         .HasColumnType("int");
 
@@ -350,11 +376,11 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("ProductId");
 
+                    b.HasIndex("FormTypeId");
+
                     b.HasIndex("GroupId");
 
                     b.HasIndex("ParentId");
-
-                    b.HasIndex("ProductTypeId");
 
                     b.HasIndex("SubGroupId");
 
@@ -496,27 +522,6 @@ namespace ShahrChap.DataLayer.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductPrices");
-                });
-
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductType", b =>
-                {
-                    b.Property<int>("ProductTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductTypeId"));
-
-                    b.Property<int>("FormsCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TypeTitle")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.HasKey("ProductTypeId");
-
-                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service", b =>
@@ -835,6 +840,12 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Form.ProductForm", b =>
                 {
+                    b.HasOne("ShahrChap.DataLayer.Entities.Product.Form.ProductFormType", "ProductFormType")
+                        .WithMany("ProductForms")
+                        .HasForeignKey("PF_TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
@@ -842,10 +853,16 @@ namespace ShahrChap.DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+
+                    b.Navigation("ProductFormType");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Product", b =>
                 {
+                    b.HasOne("ShahrChap.DataLayer.Entities.Product.Form.ProductFormType", "ProductFormType")
+                        .WithMany("Products")
+                        .HasForeignKey("FormTypeId");
+
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.ProductGroup", "Group")
                         .WithMany("Products")
                         .HasForeignKey("GroupId")
@@ -856,19 +873,13 @@ namespace ShahrChap.DataLayer.Migrations
                         .WithMany("Products")
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("ShahrChap.DataLayer.Entities.Product.ProductType", "ProductType")
-                        .WithMany("Products")
-                        .HasForeignKey("ProductTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.ProductGroup", "SubGroup")
                         .WithMany("SubGroup")
                         .HasForeignKey("SubGroupId");
 
                     b.Navigation("Group");
 
-                    b.Navigation("ProductType");
+                    b.Navigation("ProductFormType");
 
                     b.Navigation("SubGroup");
                 });
@@ -1056,6 +1067,13 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Navigation("FormInputs");
                 });
 
+            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Form.ProductFormType", b =>
+                {
+                    b.Navigation("ProductForms");
+
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Product", b =>
                 {
                     b.Navigation("ProductAttributes");
@@ -1087,11 +1105,6 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Navigation("DesignPrice");
 
                     b.Navigation("ServicePrices");
-                });
-
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductType", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service", b =>

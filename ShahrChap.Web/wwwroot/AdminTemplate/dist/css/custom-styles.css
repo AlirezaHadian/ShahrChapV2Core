@@ -85,3 +85,7 @@ i {
     font-size: 18px; /* Make text larger */
     padding: 8px; /* Add padding for better spacing */
 }
+a.disabled {
+    pointer-events: none !important;
+    color: #ccc;
+}

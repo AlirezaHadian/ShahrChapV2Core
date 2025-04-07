@@ -19,7 +19,10 @@ namespace ShahrChap.Web.Pages.Admin.Products
         {
             Product = _productService.GetProductById(id);
             var groups = _productService.GetGroupForManageProducts();
+            var types = _productService.GetTypes();
+
             ViewData["Groups"] = new SelectList(groups, "Value", "Text", Product.GroupId);
+            ViewData["Types"] = new SelectList(types, "Value", "Text", Product.ProductTypeId);
 
             var subGroups = _productService.GetSubGroupForManageProducts(Product.GroupId);
             ViewData["SubGroups"] = new SelectList(subGroups, "Value", "Text", Product.SubGroupId);
@@ -31,9 +34,11 @@ namespace ShahrChap.Web.Pages.Admin.Products
             if (!ModelState.IsValid)
             {
                 Product = _productService.GetProductById(Product.ProductId);
-
                 var groups = _productService.GetGroupForManageProducts();
+                var types = _productService.GetTypes();
+
                 ViewData["Groups"] = new SelectList(groups, "Value", "Text", Product.GroupId);
+                ViewData["Types"] = new SelectList(types, "Value", "Text", Product.ProductTypeId);
 
                 var subGroups = _productService.GetSubGroupForManageProducts(Product.GroupId);
                 ViewData["SubGroups"] = new SelectList(groups, "Value", "Text", Product.SubGroupId);
@@ -41,6 +46,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
             }
 
             _productService.UpdateProduct(Product, imgProduct);
+            //_productService.UpdateFormsOnEditProduct(Product.ProductId);
 
             return RedirectToPage("Index");
         }

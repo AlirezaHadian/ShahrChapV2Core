@@ -32,7 +32,7 @@
                                     <tr>
                                         <th>ترکیب ویژگی‌ها</th>
                                         <th>قیمت (تومان)</th>
-                                        @if (Model.Product.IsDesignable)
+                                        @if (Model.ProductFormsCount == 2)
                                         {
                                             <th>هزینه طراحی</th>
                                         }
@@ -58,7 +58,7 @@
                                                        name="Prices[@i].Price" value="@price.Price"
                                                        min="0" step="1" oninput="formatNumberInput(this)" />
                                             </td>
-                                            @if (Model.Product.IsDesignable == true)
+                                            @if (Model.ProductFormsCount == 2)
                                             {
                                                 <td>
                                                     <input type="hidden" asp-for="Prices[@i].DesignPrice.ProductPriceId" value="@price.ProductPriceId" />
@@ -66,12 +66,11 @@
                                                            name="Prices[@i].DesignPrice.Price" value="@price.DesignPrice.Price"
                                                            min="0" step="1" oninput="formatNumberInput(this)" />
                                                 </td>
-                                            }
+                                            } 
                                             @for (int j = 0; j < Model.ProductServices.Count; j++)
                                             {
                                                 var service = Model.ProductServices[j];
 
-                                                // Add a null check for ServicePrices to avoid NullReferenceException
                                                 var servicePrice = price.ServicePrices?.FirstOrDefault(sp => sp.ProductServiceId == service.ServiceId);
 
                                                 <td>

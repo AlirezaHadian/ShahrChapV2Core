@@ -16,16 +16,16 @@ namespace ShahrChap.Web.Pages.Admin.Products
         }
 
         public Product Product { get; set; }
-        //public List<string> FeatureCombinations { get; set; }
         public List<Service> ProductServices { get; set; }
         [BindProperty]
         public List<ProductPrice> Prices { get; set; }
         [BindProperty]
         public List<ServicePrice> ServicePrices { get; set; }
+        public int ProductFormsCount { get; set; }
         public void OnGet(int id)
         {
             Product = _productService.GetProductById(id);
-
+            ProductFormsCount = _productService.GetTypeFormsCount(Product.ProductTypeId);
             ProductServices = _productService.GetProductServices(Product.ParentId.Value);
 
             Prices = _productService.GetProductPrices(id);
@@ -44,7 +44,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
         public IActionResult OnPost(int productId)
         {
             Product = _productService.GetProductById(productId);
-
+            ProductFormsCount = _productService.GetTypeFormsCount(Product.ProductTypeId);
             ProductServices = _productService.GetProductServices(Product.ParentId.Value);
 
             if (!ModelState.IsValid) return Page();

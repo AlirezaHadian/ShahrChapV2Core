@@ -1,0 +1,276 @@
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.Form.EditFormModel
+@{
+    ViewData["Title"] = "- ویرایش فرم سفارش";
+}
+@* 
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i>صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+            <li class="breadcrumb-item text-primary"><a href="/Admin/Form/Index/@Model.Form.ProductId"><i class="uil uil-list-ul"></i> لیست فرم های محصول</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-plus-circle"></i>ویرایش فرم @Model.Form.ProductFormTitle</li>
+        </ol>   
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+            <div class="row">
+                    <h2>ویرایش فرم</h2>
+                    <hr /> *@
+    @*                 <div class="form-group">
+                        <label asp-for="Product.ProductTitle"></label>
+                        <input asp-for="Product.ProductTitle" class="form-control">
+                        <span asp-validation-for="Product.ProductTitle"></span>
+                    </div> *@
+                    @* <div class="form-group">
+                        <label>گروه اصلی</label>
+                        <select class="form-control" asp-for="Product.GroupId" asp-items="@(ViewData["Groups"] as SelectList)">
+                            <option value="" selected="">انتخاب کنید</option>
+                        </select>
+                        <span asp-validation-for="Product.GroupId"></span>
+                    </div> *@
+
+
+
+@* 
+
+                <!-- Add Button -->
+                <button id="showFormBtn">افزودن</button>
+
+                <!-- Form (Hidden Initially) -->
+                <form id="dynamicForm" style="display: none;">
+                    <input type="text" id="inputText" placeholder="Enter text" required />
+
+                    <!-- Dropdown for HTML Input Types -->
+                    <select id="inputType">
+                        <option value="text">Text</option>
+                        <option value="number">Number</option>
+                        <option value="email">Email</option>
+                        <option value="password">Password</option>
+                        <option value="checkbox">Checkbox</option>
+                        <option value="radio">Radio</option>
+                    </select>
+
+                    <!-- Checkbox to Reveal Another Dropdown -->
+                    <label>
+                        <input type="checkbox" id="toggleDropdown" /> Show Extra Options
+                    </label>
+
+                    <!-- Second Dropdown (Hidden Initially) -->
+                    <select id="extraDropdown" style="display: none;">
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+
+                    <button type="submit">Submit</button>
+                </form>
+
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Text</th>
+                            <th>Type</th>
+                            <th>Extra Option</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead> *@
+                    @* <tbody id="itemsTableBody">
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr id="row_@item.Id">
+                                <td>@item.Text</td>
+                                <td>@item.Type</td>
+                                <td>@item.ExtraOption</td>
+                                <td>
+                                    <button class="deleteBtn" data-id="@item.Id">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody> *@
+             @*    </table>
+            <script>
+                $(document).ready(function () {
+                    // Show Form on Button Click
+                    $("#showFormBtn").click(function () {
+                        $("#dynamicForm").fadeIn();
+                    });
+
+                    // Toggle Extra Dropdown
+                    $("#toggleDropdown").change(function () {
+                        if ($(this).is(":checked")) {
+                            $("#extraDropdown").fadeIn();
+                        } else {
+                            $("#extraDropdown").fadeOut();
+                        }
+                    });
+
+                    // Submit Form via AJAX
+                    $("#dynamicForm").submit(function (e) {
+                        e.preventDefault();
+                        var text = $("#inputText").val();
+                        var type = $("#inputType").val();
+                        var extraOption = $("#toggleDropdown").is(":checked") ? $("#extraDropdown").val() : "";
+
+                        $.post("/DynamicForm?handler=Create", { text: text, type: type, extraOption: extraOption }, function (data) {
+                            $("#itemsTableBody").append(data);
+                            $("#dynamicForm")[0].reset();
+                        });
+                    });
+
+                    // Delete Item
+                    $(document).on("click", ".deleteBtn", function () {
+                        var id = $(this).data("id");
+                        $.post("/DynamicForm?handler=Delete", { id: id }, function () {
+                            $("#row_" + id).fadeOut();
+                        });
+                    });
+                });
+            </script>
+    </div>
+</div> *@
+
+<div class="content-wrapper" style="direction: rtl; text-align: right;">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-primary shadow">
+                <div class="card-header">
+                    <h3 class="card-title">مدیریت فرم داینامیک</h3>
+                </div>
+                <div class="card-body">
+
+                    <!-- Add Button -->
+                    <button id="showFormBtn" class="btn btn-success">
+                        <i class="fas fa-plus"></i> افزودن
+                    </button>
+
+                    <!-- Form (Hidden Initially) -->
+                    <form id="dynamicForm" style="display: none;" class="mt-3">
+                        <div class="form-group">
+                            <label>متن ورودی</label>
+                            <input type="text" id="inputText" class="form-control" placeholder="متن خود را وارد کنید" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>نوع ورودی</label>
+                            <select id="inputType" class="form-control">
+                                <option value="text">متن</option>
+                                <option value="number">عدد</option>
+                                <option value="email">ایمیل</option>
+                                <option value="password">رمز عبور</option>
+                                <option value="checkbox">چک‌باکس</option>
+                                <option value="radio">دکمه رادیویی</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" id="toggleDropdown" class="custom-control-input">
+                                <label class="custom-control-label" for="toggleDropdown">نمایش گزینه‌های اضافی</label>
+                            </div>
+                        </div>
+
+                        <!-- Second Dropdown (Hidden Initially) -->
+                        <div class="form-group" id="extraDropdownContainer" style="display: none;">
+                            <label>گزینه اضافی</label>
+                            <select id="extraDropdown" class="form-control">
+                                <option value="option1">گزینه ۱</option>
+                                <option value="option2">گزینه ۲</option>
+                                <option value="option3">گزینه ۳</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> ثبت
+                        </button>
+                    </form>
+
+                    <hr />
+
+                    <!-- Display Table -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>متن</th>
+                                    <th>نوع</th>
+                                    <th>گزینه اضافی</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemsTableBody">
+                                <tr>
+                                    <td>Hello</td>
+                                    <td>Hello</td>
+                                    <td>Hello</td>
+                                    <td>
+                                        <button class="btn btn-danger deleteBtn">
+                                            <i class="fas fa-trash-alt"></i> حذف
+                                        </button>
+                                    </td>
+                                </tr>
+                                @* @foreach (var item in Model.Items)
+                                {
+                                    <tr id="row_@item.Id">
+                                        <td>@item.Text</td>
+                                        <td>@item.Type</td>
+                                        <td>@item.ExtraOption</td>
+                                        <td>
+                                            <button class="btn btn-danger deleteBtn" data-id="@item.Id">
+                                                <i class="fas fa-trash-alt"></i> حذف
+                                            </button>
+                                        </td>
+                                    </tr>
+                                } *@
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- jQuery & AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Show Form on Button Click
+        $("#showFormBtn").click(function () {
+            $("#dynamicForm").fadeIn();
+        });
+
+        // Toggle Extra Dropdown Visibility
+        $("#toggleDropdown").change(function () {
+            if ($(this).is(":checked")) {
+                $("#extraDropdownContainer").fadeIn();
+            } else {
+                $("#extraDropdownContainer").fadeOut();
+            }
+        });
+
+        // AJAX Form Submission
+        $("#dynamicForm").submit(function (e) {
+            e.preventDefault();
+            var text = $("#inputText").val();
+            var type = $("#inputType").val();
+            var extraOption = $("#toggleDropdown").is(":checked") ? $("#extraDropdown").val() : "";
+
+            $.post("/Admin/DynamicForm?handler=Create", { text: text, type: type, extraOption: extraOption }, function (data) {
+                $("#itemsTableBody").append(data);
+                $("#dynamicForm")[0].reset();
+            });
+        });
+
+        // AJAX Delete Item
+        $(document).on("click", ".deleteBtn", function () {
+            var id = $(this).data("id");
+            $.post("/Admin/DynamicForm?handler=Delete", { id: id }, function () {
+                $("#row_" + id).fadeOut();
+            });
+        });
+    });
+</script>

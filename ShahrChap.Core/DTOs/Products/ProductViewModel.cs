@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShahrChap.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace ShahrChap.Core.DTOs.Products
     public record ShowProductForAdminViewModel(
             int ProductId,
             string ProductTitle,
-            string ImageName
+            string ImageName,
+            int FormsCount
         );
 }

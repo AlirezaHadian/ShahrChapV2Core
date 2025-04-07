@@ -14,11 +14,16 @@ namespace ShahrChap.DataLayer.Entities.Product.Form
         [Key]
         public int ProductFormId { get; set; }
         public int ProductId { get; set; }
+
+        [Display(Name = "عنوان فرم")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(300, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
+        public string ProductFormTitle { get; set; }
         [Display(Name = "توضیحات")]
         public string? Description { get; set; }
-        [Display(Name = "فرم طراحی شده؟")]
-        public bool IsDesigned { get; set; }
         public bool IsDelete { get; set; }
+        [Display(Name = "فرم طراحی؟")]
+        public bool IsDesignable { get; set; }
 
         #region Relations
         [ForeignKey("ProductId")]
