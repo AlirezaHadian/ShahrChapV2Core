@@ -19,9 +19,10 @@
         <form method="post" asp-page-handler="CreateFeatureValue">
             @* TODO: CHECK THE PRODUCT ID TO NOT BE 0 *@
             <input type="hidden" asp-for="FeatureValue.FeatureId" value="@Model.FeatureId" />
+            <h3>افزودن مقدار جدید به @featureTitle</h3>
+            <hr />
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">افزودن مقدار جدید به @featureTitle</div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label>عنوان مقدار</label>

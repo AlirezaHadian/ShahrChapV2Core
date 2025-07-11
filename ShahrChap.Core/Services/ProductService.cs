@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Protocols.WsTrust;
 using ShahrChap.DataLayer.Migrations;
 using ShahrChap.DataLayer.Entities.Product.Form;
 using ShahrChap.Core.Enums;
+using Microsoft.AspNetCore.Mvc.Internal;
 
 
 namespace ShahrChap.Core.Services
@@ -62,10 +63,6 @@ namespace ShahrChap.Core.Services
                 Value = nameof(g.ProductTypeId)
             }).ToList();
         }
-        public int GetTypeFormsCount(int typeId)
-        {
-            return _context.ProductTypes.Find(typeId).FormsCount;
-        }
         #endregion
         #region Product
         public int AddProudct(Product product, IFormFile imgProduct)
@@ -98,7 +95,7 @@ namespace ShahrChap.Core.Services
 
             ImageConvertor imgResizer = new ImageConvertor();
             string thumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/thumb", productImageName);
-            imgResizer.ResizeImage(imagePath, thumbPath, 150);
+            imgResizer.ResizeImage(imagePath, thumbPath, 250);
             return productImageName;
         }
 
@@ -121,7 +118,7 @@ namespace ShahrChap.Core.Services
 
         public List<ShowProductForAdminViewModel> GetProductsForAdmin()
         {
-            return _context.Products.Where(p => p.ParentId == null).Include(p => p.ProductType).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image, p.ProductType.FormsCount)).ToList();
+            return _context.Products.Where(p => p.ParentId == null).Include(p => p.ProductType).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image, p.IsDesignable)).ToList();
         }
         public Product GetProductById(int productId)
         {
@@ -153,6 +150,37 @@ namespace ShahrChap.Core.Services
             //_context.Products.Update(product);
             UpdateProduct(product, null);
             _context.SaveChanges();
+        }
+        public List<ShowProductListViewModel> GetProducts(int take = 0, string filter = "", int? parentId = null)
+        {
+            if (take == 0)
+                take = 8;
+
+            IQueryable<Product> result = _context.Products;
+
+            if (!string.IsNullOrEmpty(filter))
+            {
+                result = result.Where(p => p.ProductTitle.Contains(filter));
+            }
+
+            if (parentId != null)
+            {
+                result = result.Where(p => p.ParentId == parentId);
+            }
+            else
+            {
+                result = result.Where(p => p.ParentId != null);
+            }
+
+            result = result.OrderByDescending(p=> p.CreateDate);
+
+            return result.Include(p => p.Group).Select(p => new ShowProductListViewModel()
+            {
+                ProductId = p.ProductId,
+                ImageName = p.Image,
+                ProductName = p.ProductTitle,
+                GroupName = p.Group.GroupTitle
+            }).Take(take).ToList();
         }
         #endregion
         #region Feature
@@ -350,7 +378,7 @@ namespace ShahrChap.Core.Services
         #region SubProduct
         public List<ShowProductForAdminViewModel> GetSubProductForAdmin(int id)
         {
-            return _context.Products.Where(p => p.ParentId == id).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image, p.ProductType.FormsCount)).ToList();
+            return _context.Products.Where(p => p.ParentId == id).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image, p.IsDesignable)).ToList();
         }
         #endregion
         #region FeatureValues
@@ -483,8 +511,7 @@ namespace ShahrChap.Core.Services
                             existingPrice.ServicePrices.Add(servicePrice);
                         }
                     }
-                    int productFormsCount = GetTypeFormsCount(product.ProductTypeId);
-                    if (productFormsCount == 2)
+                    if (product.IsDesignable)
                     {
                         existingPrice.DesignPrice = price.DesignPrice;
                     }
@@ -552,60 +579,6 @@ namespace ShahrChap.Core.Services
             }
             return servicePrices;
         }
-        #endregion
-        #region Forms
-        public List<ProductForm> GetProductForms(int productId)
-        {
-            return _context.ProductForms.Where(p => p.ProductId == productId).Include(p => p.FormInputs).ToList();
-        }
-
-        public ProductForm GetProductFormById(int formId)
-        {
-            return _context.ProductForms.SingleOrDefault(p => p.ProductFormId == formId);
-        }
-
-        public FormCreationState GetPendingForms(int productId)
-        {
-            Product product = GetProductById(productId);
-            int formTypeCount = GetTypeFormsCount(product.ProductTypeId);
-            List<ProductForm> forms = _context.ProductForms.Where(p => p.ProductId == productId).ToList();
-
-            if(formTypeCount == 1)
-            {
-                if (forms.Any())
-                {
-                    return FormCreationState.NoFormAllowed;
-                }
-                else
-                {
-                    return FormCreationState.FileUploadOnly;
-                }
-            }
-            else if(formTypeCount == 2)
-            {
-                if (forms.Any())
-                {
-                    for(int i=0; i < forms.Count(); i++)
-                    {
-                        if (forms[i].IsDesignable == true)
-                        {
-                            return FormCreationState.CustomDesignOnly;
-                        }
-                        else
-                        {
-                            return FormCreationState.FileUploadOnly;
-                        }
-                    }
-                }
-                else
-                {
-                    return FormCreationState.BothFormsAllowed;
-                }
-            }
-                return FormCreationState.NoFormAllowed;
-        }
-
-
         #endregion
     }
 }

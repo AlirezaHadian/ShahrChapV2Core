@@ -18,11 +18,10 @@
 <div class="row">
     <div class="col-lg-12">
         <form method="post">
+            <h3>افزودن نقش جدید</h3>
+            <hr />
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        افزودن نقش جدید
-                    </div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label>عنوان نقش</label>
@@ -38,12 +37,12 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">دسترسی های نقش</div>
                     <div class="panel-body">
-                        <ul class="feature-list">
+                        <ul class="feature-list level-1">
                             @foreach (var item in permissions.Where(p => p.ParentId == null))
                             {
                                 <li class="permission-item">
-                                    <input type="checkbox" class="permission-checkbox" value="@item.PermissionId">
                                     <label>@item.PermissionTitle</label>
+                                    <input type="checkbox" class="permission-checkbox" value="@item.PermissionId">
 
                                     @if (permissions.Any(p => p.ParentId == item.PermissionId))
                                     {
@@ -51,8 +50,8 @@
                                             @foreach (var sub in permissions.Where(p => p.ParentId == item.PermissionId))
                                             {
                                                 <li class="permission-item">
-                                                    <input type="checkbox" class="permission-checkbox" value="@sub.PermissionId">
                                                     <label>@sub.PermissionTitle</label>
+                                                    <input type="checkbox" class="permission-checkbox" value="@sub.PermissionId">
 
                                                     @if (permissions.Any(p => p.ParentId == sub.PermissionId))
                                                     {
@@ -60,8 +59,8 @@
                                                             @foreach (var underSub in permissions.Where(p => p.ParentId == sub.PermissionId))
                                                             {
                                                                 <li class="permission-item">
-                                                                    <input type="checkbox" class="permission-checkbox" value="@underSub.PermissionId">
                                                                     <label>@underSub.PermissionTitle</label>
+                                                                    <input type="checkbox" class="permission-checkbox" value="@underSub.PermissionId">
                                                                 </li>
                                                             }
                                                         </ul>
@@ -73,6 +72,7 @@
                                 </li>
                             }
                         </ul>
+
                     </div>
                 </div>
 

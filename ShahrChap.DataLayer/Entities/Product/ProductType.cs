@@ -20,11 +20,12 @@ namespace ShahrChap.DataLayer.Entities.Product
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(150, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
         public string TypeTitle { get; set; }
-        [Display(Name = "تعداد فرم")]
-        public int FormsCount { get; set; }
 
         #region Relations
         public List<Product> Products { get; set; }
         #endregion
     }
 }
+//سفارش سریع
+//آپلود فایل شخصی
+//آپلود فایل شخصی + طراحی اختصاصی

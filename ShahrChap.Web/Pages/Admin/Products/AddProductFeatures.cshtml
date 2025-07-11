@@ -18,19 +18,19 @@
     <div class="col-lg-12">
         <form method="post">
             <input type="hidden" name="ProductId" value="@Model.CurrentProduct.ProductId" />
+            <h3>افزودن ویژگی به @Model.CurrentProduct.ProductTitle</h3>
+            <hr />
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">افزودن ویژگی به @Model.CurrentProduct.ProductTitle</div>
                     <div class="panel-body">
                         <div class="form-group">
                             <ul class="feature-list mt-3">
                                 @foreach (var feature in Model.Features)
                                 {
                                     <li id="featureItem_@feature.FeatureId">
-                                        <input type="checkbox" @((SelectedFeatures.Any(p => p == feature.FeatureId) ? "checked" : "")) name="SelectedFeature" id="Feature_@feature.FeatureId" value="@feature.FeatureId">
                                         <label for="Feature_@feature.FeatureId">@feature.FeatureTitle</label>
+                                        <input type="checkbox" @((SelectedFeatures.Any(p => p == feature.FeatureId) ? "checked" : "")) name="SelectedFeature" id="Feature_@feature.FeatureId" value="@feature.FeatureId">
                                     </li>
-
                                 }
                             </ul>
                         </div>
@@ -41,7 +41,6 @@
                     </div>
                 </div>
             </div>
-            <hr />
         </form>
     </div>
 </div>

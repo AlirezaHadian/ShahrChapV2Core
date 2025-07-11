@@ -9,13 +9,14 @@
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i>صفحه نخست</a></li>
-            <li class="breadcrumb-item active text-primary"><i class="uil uil-list-ul"></i>لیست محصولات</li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-list-ul"></i>لیست محصولات</li>
         </ol>
     </div>
+</div>
     <div class="col-lg-12">
         <h1 class="page-header">لیست محصولات سایت</h1>
+        <hr />
     </div>
-</div>
 
 <div class="row">
     <div class="col-lg-12">
@@ -57,16 +58,8 @@
                                         </td>
                                         <td>@item.ProductTitle</td>
                                         <td>
+                                            @* <a href="/Admin/Form/@item.ProductId" class="btn btn-sm btn-default">مدیریت فرم ها<i class="uil uil-file-graph"></i></a> *@
                                             <a asp-page="IndexSubProduct" asp-route-id="@item.ProductId" class="btn btn-sm btn-dark">زیر محصولات <i class="uil uil-sort-amount-down"></i></a>
-                                            @if (item.FormsCount > 0)
-                                            {
-                                                <a href="/Admin/Form/@item.ProductId" class="btn btn-sm btn-default">مدیریت فرم ها<i class="uil uil-file-graph"></i></a>
-                                            }
-                                            else
-                                            {
-                                                <a href="/Admin/Form/@item.ProductId" class="btn btn-sm btn-default disabled">مدیریت فرم ها<i class="uil uil-file-graph"></i></a>
-
-                                            }
                                             <a asp-page="AddProductFeatures" asp-route-id="@item.ProductId" class="btn btn-sm btn-success">ویژگی ها <i class="uil uil-label-alt"></i></a>
                                             <a asp-page="AddProductService" asp-route-id="@item.ProductId" class="btn btn-sm btn-info">خدمات پس از چاپ <i class="uil uil-plus-circle"></i></a>
                                             <a href="/Admin/ImageGallery/@item.ProductId" class="btn btn-sm btn-primary">نمونه کار <i class="uil uil-images"></i></a>

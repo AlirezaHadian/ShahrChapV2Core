@@ -21,11 +21,10 @@
     <div class="col-lg-12">
         <form method="post">
             <input type="hidden" asp-for="Role.RoleId" />
+            <h3>ویرایش نقش "@Model.Role.RoleTitle"</h3>
+            <hr />
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        ویرایش نقش "@Model.Role.RoleTitle"
-                    </div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label>عنوان نقش</label>
@@ -47,10 +46,10 @@
                             @foreach (var item in permissions.Where(p => p.ParentId == null))
                             {
                                 <li class="permission-item">
+                                    <label for="perm_@item.PermissionId">@item.PermissionTitle</label>
                                     <input type="checkbox" id="perm_@item.PermissionId" class="permission-checkbox"
                                            value="@item.PermissionId"
                                     @(SelectedPermissions.Any(p => p == item.PermissionId) ? "checked" : "")>
-                                    <label for="perm_@item.PermissionId">@item.PermissionTitle</label>
 
                                     @if (permissions.Any(p => p.ParentId == item.PermissionId))
                                     {
@@ -58,10 +57,10 @@
                                             @foreach (var sub in permissions.Where(p => p.ParentId == item.PermissionId))
                                             {
                                                 <li class="permission-item">
+                                                    <label for="perm_@sub.PermissionId">@sub.PermissionTitle</label>
                                                     <input type="checkbox" id="perm_@sub.PermissionId" class="permission-checkbox"
                                                            value="@sub.PermissionId"
                                                     @(SelectedPermissions.Any(p => p == sub.PermissionId) ? "checked" : "")>
-                                                    <label for="perm_@sub.PermissionId">@sub.PermissionTitle</label>
 
                                                     @if (permissions.Any(p => p.ParentId == sub.PermissionId))
                                                     {
@@ -69,10 +68,10 @@
                                                             @foreach (var underSub in permissions.Where(p => p.ParentId == sub.PermissionId))
                                                             {
                                                                 <li class="permission-item">
+                                                                    <label for="perm_@underSub.PermissionId">@underSub.PermissionTitle</label>
                                                                     <input type="checkbox" id="perm_@underSub.PermissionId" class="permission-checkbox"
                                                                            value="@underSub.PermissionId"
                                                                     @(SelectedPermissions.Any(p => p == underSub.PermissionId) ? "checked" : "")>
-                                                                    <label for="perm_@underSub.PermissionId">@underSub.PermissionTitle</label>
                                                                 </li>
                                                             }
                                                         </ul>

@@ -21,11 +21,10 @@
     <div class="col-lg-12">
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="ImageGallery.ProductId" value="@Model.ProductId" />
+            <h3>افزودن تصویر جدید</h3>
+            <hr />
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        افزودن تصویر جدید
-                    </div>
                     <div class="panel-body">
                         <img id="imgProduct" class="thumbnail mb05 user-avatar" src="/product/image/NoImage.jpg">
                         <div class="form-group">

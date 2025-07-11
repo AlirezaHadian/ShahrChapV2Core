@@ -16,7 +16,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
 
         [BindProperty]
         public Product SubProduct { get; set; }
-        public Product Parent {  get; set; }
+        public Product Parent { get; set; }
         public void OnGet(int id)
         {
             SubProduct = new Product();
@@ -46,6 +46,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
             }
 
             SubProduct.ProductTypeId = Parent.ProductTypeId;
+            SubProduct.IsDesignable = Parent.IsDesignable;
 
             _productService.AddProudct(SubProduct, imgProduct);
 

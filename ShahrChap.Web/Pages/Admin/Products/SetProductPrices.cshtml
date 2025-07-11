@@ -13,9 +13,10 @@
             <li class="breadcrumb-item active text-success"><i class="uil uil-money-bill"></i> تعیین قیمت @Model.Product.ProductTitle</li>
         </ol>
     </div>
-    <div class="col-lg-12">
-        <h1 class="page-header">مدیریت قیمت @Model.Product.ProductTitle</h1>
-    </div>
+</div>
+<div class="col-lg-12">
+    <h1 class="page-header">مدیریت قیمت @Model.Product.ProductTitle</h1>
+    <hr />
 </div>
 
 <div class="row">
@@ -32,7 +33,7 @@
                                     <tr>
                                         <th>ترکیب ویژگی‌ها</th>
                                         <th>قیمت (تومان)</th>
-                                        @if (Model.ProductFormsCount == 2)
+                                        @if (Model.Product.IsDesignable)
                                         {
                                             <th>هزینه طراحی</th>
                                         }
@@ -58,7 +59,7 @@
                                                        name="Prices[@i].Price" value="@price.Price"
                                                        min="0" step="1" oninput="formatNumberInput(this)" />
                                             </td>
-                                            @if (Model.ProductFormsCount == 2)
+                                            @if (Model.Product.IsDesignable)
                                             {
                                                 <td>
                                                     <input type="hidden" asp-for="Prices[@i].DesignPrice.ProductPriceId" value="@price.ProductPriceId" />

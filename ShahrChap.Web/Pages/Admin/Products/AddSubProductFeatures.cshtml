@@ -19,21 +19,22 @@
     <div class="col-lg-12">
         <form method="post">
             <input type="hidden" name="ProductId" value="@Model.CurrentProduct.ProductId" />
+            <h3>افزودن ویژگی به @Model.CurrentProduct.ProductTitle</h3>
+            <hr />
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">افزودن ویژگی به @Model.CurrentProduct.ProductTitle</div>
+                    
                     <div class="panel-body">
                         <div class="form-group">
                             @foreach (var feature in Model.ProductFeatures)
                             {
                                 <label>@feature.Feature.FeatureTitle:</label>
                                 <ul class="feature-list mt-3">
-                                    @* بر اساس فیچر ها لیست بندی شود و مرتب شود  *@
                                     @foreach (var value in feature.Feature.FeatureValues)
                                     {
                                         <li id="valueItem_@value.FeatureValueId">
-                                            <input type="checkbox" @((SelectedValues.Any(p => p == value.FeatureValueId) ? "checked" : "")) name="SelectedFeatureValue" id="Value_@value.FeatureValueId" value="@value.FeatureValueId">
                                             <label for="Value_@value.FeatureValueId">@value.ValueTitle</label>
+                                            <input type="checkbox" @((SelectedValues.Any(p => p == value.FeatureValueId) ? "checked" : "")) name="SelectedFeatureValue" id="Value_@value.FeatureValueId" value="@value.FeatureValueId">
                                         </li>
 
                                     }

@@ -20,11 +20,10 @@
         <form method="post">
             <input type="hidden" asp-for="Feature.FeatureId" />
             <input type="hidden" asp-for="Feature.IsDelete" />
+            <h3>ویرایش ویژگی @Model.Feature.FeatureTitle</h3>
+            <hr />
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        ویرایش ویژگی @Model.Feature.FeatureTitle
-                    </div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label>عنوان ویژگی</label>

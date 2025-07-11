@@ -1,4 +1,6 @@
-﻿@{
+﻿@using ShahrChap.Core.DTOs.Products
+@model IEnumerable<ShowProductListViewModel>
+@{
     ViewData["Title"] = "صفحه اصلی";
 }
 
@@ -9,7 +11,7 @@
     <!--Slider-->
     <div class="slider mt-3">
         <div id="carouselExampleControls" class="carousel slide slider-container container carousel-fade"
-             data-bs-ride="true">
+        data-bs-ride="true">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="/img/slider.jpg" class="d-block w-100" alt="...">
@@ -22,12 +24,12 @@
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="next">
+            data-bs-slide="next">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="prev">
+            data-bs-slide="prev">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
@@ -46,94 +48,10 @@
 
             <div dir="rtl" class="swiper products-swiper">
                 <div class="swiper-wrapper ">
-                    <div class="swiper-slide">
-                        <div class="box">
-                            <div class="slide-img">
-                                <img src="/img/img2.jpg" alt="1">
-                                <div class="overlay">
-                                    <a href="#" class="buy-btn">سفارش</a>
-                                </div>
-                            </div>
-                            <div class="product-name mt-1">
-                                <span class="product-category">کارت ویزیت</span>
-                                <a href="#">کارت ویزیت براق</a>
-                            </div>
-                            <div class="detail-box">
-                                <a class="price">
-                                    30000
-                                    <span>
-                                        <img src="/img/Toman.svg" class="currency-svg" alt="">
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="box">
-                            <div class="slide-img">
-                                <img src="/img/img2.jpg" alt="1">
-                                <div class="overlay">
-                                    <a href="#" class="buy-btn">سفارش</a>
-                                </div>
-                            </div>
-                            <div class="product-name mt-1">
-                                <span class="product-category">کارت ویزیت</span>
-                                <a href="#">کارت ویزیت براق</a>
-                            </div>
-                            <div class="detail-box">
-                                <a class="price">
-                                    30000
-                                    <span>
-                                        <img src="/img/Toman.svg" class="currency-svg" alt="">
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="box">
-                            <div class="slide-img">
-                                <img src="/img/img2.jpg" alt="1">
-                                <div class="overlay">
-                                    <a href="#" class="buy-btn">سفارش</a>
-                                </div>
-                            </div>
-                            <div class="product-name mt-1">
-                                <span class="product-category">کارت ویزیت</span>
-                                <a href="#">کارت ویزیت براق</a>
-                            </div>
-                            <div class="detail-box">
-                                <a class="price">
-                                    30000
-                                    <span>
-                                        <img src="/img/Toman.svg" class="currency-svg" alt="">
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="box">
-                            <div class="slide-img">
-                                <img src="/img/img2.jpg" alt="1">
-                                <div class="overlay">
-                                    <a href="#" class="buy-btn">سفارش</a>
-                                </div>
-                            </div>
-                            <div class="product-name mt-1">
-                                <span class="product-category">کارت ویزیت</span>
-                                <a href="#">کارت ویزیت براق</a>
-                            </div>
-                            <div class="detail-box">
-                                <a class="price">
-                                    30000
-                                    <span>
-                                        <img src="/img/Toman.svg" class="currency-svg" alt="">
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    @foreach(var item in Model)
+                    {
+                        <partial name="_ProductBox" model="item" />
+                    }
                 </div>
             </div>
         </div>

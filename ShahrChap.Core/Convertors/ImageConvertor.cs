@@ -1,6 +1,6 @@
 ﻿using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
@@ -14,38 +14,40 @@ namespace ShahrChap.Core.Convertors
     {
         public void ResizeImage(string inputImagePath, string outputImagePath, int newWidth)
         {
-            const int quality = 60;
+            const int quality = 90;
 
             try
             {
-                using (var image = Image.Load(inputImagePath))
+                using (var image = Image.Load<Rgba32>(inputImagePath))
                 {
-                    // Calculate new height to maintain aspect ratio
-                    int newHeight = (int)((double)newWidth / image.Width * image.Height);
+                    int newHieght = (int)(double)newWidth / image.Width * image.Height;
 
-                    // Resize the image
-                    image.Mutate(x => x.Resize(newWidth, newHeight));
+                    image.Mutate(x => x.Resize(new ResizeOptions
+                    {
+                        Size = new Size(newWidth, newHieght),
+                        Mode = ResizeMode.Max,
+                        Sampler = KnownResamplers.Lanczos3
+                    }));
 
-                    // Ensure the output directory exists
+                    image.Metadata.ExifProfile = null;
+
                     string outputDirectory = Path.GetDirectoryName(outputImagePath);
-                    if (!string.IsNullOrWhiteSpace(outputDirectory) && !Directory.Exists(outputDirectory))
+                    if (!string.IsNullOrEmpty(outputDirectory) && !Directory.Exists(outputDirectory))
                     {
                         Directory.CreateDirectory(outputDirectory);
                     }
 
-                    // Configure JPEG encoder settings
                     var encoder = new JpegEncoder
                     {
                         Quality = quality
                     };
 
-                    // Save the resized image
                     image.Save(outputImagePath, encoder);
                 }
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Failed to resize and save the image.", ex);
+                throw new InvalidCastException("Failed to resize and save the image", ex);
             }
         }
     }

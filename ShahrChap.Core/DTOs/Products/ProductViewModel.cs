@@ -11,6 +11,6 @@ namespace ShahrChap.Core.DTOs.Products
             int ProductId,
             string ProductTitle,
             string ImageName,
-            int FormsCount
+            bool isDesignable
         );
 }

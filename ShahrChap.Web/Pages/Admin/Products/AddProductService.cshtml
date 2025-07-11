@@ -19,9 +19,10 @@
         <form method="post">
             @* TODO: CHECK THE PRODUCT ID TO NOT BE 0 *@
             <input type="hidden" asp-for="Service.ProductId" value="@Model.ProductId" />
+            <h3>افزودن خدمت جدید به @productTitle</h3>
+            <hr />
             <div class="col-md-9">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">افزودن خدمت جدید به @productTitle</div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label>عنوان خدمت</label>

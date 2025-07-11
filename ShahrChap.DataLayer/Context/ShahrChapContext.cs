@@ -62,8 +62,8 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<Service> Services { get; set; }
         public DbSet<ServicePrice> ServicePrices { get; set; }
         public DbSet<DesignPrice> DesignPrices { get; set; }
-        public DbSet<ProductForm> ProductForms { get; set; }
-        public DbSet<FormInput> FormInputs { get; set; }
+        //public DbSet<ProductForm> ProductForms { get; set; }
+        //public DbSet<FormInput> FormInputs { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         #endregion
 

@@ -27,7 +27,7 @@ i {
 .user-dropdown a {
     margin: 0 0 10px 10px;
 }
-
+/*Custom checkbox*/
 .feature-list {
     list-style: none;
     padding: 0;
@@ -35,32 +35,32 @@ i {
     flex-wrap: wrap;
     gap: 10px;
 }
-
     .feature-list li {
         display: flex;
         align-items: center;
-        background-color: #f4f4f4;
+        background-color: #fff;
         border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 10px 15px;
+        border-radius: 10px;
+        padding: 10px 18px;
         transition: 0.3s;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        min-width: 140px;
     }
-
         .feature-list li:hover {
-            background-color: #e9ecef;
+            background-color: #f8f9fa;
+            border-color: #ccc;
         }
 
         .feature-list li input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             accent-color: #28a745;
             margin-right: 10px;
         }
 
         .feature-list li label {
-            margin: 0 8px;
             flex-grow: 1;
+            margin: 0;
             font-weight: 500;
             color: #333;
         }
@@ -73,12 +73,13 @@ i {
         }
 
         .feature-list li .fa-edit:hover {
-            color: #ffca2c; /* رنگ زرد زیباتر */
+            color: #ffc107; /* رنگ زرد زیباتر */
         }
 
         .feature-list li .fa-trash-alt:hover {
             color: #dc3545; /* رنگ قرمز برای حذف */
         }
+/*Price*/
 .price-input {
     width: 100%;
     max-width: 250px; /* Adjust the max width as needed */
@@ -89,3 +90,14 @@ a.disabled {
     pointer-events: none !important;
     color: #ccc;
 }
+
+/* Custom styles for the table */
+tbody td {
+    text-align: center; /* center text including inline inputs */
+}
+
+    tbody td input.form-control {
+        display: inline-block;
+        margin: auto;
+        text-align: center;
+    }

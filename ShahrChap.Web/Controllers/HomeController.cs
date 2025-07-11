@@ -8,11 +8,18 @@ namespace ShahrChap.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
-        public HomeController(IUserService userService)
+        private readonly IProductService _productService;
+        public HomeController(IUserService userService, IProductService productService)
         {
             _userService = userService;
+            _productService = productService;
         }
-        public IActionResult Index() => View();
+        public IActionResult Index()
+        {
+            return View(_productService.GetProducts());
+        }
+
+
         [Route("OnlinePayment/{id}")]
         public IActionResult OnlinePayment(int id)
         {

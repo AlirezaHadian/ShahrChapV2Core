@@ -4,19 +4,17 @@
 @{
     ViewData["Title"] = "- حذف محصول";
 }
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
+            <li class="breadcrumb-item active text-danger" aria-current="page"><i class="uil uil-trash-alt"></i> حذف @Model.Product.ProductTitle</li>
+        </ol>
+    </div>
+</div>
 
 <div class="container mt-4">
-    <div class="row mb-3">
-        <div class="col-md-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb p-2 rounded-3">
-                    <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
-                    <li class="breadcrumb-item"><a href="/Admin/Products"><i class="uil uil-list-ul"></i> لیست محصولات</a></li>
-                    <li class="breadcrumb-item active text-danger" aria-current="page"><i class="uil uil-trash-alt"></i> حذف @Model.Product.ProductTitle</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
 
     <div class="card border-danger shadow-lg">
         <div class="card-header bg-danger text-white">
@@ -30,20 +28,21 @@
             <p class="mt-3 text-secondary">@FixText.GetPlainText(Model.Product.Description)</p>
 
         </div>
-        <div class="card-footer d-flex justify-content-between">
+        <div class="card-footer d-flex">
             @if (Model.Product.ParentId != null)
             {
-                <a href="/Admin/Products/IndexSubProduct/@Model.Product.ParentId" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+                <a href="/Admin/Products/IndexSubProduct/@Model.Product.ParentId" class="btn btn-light mr-1 border"><i class="uil uil-angle-right"></i> بازگشت</a>
             }
             else
             {
-                <a href="/Admin/Products" class="btn btn-light border"><i class="uil uil-angle-right"></i> بازگشت</a>
+                <a href="/Admin/Products" class="btn btn-light mr-1 border"><i class="uil uil-angle-right"></i> بازگشت</a>
             }
 
             <form method="post">
                 <input type="hidden" asp-for="Product.ProductId" />
                 <button type="submit" class="btn btn-danger"><i class="uil uil-trash-alt"></i> حذف</button>
             </form>
+
         </div>
     </div>
 </div>

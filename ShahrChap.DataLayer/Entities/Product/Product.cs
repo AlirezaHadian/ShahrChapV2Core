@@ -45,6 +45,8 @@ public class Product
     public DateTime CreateDate { get; set; }
     [Display(Name = "حذف شده؟")]
     public bool IsDelete { get; set; }
+    [Display(Name="سفارش طراحی؟")]
+     public bool IsDesignable { get; set; }
     [Display(Name = "نوع محصول")]
     public int ProductTypeId { get; set; }
 

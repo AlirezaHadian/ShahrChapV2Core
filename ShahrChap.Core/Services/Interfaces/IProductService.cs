@@ -24,7 +24,6 @@ namespace ShahrChap.Core.Services.Interfaces
         #region Type
         //This type will specified the type of product for the forms
         List<SelectListItem> GetTypes();
-        int GetTypeFormsCount(int typeId);
         #endregion
         #region Product
         List<ShowProductForAdminViewModel> GetProductsForAdmin();
@@ -34,6 +33,7 @@ namespace ShahrChap.Core.Services.Interfaces
         void DeleteProduct(Product product);
         string AddProductImage(IFormFile productImage);
         void DeleteProductImage(string currentProductName);
+        List<ShowProductListViewModel> GetProducts(int take=0,string filter="" , int? parentId = null);
         #endregion
         #region Feature
         List<Feature> GetAllFeatures();
@@ -87,12 +87,6 @@ namespace ShahrChap.Core.Services.Interfaces
         void AddServicePrices(List<ServicePrice> servicePrices);
         bool AreCombinationsChanged(int productId, List<string> Combintations);
         List<ServicePrice> GetServicePricesForProduct(int productId);
-        #endregion
-        #region Forms
-        List<ProductForm> GetProductForms(int productId);
-        //This method is for determining the status of the product's created forms and handling it. 
-        FormCreationState GetPendingForms(int productId);
-        ProductForm GetProductFormById(int formId);
         #endregion
     }
 }
