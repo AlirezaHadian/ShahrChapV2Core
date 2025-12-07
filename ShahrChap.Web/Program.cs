@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ShahrChap.Core.Convertors;
+using ShahrChap.Core.Options;
 using ShahrChap.Core.Senders;
 using ShahrChap.Core.Services;
 using ShahrChap.Core.Services.Interfaces;
@@ -47,6 +48,7 @@ builder.Services.AddDbContext<ShahrChapContext>(options=>
 #region IoC
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
+builder.Services.Configure<MessageSenderOptions>(builder.Configuration.GetSection("MessageSender"));
 builder.Services.AddScoped<MessageSender>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IViewRenderService, RenderViewToString>();

@@ -55,7 +55,7 @@
                             <form method="post" id="deleteForm" asp-page-handler="DeleteService">
                                 <input type="hidden" name="productId" value="@Model.ProductId" />
                                 <input type="hidden" name="serviceId" value="@item.ServiceId" />
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete()">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirmDelete(event)">
                                     <i class="uil uil-trash-alt"></i>
                                 </button>
                             </form>
@@ -69,9 +69,12 @@
 </div>
 
 <script>
-    function confirmDelete() {
-        if (confirm("آیا از حذف این خدمت مطمئن هستید؟")) {
-            document.getElementById("deleteForm").submit();
+    function confirmDelete(event) {
+        event.preventDefault();
+        if (confirm("آیا از حذف این مقدار مطمئن هستید؟")) {
+            // document.getElementById("deleteForm").submit();
+            event.target.closest('form').submit();
         }
+        return false;
     }
 </script>

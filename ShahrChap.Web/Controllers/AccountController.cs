@@ -81,7 +81,7 @@ namespace ShahrChap.Web.Controllers
                 _userService.AddUser(user);
 
                 //MessageSender.SendOtpCode(user.Phone);
-                _message.SendOtpCode(user.Phone);
+                //_message.SendOtpCode(user.Phone);
                 return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
             }
         }
@@ -207,7 +207,7 @@ namespace ShahrChap.Web.Controllers
         //It will create a new otp, and then redirect to verify phone action
         public IActionResult ResendOtpCode(string phone, string type)
         {
-            _message.SendOtpCode(phone);
+            //_message.SendOtpCode(phone);
             return RedirectToAction("VerifyPhone", new {actionType = type});
         }
         [HttpGet]
@@ -260,7 +260,7 @@ namespace ShahrChap.Web.Controllers
                     ModelState.AddModelError("EmailOrPhone", "کاربری با مشخصات وارد شده یافت نشد");
                     return View(forgotPassword);
                 }
-                _message.SendOtpCode(user.Phone);
+                //_message.SendOtpCode(user.Phone);
                 //MessageSender.SendOtpCode(user.Phone, _userService,_context);
                 return RedirectToAction("VerifyPhone", new { actionType = "ForgotPassword" });
             }

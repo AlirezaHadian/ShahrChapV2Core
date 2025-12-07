@@ -60,10 +60,10 @@
                                     <i class="uil uil-edit"></i>
                                 </a>
 
-                                <form method="post" class="d-inline-block" asp-page-handler="DeleteFeatureValue">
+                                <form method="post" class="d-inline-block" id="deleteForm" asp-page-handler="DeleteFeatureValue">
                                     <input type="hidden" name="featureId" value="@Model.FeatureId" />
                                     <input type="hidden" name="featureValueId" value="@item.FeatureValueId" />
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="confirmDelete()">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirmDelete(event)">
                                         <i class="uil uil-trash-alt"></i>
                                     </button>
                                 </form>
@@ -109,9 +109,12 @@
         document.getElementById("editValueTitle").value = valueTitle;
     }
 
-    function confirmDelete() {
+    function confirmDelete(event) {
+        event.preventDefault();
         if (confirm("آیا از حذف این مقدار مطمئن هستید؟")) {
-            document.getElementById("deleteForm").submit();
+            // document.getElementById("deleteForm").submit();
+            event.target.closest('form').submit();
         }
+        return false;
     }
 </script>

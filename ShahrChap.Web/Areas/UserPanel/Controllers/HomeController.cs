@@ -118,7 +118,7 @@ public class HomeController : Controller
         //TODO: If phone number changed => redirect verify phone 
         if (currentUserInformation.Phone != editProfile.Phone)
         {
-            _message.SendOtpCode(loggedInUser.Phone);
+            //_message.SendOtpCode(loggedInUser.Phone);
             //MessageSender.SendOtpCode(loggedInUser.Phone, _userService,_context);
             return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
         }
