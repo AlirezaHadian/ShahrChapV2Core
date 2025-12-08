@@ -1,0 +1,111 @@
+﻿@using ShahrChap.Core.DTOs.Products
+@model ParentProductForShowViewModel
+
+@{
+    ViewData["Title"] = Model.ParentProduct.ProductTitle;
+}
+
+<section class="main-product container internal-style py-3">
+    <ol class="breadcrumb drop-shadow">
+        <li class="breadcrumb-item"><a href="/">خانه</a></li>
+        <li class="breadcrumb-item"><a href="#">محصولات</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.ParentProduct.ProductTitle</li>
+    </ol>
+    <div class="main-wrapper">
+        <div class="category-div drop-shadow">
+            <section class="category-section">
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="d-flex align-items justify-content-between">
+                            <div class="d-flex align-items center">
+                                <h2 class="page-title">
+                                    @Model.ParentProduct.ProductTitle
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="product_desc">
+                            <p>
+                                @Html.Raw(Model.ParentProduct.Description)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 text-center">
+                        <div class="product-group-img text-center mb-4">
+                            <img src="/product/image/@Model.ParentProduct.Image" alt="">
+                        </div>
+                        <a href="#work-sample" class="default-yellow-btn work-sample-btn">
+                            <i class="uil uil-images"></i>
+                            نمونه محصول
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="category-product-div drop-shadow my-3 p-4">
+        <section class="category-product-section">
+            <div class="title">
+                <h4 class="text-gradient">محصولات گروه</h4>
+            </div>
+            <div class="title-underline"></div>
+            <div class="products-card text-center">
+                <div class="row">
+                    @foreach (var item in Model.SubProducts)
+                    {
+                        <div class="col-6 col-sm-4 col-md-3">
+                            <partial name="_ProductBox" model="item" />
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    @if (Model.ParentProduct.PrintingTips != null)
+    {
+        <div class="print-tips-div drop-shadow my-3 p-4">
+            <section class="print-tips-section">
+                <div class="title">
+                    <h4 class="text-gradient">نکات چاپ</h4>
+                </div>
+                <div class="title-underline"></div>
+                <div class="print-tips mt-3">
+                    <p>
+                        @Html.Raw(Model.ParentProduct.PrintingTips)
+                    </p>
+                </div>
+            </section>
+        </div>
+    }
+
+    @if (Model.ParentProduct.ProductGalleries.Any())
+    {
+        <div id="work-sample" class="work-samples-div drop-shadow my-3 p-4">
+            <section class="work-samples-section">
+                <div class="title">
+                    <h4 class="text-gradient">نمونه کارها</h4>
+                </div>
+                <div class="title-underline"></div>
+                <!-- Work Sample carousel -->
+                <div dir="rtl" class="swiper work-sample-swiper">
+                    <div class="swiper-wrapper">
+                        @foreach (var image in Model.ParentProduct.ProductGalleries)
+                        {
+                            <div class="swiper-slide col-6 col-sm-4 col-md-3">
+                                <div class="work-sample-item">
+                                    <a href="#">
+                                        <img src="/product/image/@image.ImageName" alt="@image.ImageTitle">
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- End work sample carousel  -->
+            </section>
+        </div>
+    }
+
+</section>

@@ -1,4 +1,4 @@
-/* ===========Fonts============= */
+﻿/* ===========Fonts============= */
 @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap");
 
 @font-face {
@@ -360,7 +360,54 @@ footer {
         background-color: var(--mainYellow);
         color: var(--mainWhite);
     }
-
+    .default-yellow-btn {
+  background-color: var(--mainYellow);
+  color: var(--mainWhite);
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  border: none;
+  transition: background 0.3s;
+}
+.default-yellow-btn:hover {
+  background-color: var(--darkYellow);
+  color: var(--mainWhite);
+  border: 1px solid var(--darkYellow);
+}
+.default-blue-btn {
+  background-color: var(--mainBlue);
+  color: var(--mainWhite);
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  border: none;
+  transition: background 0.3s;
+}
+.default-blue-btn:hover {
+  background-color: var(--darkBlue);
+  color: var(--mainWhite);
+  border: 1px solid var(--darkBlue);
+}
+.default-red-btn {
+  background-color: var(--mainRed);
+  color: var(--mainWhite);
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  border: none;
+  transition: background 0.3s;
+}
+.default-red-btn:hover {
+  background-color: var(--darkRed);
+  color: var(--mainWhite);
+  border: 1px solid var(--darkRed);
+}
 /*Preloadr*/
 .preloader {
     position: fixed;
@@ -1138,13 +1185,18 @@ nav {
     width: 100%;
     background: url(../img/ShapeBG.png) repeat 0 0 var(--lighterYellow);
 }
-
-.underline-proudcts {
+.title-underline {
     width: 100%;
     height: 2px;
     background: linear-gradient( to left, var(--darkBlue) 0%, var(--mainBlue) 85%, transparent 100% );
     margin-bottom: 5px;
 }
+/*.underline-proudcts {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient( to left, var(--darkBlue) 0%, var(--mainBlue) 85%, transparent 100% );
+    margin-bottom: 5px;
+}*/
 
 .product-type-container {
     display: flex;
@@ -1727,7 +1779,101 @@ form .order-submit input {
 .ListPriceAdt ul {
     list-style: none;
 }
+/* Main Product | Category */
+.category-div {
+    padding: 28px 22px;
+}
+    .category-div .page-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--price-color);
+        margin: .5rem 0;
+        position: relative;
+        padding-bottom: 8px;
+    }
 
+        .category-div .page-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient( to left, var(--darkYellow) 0%, var(--mainYellow) 55%, transparent 100% );
+            border-radius: 3px; 
+        }
+
+    .category-div .product_desc p {
+        font-size: 16px;
+        color: var(--text-color);
+        font-weight: 300;
+    }
+
+    .category-div .product-group-img img {
+        width: 330px;
+        height: 180px;
+        max-width: 100%;
+        border-radius: 8px;
+        margin: .5rem 0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        object-fit: cover;
+    }
+
+        .category-div .product-group-img img:hover {
+            transform: scale(1.01);
+            box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
+        }
+
+    .category-div .work-sample-btn {
+        display: inline-block;
+        padding: 10px;
+        width: 200px !important;
+        font-size: 15px;
+        border: 1px solid var(--mainYellow);
+        border-radius: 8px;
+    }
+
+.category-product-div .box {
+    width: 90%;
+    margin: 20px 0;
+}
+
+.print-tips-div .print-tips p {
+    font-size: 16px;
+    color: var(--text-color);
+    font-weight: 300;
+}
+.work-sample-swiper{
+
+}
+.work-samples-div .work-sample-item {
+    padding: 16px;
+}
+
+    .work-samples-div .work-sample-item img {
+        border-radius: 8px;
+        transition: transform 0.5s ease, box-shadow 0.3s ease;
+    }
+
+        .work-samples-div .work-sample-item img:hover {
+            transform: scale(1.01);
+            box-shadow: 0 5px 8px -3px rgba(0, 0, 0, 0.1);
+        }
+
+.work-sample-swiper .work-sample-item img {
+    filter: blur(0);
+    transition: filter 0.3s ease;
+}
+
+.work-sample-swiper:hover .work-sample-item img {
+    filter: blur(3px);
+}
+
+.work-sample-swiper .work-sample-item:hover img {
+    filter: blur(0);
+}
+
+/* End Main Product | Category */
 /*Single product*/
 .product-div {
     display: flex;
@@ -3089,12 +3235,11 @@ addresses {
         grid-gap: 1.5rem;
     }
 
-    .main-wrapper {
+/*    .main-wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
+    }*/
     .product-content {
         padding-top: 0;
     }

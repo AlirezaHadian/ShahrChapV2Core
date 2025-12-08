@@ -182,6 +182,29 @@ namespace ShahrChap.Core.Services
                 GroupName = p.Group.GroupTitle
             }).Take(take).ToList();
         }
+        public Product GetProductForShow(int productId)
+        {
+            Product product = _context.Products.Include(p => p.ProductGalleries).FirstOrDefault(p => p.ProductId == productId);
+            if(product.ParentId != null)
+            {
+                //TODO: Include the other relations
+            }
+            return product;
+        }
+        public List<ShowProductListViewModel> GetSubProductForBox(int parentId)
+        {
+            List<ShowProductListViewModel> subProducts = _context.Products.Include(p => p.Group)
+                .Where(p => p.ParentId == parentId)
+                .Select(p => new ShowProductListViewModel()
+                {
+                    ProductId = p.ProductId,
+                    ImageName = p.Image,
+                    ProductName = p.ProductTitle,
+                    GroupName = p.Group.GroupTitle
+                }).ToList();
+
+            return subProducts;
+        }
         #endregion
         #region Feature
         public List<ProductFeature> GetProductFeatures(int productId)

@@ -1,4 +1,5 @@
 ﻿using ShahrChap.Core.Enums;
+using ShahrChap.DataLayer.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,4 +14,9 @@ namespace ShahrChap.Core.DTOs.Products
             string ImageName,
             bool isDesignable
         );
+
+    public record ParentProductForShowViewModel(
+        Product ParentProduct,
+        List<ShowProductListViewModel> SubProducts
+    );
 }

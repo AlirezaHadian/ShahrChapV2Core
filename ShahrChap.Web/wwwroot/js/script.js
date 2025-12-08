@@ -91,31 +91,81 @@ document
     event.stopPropagation();
   });
 /*=============SWIPER===========*/
-var swiper = new Swiper(".products-swiper", {
-  slidesPerView: 4,
-  spaceBetween: 10,
-  loop: true,
-  navigation: {
-    clickable: true,
-  },
-  autoplay: {
-    delay: 4500,
-    disableOnInteraction: false,
-  },
-  breakpoints: {
-    0: {
-      slidesPerView: 1,
-    },
-    520: {
-      slidesPerView: 2,
-    },
-    950: {
-      slidesPerView: 3,
-    },
-    1000: {
-      slidesPerView: 4,
-    },
-  },
+//var swiper = new Swiper(".products-swiper", {
+//  slidesPerView: 4,
+//  spaceBetween: 10,
+//  loop: true,
+//  navigation: {
+//    clickable: true,
+//  },
+//  autoplay: {
+//    delay: 4500,
+//    disableOnInteraction: false,
+//  },
+//  breakpoints: {
+//    0: {
+//      slidesPerView: 1,
+//    },
+//    520: {
+//      slidesPerView: 2,
+//    },
+//    950: {
+//      slidesPerView: 3,
+//    },
+//    1000: {
+//      slidesPerView: 4,
+//    },
+//  },
+//});
+
+document.addEventListener('DOMContentLoaded', function () {
+    //Products swiper
+    const productsSwiper = document.querySelector('.products-swiper');
+    if (productsSwiper) {
+        var swiper = new Swiper(".products-swiper", {
+            slidesPerView: 4,
+            spaceBetween: 10,
+            loop: false,
+            navigation: {
+                clickable: true,
+            },
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 1,
+                },
+                520: {
+                    slidesPerView: 2,
+                },
+                950: {
+                    slidesPerView: 3,
+                },
+                1000: {
+                    slidesPerView: 4,
+                },
+            },
+        });
+    }
+
+    //Sample work swiper 
+    const sampleSwiper = document.querySelector('.work-sample-swiper');
+    if (sampleSwiper) {
+        var swiper = new Swiper(".work-sample-swiper", {
+            slidesPerView: 4,
+            spaceBetween: 10,
+            loop: false,
+            navigation: {
+                clickable: true,
+            },
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+            }
+        });
+    }
 });
 
 /* Preloader */

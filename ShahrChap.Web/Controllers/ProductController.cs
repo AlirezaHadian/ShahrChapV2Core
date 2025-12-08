@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShahrChap.Core.DTOs.Products;
 using ShahrChap.Core.Services.Interfaces;
+using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.Web.Controllers
 {
@@ -18,8 +20,17 @@ namespace ShahrChap.Web.Controllers
         [Route("ShowProduct/{id}")]
         public IActionResult ShowProduct(int id)
         {
-
-            return View();
+            Product product = _productService.GetProductForShow(id);
+            if(product.ParentId == null)
+            {
+                List<ShowProductListViewModel> subProducts = _productService.GetSubProductForBox(product.ProductId);
+                var model = new ParentProductForShowViewModel(product, subProducts);
+                return View("ParentProduct", model);
+            }
+            else
+            {
+                return View("SubProduct", product);
+            }
         }
     }
 }

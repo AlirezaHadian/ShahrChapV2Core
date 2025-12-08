@@ -34,6 +34,9 @@ namespace ShahrChap.Core.Services.Interfaces
         string AddProductImage(IFormFile productImage);
         void DeleteProductImage(string currentProductName);
         List<ShowProductListViewModel> GetProducts(int take=0,string filter="" , int? parentId = null);
+        Product GetProductForShow(int productId);
+        List<ShowProductListViewModel> GetSubProductForBox(int parentId);
+
         #endregion
         #region Feature
         List<Feature> GetAllFeatures();
