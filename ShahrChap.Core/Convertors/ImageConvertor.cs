@@ -18,32 +18,28 @@ namespace ShahrChap.Core.Convertors
 
             try
             {
-                using (var image = Image.Load<Rgba32>(inputImagePath))
+                using (var image = Image.Load(inputImagePath))
                 {
-                    int newHieght = (int)(double)newWidth / image.Width * image.Height;
+                    int newHeight = (int)((double)newWidth / image.Width * image.Height);
 
                     image.Mutate(x => x.Resize(new ResizeOptions
                     {
-                        Size = new Size(newWidth, newHieght),
+                        Size = new Size(newWidth, newHeight),
                         Mode = ResizeMode.Max,
                         Sampler = KnownResamplers.Lanczos3
                     }));
 
                     image.Metadata.ExifProfile = null;
 
-                    string outputDirectory = Path.GetDirectoryName(outputImagePath);
-                    if (!string.IsNullOrEmpty(outputDirectory) && !Directory.Exists(outputDirectory))
+                    var encoder = new SixLabors.ImageSharp.Formats.Webp.WebpEncoder
                     {
-                        Directory.CreateDirectory(outputDirectory);
-                    }
-
-                    var encoder = new JpegEncoder
-                    {
-                        Quality = quality
+                        Quality = 90,
+                        FileFormat = SixLabors.ImageSharp.Formats.Webp.WebpFileFormatType.Lossy
                     };
 
                     image.Save(outputImagePath, encoder);
                 }
+
             }
             catch (Exception ex)
             {
