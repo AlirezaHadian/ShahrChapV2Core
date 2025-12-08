@@ -41,7 +41,7 @@ namespace ShahrChap.Core.Services
             return _context.ProductGroups.Where(g => g.ParentId == null).Select(g => new SelectListItem()
             {
                 Text = g.GroupTitle,
-                Value = nameof(g.GroupId)
+                Value = g.GroupId.ToString()
             }).ToList();
         }
 
@@ -50,7 +50,7 @@ namespace ShahrChap.Core.Services
             return _context.ProductGroups.Where(g => g.ParentId == groupId).Select(g => new SelectListItem()
             {
                 Text = g.GroupTitle,
-                Value = nameof(g.GroupId)
+                Value = g.GroupId.ToString()
             }).ToList();
         }
         #endregion
@@ -60,7 +60,7 @@ namespace ShahrChap.Core.Services
             return _context.ProductTypes.Select(g => new SelectListItem()
             {
                 Text = g.TypeTitle,
-                Value = nameof(g.ProductTypeId)
+                Value = g.ProductTypeId.ToString()
             }).ToList();
         }
         #endregion
@@ -169,7 +169,7 @@ namespace ShahrChap.Core.Services
             }
             else
             {
-                result = result.Where(p => p.ParentId != null);
+                result = result.Where(p => p.ParentId == null);
             }
 
             result = result.OrderByDescending(p=> p.CreateDate);

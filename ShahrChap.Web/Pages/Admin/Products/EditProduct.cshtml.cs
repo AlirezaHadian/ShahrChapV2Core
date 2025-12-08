@@ -41,7 +41,7 @@ namespace ShahrChap.Web.Pages.Admin.Products
                 ViewData["Types"] = new SelectList(types, "Value", "Text", Product.ProductTypeId);
 
                 var subGroups = _productService.GetSubGroupForManageProducts(Product.GroupId);
-                ViewData["SubGroups"] = new SelectList(groups, "Value", "Text", Product.SubGroupId);
+                ViewData["SubGroups"] = new SelectList(subGroups, "Value", "Text", Product.SubGroupId);
                 return Page();
             }
 

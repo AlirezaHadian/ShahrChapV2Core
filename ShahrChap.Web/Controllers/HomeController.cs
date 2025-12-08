@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShahrChap.Core.DTOs.Products;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Wallet;
 
@@ -16,6 +17,7 @@ namespace ShahrChap.Web.Controllers
         }
         public IActionResult Index()
         {
+            List<ShowProductListViewModel> products = _productService.GetProducts();
             return View(_productService.GetProducts());
         }
 

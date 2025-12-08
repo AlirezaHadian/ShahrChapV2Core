@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label>زیر گروه</label>
                         <select class="form-control" asp-for="Product.SubGroupId" asp-items="@(ViewData["SubGroups"] as SelectList)">
-                            <option value="" selected="">انتخاب کنید</option>
+                            <option value="">انتخاب کنید</option>
                         </select>
                         <p class="text-warning">درصورتی که محصول شما زیرگروهی ندارد، این گزینه را به حالت انتخاب کنید قرار دهید.</p>
                         <span asp-validation-for="Product.SubGroupId"></span>
