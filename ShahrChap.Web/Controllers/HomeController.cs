@@ -32,16 +32,16 @@ namespace ShahrChap.Web.Controllers
                 string authority = HttpContext.Request.Query["Authority"];
                 Wallet wallet = _userService.GetWalletWithWalletId(id);
                 
-                var payment = new ZarinpalSandbox.Payment(wallet.Amount);
-                var response = payment.Verification(authority).Result;
-                if (response.Status == 100)
-                {
-                    ViewBag.Code = response.RefId;
-                    ViewBag.IsSuccess = true;
-                    ViewBag.Amount = wallet.Amount;
-                    wallet.IsPay = true;
-                    _userService.UpdateWallet(wallet);
-                }
+                //var payment = new ZarinpalSandbox.Payment(wallet.Amount);
+                //var response = payment.Verification(authority).Result;
+                //if (response.Status == 100)
+                //{
+                //    ViewBag.Code = response.RefId;
+                //    ViewBag.IsSuccess = true;
+                //    ViewBag.Amount = wallet.Amount;
+                //    wallet.IsPay = true;
+                //    _userService.UpdateWallet(wallet);
+                //}
             }
 
             return View();

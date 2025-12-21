@@ -4,3 +4,290 @@
     ViewData["Title"] = Model.ProductTitle;
 }
 
+<section class="single-product container internal-style py-3">
+    <ol class="breadcrumb drop-shadow">
+        <li class="breadcrumb-item"><a href="#">خانه</a></li>
+        <li class="breadcrumb-item"><a href="#">محصولات</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.ProductTitle</li>
+    </ol>
+    <div class="main-wrapper">
+        <div class="product-div drop-shadow">
+            <div class="product-div-right">
+                <div class="img-container">
+                    <a href="/product/image/@Model.Image" data-lightbox="product" data-title="@Model.ProductTitle">
+                        <img src="/product/image/@Model.Image" alt="@Model.ProductTitle" title="@Model.ProductTitle">
+                    </a>
+                </div>
+                <div class="hover-container">
+                    <div class="img-box drop-shadow">
+                        <a href="/product/image/@Model.Image" data-lightbox="product" data-title="@Model.ProductTitle">
+                            <img src="/product/image/@Model.Image" alt="@Model.ProductTitle" title="@Model.ProductTitle">
+                        </a>
+                    </div>
+                    @foreach(var image in Model.ProductGalleries)
+                    {
+                        <div class="img-box drop-shadow">
+                            <a href="/product/image/@image.ImageName data-lightbox="product" data-title="@image.ImageTitle">
+                                <img src="/product/image/@image.ImageName" alt="@image.ImageTitle" title="@image.ImageTitle">
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="product-div-left">
+                <div class="product-header">
+                    <h2 class="single-product-title">کارت ویزیت براق</h2>
+                    <span>
+                        <a href="" class="share-btn drop-shadow">
+                            <i class="uil uil-link-alt"></i>
+                        </a>
+                    </span>
+                </div>
+                <div class="product-detail">
+                    <h2>درباره محصول:</h2>
+                    <p>
+                        @Model.Description
+                    </p>
+                    <!-- <ul>
+                        <li>رنگ: <span>مشکی</span></li>
+                        <li>رنگ: <span>مشکی</span></li>
+                        <li>رنگ: <span>مشکی</span></li>
+                        <li>رنگ: <span>مشکی</span></li>
+                      </ul> -->
+                    <div class="product-custom-section">
+                        <div class="modern-form-wrapper">
+
+                            <div class="custom-input-group">
+                                <input type="text" placeholder="متن دلخواه جهت چاپ...">
+                            </div>
+
+                            <div class="custom-row">
+                                <div class="custom-input-group">
+                                    <select>
+                                        <option selected disabled>انتخاب ابعاد</option>
+                                        <option>۹ در ۶ سانتی‌متر</option>
+                                        <option>۸.۵ در ۴.۸ سانتی‌متر</option>
+                                    </select>
+                                </div>
+                                <div class="custom-input-group">
+                                    <select>
+                                        <option selected disabled>نوع کاغذ</option>
+                                        <option>لمینت براق</option>
+                                        <option>کتان آلمان</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="purchase-info">
+                    <div class="product-price drop-shadow">
+                        ۱۵۰,۰۰۰ تومان
+                        <i class="uil uil-pricetag-alt"></i>
+                    </div>
+                    <a type="button" class="btn addcart-btn drop-shadow">
+                        <span class="large-addcart-btn">
+                            افزودن به سبد خرید <i class="uil uil-shopping-cart"></i>
+                        </span>
+                        <span class="small-addcart-btn">
+                            50000 تومان
+                            <i class="uil uil-plus-circle"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="featured-products drop-shadow my-3 p-4">
+        <div class="title">
+            <h4 class="text-gradient">محصولات مشابه</h4>
+        </div>
+
+        <div class="title-underline"></div>
+        <div dir="rtl" class="swiper products-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="box">
+                        <div class="slide-img">
+                            <img src="img/img2.jpg" alt="1">
+                            <div class="overlay">
+                                <a href="#" class="buy-btn">سفارش</a>
+                            </div>
+                        </div>
+                        <div class="product-name mt-1">
+                            <span class="product-category">کارت ویزیت</span>
+                            <a href="#">کارت ویزیت براق</a>
+                        </div>
+                        <div class="detail-box">
+                            <a class="price">
+                                30000
+                                <span>
+                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="box">
+                        <div class="slide-img">
+                            <img src="img/img2.jpg" alt="1">
+                            <div class="overlay">
+                                <a href="#" class="buy-btn">سفارش</a>
+                            </div>
+                        </div>
+                        <div class="product-name mt-1">
+                            <span class="product-category">کارت ویزیت</span>
+                            <a href="#">کارت ویزیت براق</a>
+                        </div>
+                        <div class="detail-box">
+                            <a class="price">
+                                30000
+                                <span>
+                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="box">
+                        <div class="slide-img">
+                            <img src="img/img2.jpg" alt="1">
+                            <div class="overlay">
+                                <a href="#" class="buy-btn">سفارش</a>
+                            </div>
+                        </div>
+                        <div class="product-name mt-1">
+                            <span class="product-category">کارت ویزیت</span>
+                            <a href="#">کارت ویزیت براق</a>
+                        </div>
+                        <div class="detail-box">
+                            <a class="price">
+                                30000
+                                <span>
+                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="box">
+                        <div class="slide-img">
+                            <img src="img/img2.jpg" alt="1">
+                            <div class="overlay">
+                                <a href="#" class="buy-btn">سفارش</a>
+                            </div>
+                        </div>
+                        <div class="product-name mt-1">
+                            <span class="product-category">کارت ویزیت</span>
+                            <a href="#">کارت ویزیت براق</a>
+                        </div>
+                        <div class="detail-box">
+                            <a class="price">
+                                30000
+                                <span>
+                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="box">
+                        <div class="slide-img">
+                            <img src="img/img2.jpg" alt="1">
+                            <div class="overlay">
+                                <a href="#" class="buy-btn">سفارش</a>
+                            </div>
+                        </div>
+                        <div class="product-name mt-1">
+                            <span class="product-category">کارت ویزیت</span>
+                            <a href="#">کارت ویزیت براق</a>
+                        </div>
+                        <div class="detail-box">
+                            <a class="price">
+                                30000
+                                <span>
+                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-comments drop-shadow my-3 p-4">
+        <div class="title">
+            <h4 class="text-gradient">نظرات کاربران</h4>
+        </div>
+        <div class="title-underline"></div>
+
+        <div class="comments-wrapper mt-4" dir="rtl">
+            <div class="comment-form-box mb-5">
+                <form>
+                    <div class="row g-3">
+                        <!-- <div class="col-md-6">
+                          <div class="custom-field">
+                            <i class="uil uil-user"></i>
+                            <input type="text" placeholder="نام و نام خانوادگی">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="custom-field">
+                            <i class="uil uil-envelope"></i>
+                            <input type="email" placeholder="آدرس ایمیل">
+                          </div>
+                        </div> -->
+
+                        <div class="col-12">
+                            <div class="custom-field">
+                                <i class="uil uil-comment-alt-notes"></i>
+                                <textarea rows="4" placeholder="متن نظر شما..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-start mt-2">
+                            <button type="submit" class="submit-btn-modern">
+                                <i class="uil uil-message me-2"></i>
+                                <span> ارسال دیدگاه</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="comments-list">
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <div class="user-meta">
+                            <div class="user-icon-box">
+                                <i class="uil uil-user"></i>
+                            </div>
+                            <div class="ms-3 me-3">
+                                <h6 class="m-0">مشتری گرامی</h6>
+                                <small class="text-muted">۲ روز قبل</small>
+                            </div>
+                        </div>
+                        <button class="modern-reply-btn">
+                            <i class="uil uil-share"></i>
+                            <span>پاسخ</span>
+                        </button>
+                    </div>
+                    <p class="comment-content">محصول به دستم رسید، کیفیت چاپ واقعا عالی بود.</p>
+
+                    <div class="admin-reply-box">
+                        <div class="admin-head">
+                            <span class="badge-admin">مدیریت</span>
+                            <small class="text-muted">۱ روز قبل</small>
+                        </div>
+                        <p class="m-0">سلام، ممنون از حسن انتخاب شما. خوشحالیم که راضی بودید.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
