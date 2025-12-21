@@ -24,7 +24,7 @@
                             <img src="/product/image/@Model.Image" alt="@Model.ProductTitle" title="@Model.ProductTitle">
                         </a>
                     </div>
-                    @foreach(var image in Model.ProductGalleries)
+                    @foreach (var image in Model.ProductGalleries)
                     {
                         <div class="img-box drop-shadow">
                             <a href="/product/image/@image.ImageName data-lightbox="product" data-title="@image.ImageTitle">
@@ -46,7 +46,7 @@
                 <div class="product-detail">
                     <h2>درباره محصول:</h2>
                     <p>
-                        @Model.Description
+                        @Html.Raw(Model.Description)
                     </p>
                     <!-- <ul>
                         <li>رنگ: <span>مشکی</span></li>
@@ -58,7 +58,7 @@
                         <div class="modern-form-wrapper">
 
                             <div class="custom-input-group">
-                                <input type="text" placeholder="متن دلخواه جهت چاپ...">
+                                <input type="text" placeholder="عنوان سفارش">
                             </div>
 
                             <div class="custom-row">
@@ -88,7 +88,7 @@
                     </div>
                     <a type="button" class="btn addcart-btn drop-shadow">
                         <span class="large-addcart-btn">
-                            افزودن به سبد خرید <i class="uil uil-shopping-cart"></i>
+                            ثبت سفارش <i class="uil uil-shopping-cart"></i>
                         </span>
                         <span class="small-addcart-btn">
                             50000 تومان
@@ -110,7 +110,7 @@
                 <div class="swiper-slide">
                     <div class="box">
                         <div class="slide-img">
-                            <img src="img/img2.jpg" alt="1">
+                            <img src="/img/img2.jpg" alt="1">
                             <div class="overlay">
                                 <a href="#" class="buy-btn">سفارش</a>
                             </div>
@@ -123,7 +123,7 @@
                             <a class="price">
                                 30000
                                 <span>
-                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                    <img src="/img/Toman.svg" class="currency-svg" alt="">
                                 </span>
                             </a>
                         </div>
@@ -132,7 +132,7 @@
                 <div class="swiper-slide">
                     <div class="box">
                         <div class="slide-img">
-                            <img src="img/img2.jpg" alt="1">
+                            <img src="/img/img2.jpg" alt="1">
                             <div class="overlay">
                                 <a href="#" class="buy-btn">سفارش</a>
                             </div>
@@ -145,7 +145,7 @@
                             <a class="price">
                                 30000
                                 <span>
-                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                    <img src="/img/Toman.svg" class="currency-svg" alt="">
                                 </span>
                             </a>
                         </div>
@@ -154,7 +154,7 @@
                 <div class="swiper-slide">
                     <div class="box">
                         <div class="slide-img">
-                            <img src="img/img2.jpg" alt="1">
+                            <img src="/img/img2.jpg" alt="1">
                             <div class="overlay">
                                 <a href="#" class="buy-btn">سفارش</a>
                             </div>
@@ -167,7 +167,7 @@
                             <a class="price">
                                 30000
                                 <span>
-                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                    <img src="/img/Toman.svg" class="currency-svg" alt="">
                                 </span>
                             </a>
                         </div>
@@ -176,7 +176,7 @@
                 <div class="swiper-slide">
                     <div class="box">
                         <div class="slide-img">
-                            <img src="img/img2.jpg" alt="1">
+                            <img src="/img/img2.jpg" alt="1">
                             <div class="overlay">
                                 <a href="#" class="buy-btn">سفارش</a>
                             </div>
@@ -189,7 +189,7 @@
                             <a class="price">
                                 30000
                                 <span>
-                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                    <img src="/img/Toman.svg" class="currency-svg" alt="">
                                 </span>
                             </a>
                         </div>
@@ -198,7 +198,7 @@
                 <div class="swiper-slide">
                     <div class="box">
                         <div class="slide-img">
-                            <img src="img/img2.jpg" alt="1">
+                            <img src="/img/img2.jpg" alt="1">
                             <div class="overlay">
                                 <a href="#" class="buy-btn">سفارش</a>
                             </div>
@@ -211,7 +211,7 @@
                             <a class="price">
                                 30000
                                 <span>
-                                    <img src="img/Toman.svg" class="currency-svg" alt="">
+                                    <img src="/img/Toman.svg" class="currency-svg" alt="">
                                 </span>
                             </a>
                         </div>
@@ -230,19 +230,6 @@
             <div class="comment-form-box mb-5">
                 <form>
                     <div class="row g-3">
-                        <!-- <div class="col-md-6">
-                          <div class="custom-field">
-                            <i class="uil uil-user"></i>
-                            <input type="text" placeholder="نام و نام خانوادگی">
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="custom-field">
-                            <i class="uil uil-envelope"></i>
-                            <input type="email" placeholder="آدرس ایمیل">
-                          </div>
-                        </div> -->
-
                         <div class="col-12">
                             <div class="custom-field">
                                 <i class="uil uil-comment-alt-notes"></i>
@@ -251,7 +238,8 @@
                         </div>
 
                         <div class="col-12 text-start mt-2">
-                            <button type="submit" class="submit-btn-modern">
+                            @* <button type="submit" class="submit-btn-modern"> *@
+                            <button type="submit" class="default-yellow-btn">
                                 <i class="uil uil-message me-2"></i>
                                 <span> ارسال دیدگاه</span>
                             </button>
