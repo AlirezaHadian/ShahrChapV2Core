@@ -185,9 +185,9 @@ namespace ShahrChap.Core.Services
         public Product GetProductForShow(int productId)
         {
             Product product = _context.Products.Include(p => p.ProductGalleries).FirstOrDefault(p => p.ProductId == productId);
-            if(product.ParentId != null)
+            if(product != null && product.ParentId != null)
             {
-                //TODO: Include the other relations
+
             }
             return product;
         }

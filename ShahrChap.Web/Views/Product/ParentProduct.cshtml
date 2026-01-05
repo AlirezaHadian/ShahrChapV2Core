@@ -31,37 +31,44 @@
                     </div>
                     <div class="col-12 col-lg-4 text-center">
                         <div class="product-group-img text-center mb-4">
-                            <img src="/product/image/@Model.ParentProduct.Image" alt="">
+                            <a href="/product/image/@Model.ParentProduct.Image" data-lightbox="product" data-title="@Model.ParentProduct.ProductTitle">
+                                <img src="/product/image/@Model.ParentProduct.Image" alt="@Model.ParentProduct.ProductTitle">
+                            </a>
                         </div>
-                        <a href="#work-sample" class="default-yellow-btn work-sample-btn">
-                            <i class="uil uil-images"></i>
-                            نمونه محصول
-                        </a>
+                        @if (Model.ParentProduct.ProductGalleries.Any())
+                        {
+                            <a href="#work-sample" class="default-yellow-btn work-sample-btn">
+                                <i class="uil uil-images"></i>
+                                نمونه محصول
+                            </a>
+                        }
                     </div>
                 </div>
             </section>
         </div>
     </div>
-
-    <div class="category-product-div drop-shadow my-3 p-4">
-        <section class="category-product-section">
-            <div class="title">
-                <h4 class="text-gradient">محصولات گروه</h4>
-            </div>
-            <div class="title-underline"></div>
-            <div class="products-card text-center">
-                <div class="row">
-                    @foreach (var item in Model.SubProducts)
-                    {
-                        <div class="col-6 col-sm-4 col-md-3">
-                            <partial name="_ProductBox" model="item" />
-                        </div>
-                    }
-
+    @if (Model.SubProducts.Any())
+    {
+        <div class="category-product-div drop-shadow my-3 p-4">
+            <section class="category-product-section">
+                <div class="title">
+                    <h4 class="text-gradient">محصولات گروه</h4>
                 </div>
-            </div>
-        </section>
-    </div>
+                <div class="title-underline"></div>
+                <div class="products-card text-center">
+                    <div class="row">
+                        @foreach (var item in Model.SubProducts)
+                        {
+                            <div class="col-6 col-sm-4 col-md-3">
+                                <partial name="_ProductBox" model="item" />
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    }
 
     @if (Model.ParentProduct.PrintingTips != null)
     {
@@ -95,7 +102,7 @@
                         {
                             <div class="swiper-slide col-6 col-sm-4 col-md-3">
                                 <div class="work-sample-item">
-                                    <a href="#">
+                                    <a href="/product/image/@image.ImageName" data-lightbox="product" data-title="@image.ImageTitle">
                                         <img src="/product/image/@image.ImageName" alt="@image.ImageTitle">
                                     </a>
                                 </div>

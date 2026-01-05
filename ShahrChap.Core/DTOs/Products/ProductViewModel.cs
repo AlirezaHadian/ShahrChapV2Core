@@ -1,4 +1,5 @@
-﻿using ShahrChap.Core.Enums;
+﻿using Microsoft.Build.Framework;
+using ShahrChap.Core.Enums;
 using ShahrChap.DataLayer.Entities.Product;
 using System;
 using System.Collections.Generic;
@@ -19,4 +20,9 @@ namespace ShahrChap.Core.DTOs.Products
         Product ParentProduct,
         List<ShowProductListViewModel> SubProducts
     );
+
+    public record SubProductForShowViewMode(
+        Product SubProduct, 
+        List<ProductFeature> ProductFeatures,
+        List<FeatureValue> ProductFeatureValues);
 }

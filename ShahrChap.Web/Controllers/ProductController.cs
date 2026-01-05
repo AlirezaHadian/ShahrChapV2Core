@@ -29,7 +29,11 @@ namespace ShahrChap.Web.Controllers
             }
             else
             {
-                return View("SubProduct", product);
+                List<ProductFeature> features = _productService.GetProductFeatures(product.ParentId.Value);
+                List<FeatureValue> featureValues = _productService.GetAllFeatureValues(product.ParentId.Value);
+                ViewBag.SelectedFeatureValues = _productService.SubProductFeatureValueIds(id);
+                var model = new SubProductForShowViewMode(product, features, featureValues);
+                return View("SubProduct", model);
             }
         }
     }

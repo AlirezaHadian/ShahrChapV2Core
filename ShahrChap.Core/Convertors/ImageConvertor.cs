@@ -14,7 +14,7 @@ namespace ShahrChap.Core.Convertors
     {
         public void ResizeImage(string inputImagePath, string outputImagePath, int newWidth)
         {
-            const int quality = 90;
+            const int quality = 95;
 
             try
             {

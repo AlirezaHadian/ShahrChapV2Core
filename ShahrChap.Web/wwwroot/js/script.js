@@ -171,26 +171,26 @@ document.addEventListener('DOMContentLoaded', function () {
 /* Preloader */
 // window.addEventListener('load', ()=> document.querySelector('.preloader').classList.add('hide-preloader'));
 /*============SINGLE PRODUCT===========*/
-const allHoverImages = document.querySelectorAll(".hover-container div img");
-const imgContainer = document.querySelector(".img-container");
+document.addEventListener('DOMContentLoaded', function () {
+    const allHoverImages = document.querySelectorAll(".hover-container img");
+    const imgContainer = document.querySelector(".img-container img");
 
-window.addEventListener("DOMContentLoaded", () => {
-  allHoverImages[0].parentElement.classList.add("active");
+    if (!allHoverImages.length || !imgContainer) return;
+
+    allHoverImages[0].closest(".img-box").classList.add("active");
+
+    allHoverImages.forEach((image) => {
+        image.addEventListener("mouseover", () => {
+
+            imgContainer.src = image.src;
+
+            document.querySelectorAll(".hover-container .img-box")
+                .forEach(box => box.classList.remove("active"));
+
+            image.closest(".img-box").classList.add("active");
+        });
+    });
 });
-
-allHoverImages.forEach((image) => {
-  image.addEventListener("mouseover", () => {
-    imgContainer.querySelector("img").src = image.src;
-    resetActiveImg();
-    image.parentElement.classList.add("active");
-  });
-});
-
-function resetActiveImg() {
-  allHoverImages.forEach((img) => {
-    img.parentElement.classList.remove("active");
-  });
-}
 /*============ SHOPCART POPOVER ============*/
 const shopcartTrigger = document.querySelector(".shopcart");
 const shopcartPopover = document.querySelector(".shopcart-popover");
@@ -389,4 +389,4 @@ let resendSecondsRemaining = 100;
       //Haptic feedback => increase the number for vibration
       // const vibrate = () => {
       //   window.navigator.vibrate([20])
-      // }
+// }

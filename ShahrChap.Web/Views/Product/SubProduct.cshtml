@@ -1,30 +1,31 @@
-﻿@model ShahrChap.DataLayer.Entities.Product.Product
-
+﻿@using ShahrChap.Core.DTOs.Products
+@model SubProductForShowViewMode
 @{
-    ViewData["Title"] = Model.ProductTitle;
+    ViewData["Title"] = Model.SubProduct.ProductTitle;
+    List<int> SelectedValues = ViewBag.SelectedFeatureValues as List<int>;
 }
 
 <section class="single-product container internal-style py-3">
     <ol class="breadcrumb drop-shadow">
-        <li class="breadcrumb-item"><a href="#">خانه</a></li>
+        <li class="breadcrumb-item"><a href="/">خانه</a></li>
         <li class="breadcrumb-item"><a href="#">محصولات</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@Model.ProductTitle</li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.SubProduct.ProductTitle</li>
     </ol>
     <div class="main-wrapper">
         <div class="product-div drop-shadow">
-            <div class="product-div-right">
+            <div class="product-div-right mt-5">
                 <div class="img-container">
-                    <a href="/product/image/@Model.Image" data-lightbox="product" data-title="@Model.ProductTitle">
-                        <img src="/product/image/@Model.Image" alt="@Model.ProductTitle" title="@Model.ProductTitle">
+                    <a href="/product/image/@Model.SubProduct.Image" data-lightbox="product" data-title="@Model.SubProduct.ProductTitle">
+                        <img src="/product/image/@Model.SubProduct.Image" alt="@Model.SubProduct.ProductTitle" title="@Model.SubProduct.ProductTitle">
                     </a>
                 </div>
                 <div class="hover-container">
                     <div class="img-box drop-shadow">
-                        <a href="/product/image/@Model.Image" data-lightbox="product" data-title="@Model.ProductTitle">
-                            <img src="/product/image/@Model.Image" alt="@Model.ProductTitle" title="@Model.ProductTitle">
+                        <a href="/product/image/@Model.SubProduct.Image" data-lightbox="product" data-title="@Model.SubProduct.ProductTitle">
+                            <img src="/product/image/@Model.SubProduct.Image" alt="@Model.SubProduct.ProductTitle" title="@Model.SubProduct.ProductTitle">
                         </a>
                     </div>
-                    @foreach (var image in Model.ProductGalleries)
+                    @foreach (var image in Model.SubProduct.ProductGalleries)
                     {
                         <div class="img-box drop-shadow">
                             <a href="/product/image/@image.ImageName data-lightbox="product" data-title="@image.ImageTitle">
@@ -46,41 +47,89 @@
                 <div class="product-detail">
                     <h2>درباره محصول:</h2>
                     <p>
-                        @Html.Raw(Model.Description)
+                        @Html.Raw(Model.SubProduct.Description)
                     </p>
-                    <!-- <ul>
-                        <li>رنگ: <span>مشکی</span></li>
-                        <li>رنگ: <span>مشکی</span></li>
-                        <li>رنگ: <span>مشکی</span></li>
-                        <li>رنگ: <span>مشکی</span></li>
-                      </ul> -->
-                    <div class="product-custom-section">
-                        <div class="modern-form-wrapper">
-
-                            <div class="custom-input-group">
-                                <input type="text" placeholder="عنوان سفارش">
-                            </div>
-
-                            <div class="custom-row">
-                                <div class="custom-input-group">
-                                    <select>
-                                        <option selected disabled>انتخاب ابعاد</option>
-                                        <option>۹ در ۶ سانتی‌متر</option>
-                                        <option>۸.۵ در ۴.۸ سانتی‌متر</option>
-                                    </select>
-                                </div>
-                                <div class="custom-input-group">
-                                    <select>
-                                        <option selected disabled>نوع کاغذ</option>
-                                        <option>لمینت براق</option>
-                                        <option>کتان آلمان</option>
-                                    </select>
+                    @* Product Features *@
+                    <div class="product-custom-config mx-auto mt-3">
+                        <div class="row g-2" dir="rtl">
+                            <div class="col-12 mb-1">
+                                <div class="clean-input-group">
+                                    <input type="text" class="form-control" placeholder="عنوان سفارش">
                                 </div>
                             </div>
+                            @foreach (var feature in Model.ProductFeatures)
+                            {
+                                @if (feature.Feature.FeatureValues.Any(value => SelectedValues.Contains(value.FeatureValueId)))
+                                {
+                                    <div class="col-12 col-md-6">
+                                        <div class="clean-input-group">
+                                            <select class="form-select">
+                                                <option selected disabled>@feature.Feature.FeatureTitle</option>
+                                                @foreach (var value in feature.Feature.FeatureValues)
+                                                {
+                                                    @if (SelectedValues.Any(p => p == value.FeatureValueId))
+                                                    {
+                                                        <option>@value.ValueTitle</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
+                            }
 
                         </div>
                     </div>
                 </div>
+                @* Product Services *@
+                <div class="product-services-section mx-auto mt-4">
+                    <div class="modern-header-style mb-3">
+                        <h5 class="m-0">خدمات پس از چاپ</h5>
+                    </div>
+
+                    <div class="services-list" dir="rtl">
+                        <label class="service-row">
+                            <div class="service-info">
+                                <span class="service-name">سلفون‌کشی مات (یک‌رو)</span>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox">
+                                <span class="check-knob"></span>
+                            </div>
+                        </label>
+
+                        <label class="service-row">
+                            <div class="service-info">
+                                <span class="service-name">یووی موضعی (براق‌کننده)</span>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox">
+                                <span class="check-knob"></span>
+                            </div>
+                        </label>
+
+                        <label class="service-row">
+                            <div class="service-info">
+                                <span class="service-name">خط تا و پرفراژ</span>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox">
+                                <span class="check-knob"></span>
+                            </div>
+                        </label>
+
+                        <label class="service-row">
+                            <div class="service-info">
+                                <span class="service-name">طلاکوب یا نقره‌کوب</span>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox">
+                                <span class="check-knob"></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                @* Purchase Info *@
                 <div class="purchase-info">
                     <div class="product-price drop-shadow">
                         ۱۵۰,۰۰۰ تومان
