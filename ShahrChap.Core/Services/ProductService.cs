@@ -172,7 +172,7 @@ namespace ShahrChap.Core.Services
                 result = result.Where(p => p.ParentId == null);
             }
 
-            result = result.OrderByDescending(p=> p.CreateDate);
+            result = result.OrderByDescending(p => p.CreateDate);
 
             return result.Include(p => p.Group).Select(p => new ShowProductListViewModel()
             {
@@ -185,7 +185,7 @@ namespace ShahrChap.Core.Services
         public Product GetProductForShow(int productId)
         {
             Product product = _context.Products.Include(p => p.ProductGalleries).FirstOrDefault(p => p.ProductId == productId);
-            if(product != null && product.ParentId != null)
+            if (product != null && product.ParentId != null)
             {
 
             }
@@ -601,6 +601,26 @@ namespace ShahrChap.Core.Services
                 servicePrices.AddRange(currentProductPrice);
             }
             return servicePrices;
+        }
+
+        public ProductPriceViewModel GetCombinationPriceForShowProduct(int productId, string combination)
+        {
+            return _context.ProductPrices
+                .Where(p => p.ProductId == productId && p.Combination == combination)
+                .Select(p=> new ProductPriceViewModel()
+                {
+                    ProductPriceId = p.ProductPriceId,
+                    Price = p.Price
+                })
+                .FirstOrDefault();
+        }
+
+        public decimal GetServicePriceForShowProduct(int productPriceId, int serviceId)
+        {
+            return _context.ServicePrices
+                .Where(s => s.ProductServiceId == serviceId && s.ProductPriceId == productPriceId)
+                .Select(p => p.Price)
+                .FirstOrDefault();
         }
         #endregion
     }

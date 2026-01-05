@@ -51,6 +51,7 @@
                     </p>
                     @* Product Features *@
                     <div class="product-custom-config mx-auto mt-3">
+                        <input type="hidden" asp-for="SubProduct.ProductId" />
                         <div class="row g-2" dir="rtl">
                             <div class="col-12 mb-1">
                                 <div class="clean-input-group">
@@ -63,13 +64,13 @@
                                 {
                                     <div class="col-12 col-md-6">
                                         <div class="clean-input-group">
-                                            <select class="form-select">
+                                            <select class="form-select" name="feature_@feature.PF_Id">
                                                 <option selected disabled>@feature.Feature.FeatureTitle</option>
                                                 @foreach (var value in feature.Feature.FeatureValues)
                                                 {
                                                     @if (SelectedValues.Any(p => p == value.FeatureValueId))
                                                     {
-                                                        <option>@value.ValueTitle</option>
+                                                        <option value="@value.FeatureValueId">@value.ValueTitle</option>
                                                     }
                                                 }
                                             </select>
@@ -82,65 +83,44 @@
                     </div>
                 </div>
                 @* Product Services *@
-                <div class="product-services-section mx-auto mt-4">
-                    <div class="modern-header-style mb-3">
-                        <h5 class="m-0">خدمات پس از چاپ</h5>
+                @if (Model.Services.Any())
+                {
+                    <div class="product-services-section mx-auto mt-4">
+                        <div class="modern-header-style mb-3">
+                            <h5 class="m-0">خدمات پس از چاپ</h5>
+                        </div>
+
+                        <div class="services-list" dir="rtl">
+                            @foreach (var service in Model.Services)
+                            {
+                                <label class="service-row">
+                                    <div class="service-info">
+                                        <span class="service-name">@service.ServiceTitle</span>
+                                    </div>
+                                    <div class="checkbox-wrapper">
+                                        <input type="checkbox" class="service-check" value="@service.ServiceId">
+                                        <span class="check-knob"></span>
+                                    </div>
+                                </label>
+                            }
+                        </div>
                     </div>
+                }
 
-                    <div class="services-list" dir="rtl">
-                        <label class="service-row">
-                            <div class="service-info">
-                                <span class="service-name">سلفون‌کشی مات (یک‌رو)</span>
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox">
-                                <span class="check-knob"></span>
-                            </div>
-                        </label>
-
-                        <label class="service-row">
-                            <div class="service-info">
-                                <span class="service-name">یووی موضعی (براق‌کننده)</span>
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox">
-                                <span class="check-knob"></span>
-                            </div>
-                        </label>
-
-                        <label class="service-row">
-                            <div class="service-info">
-                                <span class="service-name">خط تا و پرفراژ</span>
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox">
-                                <span class="check-knob"></span>
-                            </div>
-                        </label>
-
-                        <label class="service-row">
-                            <div class="service-info">
-                                <span class="service-name">طلاکوب یا نقره‌کوب</span>
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox">
-                                <span class="check-knob"></span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
                 @* Purchase Info *@
                 <div class="purchase-info">
                     <div class="product-price drop-shadow">
-                        ۱۵۰,۰۰۰ تومان
+                        <span id="desktop-price">۱۵۰,۰۰۰</span> تومان
                         <i class="uil uil-pricetag-alt"></i>
                     </div>
+
                     <a type="button" class="btn addcart-btn drop-shadow">
                         <span class="large-addcart-btn">
                             ثبت سفارش <i class="uil uil-shopping-cart"></i>
                         </span>
+
                         <span class="small-addcart-btn">
-                            50000 تومان
+                            <span id="mobile-price">۱۵۰,۰۰۰</span> تومان
                             <i class="uil uil-plus-circle"></i>
                         </span>
                     </a>
@@ -328,3 +308,7 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+             <script src="/js/product.js"></script>
+}

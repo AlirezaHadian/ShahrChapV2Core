@@ -90,6 +90,8 @@ namespace ShahrChap.Core.Services.Interfaces
         void AddServicePrices(List<ServicePrice> servicePrices);
         bool AreCombinationsChanged(int productId, List<string> Combintations);
         List<ServicePrice> GetServicePricesForProduct(int productId);
+        ProductPriceViewModel GetCombinationPriceForShowProduct(int productId, string combination);
+        decimal GetServicePriceForShowProduct(int productPriceId, int serviceId);
         #endregion
     }
 }

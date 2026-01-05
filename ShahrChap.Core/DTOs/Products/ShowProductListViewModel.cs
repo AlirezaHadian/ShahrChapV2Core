@@ -13,4 +13,10 @@ namespace ShahrChap.Core.DTOs.Products
         public string ImageName { get; set; }
         public string GroupName { get; set; }
     }
+
+    public class ProductPriceViewModel
+    {
+        public int ProductPriceId { get; set; }
+        public decimal Price { get; set; }
+    }
 }

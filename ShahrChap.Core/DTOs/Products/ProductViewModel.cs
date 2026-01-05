@@ -24,5 +24,6 @@ namespace ShahrChap.Core.DTOs.Products
     public record SubProductForShowViewMode(
         Product SubProduct, 
         List<ProductFeature> ProductFeatures,
-        List<FeatureValue> ProductFeatureValues);
+        List<FeatureValue> ProductFeatureValues,
+        List<Service> Services);
 }

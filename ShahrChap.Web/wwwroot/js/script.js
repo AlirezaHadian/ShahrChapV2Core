@@ -170,27 +170,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* Preloader */
 // window.addEventListener('load', ()=> document.querySelector('.preloader').classList.add('hide-preloader'));
-/*============SINGLE PRODUCT===========*/
-document.addEventListener('DOMContentLoaded', function () {
-    const allHoverImages = document.querySelectorAll(".hover-container img");
-    const imgContainer = document.querySelector(".img-container img");
-
-    if (!allHoverImages.length || !imgContainer) return;
-
-    allHoverImages[0].closest(".img-box").classList.add("active");
-
-    allHoverImages.forEach((image) => {
-        image.addEventListener("mouseover", () => {
-
-            imgContainer.src = image.src;
-
-            document.querySelectorAll(".hover-container .img-box")
-                .forEach(box => box.classList.remove("active"));
-
-            image.closest(".img-box").classList.add("active");
-        });
-    });
-});
 /*============ SHOPCART POPOVER ============*/
 const shopcartTrigger = document.querySelector(".shopcart");
 const shopcartPopover = document.querySelector(".shopcart-popover");
