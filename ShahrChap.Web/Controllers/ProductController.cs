@@ -2,6 +2,7 @@
 using ShahrChap.Core.DTOs.Products;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
+using System.Security.Cryptography.Pkcs;
 
 namespace ShahrChap.Web.Controllers
 {
@@ -34,6 +35,7 @@ namespace ShahrChap.Web.Controllers
                 List<Service> services = _productService.GetProductServices(product.ParentId.Value);
                 ViewBag.SelectedFeatureValues = _productService.SubProductFeatureValueIds(id);
                 var model = new SubProductForShowViewMode(product, features, featureValues, services);
+                ViewBag.IsUserLoggedIn = User.Identity.IsAuthenticated;
                 return View("SubProduct", model);
             }
         }
@@ -60,6 +62,46 @@ namespace ShahrChap.Web.Controllers
             catch
             {
                 return Json(new { success = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitFinalOrder(FinalOrderViewModel model)
+        {
+            if (model.OrderFiles == null || !model.OrderFiles.Any())
+            {
+                return Json(new { success = false, message = "لطفاً حداقل یک فایل انتخاب کنید." });
+            }
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".pdf", ".zip", ".rar", ".psd", ".tiff" };
+            long maxFileSize = 50 * 1024 * 1024;
+
+            foreach (var file in model.OrderFiles)
+            {
+                var extension = Path.GetExtension(file.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(extension))
+                    return Json(new { success = false, message = $"پسوند فایل {file.FileName} مجاز نیست." });
+
+                if (file.Length > maxFileSize)
+                    return Json(new { success = false, message = $"فایل {file.FileName} بزرگتر از حد مجاز (۵۰ مگابایت) است." });
+
+            }
+
+            try
+            {
+                // ۳. ذخیره فایل‌ها در پوشه موقت یا اصلی
+                // ۴. ثبت در دیتابیس (سفارش و آیتم‌های آن)
+                // ۵. انتقال به سبد خرید (مثلاً ذخیره در کوکی یا دیتابیس)
+
+                // مثال از عملیات نهایی:
+                // _orderService.CreateOrder(model); 
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "خطای غیرمنتظره در ثبت سفارش رخ داد." });
             }
         }
     }

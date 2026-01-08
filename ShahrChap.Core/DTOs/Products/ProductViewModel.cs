@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Build.Framework;
 using ShahrChap.Core.Enums;
 using ShahrChap.DataLayer.Entities.Product;
 using System;
@@ -26,4 +27,11 @@ namespace ShahrChap.Core.DTOs.Products
         List<ProductFeature> ProductFeatures,
         List<FeatureValue> ProductFeatureValues,
         List<Service> Services);
+
+    public record FinalOrderViewModel(
+        int ProductId,
+        string OrderTitle,
+        string FeaturesCombination,
+        List<int> ServiceIds,
+        List<IFormFile> OrderFiles);
 }
