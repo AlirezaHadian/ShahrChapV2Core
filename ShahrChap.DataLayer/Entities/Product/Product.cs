@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ShahrChap.DataLayer.Entities.Order;
 using ShahrChap.DataLayer.Entities.Product.Form;
 
 namespace ShahrChap.DataLayer.Entities.Product;
@@ -65,5 +66,6 @@ public class Product
     public List<FormInput>? ProductAttributes { get; set; }
     [ForeignKey("ProductTypeId")]
     public ProductType? ProductType { get; set; }
+    public virtual List<OrderDetail> Details { get; set; }
     #endregion
 }

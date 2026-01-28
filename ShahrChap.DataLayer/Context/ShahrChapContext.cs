@@ -11,6 +11,7 @@ using ShahrChap.DataLayer.Entities.Permissions;
 using ShahrChap.DataLayer.Entities.Product;
 using System.Text.RegularExpressions;
 using ShahrChap.DataLayer.Entities.Product.Form;
+using ShahrChap.DataLayer.Entities.Order;
 
 namespace ShahrChap.DataLayer.Context
 {
@@ -67,6 +68,12 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<ProductType> ProductTypes { get; set; }
         #endregion
 
+        #region Order
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<OrderFile> OrderFiles { get; set; }
+        #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDelete);

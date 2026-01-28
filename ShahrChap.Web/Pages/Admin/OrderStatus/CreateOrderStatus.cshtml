@@ -1,0 +1,50 @@
+﻿@page
+@model ShahrChap.Web.Pages.Admin.OrderStatus.CreateOrderStatusModel
+@{
+    ViewData["Title"] = "- افزودن وضعیت جدید";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Orderstatus"><i class="uil uil-list-ul"></i> لیست وضعیت ها ها</a></li>
+            <li class="breadcrumb-item active text-success"><i class="uil uil-plus-circle"></i> افزودن وضعیت</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form method="post">
+            <h3>افزودن وضعیت جدید</h3>
+            <hr />
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>عنوان وضعیت</label>
+                            <input type="text" asp-for="OrderStatus.StatusTitle" class="form-control">
+                            <span asp-validation-for="OrderStatus.StatusTitle"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>رنگ</label>
+                            <select asp-for="OrderStatus.OrderColor" class="form-control">
+                                <option value ="">انتخاب کنید</option>
+                                <option value="badge-primary">آبی</option>
+                                <option value="badge-success">سبز</option>
+                                <option value="badge-warning">زرد</option>
+                                <option value="badge-danger">قرمز</option>
+                                <option value="badge-info">آبی روشن</option>
+                                <option value="badge-secondary">خاکستری</option>
+                            </select>
+                            <span asp-validation-for="OrderStatus.OrderColor"></span>
+                        </div>
+                        <a href="/Admin/OrderStatus" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
+                        <button type="submit" class="btn btn-success"><i class="uil uil-plus-circle"></i> ثبت وضعیت</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
