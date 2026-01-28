@@ -11,6 +11,10 @@ namespace ShahrChap.Core.Services.Interfaces
         List<OrderStatus> GetOrderStatuses();
         int CreateOrderStatus(OrderStatus status);
         int GetLastSortOrder();
+        void UpdateSortOrder(List<int> ids);
+        OrderStatus GetOrderStatusById(int orderStatusId);
+        void UpdateOrderStatus(OrderStatus orderStatus);
+        void DeleteOrderStatus(int orderStatusId);
         #endregion
     }
 }

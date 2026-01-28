@@ -66,6 +66,20 @@ $(document).ready(function () {
             window.location.href = "/Login?ReturnUrl=" + encodeURIComponent(currentUrl);
             return;
         }
+
+        let priceText = $('#desktop-price').text().replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/,/g, '');
+        let currentPrice = parseInt(priceText);
+
+        if (isNaN(currentPrice) || currentPrice <= 0) {
+            showToast("لطفاً ویژگی‌های محصول را انتخاب کنید تا قیمت محاسبه شوداین ترکیب از مشخصات هنوز قیمت‌گذاری نشده است.", "warning");
+
+            // هایلایت کردن دراپ‌دان‌هایی که انتخاب نشده‌اند برای راهنمایی کاربر
+            $('.product-custom-config .form-select').each(function () {
+                if (!$(this).val()) $(this).addClass('is-invalid');
+            });
+            return;
+        }
+
         if (validateForm()) {
             uploadModal.show();
         }
@@ -177,7 +191,7 @@ function validateForm() {
     $('.product-custom-config .form-select, #order-title').each(function () {
         if (!$(this).val() || $(this).val().trim() === "" || $(this).prop('selectedIndex') === 0) {
             $(this).addClass('is-invalid');
-            isValid = false;
+            isValid = false
             if (!firstError) firstError = $(this);
         } else {
             $(this).removeClass('is-invalid');

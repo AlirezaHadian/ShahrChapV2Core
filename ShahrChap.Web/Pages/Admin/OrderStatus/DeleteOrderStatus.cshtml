@@ -1,0 +1,34 @@
+﻿@page "{id}"
+@model ShahrChap.Web.Pages.Admin.OrderStatus.DeleteOrderStatusModel
+@{
+    ViewData["Title"] = "- حذف وضعیت";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/Admin"><i class="uil uil-estate"></i> صفحه نخست</a></li>
+            <li class="breadcrumb-item"><a href="/Admin/Orderstatus"><i class="uil uil-list-ul"></i> لیست وضعیت ها</a></li>
+            <li class="breadcrumb-item active text-danger"><i class="uil uil-trash-alt"></i> حذف وضعیت "@Model.OrderStatus.StatusTitle"</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="card border-danger shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0"><i class="uil uil-exclamation-triangle"></i> حذف وضعیت "@Model.OrderStatus.StatusTitle"</h5>
+        </div>
+        <div class="card-body text-center">
+            <p>آیا از حذف وضعیت "@Model.OrderStatus.StatusTitle" مطمئن هستید؟</p>
+        </div>
+        <div class="card-footer d-flex">
+            <a href="/Admin/OrderStatus" class="btn btn-light mr-1 border"><i class="uil uil-angle-right"></i> بازگشت</a>
+            <form method="post">
+                <input type="hidden" asp-for="OrderStatus.StatusId" />
+                <input type="hidden" asp-for="OrderStatus.StatusTitle" />
+                <button type="submit" class="btn btn-danger"><i class="uil uil-trash-alt"></i> حذف</button>
+            </form>
+        </div>
+    </div>
+</div>

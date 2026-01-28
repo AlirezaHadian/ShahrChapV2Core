@@ -31,6 +31,41 @@ namespace ShahrChap.Core.Services
         {
             return _context.OrderStatuses.Max(o => o.SortOrder);
         }
+
+        public void UpdateSortOrder(List<int> ids)
+        {
+            var allStatuses = GetOrderStatuses();
+
+            for (int i = 0; i < ids.Count; i++)
+            {
+                var status = allStatuses.FirstOrDefault(s => s.StatusId == ids[i]);
+                if (status != null)
+                {
+                    status.SortOrder = i + 1;
+                }
+            }
+
+            _context.SaveChanges();
+        }
+
+        public OrderStatus GetOrderStatusById(int orderStatusId)
+        {
+            return _context.OrderStatuses.Find(orderStatusId);
+        }
+
+        public void UpdateOrderStatus(OrderStatus orderStatus)
+        {
+            _context.OrderStatuses.Update(orderStatus);
+            _context.SaveChanges();
+        }
+
+        public void DeleteOrderStatus(int orderStatusId)
+        {
+            OrderStatus orderStatus = GetOrderStatusById(orderStatusId);
+            orderStatus.IsDelete = true;
+            UpdateOrderStatus(orderStatus);
+        }
+
         #endregion
     }
 }

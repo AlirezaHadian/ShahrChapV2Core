@@ -101,3 +101,24 @@ tbody td {
         margin: auto;
         text-align: center;
     }
+
+    /*=======Order Status =======*/
+.sortable-ghost {
+    opacity: 0.4;
+    background-color: #f4f6f9 !important;
+    border: 2px dashed #007bff;
+}
+
+.handle {
+    cursor: grab;
+    padding: 10px;
+    color: #ccc;
+}
+
+    .handle:active {
+        cursor: grabbing;
+    }
+
+.table td {
+    vertical-align: middle !important;
+}

@@ -10,7 +10,8 @@
             "Yellow" => "🟨",
             "Orange" => "🟧",
             "Red" => "🟥",
-            "White" => ""
+            "White" => "⬜",
+            _ => ""
         };
     }
 }
@@ -42,20 +43,26 @@
                             <a asp-page="CreateOrderStatus" class="btn btn-outline btn-success"><i class="uil uil-book-medical"></i> افزودن وضعیت جدید</a>
                         </div>
                     </div>
-                    <table class="table table-striped table-bordered table-hover dataTable no-footer table-text-center" id="dataTables-example" aria-describedby="dataTables-example_info">
+                    @Html.AntiForgeryToken()
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer table-text-center" id="dataTables-example">
                         <thead>
                             <tr>
+                                <th style="width:50px"></th>
                                 <td>عنوان</td>
                                 <td>دستورات</td>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-body">
                             @foreach (var item in Model.OrderStatuses)
                             {
-                                <tr>
+                                <tr data-id="@item.StatusId">
+                                    <td>
+                                        <i class="fas fa-grip-vertical handle" style="cursor:move; color:#888; font-size:20px"></i>
+                                    </td>
                                     <td>
                                         <span>@ColorEmoji(item.OrderColor)</span>
-                                        @item.StatusTitle</td>
+                                        @item.StatusTitle
+                                    </td>
                                     <td>
                                         <a asp-page="EditOrderStatus" asp-route-id="@item.StatusId" class="btn btn-sm btn-warning"><i class="uil uil-edit"></i></a>
                                         <a asp-page="DeleteOrderStatus" asp-route-id="@item.StatusId" class="btn btn-sm btn-danger"><i class="uil uil-trash-alt"></i></a>
@@ -69,3 +76,8 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    <script src="/AdminTemplate/dist/js/OrderStatus.js"></script>
+}

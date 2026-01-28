@@ -86,6 +86,7 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<FeatureValue>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Service>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductForm>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<OrderStatus>().HasQueryFilter(u => !u.IsDelete);
 
             modelBuilder.Entity<ProductPrice>()
                 .HasIndex(pc => new { pc.ProductId, pc.Combination })

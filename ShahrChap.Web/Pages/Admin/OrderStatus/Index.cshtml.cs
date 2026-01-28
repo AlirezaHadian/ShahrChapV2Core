@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShahrChap.Core.Services.Interfaces;
 
@@ -15,6 +15,14 @@ namespace ShahrChap.Web.Pages.Admin.OrderStatus
         public void OnGet()
         {
             OrderStatuses = _orderService.GetOrderStatuses();
+        }
+
+        public IActionResult OnPostUpdateOrder([FromBody] List<int> ids)
+        {
+            if (ids == null) return new JsonResult(new { success = false });
+
+            _orderService.UpdateSortOrder(ids);    
+            return new JsonResult(new { success = true });
         }
     }
 }
