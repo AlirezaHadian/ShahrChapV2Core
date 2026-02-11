@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShahrChap.Core.DTOs.Order;
 using ShahrChap.Core.DTOs.Products;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography.Pkcs;
 
 namespace ShahrChap.Web.Controllers
@@ -9,9 +12,11 @@ namespace ShahrChap.Web.Controllers
     public class ProductController : Controller
     {
         private IProductService _productService;
-        public ProductController(IProductService productService)
+        private IOrderService _orderService;
+        public ProductController(IProductService productService, IOrderService orderService)
         {
             _productService = productService;
+            _orderService = orderService;
         }
         public IActionResult Index()
         {
@@ -45,18 +50,7 @@ namespace ShahrChap.Web.Controllers
         {
             try
             {
-                decimal totalPrice = 0;
-                string combination = string.Join(" - ", options.Values);
-                ProductPriceViewModel productPrice = _productService.GetCombinationPriceForShowProduct(productId, combination);
-                if (productPrice != null)
-                {
-                    totalPrice += productPrice.Price;
-                    foreach (var service in services)
-                    {
-                        var servicePrice = _productService.GetServicePriceForShowProduct(productPrice.ProductPriceId, service);
-                        totalPrice += servicePrice;
-                    }
-                }
+                decimal totalPrice = _productService.CalculatePrice(productId, options, services);
                 return Json(new { success = true, price = totalPrice });
             }
             catch
@@ -68,6 +62,11 @@ namespace ShahrChap.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> SubmitFinalOrder(FinalOrderViewModel model)
         {
+            if (model.OrderFiles.Count > 5)
+            {
+                return Json(new { success = false, message = "حداکثر 5 فایل مجاز است." });
+            }
+
             if (model.OrderFiles == null || !model.OrderFiles.Any())
             {
                 return Json(new { success = false, message = "لطفاً حداقل یک فایل انتخاب کنید." });
@@ -76,16 +75,12 @@ namespace ShahrChap.Web.Controllers
             var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".pdf", ".zip", ".rar", ".psd", ".tiff" };
             long maxFileSize = 50 * 1024 * 1024;
 
+            var validator = new FileUploadValidatior();
             foreach (var file in model.OrderFiles)
             {
-                var extension = Path.GetExtension(file.FileName).ToLower();
-
-                if (!allowedExtensions.Contains(extension))
-                    return Json(new { success = false, message = $"پسوند فایل {file.FileName} مجاز نیست." });
-
-                if (file.Length > maxFileSize)
-                    return Json(new { success = false, message = $"فایل {file.FileName} بزرگتر از حد مجاز (۵۰ مگابایت) است." });
-
+                var result = validator.Validate(file);
+                if (!result.IsValid)
+                    return Json(new { success = false, message = result.ErrorMessage });
             }
 
             try
@@ -97,11 +92,30 @@ namespace ShahrChap.Web.Controllers
                 // مثال از عملیات نهایی:
                 // _orderService.CreateOrder(model); 
 
+                CreateOrderDetailDto orderDto = new CreateOrderDetailDto()
+                {
+                    ProductId = model.ProductId,
+                    ProductTitle = _productService.GetProductTitleById(model.ProductId),
+                    OrderTitle = model.OrderTitle,
+                    Services = string.Join("-",
+model.ServiceIds.Select(item =>
+    _productService.GetServiceById(item).ServiceTitle
+)),
+                    FeaturesCombination = model.FeaturesCombination,
+                    Files = model.OrderFiles
+                };
+                _orderService.CreateOrderAsync(User.Identity.Name, orderDto);
+
                 return Json(new { success = true });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "خطای غیرمنتظره در ثبت سفارش رخ داد." });
+                return Json(new
+                {
+                    success = false,
+                    message = "خطای غیرمنتظره در ثبت سفارش رخ داد." +
+                    ex
+                });
             }
         }
     }

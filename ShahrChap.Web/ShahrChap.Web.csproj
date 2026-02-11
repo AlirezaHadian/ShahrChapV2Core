@@ -44,6 +44,8 @@
 		<Folder Include="Connected Services\" />
 		<Folder Include="Pages\Admin\Order\" />
 		<Folder Include="wwwroot\images\" />
+		<Folder Include="wwwroot\Uploads\Temp\" />
+		<Folder Include="wwwroot\Uploads\Orders\" />
 		<Folder Include="wwwroot\UserAvatar\" />
 	</ItemGroup>
 

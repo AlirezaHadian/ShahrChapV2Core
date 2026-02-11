@@ -146,6 +146,11 @@ namespace ShahrChap.DataLayer.Context
                 .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Order>()
+    .HasMany(o => o.OrderDetails)
+    .WithOne(od => od.Order)
+    .HasForeignKey(od => od.OrderId);
+
         }
     }
 }

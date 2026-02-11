@@ -1,4 +1,6 @@
-﻿using ShahrChap.DataLayer.Entities.Order;
+﻿using Microsoft.AspNetCore.Http;
+using ShahrChap.Core.DTOs.Order;
+using ShahrChap.DataLayer.Entities.Order;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +17,13 @@ namespace ShahrChap.Core.Services.Interfaces
         OrderStatus GetOrderStatusById(int orderStatusId);
         void UpdateOrderStatus(OrderStatus orderStatus);
         void DeleteOrderStatus(int orderStatusId);
+        OrderStatus GetFirstOrderStatus();
+        #endregion
+        #region Order
+        Task<int> CreateOrderAsync(string userName, CreateOrderDetailDto orderDto);
+        //int CreateOrder(string userName, List<CreateOrderDetailDto> details)
+        //List<OrderFile> SaveOrderFilesTemp(List<IFormFile> files);
+
         #endregion
     }
 }

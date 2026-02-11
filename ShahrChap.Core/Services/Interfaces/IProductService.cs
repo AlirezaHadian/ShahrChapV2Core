@@ -36,7 +36,7 @@ namespace ShahrChap.Core.Services.Interfaces
         List<ShowProductListViewModel> GetProducts(int take=0,string filter="" , int? parentId = null);
         Product GetProductForShow(int productId);
         List<ShowProductListViewModel> GetSubProductForBox(int parentId);
-
+        string GetProductTitleById(int productId);
         #endregion
         #region Feature
         List<Feature> GetAllFeatures();
@@ -92,6 +92,7 @@ namespace ShahrChap.Core.Services.Interfaces
         List<ServicePrice> GetServicePricesForProduct(int productId);
         ProductPriceViewModel GetCombinationPriceForShowProduct(int productId, string combination);
         decimal GetServicePriceForShowProduct(int productPriceId, int serviceId);
+        decimal CalculatePrice(int productId, Dictionary<string, string> options, List<int> services);
         #endregion
     }
 }

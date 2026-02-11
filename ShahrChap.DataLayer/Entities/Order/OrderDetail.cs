@@ -19,12 +19,20 @@ namespace ShahrChap.DataLayer.Entities.Order
         public int ProductId { get; set; }
         [Display(Name = "عنوان محصول")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(500, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
+        public string OrderDetailTitle { get; set; }
+        [Display(Name = "عنوان محصول")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(450, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
         public string ProductTitle { get; set; }
         [Display(Name = "ویژگی ها")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(450, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
+        [MaxLength(600, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
         public string FeaturesCombination { get; set; }
+        [Display(Name = "خدمات پس از چاپ")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(600, ErrorMessage = "{0} نمی تواند بیش از {1} کاراکتر باشد")]
+        public string Services { get; set; }
         [Display(Name = "قیمت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int Price { get; set; }

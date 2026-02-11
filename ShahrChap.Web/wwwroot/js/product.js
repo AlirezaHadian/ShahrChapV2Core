@@ -124,13 +124,16 @@ $(document).ready(function () {
     $('#final-submit-btn').on('click', function () {
         let btn = $(this);
         let bar = $('#upload-progress');
+
+        let rawPrice = $('#desktop-price').text() || $('#mobile-price').text();
+        let cleanPrice = rawPrice.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/,/g, '').trim();
+
         btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span>');
         $('.progress').removeClass('d-none');
 
         let finalData = new FormData();
         finalData.append("ProductId", $('#SubProduct_ProductId').val());
         finalData.append("OrderTitle", $('#order-title').val());
-
         let combination = [];
         $('.product-custom-config .form-select').each(function () {
             combination.push($(this).find('option:selected').text().trim());

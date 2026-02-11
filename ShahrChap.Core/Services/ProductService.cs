@@ -205,6 +205,10 @@ namespace ShahrChap.Core.Services
 
             return subProducts;
         }
+        public string GetProductTitleById(int productId)
+        {
+            return _context.Products.Find(productId).ProductTitle;
+        }
         #endregion
         #region Feature
         public List<ProductFeature> GetProductFeatures(int productId)
@@ -621,6 +625,23 @@ namespace ShahrChap.Core.Services
                 .Where(s => s.ProductServiceId == serviceId && s.ProductPriceId == productPriceId)
                 .Select(p => p.Price)
                 .FirstOrDefault();
+        }
+
+        public decimal CalculatePrice(int productId, Dictionary<string, string> options, List<int> services)
+        {
+            string combination = string.Join(" - ", options.Values);
+            ProductPriceViewModel productPrice = GetCombinationPriceForShowProduct(productId, combination);
+            decimal totalPrice = 0;
+            if (productPrice != null)
+            {
+                totalPrice += productPrice.Price;
+                foreach (var service in services)
+                {
+                    var servicePrice = GetServicePriceForShowProduct(productPrice.ProductPriceId, service);
+                    totalPrice += servicePrice;
+                }
+            }
+            return totalPrice;
         }
         #endregion
     }

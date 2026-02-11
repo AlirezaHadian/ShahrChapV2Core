@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShahrChap.DataLayer.Context;
 
@@ -11,9 +12,11 @@ using ShahrChap.DataLayer.Context;
 namespace ShahrChap.DataLayer.Migrations
 {
     [DbContext(typeof(ShahrChapContext))]
-    partial class ShahrChapContextModelSnapshot : ModelSnapshot
+    [Migration("20260210144212_ChangeOrderEntitiy_Mig")]
+    partial class ChangeOrderEntitiy_Mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,18 +156,10 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.Property<string>("FeaturesCombination")
                         .IsRequired()
-                        .HasMaxLength(600)
-                        .HasColumnType("nvarchar(600)");
-
-                    b.Property<string>("OrderDetailTitle")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId1")
                         .HasColumnType("int");
 
                     b.Property<int>("Price")
@@ -178,16 +173,9 @@ namespace ShahrChap.DataLayer.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Services")
-                        .IsRequired()
-                        .HasMaxLength(600)
-                        .HasColumnType("nvarchar(600)");
-
                     b.HasKey("DetailId");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("OrderId1");
 
                     b.HasIndex("ProductId");
 
@@ -919,14 +907,10 @@ namespace ShahrChap.DataLayer.Migrations
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderDetail", b =>
                 {
                     b.HasOne("ShahrChap.DataLayer.Entities.Order.Order", "Order")
-                        .WithMany("OrderDetails")
+                        .WithMany("OrderStatus")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ShahrChap.DataLayer.Entities.Order.Order", null)
-                        .WithMany("OrderStatus")
-                        .HasForeignKey("OrderId1");
 
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.Product", "Product")
                         .WithMany("Details")
@@ -1222,8 +1206,6 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.Order", b =>
                 {
-                    b.Navigation("OrderDetails");
-
                     b.Navigation("OrderStatus");
                 });
 

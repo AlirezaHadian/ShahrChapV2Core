@@ -33,6 +33,7 @@
     /* Blue */
     --mainBlue: hsl(198, 63%, 45%);
     --darkBlue: hsl(198, 56%, 35%);
+    --footerBlue: hsl(202.86, 100%, 12.35%);
     --darkerBlue: hsl(220, 53%, 31%);
     --darkestBlue: hsl(212, 14%, 19%);
     --lighterBlue: hsla(200, 88%, 94%, 0.5);
@@ -2663,64 +2664,78 @@ form .order-submit input {
 .aboutUs-title {
     color: var(--darkYellow);
 }
-/*Basket*/
-addresses {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/*======== ShopCart =======*/
+/* باکس پرداخت سرمه‌ای */
+.payment-final-card {
+    background: var(--footerBlue) !important; /* سرمه‌ای تیره حرفه‌ای */
+    border-radius: 20px;
 }
 
-.address {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #f7f7f7;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease-in-out;
+.discount-box-internal {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.text-danger-light {
+    color: var(--mainRed);
+}
+
+/* آدرس‌ها (کد اصلی خودت) */
+.address-card {
+    transition: all 0.2s ease;
     cursor: pointer;
+    border: 2px solid #f1f1f1 !important;
 }
 
-    .address:hover {
-        transform: translateY(-5px);
-        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
+    .address-card:hover {
+        border-color: var(--mainYellow) !important;
     }
 
-    .address > .info {
-        margin-left: 20px;
-        flex: 1;
+    .address-card.active {
+        background-color: #fffdf5;
+        border-color: var(--mainYellow) !important;
     }
 
-        .address > .info > h2 {
-            margin: 0;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .address > .info > p {
-            margin: 0;
-            font-size: 1em;
-            color: #666;
-        }
-
-.selected {
-    background-color: #f0f0f0;
+/* بهبود جزئی محصولات */
+.cart-item {
+    border-right: 5px solid var(--mainYellow) !important;
+    border-radius: 12px;
+    transition: transform 0.2s;
 }
 
-.card-registration .select-input.form-control[readonly]:not([disabled]) {
-    font-size: 1rem;
-    line-height: 2.15;
-    padding-left: 0.75em;
-    padding-right: 0.75em;
+    .cart-item:hover {
+        transform: translateY(-3px);
+    }
+
+.pay-btn {
+    background-color: var(--mainYellow);
+    border-radius: 8px;
 }
 
-.card-registration .select-arrow {
-    top: 13px;
-}
+    .pay-btn:hover {
+        background-color: var(--darkYellow);
+        border-radius: 8px;
+    }
 
-.bg-grey {
-    background-color: #eae8e8;
+.modal-btns a {
+    border-radius: 8px;
+}
+.btn-light {
+    background-color: #f8f9fa;
+    color: #333;
+}
+/*Delete modal*/
+/* استایل هدر قرمز */
+.custom-red-header {
+    background-color: #e63946; /* قرمز جذاب‌تر */
+    border: none !important;
+    padding: 1.2rem !important;
+    position: relative;
+}
+/* استایل دکمه انصراف */
+.btn-light {
+    background-color: #f8f9fa;
+    color: #495057;
 }
 /* Register */
 .register-page {
@@ -3657,6 +3672,36 @@ addresses {
         margin: 0;
         width: 100%;
         max-width: 100%;
+    }
+    .bottom-sheet-custom {
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        align-items: flex-end !important; /* چسباندن به کف */
+        display: flex !important;
+    }
+
+        .bottom-sheet-custom .modal-content {
+            border-radius: 24px 24px 0 0 !important; /* فقط گوشه‌های بالا گرد */
+            border: none !important;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.15);
+            animation: slideUp 0.3s ease-out; /* انیمیشن لغزش از پایین */
+        }
+
+    .drag-handle {
+        width: 50px;
+        height: 5px;
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        margin: 12px auto 0;
+    }
+}
+@media (min-width: 768px) {
+    .bottom-sheet-custom .modal-content {
+        border-radius: 20px !important;
+        overflow: hidden;
     }
 }
 @keyframes slideUp {
