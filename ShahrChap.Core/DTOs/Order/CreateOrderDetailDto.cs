@@ -11,7 +11,7 @@ namespace ShahrChap.Core.DTOs.Order
         public string ProductTitle { get; set; }
         public string OrderTitle { get; set; }
         public string FeaturesCombination { get; set; }
-        public string Services { get; set; }
+        public List<int> ServicesId { get; set; }
         public List<IFormFile> Files { get; set; }
     }
 }

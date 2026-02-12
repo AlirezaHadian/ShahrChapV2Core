@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShahrChap.DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class Init_2025 : Migration
+    public partial class InitialCreateClean_Mig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,7 +33,8 @@ namespace ShahrChap.DataLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StatusTitle = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     SortOrder = table.Column<int>(type: "int", nullable: false),
-                    OrderColor = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    OrderColor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -276,7 +277,8 @@ namespace ShahrChap.DataLayer.Migrations
                     TotalPrice = table.Column<long>(type: "bigint", nullable: false),
                     DiscountAmount = table.Column<long>(type: "bigint", nullable: false),
                     FinalPrice = table.Column<long>(type: "bigint", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsFinally = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -543,8 +545,10 @@ namespace ShahrChap.DataLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
+                    OrderDetailTitle = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ProductTitle = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
-                    FeaturesCombination = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    FeaturesCombination = table.Column<string>(type: "nvarchar(600)", maxLength: 600, nullable: false),
+                    Services = table.Column<string>(type: "nvarchar(600)", maxLength: 600, nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

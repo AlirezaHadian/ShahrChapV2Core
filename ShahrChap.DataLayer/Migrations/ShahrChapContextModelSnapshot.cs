@@ -164,9 +164,6 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -186,8 +183,6 @@ namespace ShahrChap.DataLayer.Migrations
                     b.HasKey("DetailId");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("OrderId1");
 
                     b.HasIndex("ProductId");
 
@@ -924,10 +919,6 @@ namespace ShahrChap.DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShahrChap.DataLayer.Entities.Order.Order", null)
-                        .WithMany("OrderStatus")
-                        .HasForeignKey("OrderId1");
-
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.Product", "Product")
                         .WithMany("Details")
                         .HasForeignKey("ProductId")
@@ -1223,8 +1214,6 @@ namespace ShahrChap.DataLayer.Migrations
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.Order", b =>
                 {
                     b.Navigation("OrderDetails");
-
-                    b.Navigation("OrderStatus");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderDetail", b =>

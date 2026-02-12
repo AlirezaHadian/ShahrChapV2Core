@@ -12,8 +12,8 @@ using ShahrChap.DataLayer.Context;
 namespace ShahrChap.DataLayer.Migrations
 {
     [DbContext(typeof(ShahrChapContext))]
-    [Migration("20260210144212_ChangeOrderEntitiy_Mig")]
-    partial class ChangeOrderEntitiy_Mig
+    [Migration("20260212170909_InitialCreateClean_Mig")]
+    partial class InitialCreateClean_Mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,8 +156,13 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.Property<string>("FeaturesCombination")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(600)
+                        .HasColumnType("nvarchar(600)");
+
+                    b.Property<string>("OrderDetailTitle")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -172,6 +177,11 @@ namespace ShahrChap.DataLayer.Migrations
                         .IsRequired()
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Services")
+                        .IsRequired()
+                        .HasMaxLength(600)
+                        .HasColumnType("nvarchar(600)");
 
                     b.HasKey("DetailId");
 
@@ -907,7 +917,7 @@ namespace ShahrChap.DataLayer.Migrations
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderDetail", b =>
                 {
                     b.HasOne("ShahrChap.DataLayer.Entities.Order.Order", "Order")
-                        .WithMany("OrderStatus")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1206,7 +1216,7 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.Order", b =>
                 {
-                    b.Navigation("OrderStatus");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderDetail", b =>

@@ -50,7 +50,8 @@ namespace ShahrChap.Web.Controllers
         {
             try
             {
-                decimal totalPrice = _productService.CalculatePrice(productId, options, services);
+                string combination = string.Join(" - ", options.Values);
+                decimal totalPrice = _productService.CalculatePrice(productId, combination, services);
                 return Json(new { success = true, price = totalPrice });
             }
             catch
@@ -97,14 +98,11 @@ namespace ShahrChap.Web.Controllers
                     ProductId = model.ProductId,
                     ProductTitle = _productService.GetProductTitleById(model.ProductId),
                     OrderTitle = model.OrderTitle,
-                    Services = string.Join("-",
-model.ServiceIds.Select(item =>
-    _productService.GetServiceById(item).ServiceTitle
-)),
+                    ServicesId = model.ServiceIds,
                     FeaturesCombination = model.FeaturesCombination,
                     Files = model.OrderFiles
                 };
-                _orderService.CreateOrderAsync(User.Identity.Name, orderDto);
+                await _orderService.CreateOrderAsync(User.Identity.Name, orderDto);
 
                 return Json(new { success = true });
             }

@@ -2695,7 +2695,10 @@ form .order-submit input {
         background-color: #fffdf5;
         border-color: var(--mainYellow) !important;
     }
-
+.address-list .form-check-input:checked {
+    background-color: var(--darkYellow);
+    border-color: var(--darkYellow)
+}
 /* بهبود جزئی محصولات */
 .cart-item {
     border-right: 5px solid var(--mainYellow) !important;

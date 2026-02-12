@@ -17,7 +17,7 @@ namespace ShahrChap.DataLayer.Entities.Order
         [Required]
         public int UserId { get; set; }
         [Required]
-        public int? OrderStatusId { get; set; }
+        public int OrderStatusId { get; set; }
         [Display(Name = "قیمت کل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public long TotalPrice { get; set; }
@@ -36,7 +36,6 @@ namespace ShahrChap.DataLayer.Entities.Order
         #region Relations
         public virtual User.User User { get; set; }
         public virtual OrderStatus? Status { get; set; }
-        public virtual List<OrderDetail> OrderStatus { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
         #endregion
     }

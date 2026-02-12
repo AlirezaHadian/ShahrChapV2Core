@@ -103,7 +103,7 @@ namespace ShahrChap.Web.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(LoginViewModel login)
+        public IActionResult Login(LoginViewModel login, string ReturnUrl = "/")
         {
             if (!ModelState.IsValid)
             {
@@ -131,6 +131,10 @@ namespace ShahrChap.Web.Controllers
                     ViewBag.ToastrType = "Login";
                     ViewBag.ToastrMessage = "خوش آمدید!";
                     ViewBag.ToastrTitle = "ورود با موفقیت انجام شد";
+                    if (ReturnUrl != "/")
+                    {
+                        return Redirect(ReturnUrl);
+                    }
                     return View();
                 }
                 else

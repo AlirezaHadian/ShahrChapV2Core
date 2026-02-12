@@ -15,7 +15,7 @@ using ShahrChap.Core.Convertors;
 using ShahrChap.Core.Security;
 using ShahrChap.DataLayer.Entities.User;
 using Microsoft.IdentityModel.Protocols.WsTrust;
-using ShahrChap.DataLayer.Migrations;
+//using ShahrChap.DataLayer.Migrations;
 using ShahrChap.DataLayer.Entities.Product.Form;
 using ShahrChap.Core.Enums;
 using Microsoft.AspNetCore.Mvc.Internal;
@@ -325,6 +325,15 @@ namespace ShahrChap.Core.Services
             service.IsDelete = true;
             UpdateService(service);
         }
+        public string GetServiceTitlesByIdList(List<int> servicesIds)
+        {
+            var titles = _context.Services
+                .Where(s => servicesIds.Contains(s.ServiceId))
+                .Select(s => s.ServiceTitle)
+                .ToList();
+
+            return string.Join("-", titles);
+        }
         #endregion
         #region Product Gallery
         public List<ProductGallery> GetProductGalleryListById(int productId)
@@ -627,9 +636,9 @@ namespace ShahrChap.Core.Services
                 .FirstOrDefault();
         }
 
-        public decimal CalculatePrice(int productId, Dictionary<string, string> options, List<int> services)
+        public decimal CalculatePrice(int productId, string combination, List<int> services)
         {
-            string combination = string.Join(" - ", options.Values);
+            
             ProductPriceViewModel productPrice = GetCombinationPriceForShowProduct(productId, combination);
             decimal totalPrice = 0;
             if (productPrice != null)

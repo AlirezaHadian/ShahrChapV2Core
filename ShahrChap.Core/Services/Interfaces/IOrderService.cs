@@ -21,6 +21,7 @@ namespace ShahrChap.Core.Services.Interfaces
         #endregion
         #region Order
         Task<int> CreateOrderAsync(string userName, CreateOrderDetailDto orderDto);
+        void UpdateTotalPriceOrder(int orderId);
         //int CreateOrder(string userName, List<CreateOrderDetailDto> details)
         //List<OrderFile> SaveOrderFilesTemp(List<IFormFile> files);
 

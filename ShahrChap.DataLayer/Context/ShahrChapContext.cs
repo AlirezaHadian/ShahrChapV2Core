@@ -151,6 +151,11 @@ namespace ShahrChap.DataLayer.Context
     .WithOne(od => od.Order)
     .HasForeignKey(od => od.OrderId);
 
+            modelBuilder.Entity<Order>()
+    .HasOne(o => o.Status)
+    .WithMany(s => s.Orders)
+    .HasForeignKey(o => o.OrderStatusId);
+
         }
     }
 }

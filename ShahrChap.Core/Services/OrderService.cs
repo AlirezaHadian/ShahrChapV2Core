@@ -1,4 +1,5 @@
-﻿using ShahrChap.Core.DTOs.Order;
+﻿using Microsoft.EntityFrameworkCore;
+using ShahrChap.Core.DTOs.Order;
 using ShahrChap.Core.Generators;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Context;
@@ -85,16 +86,12 @@ namespace ShahrChap.Core.Services
             {
                 int userId = _userService.GetUserIdWithUserName(userName);
 
-                string services = string.Join("-",
-orderDto.Services.Select(item =>
-    _productService.GetServiceById(item).ServiceTitle
-));
+                string services = _productService.GetServiceTitlesByIdList(orderDto.ServicesId);           
 
-                Order order = _context.Orders
-                    .FirstOrDefault(o => o.UserId == userId && !o.IsFinally);
+                Order order = await _context.Orders
+                    .FirstOrDefaultAsync(o => o.UserId == userId && !o.IsFinally);
 
-                //long calculatedPrice = _productService.CalculatePrice(orderDto.ProductId);
-                long calculatedPrice = 0;
+                long calculatedPrice = (long)_productService.CalculatePrice(orderDto.ProductId, orderDto.FeaturesCombination, orderDto.ServicesId);
 
                 if (order == null)
                 {
@@ -102,7 +99,7 @@ orderDto.Services.Select(item =>
                     order = new Order
                     {
                         UserId = userId,
-                        //OrderStatusId = GetFirstOrderStatus().StatusId,
+                        OrderStatusId = GetFirstOrderStatus().StatusId,
                         CreateDate = DateTime.Now,
                         TotalPrice = calculatedPrice,
                         FinalPrice = calculatedPrice,
@@ -147,13 +144,11 @@ orderDto.Services.Select(item =>
                         });
                     }
                     await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-                    return order.OrderId;
                 }
                 else
                 {
-                    order.TotalPrice += calculatedPrice;
-                    order.FinalPrice += calculatedPrice;
+                    //order.TotalPrice += calculatedPrice;
+                    //order.FinalPrice += calculatedPrice;
 
                     var detail = new OrderDetail
                     {
@@ -185,11 +180,11 @@ orderDto.Services.Select(item =>
                             DetailId = detail.DetailId,
                             FileName = fileName
                         });
-
+                        UpdateTotalPriceOrder(order.OrderId);
                     }
-                    await transaction.CommitAsync();
-                    return order.OrderId;
                 }
+                await transaction.CommitAsync();
+                return order.OrderId;
             }
             catch (Exception)
             {
@@ -202,6 +197,14 @@ orderDto.Services.Select(item =>
                 return 0;
             }
         }
-        #endregion 
+
+        public void UpdateTotalPriceOrder(int orderId)
+        {
+            Order order = _context.Orders.Find(orderId);
+            order.TotalPrice = _context.OrderDetails.Where(o => o.OrderId == orderId).Sum(o => o.Price);
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+        }
+        #endregion
     }
 }

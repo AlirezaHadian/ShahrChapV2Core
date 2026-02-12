@@ -61,6 +61,7 @@ namespace ShahrChap.Core.Services.Interfaces
         Service GetServiceById(int serviceId);
         void UpdateService(Service service);
         void DeleteService(Service service);
+        string GetServiceTitlesByIdList(List<int> servicesIds);
         #endregion
         #region ProductGallery
         List<ProductGallery> GetProductGalleryListById(int productId);
@@ -92,7 +93,7 @@ namespace ShahrChap.Core.Services.Interfaces
         List<ServicePrice> GetServicePricesForProduct(int productId);
         ProductPriceViewModel GetCombinationPriceForShowProduct(int productId, string combination);
         decimal GetServicePriceForShowProduct(int productPriceId, int serviceId);
-        decimal CalculatePrice(int productId, Dictionary<string, string> options, List<int> services);
+        decimal CalculatePrice(int productId, string combination, List<int> services);
         #endregion
     }
 }
