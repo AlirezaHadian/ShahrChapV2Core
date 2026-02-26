@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Build.Framework;
-using ShahrChap.Core.Enums;
 using ShahrChap.DataLayer.Entities.Product;
 using System;
 using System.Collections.Generic;

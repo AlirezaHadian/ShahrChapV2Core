@@ -15,9 +15,8 @@ using ShahrChap.Core.Convertors;
 using ShahrChap.Core.Security;
 using ShahrChap.DataLayer.Entities.User;
 using Microsoft.IdentityModel.Protocols.WsTrust;
-//using ShahrChap.DataLayer.Migrations;
+using ShahrChap.DataLayer.Migrations;
 using ShahrChap.DataLayer.Entities.Product.Form;
-using ShahrChap.Core.Enums;
 using Microsoft.AspNetCore.Mvc.Internal;
 
 

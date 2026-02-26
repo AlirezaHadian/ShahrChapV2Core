@@ -3,6 +3,7 @@ using ShahrChap.Core.DTOs.Order;
 using ShahrChap.Core.DTOs.Products;
 using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
+using ShahrChap.DataLayer.Entities.Cart;
 using ShahrChap.DataLayer.Entities.Product;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography.Pkcs;
@@ -13,10 +14,12 @@ namespace ShahrChap.Web.Controllers
     {
         private IProductService _productService;
         private IOrderService _orderService;
-        public ProductController(IProductService productService, IOrderService orderService)
+        private ICartService _cartService;
+        public ProductController(IProductService productService, IOrderService orderService, ICartService cartService)
         {
             _productService = productService;
             _orderService = orderService;
+            _cartService = cartService;
         }
         public IActionResult Index()
         {
@@ -86,13 +89,19 @@ namespace ShahrChap.Web.Controllers
 
             try
             {
-                // ۳. ذخیره فایل‌ها در پوشه موقت یا اصلی
-                // ۴. ثبت در دیتابیس (سفارش و آیتم‌های آن)
-                // ۵. انتقال به سبد خرید (مثلاً ذخیره در کوکی یا دیتابیس)
+                if (!User.Identity.IsAuthenticated)
+                {
+                    var token = Request.Cookies["cart-token"];
+                    if(token == null)
+                    {
+                        token = Guid.NewGuid().ToString();
+                        Response.Cookies.Append("cart-token", token);
+                    }
+                }
+                else
+                {
 
-                // مثال از عملیات نهایی:
-                // _orderService.CreateOrder(model); 
-
+                }
                 CreateOrderDetailDto orderDto = new CreateOrderDetailDto()
                 {
                     ProductId = model.ProductId,

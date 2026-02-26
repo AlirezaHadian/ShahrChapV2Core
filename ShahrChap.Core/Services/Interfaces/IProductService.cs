@@ -10,7 +10,6 @@ using ShahrChap.Core.DTOs.Products;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Razor.Language;
 using ShahrChap.DataLayer.Entities.Product.Form;
-using ShahrChap.Core.Enums;
 
 namespace ShahrChap.Core.Services.Interfaces
 {

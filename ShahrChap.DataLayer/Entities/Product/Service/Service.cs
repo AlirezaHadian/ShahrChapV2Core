@@ -1,3 +1,4 @@
+using ShahrChap.DataLayer.Entities.Cart;
 using ShahrChap.DataLayer.Entities.Product.Form;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace ShahrChap.DataLayer.Entities.Product
         public virtual Product? Product { get; set; }
         public virtual List<ServicePrice>? ServicePrices { get; set; }
         public virtual List<FormInput>? FormInputs { get; set; }
+        public virtual List<CartItemService> CartItemServices { get; set; }
         #endregion
     }
 }

@@ -21,9 +21,10 @@ namespace ShahrChap.DataLayer.Entities.Order
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int SortOrder { get; set; }
         public string OrderColor { get; set; }
-        public bool IsDelete { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Relations
+        public virtual List<OrderDetailService> OrderDetailServices { get; set; }
         public virtual List<Order>? Orders { get; set; }
         #endregion
     }

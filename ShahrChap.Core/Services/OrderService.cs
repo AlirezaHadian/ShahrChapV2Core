@@ -69,7 +69,7 @@ namespace ShahrChap.Core.Services
         public void DeleteOrderStatus(int orderStatusId)
         {
             OrderStatus orderStatus = GetOrderStatusById(orderStatusId);
-            orderStatus.IsDelete = true;
+            orderStatus.IsDeleted = true;
             UpdateOrderStatus(orderStatus);
         }
         public OrderStatus GetFirstOrderStatus()
@@ -88,8 +88,11 @@ namespace ShahrChap.Core.Services
 
                 string services = _productService.GetServiceTitlesByIdList(orderDto.ServicesId);           
 
+                //Order order = await _context.Orders
+                //    .FirstOrDefaultAsync(o => o.UserId == userId && !o.IsFinally);
+
                 Order order = await _context.Orders
-                    .FirstOrDefaultAsync(o => o.UserId == userId && !o.IsFinally);
+                    .FirstOrDefaultAsync(o => o.UserId == userId);
 
                 long calculatedPrice = (long)_productService.CalculatePrice(orderDto.ProductId, orderDto.FeaturesCombination, orderDto.ServicesId);
 
@@ -102,8 +105,7 @@ namespace ShahrChap.Core.Services
                         OrderStatusId = GetFirstOrderStatus().StatusId,
                         CreateDate = DateTime.Now,
                         TotalPrice = calculatedPrice,
-                        FinalPrice = calculatedPrice,
-                        IsFinally = false
+                        FinalPrice = calculatedPrice
                     };
                     await _context.Orders.AddAsync(order);
                     await _context.SaveChangesAsync();

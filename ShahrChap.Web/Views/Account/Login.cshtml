@@ -27,6 +27,8 @@
         <span class="register-title">ورود به سایت</span>
 
         <form asp-action="Login" class="register-form">
+            <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+
             <div class="input-element">
                 <input asp-for="EmailOrPhone" placeholder="ایمیل / شماره موبایل">
                 <i class="uil uil-at icon"></i>

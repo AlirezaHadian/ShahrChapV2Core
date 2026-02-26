@@ -59,13 +59,13 @@ $(document).ready(function () {
     $(document).on('click', '.addcart-btn', function (e) {
         e.preventDefault();
 
-        const isLoggedIn = $(this).data('is-logged-in');
+        //const isLoggedIn = $(this).data('is-logged-in');
 
-        if (isLoggedIn === false) {
-            const currentUrl = window.location.pathname + window.location.search;
-            window.location.href = "/Login?ReturnUrl=" + encodeURIComponent(currentUrl);
-            return;
-        }
+        //if (isLoggedIn === false) {
+        //    const currentUrl = window.location.pathname + window.location.search;
+        //    window.location.href = "/Login?ReturnUrl=" + encodeURIComponent(currentUrl);
+        //    return;
+        //}
 
         let priceText = $('#desktop-price').text().replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/,/g, '');
         let currentPrice = parseInt(priceText);
@@ -165,7 +165,7 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.success) {
                     btn.text('موفقیت‌آمیز');
-                    setTimeout(() => window.location.href = "/User/Orders", 1000);
+                    setTimeout(() => window.location.href = "/Cart", 1000);
                 } else {
                     showToast(res.message, "error");
                     resetBtn(btn);

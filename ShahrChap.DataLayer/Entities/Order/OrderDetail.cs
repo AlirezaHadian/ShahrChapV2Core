@@ -35,7 +35,7 @@ namespace ShahrChap.DataLayer.Entities.Order
         public string Services { get; set; }
         [Display(Name = "قیمت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        public int Price { get; set; }
+        public long Price { get; set; }
 
         #region Relations
         public virtual Order Order { get; set; }

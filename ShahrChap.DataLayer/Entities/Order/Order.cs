@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using ShahrChap.DataLayer.Enums;
 
 namespace ShahrChap.DataLayer.Entities.Order
 {
@@ -17,6 +18,8 @@ namespace ShahrChap.DataLayer.Entities.Order
         [Required]
         public int UserId { get; set; }
         [Required]
+        public OrderPaymentStatus PaymentStatus { get; set; }
+        [Required]
         public int OrderStatusId { get; set; }
         [Display(Name = "قیمت کل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -30,8 +33,11 @@ namespace ShahrChap.DataLayer.Entities.Order
         [Display(Name = "تاریخ ثبت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public DateTime CreateDate { get; set; }
-        [Display(Name = "وضعیت پرداخت")]
-        public bool IsFinally { get; set; }
+        public string? PaymentAuthority { get; set; }
+
+        public string? PaymentRefId { get; set; }
+
+        public DateTime? PaymentDate { get; set; }
 
         #region Relations
         public virtual User.User User { get; set; }

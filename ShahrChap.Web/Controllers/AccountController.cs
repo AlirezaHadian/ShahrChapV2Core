@@ -89,8 +89,9 @@ namespace ShahrChap.Web.Controllers
 
         #region Login
         [Route("Login")]
-        public IActionResult Login(bool EditProfile =false)
+        public IActionResult Login(bool EditProfile =false, string ReturnUrl = null)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
             if (EditProfile)
             {
                 ViewBag.ToastrType = "EditProfile";
@@ -103,7 +104,7 @@ namespace ShahrChap.Web.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(LoginViewModel login, string ReturnUrl = "/")
+        public IActionResult Login(LoginViewModel login, string ReturnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -131,7 +132,7 @@ namespace ShahrChap.Web.Controllers
                     ViewBag.ToastrType = "Login";
                     ViewBag.ToastrMessage = "خوش آمدید!";
                     ViewBag.ToastrTitle = "ورود با موفقیت انجام شد";
-                    if (ReturnUrl != "/")
+                    if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                     {
                         return Redirect(ReturnUrl);
                     }

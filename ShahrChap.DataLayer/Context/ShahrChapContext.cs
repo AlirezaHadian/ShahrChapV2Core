@@ -12,6 +12,7 @@ using ShahrChap.DataLayer.Entities.Product;
 using System.Text.RegularExpressions;
 using ShahrChap.DataLayer.Entities.Product.Form;
 using ShahrChap.DataLayer.Entities.Order;
+using ShahrChap.DataLayer.Entities.Cart;
 
 namespace ShahrChap.DataLayer.Context
 {
@@ -72,7 +73,13 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<OrderDetailService> OrderDetailServices { get; set; }
         public DbSet<OrderFile> OrderFiles { get; set; }
+        #endregion
+        #region Cart
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<CartItemService> CartItemServices { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -86,7 +93,7 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<FeatureValue>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<Service>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductForm>().HasQueryFilter(u => !u.IsDelete);
-            modelBuilder.Entity<OrderStatus>().HasQueryFilter(u => !u.IsDelete);
+            modelBuilder.Entity<OrderStatus>().HasQueryFilter(u => !u.IsDeleted);
 
             modelBuilder.Entity<ProductPrice>()
                 .HasIndex(pc => new { pc.ProductId, pc.Combination })

@@ -26,7 +26,7 @@ namespace ShahrChap.Web.Pages.Admin.OrderStatus
                 return Page();
 
             OrderStatus.SortOrder = _orderSrevice.GetLastSortOrder() + 1;
-            OrderStatus.IsDelete = false;
+            OrderStatus.IsDeleted = false;
             _orderSrevice.CreateOrderStatus(OrderStatus);
 
             return RedirectToPage("Index");
