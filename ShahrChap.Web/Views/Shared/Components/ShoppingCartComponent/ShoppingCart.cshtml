@@ -1,0 +1,104 @@
+﻿@model ShahrChap.Core.DTOs.Cart.CartForPopoverViewModel
+
+<div class="shopcart-popover" id="mainPopover">
+    @if (Model == null || !Model.HasItems)
+    {
+        <div class="popover-header">
+            <div class="popover-header-title">
+                <i class="uil uil-shopping-bag"></i>
+                سبد خرید شما
+            </div>
+            <span class="items-count-pill">
+                خالی
+            </span>
+        </div>
+
+        <div class="shopcart-empty">
+            <div class="empty-icon-wrap">
+                <i class="uil uil-shopping-cart-alt"></i>
+            </div>
+            <p class="empty-title">
+                سبدتون خالیه!
+            </p>
+            <p class="empty-sub">
+                هنوز محصولی به سبد خرید اضافه نکردید
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="popover-header">
+            <div class="popover-header-title">
+                <i class="uil uil-shopping-bag"></i>
+                سبد خرید شما
+            </div>
+            <span class="items-count-pill">
+                @Model.CartItems.Count آیتم
+            </span>
+        </div>
+
+        <div class="popover-scroll">
+            @foreach (var item in Model.CartItems)
+            {
+                <div class="cart-item">
+                    <a href="/ShowProduct/@item.ProductId"
+                       class="cart-item-link">
+                        <div class="cart-item-img">
+                            <img src="/product/thumb/@item.ImageName"
+                                 alt="@item.ProductTitle">
+                        </div>
+                        <div class="cart-item-info">
+
+                            <div class="cart-item-title">
+                                @item.ProductTitle
+                            </div>
+                            <div class="cart-item-price">
+                                <span>
+                                    @item.Price.ToString("N0")
+                                </span>
+                                <span class="price-currency">
+                                    تومان
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <button class="cart-item-del"
+                            data-id="@item.ProductId"
+                            type="button">
+                        <i class="uil uil-trash-alt"></i>
+                    </button>
+                </div>
+            }
+        </div>
+
+        <div class="popover-footer">
+            <div class="footer-total-row">
+                <span class="footer-total-label">
+                    مبلغ قابل پرداخت:
+                </span>
+                <div class="footer-total-amount">
+
+                    <span class="total-number">
+                        @Model.CartItems.Sum(i => i.Price).ToString("N0")
+                    </span>
+
+                    <span class="total-currency">
+                        تومان
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="footer-actions">
+                <a href="/Cart" class="btn-cart">
+                    <i class="uil uil-shopping-basket"></i>
+                    مشاهده سبد خرید
+                </a>
+            </div>
+        </div>
+    }
+
+</div>
+
+<span id="cart-items-count-data" style="display:none;">@Model.CartItems.Count()</span>

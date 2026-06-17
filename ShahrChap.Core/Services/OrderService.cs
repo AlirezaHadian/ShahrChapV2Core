@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using ShahrChap.Core.DTOs.Order;
 using ShahrChap.Core.Generators;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Context;
 using ShahrChap.DataLayer.Entities.Order;
 using ShahrChap.DataLayer.Entities.Product;
+using ShahrChap.DataLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -79,113 +81,84 @@ namespace ShahrChap.Core.Services
         }
         #endregion
         #region Order
-        public async Task<int> CreateOrderAsync(string userName, CreateOrderDetailDto orderDto)
+        public async Task<int> CreateOrderAsync(CreateOrderDetailDto orderDto, string? userName, string? cartToken)
         {
+            if (orderDto == null)
+                throw new ArgumentNullException(nameof(orderDto));
+
+            if (string.IsNullOrEmpty(userName) && string.IsNullOrEmpty(cartToken))
+                throw new ArgumentException("Either userName or cartToken must be provided");
+
             using var transaction = await _context.Database.BeginTransactionAsync();
+
             try
             {
-                int userId = _userService.GetUserIdWithUserName(userName);
+                int? userId = null;
 
-                string services = _productService.GetServiceTitlesByIdList(orderDto.ServicesId);           
+                if (!string.IsNullOrEmpty(userName))
+                    userId = _userService.GetUserIdWithUserName(userName);
 
-                //Order order = await _context.Orders
-                //    .FirstOrDefaultAsync(o => o.UserId == userId && !o.IsFinally);
 
-                Order order = await _context.Orders
-                    .FirstOrDefaultAsync(o => o.UserId == userId);
+                string services = _productService.GetServiceTitlesByIdList(orderDto.ServicesId);
+                long calculatedPrice = (long)_productService.CalculatePrice
+                    (orderDto.ProductId, 
+                    orderDto.FeaturesCombination, 
+                    orderDto.ServicesId);
 
-                long calculatedPrice = (long)_productService.CalculatePrice(orderDto.ProductId, orderDto.FeaturesCombination, orderDto.ServicesId);
+                Order? order = await _context.Orders
+                    .FirstOrDefaultAsync(o =>
+                    (userId.HasValue && o.UserId == userId.Value ||
+                    !string.IsNullOrEmpty(cartToken) && o.CheckoutToken == cartToken) &&
+                    (o.PaymentStatus == OrderPaymentStatus.Cart ||
+                    o.PaymentStatus == OrderPaymentStatus.PendingPayment));
 
+                bool isNewOrder = false;
                 if (order == null)
                 {
                     // ۱. ایجاد شیء اصلی سفارش (Order)
                     order = new Order
                     {
                         UserId = userId,
+                        CheckoutToken = !string.IsNullOrEmpty(cartToken) ? cartToken : null,
                         OrderStatusId = GetFirstOrderStatus().StatusId,
                         CreateDate = DateTime.Now,
                         TotalPrice = calculatedPrice,
-                        FinalPrice = calculatedPrice
+                        FinalPrice = calculatedPrice,
+                        PaymentStatus = OrderPaymentStatus.Cart
                     };
                     await _context.Orders.AddAsync(order);
                     await _context.SaveChangesAsync();
+                    isNewOrder = true;
 
-                    // ۲. ایجاد جزئیات سفارش (OrderDetail)
-                    var detail = new OrderDetail
-                    {
-                        OrderId = order.OrderId,
-                        OrderDetailTitle = orderDto.OrderTitle,
-                        ProductId = orderDto.ProductId,
-                        ProductTitle = orderDto.ProductTitle,
-                        FeaturesCombination = orderDto.FeaturesCombination,
-                        Services = services,
-                        Price = (int)calculatedPrice
-                    };
-                    await _context.OrderDetails.AddAsync(detail);
-                    await _context.SaveChangesAsync();
-
-                    // ۳. مدیریت فایل‌ها: انتقال از Temp به Orders
-                    string tempDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads/Temp/Temp_" + detail.DetailId.ToString());
-                    //string targetDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads/Orders/Order_"+ detail.DetailId.ToString());
-
-                    if (!Directory.Exists(tempDir)) Directory.CreateDirectory(tempDir);
-
-                    foreach (var file in orderDto.Files)
-                    {
-                        string fileName = NameGenerator.GenerateUniqCode() + Path.GetExtension(file.FileName);
-                        string filePath = Path.Combine(tempDir, fileName);
-
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-                        await _context.OrderFiles.AddAsync(new OrderFile
-                        {
-                            DetailId = detail.DetailId,
-                            FileName = fileName
-                        });
-                    }
-                    await _context.SaveChangesAsync();
                 }
                 else
                 {
-                    //order.TotalPrice += calculatedPrice;
-                    //order.FinalPrice += calculatedPrice;
-
-                    var detail = new OrderDetail
-                    {
-                        OrderId = order.OrderId,
-                        ProductId = orderDto.ProductId,
-                        ProductTitle = orderDto.ProductTitle,
-                        FeaturesCombination = orderDto.FeaturesCombination,
-                        Services = services,
-                        Price = (int)calculatedPrice
-                    };
-                    await _context.OrderDetails.AddAsync(detail);
-                    await _context.SaveChangesAsync();
-
-                    string tempDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads/Temp/Temp_" + detail.DetailId.ToString());
-
-                    if (!Directory.Exists(tempDir)) Directory.CreateDirectory(tempDir);
-
-                    foreach (var file in orderDto.Files)
-                    {
-                        string fileName = NameGenerator.GenerateUniqCode() + Path.GetExtension(file.FileName);
-                        string filePath = Path.Combine(tempDir, fileName);
-
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-                        await _context.OrderFiles.AddAsync(new OrderFile
-                        {
-                            DetailId = detail.DetailId,
-                            FileName = fileName
-                        });
-                        UpdateTotalPriceOrder(order.OrderId);
-                    }
+                    order.TotalPrice += calculatedPrice;
+                    order.FinalPrice += calculatedPrice;
                 }
+
+                var detail = new OrderDetail
+                {
+                    OrderId = order.OrderId,
+                    OrderDetailTitle = orderDto.OrderTitle ?? "بدون عنوان",
+                    ProductId = orderDto.ProductId,
+                    ProductTitle = orderDto.ProductTitle,
+                    FeaturesCombination = orderDto.FeaturesCombination,
+                    Services = services,
+                    Price = (int)calculatedPrice
+                };
+                await _context.OrderDetails.AddAsync(detail);
+                await _context.SaveChangesAsync();
+
+                if (orderDto.ServicesId != null)
+                    AddServicesToOrderDetail(detail.DetailId, orderDto.ServicesId, orderDto.ProductId, orderDto.FeaturesCombination);
+
+                if (orderDto.Files != null && orderDto.Files.Any())
+                    await HandleOrderFiles(detail.DetailId, orderDto.Files, isTemp: true);
+
+                await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
+
                 return order.OrderId;
             }
             catch (Exception)
@@ -200,11 +173,64 @@ namespace ShahrChap.Core.Services
             }
         }
 
-        public void UpdateTotalPriceOrder(int orderId)
+        private async Task HandleOrderFiles(int detailId, List<IFormFile> files, bool isTemp = true, string? subDirectory = null)
         {
-            Order order = _context.Orders.Find(orderId);
-            order.TotalPrice = _context.OrderDetails.Where(o => o.OrderId == orderId).Sum(o => o.Price);
-            _context.Orders.Update(order);
+            if (files == null || !files.Any())
+                return;
+
+            string basePath = isTemp ? "Temp" : "Orders";
+            string subPath = subDirectory ?? (isTemp ? $"Temp_{detailId}" : $"Order_{detailId}");
+            string targetDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads", basePath, subPath);
+
+            if (!Directory.Exists(targetDir)) Directory.CreateDirectory(targetDir);
+
+            foreach (var file in files)
+            {
+                if (file == null || file.Length == 0)
+                    continue;
+
+                string fileName = NameGenerator.GenerateUniqCode() + Path.GetExtension(file.FileName);
+                string filePath = Path.Combine(targetDir, fileName);
+
+                try
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+                catch (IOException ex)
+                {
+                    throw new Exception($"Failed to save file {fileName}: {ex.Message}", ex);
+                }
+
+                await _context.OrderFiles.AddAsync(new OrderFile
+                {
+                    DetailId = detailId,
+                    FileName = fileName,
+                    OriginalFileName = file.FileName,
+                    IsTemp = isTemp,
+                    UploadDate = DateTime.Now
+                });
+            }
+            //await _context.SaveChangesAsync();
+        }
+        public async Task AddServicesToOrderDetail(int orderDetailId, List<int> servicesId, int productId, string combination)
+        {
+            for(int i=0; i<servicesId.Count; i++)
+            {
+                Service service = _productService.GetServiceById(servicesId[i]);
+                int productPriceId = _productService.GetProductPriceId(productId, combination);
+                decimal servicePrice = _productService.GetServicePriceForShowProduct(productPriceId, service.ServiceId);
+                OrderDetailService orderDetailService = new OrderDetailService()
+                {
+                    OrderDetailID = orderDetailId,
+                    ServiceID = service.ServiceId,
+                    ServiceTitle = service.ServiceTitle,
+                    ServicePrice = (long)servicePrice
+                };
+                _context.OrderDetailServices.Add(orderDetailService);
+            }
             _context.SaveChanges();
         }
         #endregion

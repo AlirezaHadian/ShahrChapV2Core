@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Protocols.WsTrust;
 using ShahrChap.DataLayer.Migrations;
 using ShahrChap.DataLayer.Entities.Product.Form;
 using Microsoft.AspNetCore.Mvc.Internal;
+using ShahrChap.DataLayer.Entities.Order;
 
 
 namespace ShahrChap.Core.Services
@@ -82,7 +83,6 @@ namespace ShahrChap.Core.Services
 
             return product.ProductId;
         }
-
         public string AddProductImage(IFormFile productImage)
         {
             string productImageName = NameGenerator.GenerateUniqCode() + Path.GetExtension(productImage.FileName);
@@ -97,7 +97,6 @@ namespace ShahrChap.Core.Services
             imgResizer.ResizeImage(imagePath, thumbPath, 250);
             return productImageName;
         }
-
         public void DeleteProductImage(string currentProductName)
         {
             //ToDo: Delete the thumb and main image
@@ -114,7 +113,6 @@ namespace ShahrChap.Core.Services
                     File.Delete(thumbPath);
             }
         }
-
         public List<ShowProductForAdminViewModel> GetProductsForAdmin()
         {
             return _context.Products.Where(p => p.ParentId == null).Include(p => p.ProductType).Select(p => new ShowProductForAdminViewModel(p.ProductId, p.ProductTitle, p.Image, p.IsDesignable)).ToList();
@@ -123,7 +121,6 @@ namespace ShahrChap.Core.Services
         {
             return _context.Products.Find(productId);
         }
-
         public void UpdateProduct(Product product, IFormFile imgProduct)
         {
             //Check update
@@ -332,6 +329,12 @@ namespace ShahrChap.Core.Services
                 .ToList();
 
             return string.Join("-", titles);
+        }
+        public List<OrderDetailService> GetOrderDetailsServices(int orderDetailId)
+        {
+            return _context.OrderDetailServices
+                    .Where(od => od.OrderDetailID == orderDetailId)
+                    .ToList();
         }
         #endregion
         #region Product Gallery
@@ -643,13 +646,20 @@ namespace ShahrChap.Core.Services
             if (productPrice != null)
             {
                 totalPrice += productPrice.Price;
-                foreach (var service in services)
+                if(services != null)
                 {
-                    var servicePrice = GetServicePriceForShowProduct(productPrice.ProductPriceId, service);
-                    totalPrice += servicePrice;
+                    foreach (var service in services)
+                    {
+                        var servicePrice = GetServicePriceForShowProduct(productPrice.ProductPriceId, service);
+                        totalPrice += servicePrice;
+                    }
                 }
             }
             return totalPrice;
+        }
+        public int GetProductPriceId(int productId, string combination)
+        {
+            return _context.ProductPrices.FirstOrDefault(p=> p.ProductId == productId && p.Combination == combination).ProductPriceId;
         }
         #endregion
     }

@@ -10,6 +10,7 @@ using ShahrChap.Core.DTOs.Products;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Razor.Language;
 using ShahrChap.DataLayer.Entities.Product.Form;
+using ShahrChap.DataLayer.Entities.Order;
 
 namespace ShahrChap.Core.Services.Interfaces
 {
@@ -61,6 +62,7 @@ namespace ShahrChap.Core.Services.Interfaces
         void UpdateService(Service service);
         void DeleteService(Service service);
         string GetServiceTitlesByIdList(List<int> servicesIds);
+        List<OrderDetailService> GetOrderDetailsServices(int orderDetailId);
         #endregion
         #region ProductGallery
         List<ProductGallery> GetProductGalleryListById(int productId);
@@ -92,6 +94,7 @@ namespace ShahrChap.Core.Services.Interfaces
         List<ServicePrice> GetServicePricesForProduct(int productId);
         ProductPriceViewModel GetCombinationPriceForShowProduct(int productId, string combination);
         decimal GetServicePriceForShowProduct(int productPriceId, int serviceId);
+        int GetProductPriceId(int productId, string combination);
         decimal CalculatePrice(int productId, string combination, List<int> services);
         #endregion
     }

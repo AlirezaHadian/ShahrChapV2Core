@@ -213,3 +213,19 @@ pwShowHide.forEach((eyeIcon) => {
   });
 });
 
+/*=============SHOPCART COUNT BADGE ===========*/
+$(document).ready(function () {
+    function updateCartBadge() {
+        const count = parseInt($('#cart-items-count-data').text()) || 0;
+
+        const badge = $('#cart-badge');
+
+        if (count > 0) {
+            badge.text(count).show();
+        } else {
+            badge.hide();
+        }
+    }
+
+    updateCartBadge();
+});

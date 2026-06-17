@@ -49,7 +49,8 @@ public class AddressController : Controller
             HouseNumber = addAddress.HouseNumber,
             PostCode = addAddress.PostCode,
             ProvinceId = addAddress.ProvinceId,
-            UserId = userId
+            UserId = userId,
+            AddressTitle = addAddress.AddressTitle
         };
 
         //Add Address
@@ -79,7 +80,8 @@ public class AddressController : Controller
             PostCode = address.PostCode,
             ProvinceId = address.ProvinceId,
             UserId = userId,
-            UserAddressId = address.UserAddressId
+            UserAddressId = address.UserAddressId,
+            AddressTitle = address.AddressTitle
         };
 
         return View(userAddress);
@@ -104,7 +106,8 @@ public class AddressController : Controller
             HouseNumber = editAddress.HouseNumber,
             PostCode = editAddress.PostCode,
             ProvinceId = editAddress.ProvinceId,
-            UserId = userId
+            UserId = userId,
+            AddressTitle = editAddress.AddressTitle
         };
         _userService.UpdateAddress(address);
         return RedirectToAction("Index");

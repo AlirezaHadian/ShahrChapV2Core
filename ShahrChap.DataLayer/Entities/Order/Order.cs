@@ -15,8 +15,8 @@ namespace ShahrChap.DataLayer.Entities.Order
 
         [Key]
         public int OrderId { get; set; }
-        [Required]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
+        public string? CheckoutToken { get; set; }
         [Required]
         public OrderPaymentStatus PaymentStatus { get; set; }
         [Required]
@@ -40,7 +40,7 @@ namespace ShahrChap.DataLayer.Entities.Order
         public DateTime? PaymentDate { get; set; }
 
         #region Relations
-        public virtual User.User User { get; set; }
+        public virtual User.User? User { get; set; }
         public virtual OrderStatus? Status { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
         #endregion

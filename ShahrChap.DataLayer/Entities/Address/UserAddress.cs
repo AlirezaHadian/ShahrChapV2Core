@@ -26,6 +26,10 @@ public class UserAddress
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(150, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
     public string FullName { get; set; }
+    [Display(Name = "عنوان آدرس")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [MaxLength(300, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
+    public string AddressTitle { get; set; }
     [Display(Name = "آدرس خانه")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(300, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]

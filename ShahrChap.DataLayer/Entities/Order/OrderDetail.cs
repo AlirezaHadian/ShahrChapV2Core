@@ -41,6 +41,7 @@ namespace ShahrChap.DataLayer.Entities.Order
         public virtual Order Order { get; set; }
         public virtual Product.Product Product { get; set; }
         public virtual List<OrderFile> Files { get; set; }
+        public virtual List<OrderDetailService> OrderDetailServices { get; set; } = new();
         #endregion
     }
 }

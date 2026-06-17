@@ -15,6 +15,7 @@ namespace ShahrChap.Web.Controllers
         private IProductService _productService;
         private IOrderService _orderService;
         private ICartService _cartService;
+        private IUserService _userService;
         public ProductController(IProductService productService, IOrderService orderService, ICartService cartService)
         {
             _productService = productService;
@@ -89,17 +90,25 @@ namespace ShahrChap.Web.Controllers
 
             try
             {
+                Cart cart = new Cart();
+                string token = null;
                 if (!User.Identity.IsAuthenticated)
                 {
-                    var token = Request.Cookies["cart-token"];
-                    if(token == null)
+                    token = Request.Cookies["cart-token"];
+                    if (token == null)
                     {
                         token = Guid.NewGuid().ToString();
                         Response.Cookies.Append("cart-token", token);
                     }
+                    cart = _cartService.GetUserActiveCart(token: token);
+
+                    _cartService.CreateCartOrAddItem(model.ProductId, model.FeaturesCombination, model.ServiceIds, token: token, cart: cart);
                 }
                 else
                 {
+                    cart = _cartService.GetUserActiveCart(User.Identity.Name);
+
+                    _cartService.CreateCartOrAddItem(model.ProductId, model.FeaturesCombination, model.ServiceIds, User.Identity.Name, cart: cart);
 
                 }
                 CreateOrderDetailDto orderDto = new CreateOrderDetailDto()
@@ -111,7 +120,11 @@ namespace ShahrChap.Web.Controllers
                     FeaturesCombination = model.FeaturesCombination,
                     Files = model.OrderFiles
                 };
-                await _orderService.CreateOrderAsync(User.Identity.Name, orderDto);
+                if (User.Identity.IsAuthenticated)
+                    await _orderService.CreateOrderAsync(orderDto, User.Identity.Name, null);
+                else
+                    await _orderService.CreateOrderAsync(orderDto, null, token);
+
 
                 return Json(new { success = true });
             }

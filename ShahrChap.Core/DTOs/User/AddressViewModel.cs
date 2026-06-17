@@ -14,6 +14,10 @@ namespace ShahrChap.Core.DTOs
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(150, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
         public string FullName { get; set; }
+        [Display(Name = "عنوان آدرس")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(300, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
+        public string AddressTitle { get; set; }
         [Display(Name = "آدرس کامل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(300, ErrorMessage ="{0}  نمی تواند بیش از {1} کاراکتر باشد")]
@@ -41,6 +45,10 @@ namespace ShahrChap.Core.DTOs
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(150, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
         public string FullName { get; set; }
+        [Display(Name = "عنوان آدرس")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(300, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
+        public string AddressTitle { get; set; }
         [Display(Name = "آدرس کامل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(300, ErrorMessage = "{0}  نمی تواند بیش از {1} کاراکتر باشد")]
@@ -57,6 +65,13 @@ namespace ShahrChap.Core.DTOs
         [Display(Name = "پلاک")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int HouseNumber { get; set; }
+    }
+
+    public class AddressForCartViewModel
+    {
+        public int UserAddressId { get; set; }
+        public string FullAddress { get; set; }
+        public string AddressTitle { get; set; }
     }
 
 }

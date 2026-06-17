@@ -2,6 +2,7 @@
     <nav>
         <div class="nav-bar">
             <i class="uil uil-bars sidebarOpen"></i>
+            @* <i class="icon-menu sidebarOpen"></i> *@
             <span class="logo navLogo">
                 <a href="/"><img src="/img/Logo.png" height="60" alt="Shahrchap logo"></a>
             </span>
@@ -13,67 +14,36 @@
                                  height="50px">
                         </a>
                     </span>
-                    <i class="uil uil-bars siderbarClose"></i>
+                    @* <i class="uil uil-bars siderbarClose"></i> *@
+                    <i class="icon-menu siderbarClose"></i>
                 </div>
                 <ul class="nav-links">
                     <li><a href="/" class="active"><i class="uil uil-estate"></i> خانه</a></li>
+                    @* <li><a href="/" class="active"><i class="icon-home"></i> خانه</a></li> *@
                     @await Component.InvokeAsync("ProductGroupComponent")
                     <li><a href="/Print.html"><i class="uil uil-print"></i> سفارش پرینت</a></li>
+                    @* <li><a href="/Print.html"><i class="icon-printer"></i> سفارش پرینت</a></li> *@
                     <li><a href="/AboutUs.html"><i class="uil uil-users-alt"></i> درباره ما</a></li>
+                    @* <li><a href="/AboutUs.html"><i class="icon-users"></i> درباره ما</a></li> *@
                 </ul>
             </div>
 
             <div class="menu-controll-navbar">
                 <div class="menu-controll shopcart-container">
-                    <a type="button" class="btn shopcart position-relative" href="/Basket.html">
+@*                     <a type="button" class="btn shopcart position-relative" href="/Cart">
                         <i class="uil uil-shopping-bag"></i>
                         <span class="badge position-absolute rounded-pill">
                             +1
                         </span>
-                    </a>
-                    <div class="shopcart-popover">
-                        <div class="shopcart-emtpy">
-                            <p>آیتمی یافت نشد!</p>
-                            <hr>
-                            <img src="/img/undraw_empty_cart_co35.svg" alt="" srcset="">
-                        </div>
-                        @* <div class="popover-content">
-                        <div class="shopcart-item">
-                        <a href="/Single-Product.html">
-                        <img src="/img/Product1.jpg" alt="Product Name">
-                        <span>کارت ویزیت دو رو</span>
-                        </a>
-                        <input type="number" min="0" value="1">
-                        <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
-                        </div>
-                        <div class="shopcart-item">
-                        <a href="path-to-product-page">
-                        <img src="/img/Product1.jpg" alt="Product Name">
-                        <span>Product Name</span>
-                        </a>
-                        <input type="number" min="0" value="1">
-                        <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
-                        </div>
-                        <div class="shopcart-item">
-                        <a href="path-to-product-page">
-                        <img src="/img/Product1.jpg" alt="Product Name">
-                        <span>Product Name</span>
-                        </a>
-                        <input class="shopcart-popover-count" type="number" min="0" value="1">
-                        <a class="cancel-btn"><i class="uil uil-trash-alt"></i></a>
-                        </div>
-                        </div>
-                        <div class="popover-footer">
-                        <div class="shopcart-popover-price">
-                        <p>مبلغ قابل پرداخت:</p>
-                        <span>
-                        1,000,000
-                        <img src="/img/Toman.svg" class="currency-svg" alt="">
+                    </a> *@
+
+                    <a type="button" class="btn shopcart position-relative" href="/Cart">
+                        <i class="uil uil-shopping-bag"></i>
+                        <span id="cart-badge" class="badge position-absolute rounded-pill" style="display:none;">
                         </span>
-                        </div>
-                        <a href="/Basket.html" class="btn">سبد خرید</a>
-                        </div> *@
-                    </div>
+                    </a>
+                     @await Component.InvokeAsync("ShoppingCartComponent") 
+                    
                 </div>
 
                 <!-- <div class="menu-controll">
@@ -81,11 +51,14 @@
                 <div class="searchBox">
                     <div class="searchToggle">
                         <i class="uil uil-times cancel"></i>
+                        @* <i class="icon-x cancel"></i> *@
                         <i class="uil uil-search search"></i>
+                        @* <i class="icon-search search"></i> *@
                     </div>
                     <div class="search-field">
                         <input type="text" placeholder="دنبال چه میگردی؟">
                         <i class='uil uil-search'></i>
+                        @* <i class="icon-search search"></i> *@
                     </div>
                 </div>
 
@@ -94,23 +67,32 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a type="button" class="btn userpanel" onclick="dropUserPanel()"><i class="uil uil-user"></i></a>
+                        @* <a type="button" class="btn userpanel" onclick="dropUserPanel()"><i class="icon-user"></i></a> *@
                         <div id="userpanel-dropdown" class="userpanel-dropdown-content">
                             <a href="/UserPanel"><i class="uil uil-user-circle"></i> @User.Identity.Name </a>
+                            @* <a href="/UserPanel"><i class="icon-circle-user"></i> @User.Identity.Name </a> *@
                             <hr>
                             <a href="/UserPanel/EditProfile" class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex justify-content-start align-items-center"><i class="uil uil-edit"></i> ویرایش اطلاعات </div> <i class="uil uil-angle-left angle-left"></i>
+                                @* <div class="d-flex justify-content-start align-items-center"><i class="icon-pen"></i> ویرایش اطلاعات </div> <i class="uil uil-angle-left angle-left"></i> *@
                             </a>
                             <a href="/UserPanel/Address" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-location-pin-alt"></i> آدرس ها </div><i class="uil uil-angle-left angle-left"></i></a>
+                            @* <a href="/UserPanel/Address" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="icon-map-pin"></i> آدرس ها </div><i class="uil uil-angle-left angle-left"></i></a> *@
                             <a href="/UserPanel/Wallet" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-wallet"></i> کیف پول </div><i class="uil uil-angle-left angle-left"></i></a>
+                            @* <a href="/UserPanel/Wallet" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="icon-wallet"></i> کیف پول </div><i class="uil uil-angle-left angle-left"></i></a> *@
                             <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-shopping-bag"></i> سفارشات </div><i class="uil uil-angle-left angle-left"></i></a>
+                            @* <a href="#" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="icon-shopping-bag"></i> سفارشات </div><i class="uil uil-angle-left angle-left"></i></a> *@
                             <a href="/UserPanel/ChangePassword" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="uil uil-padlock"></i> تغییر کلمه عبور </div><i class="uil uil-angle-left angle-left"></i></a>
+                            @* <a href="/UserPanel/ChangePassword" class="d-flex justify-content-between align-items-center"><div class="d-flex justify-content-start align-items-center"><i class="icon-lock"></i> تغییر کلمه عبور </div><i class="uil uil-angle-left angle-left"></i></a> *@
                             <hr>
                             <a href="/logout"><i class="uil uil-signout"></i> خروج از حساب</a>
+                            @* <a href="/logout"><i class="icon-log-out"></i> خروج از حساب</a> *@
                         </div>
                     }
                     else
                     {
                         <a type="button" class="btn userpanel" href="/Login"><i class="uil uil-user"></i></a>
+                        @* <a type="button" class="btn userpanel" href="/Login"><i class="icon-user"></i></a> *@
                     }
 
                 </div>

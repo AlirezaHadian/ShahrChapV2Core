@@ -16,7 +16,7 @@ namespace ShahrChap.DataLayer.Entities.Cart
         public long CalculatedPrice { get; set; }
 
         #region Relations 
-        public virtual List<CartItemService> CartItemServices { get; set; }
+        public virtual List<CartItemService>? CartItemServices { get; set; } = new ();
         #endregion
     }
 }

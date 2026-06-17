@@ -26,9 +26,9 @@
                                 @foreach (var item in Model)
                                 {
                                     <ul>
-                                        <li> <i class="uil uil-user"></i> نام و نام خانوادگی : @item.FullName </li>
+                                        <li> <i class="uil uil-user"></i> نام و نام خانوادگی: @item.FullName </li>
                                         <li>
-                                            <i class="uil uil-map"></i> @item.FullAddress
+                                            <i class="uil uil-map"></i> <strong>@item.AddressTitle: </strong> @item.FullAddress
                                         </li>
                                         <li>
                                             <i class="uil uil-location-pin-alt"></i> @item.Province - @item.City
@@ -38,10 +38,8 @@
                                     <a asp-action="EditAddress" asp-route-id="@item.AddressId" class="btn btn-sm btn-outline-blue">
                                         <i class="uil uil-edit"></i>
                                     </a>
-                                    @* Assuming you have a model with an "Id" property *@
-
-                                    <td>
-                                    </td>
+@*                                     <td>
+                                    </td> *@
 
                                     <a href="#" onclick="confirmDelete('@Url.Action("DeleteAddress", "Address", new { Id = item.AddressId })')" class="btn btn-sm btn-red"><i class="uil uil-trash-alt"></i></a>
                                     <hr />

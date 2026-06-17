@@ -65,6 +65,11 @@ namespace ShahrChap.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAddressId"));
 
+                    b.Property<string>("AddressTitle")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
@@ -192,6 +197,9 @@ namespace ShahrChap.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
+                    b.Property<string>("CheckoutToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -219,7 +227,7 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<long>("TotalPrice")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
@@ -324,6 +332,16 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsTemp")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("FileId");
 
@@ -1061,8 +1079,7 @@ namespace ShahrChap.DataLayer.Migrations
                     b.HasOne("ShahrChap.DataLayer.Entities.User.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Status");
 
@@ -1091,7 +1108,7 @@ namespace ShahrChap.DataLayer.Migrations
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderDetailService", b =>
                 {
                     b.HasOne("ShahrChap.DataLayer.Entities.Order.OrderDetail", "OrderDetail")
-                        .WithMany()
+                        .WithMany("OrderDetailServices")
                         .HasForeignKey("OrderDetailID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1402,6 +1419,8 @@ namespace ShahrChap.DataLayer.Migrations
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderDetail", b =>
                 {
                     b.Navigation("Files");
+
+                    b.Navigation("OrderDetailServices");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderStatus", b =>

@@ -283,7 +283,8 @@ namespace ShahrChap.Core.Services
                 FullAddress = u.FullAddress,
                 FullName = u.FullName,
                 PostCode = u.PostCode,
-                HouseNumber = u.HouseNumber
+                HouseNumber = u.HouseNumber,
+                AddressTitle = u.AddressTitle
             }).ToList();
         }
 

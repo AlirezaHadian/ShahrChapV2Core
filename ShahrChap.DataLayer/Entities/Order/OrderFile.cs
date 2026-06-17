@@ -17,6 +17,10 @@ namespace ShahrChap.DataLayer.Entities.Order
         public int DetailId { get; set; }
         [Required]
         public string FileName { get; set; }
+        [Required]
+        public string OriginalFileName { get; set; }
+        public bool IsTemp { get; set; }
+        public DateTime UploadDate { get; set; }
 
         #region Relations
         public virtual OrderDetail Detail { get; set; }

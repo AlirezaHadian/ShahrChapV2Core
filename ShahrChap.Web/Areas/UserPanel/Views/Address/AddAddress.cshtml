@@ -34,6 +34,13 @@
                                     </div>
                                     <div class="col-md-12 col-sm-10 col-xs-12">
                                         <div class="input-group">
+                                            <i class="icon uil uil-label-alt"></i>
+                                            <input type="text" asp-for="AddressTitle" class="form-control" placeholder="عنوان آدرس">
+                                        </div>
+                                        <span class="txt-red" asp-validation-for="AddressTitle"></span>
+                                    </div>
+                                    <div class="col-md-12 col-sm-10 col-xs-12">
+                                        <div class="input-group">
                                             <i class="icon uil uil-directions"></i>
                                             <textarea type="text" asp-for="FullAddress" class="form-control" placeholder="آدرس کامل">
                                             </textarea>
