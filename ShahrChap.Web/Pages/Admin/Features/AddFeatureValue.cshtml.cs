@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.CodeAnalysis;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
 

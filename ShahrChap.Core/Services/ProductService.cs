@@ -1,24 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using ShahrChap.Core.Convertors;
+using ShahrChap.Core.DTOs.Products;
+using ShahrChap.Core.Generators;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Context;
-using ShahrChap.DataLayer.Entities.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using ShahrChap.Core.Generators;
-using ShahrChap.Core.DTOs.Products;
-using ShahrChap.Core.Convertors;
-using ShahrChap.Core.Security;
-using ShahrChap.DataLayer.Entities.User;
-using Microsoft.IdentityModel.Protocols.WsTrust;
-using ShahrChap.DataLayer.Migrations;
-using ShahrChap.DataLayer.Entities.Product.Form;
-using Microsoft.AspNetCore.Mvc.Internal;
 using ShahrChap.DataLayer.Entities.Order;
+using ShahrChap.DataLayer.Entities.Product;
 
 
 namespace ShahrChap.Core.Services
@@ -336,6 +326,32 @@ namespace ShahrChap.Core.Services
                     .Where(od => od.OrderDetailID == orderDetailId)
                     .ToList();
         }
+        public string GetServiceTitleById(int serviceTitleId)
+        {
+            return _context.Services
+    .Where(s => s.ServiceId == serviceTitleId)
+    .Select(s => s.ServiceTitle)
+    .FirstOrDefault();
+        }
+
+        public long CalculateServicePrice(int serviceId, int productId, string combination)
+        {
+            var productPrice = _context.ProductPrices
+                .FirstOrDefault(p => p.ProductId == productId && p.Combination == combination);
+
+            if (productPrice == null)
+                throw new InvalidOperationException(
+                    $"ترکیب ویژگی '{combination}' برای محصول {productId} قیمت گذاری نشده است");
+
+            var servicePrice = _context.ServicePrices
+                .FirstOrDefault(sp => sp.ProductServiceId == serviceId && sp.ProductPriceId == productPrice.ProductPriceId);
+
+            if (servicePrice == null)
+                throw new InvalidOperationException(
+                    $"سرویس {serviceId} برای این ترکیب قیمت‌گذاری نشده است.");
+
+            return servicePrice.Price;
+        }
         #endregion
         #region Product Gallery
         public List<ProductGallery> GetProductGalleryListById(int productId)
@@ -622,7 +638,7 @@ namespace ShahrChap.Core.Services
         {
             return _context.ProductPrices
                 .Where(p => p.ProductId == productId && p.Combination == combination)
-                .Select(p=> new ProductPriceViewModel()
+                .Select(p => new ProductPriceViewModel()
                 {
                     ProductPriceId = p.ProductPriceId,
                     Price = p.Price
@@ -640,13 +656,13 @@ namespace ShahrChap.Core.Services
 
         public decimal CalculatePrice(int productId, string combination, List<int> services)
         {
-            
+
             ProductPriceViewModel productPrice = GetCombinationPriceForShowProduct(productId, combination);
             decimal totalPrice = 0;
             if (productPrice != null)
             {
                 totalPrice += productPrice.Price;
-                if(services != null)
+                if (services != null)
                 {
                     foreach (var service in services)
                     {
@@ -659,7 +675,7 @@ namespace ShahrChap.Core.Services
         }
         public int GetProductPriceId(int productId, string combination)
         {
-            return _context.ProductPrices.FirstOrDefault(p=> p.ProductId == productId && p.Combination == combination).ProductPriceId;
+            return _context.ProductPrices.FirstOrDefault(p => p.ProductId == productId && p.Combination == combination).ProductPriceId;
         }
         #endregion
     }

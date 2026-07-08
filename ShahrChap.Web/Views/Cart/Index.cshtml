@@ -89,12 +89,12 @@
                                                         else
                                                         {
                                                             <div class="file-thumb position-relative border rounded p-1">
-                                                                <img src="/Uploads/Temp/Temp_@file.Id/@file.FileName"
+                                                                <img src="/Uploads/Temp/Cart_@item.CartItemID/@file.FileName"
                                                                      alt="Design"
                                                                      class="w-100 h-100 rounded">
 
                                                                 <a asp-controller="Cart"
-                                                                   asp-action="DownloadFile"
+                                                                   asp-action="DownloadCartFile"
                                                                    asp-route-fileId="@file.Id"
                                                                    download
                                                                    class="btn btn-sm btn-dark position-absolute top-0 end-0 p-0 px-1 text-white">
@@ -180,7 +180,7 @@
                             }
                             else
                             {
-                                <div class="alert alert-warning border-0 mb-0">ذ
+                                <div class="alert alert-warning border-0 mb-0">
                                     <i class="uil uil-map-marker-exclamation px-2 me-1"></i>
                                     هیچ آدرسی برای ارسال ثبت نشده است.
                                 </div>

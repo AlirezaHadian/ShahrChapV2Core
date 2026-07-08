@@ -234,5 +234,20 @@ namespace ShahrChap.Core.Services
             _context.SaveChanges();
         }
         #endregion
+        #region Status
+        public int GetInitialStatusId()
+        {
+            int? statusId = _context.OrderStatuses
+                .Where(s => !s.IsDeleted)
+                .OrderBy(s => s.SortOrder)
+                .Select(s => (int?)s.StatusId)
+                .FirstOrDefault();
+
+            if (statusId == null)
+                throw new InvalidOperationException("هیچ وضعیت اولیه‌ای برای سفارش تعریف نشده است.");
+
+            return statusId.Value;
+        }
+        #endregion
     }
 }

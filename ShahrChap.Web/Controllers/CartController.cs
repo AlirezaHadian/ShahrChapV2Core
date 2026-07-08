@@ -11,68 +11,58 @@ namespace ShahrChap.Web.Controllers
         private readonly IWebHostEnvironment _env;
         private readonly ICartService _cartService;
         private readonly IUserService _userService;
-        public CartController(IWebHostEnvironment env, ICartService cartService, IUserService userService)
+        private readonly IFileStorageService _fileStorage;
+        public CartController(IWebHostEnvironment env, ICartService cartService, IUserService userService, IFileStorageService fileStorage)
         {
             _env = env;
             _cartService = cartService;
             _userService = userService;
+            _fileStorage = fileStorage;
         }
         public IActionResult Index()
         {
             CartDetailsViewModel cartDetails;
             if (User.Identity.IsAuthenticated)
-                cartDetails = _cartService.ShowCart(User.Identity.Name);
+                cartDetails = _cartService.ShowCart(User.Identity.Name, null);
             else
-                cartDetails = _cartService.ShowCart(Request.Cookies["cart-token"]);
+                cartDetails = _cartService.ShowCart(null, Request.Cookies["cart-token"]);
 
             return View(cartDetails);
         }
-
-        public IActionResult DownloadFile(int fileId)
+        public IActionResult DownloadCartFile(int cartItemFileId)
         {
-            var file = _cartService.GetOrderFileWithFileName(fileId);
+            var file = _cartService.GetCartItemFile(cartItemFileId);
+            if (file == null) return NotFound();
 
-            if (file == null)
-                return NotFound();
-
-            var order = file.Detail.Order;
+            var cart = file.CartItem.Cart;
 
             bool hasAccess = false;
             if (User.Identity?.IsAuthenticated == true)
             {
                 int userId = _userService.GetUserIdWithUserName(User.Identity.Name);
-
-                hasAccess = order.UserId == userId;
+                hasAccess = cart.UserID == userId;
             }
             else
             {
                 var token = Request.Cookies["cart-token"];
-
-                hasAccess = !string.IsNullOrEmpty(token)
-                    && token == order.CheckoutToken;
+                hasAccess = !string.IsNullOrEmpty(token) && token == cart.CartToken;
             }
 
-            if (!hasAccess)
-                return Forbid();
+            if (!hasAccess) return Forbid();
 
-            var path = Path.Combine(_env.WebRootPath, "Uploads", "Temp", "Temp_" + fileId, file.FileName);
+            var path = _fileStorage.GetTempFilePath(file.CartItem.CartItemID, file.FileName);
 
-            if (!System.IO.File.Exists(path))
-                return NotFound();
+            if (!System.IO.File.Exists(path)) return NotFound();
 
-
-            return PhysicalFile(
-                path,
-                "application/octet-stream",
-                file.OriginalFileName);
+            return PhysicalFile(path, "application/octet-stream", file.OriginalFileName);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> DeleteCartItem(int cartItemId, int orderDetailId)
         {
-            int userId = _userService.GetUserIdWithUserName(User.Identity.Name);
 
-            var result = _cartService.DeleteCartItem(cartItemId, orderDetailId);
+            var result = _cartService.DeleteCartItem(cartItemId);
 
             return Json(new
             {

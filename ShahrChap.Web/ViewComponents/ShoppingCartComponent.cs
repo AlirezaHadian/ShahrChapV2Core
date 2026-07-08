@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.IdentityModel.Tokens;
 using ShahrChap.Core.DTOs.Cart;
 using ShahrChap.Core.Services.Interfaces;
-using ShahrChap.DataLayer.Entities.Cart;
 
 namespace ShahrChap.Web.ViewComponents
 {

@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Build.Framework;
-using ShahrChap.Core.Services;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
-using System.Diagnostics;
 
 namespace ShahrChap.Web.Pages.Admin.Products
 {

@@ -80,6 +80,7 @@ namespace ShahrChap.DataLayer.Context
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<CartItemService> CartItemServices { get; set; }
+        public DbSet<CartItemFile> CartItemFiles { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

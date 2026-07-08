@@ -26,5 +26,8 @@ namespace ShahrChap.Core.Services.Interfaces
         //List<OrderFile> SaveOrderFilesTemp(List<IFormFile> files);
 
         #endregion
+        #region Status
+        int GetInitialStatusId();
+        #endregion
     }
 }

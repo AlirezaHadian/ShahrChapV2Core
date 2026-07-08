@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Build.Framework;
 using ShahrChap.DataLayer.Entities.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShahrChap.Core.DTOs.Products
 {

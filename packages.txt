@@ -1,0 +1,296 @@
+  Determining projects to restore...
+F:\Asp.Net\ShahrChap\ShahrChap\ShahrChap.Web\ShahrChap.Web.csproj : warning NU1901: Package 'NuGet.Packaging' 6.11.0 has a known low severity vulnerability, https://github.com/advisories/GHSA-g4vj-cjjj-v7hg [F:\Asp.Net\ShahrChap\ShahrChap\ShahrChap.sln]
+F:\Asp.Net\ShahrChap\ShahrChap\ShahrChap.Web\ShahrChap.Web.csproj : warning NU1901: Package 'NuGet.Protocol' 6.11.0 has a known low severity vulnerability, https://github.com/advisories/GHSA-g4vj-cjjj-v7hg [F:\Asp.Net\ShahrChap\ShahrChap\ShahrChap.sln]
+  All projects are up-to-date for restore.
+Project 'ShahrChap.Web' has the following package references
+   [net10.0]: 
+   Top-level Package                                       Requested     Resolved   
+   > jQuery                                                3.7.1         3.7.1      
+   > jQuery.Validation                                     1.21.0        1.21.0     
+   > Microsoft.CodeAnalysis.Common                         4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.CSharp                         4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.CSharp.Features                4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.CSharp.Workspaces              4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.Features                       4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.Workspaces.Common              4.14.0        4.14.0     
+   > Microsoft.EntityFrameworkCore                         10.0.0        10.0.0     
+   > Microsoft.EntityFrameworkCore.SqlServer               10.0.0        10.0.0     
+   > Microsoft.EntityFrameworkCore.Tools                   10.0.0        10.0.0     
+   > Microsoft.jQuery.Unobtrusive.Validation               4.0.0         4.0.0      
+   > Microsoft.VisualStudio.Web.CodeGeneration             9.0.0         9.0.0      
+   > Microsoft.VisualStudio.Web.CodeGeneration.Design      9.0.0         9.0.0      
+   > SixLabors.ImageSharp                                  3.1.12        3.1.12     
+   > SweetAlert2                                           1.0.1         1.0.1      
+   > System.ServiceModel.Duplex                            6.0.*         6.0.0      
+   > System.ServiceModel.Federation                        10.0.652802   10.0.652802
+   > System.ServiceModel.Http                              10.0.652802   10.0.652802
+   > System.ServiceModel.NetTcp                            10.0.652802   10.0.652802
+   > System.ServiceModel.Security                          6.0.*         6.0.0      
+
+   Transitive Package                                                   Resolved   
+   > Azure.Core                                                         1.47.1     
+   > Azure.Identity                                                     1.14.2     
+   > Humanizer                                                          2.14.1     
+   > Humanizer.Core                                                     2.14.1     
+   > Humanizer.Core.af                                                  2.14.1     
+   > Humanizer.Core.ar                                                  2.14.1     
+   > Humanizer.Core.az                                                  2.14.1     
+   > Humanizer.Core.bg                                                  2.14.1     
+   > Humanizer.Core.bn-BD                                               2.14.1     
+   > Humanizer.Core.cs                                                  2.14.1     
+   > Humanizer.Core.da                                                  2.14.1     
+   > Humanizer.Core.de                                                  2.14.1     
+   > Humanizer.Core.el                                                  2.14.1     
+   > Humanizer.Core.es                                                  2.14.1     
+   > Humanizer.Core.fa                                                  2.14.1     
+   > Humanizer.Core.fi-FI                                               2.14.1     
+   > Humanizer.Core.fr                                                  2.14.1     
+   > Humanizer.Core.fr-BE                                               2.14.1     
+   > Humanizer.Core.he                                                  2.14.1     
+   > Humanizer.Core.hr                                                  2.14.1     
+   > Humanizer.Core.hu                                                  2.14.1     
+   > Humanizer.Core.hy                                                  2.14.1     
+   > Humanizer.Core.id                                                  2.14.1     
+   > Humanizer.Core.is                                                  2.14.1     
+   > Humanizer.Core.it                                                  2.14.1     
+   > Humanizer.Core.ja                                                  2.14.1     
+   > Humanizer.Core.ko-KR                                               2.14.1     
+   > Humanizer.Core.ku                                                  2.14.1     
+   > Humanizer.Core.lv                                                  2.14.1     
+   > Humanizer.Core.ms-MY                                               2.14.1     
+   > Humanizer.Core.mt                                                  2.14.1     
+   > Humanizer.Core.nb                                                  2.14.1     
+   > Humanizer.Core.nb-NO                                               2.14.1     
+   > Humanizer.Core.nl                                                  2.14.1     
+   > Humanizer.Core.pl                                                  2.14.1     
+   > Humanizer.Core.pt                                                  2.14.1     
+   > Humanizer.Core.ro                                                  2.14.1     
+   > Humanizer.Core.ru                                                  2.14.1     
+   > Humanizer.Core.sk                                                  2.14.1     
+   > Humanizer.Core.sl                                                  2.14.1     
+   > Humanizer.Core.sr                                                  2.14.1     
+   > Humanizer.Core.sr-Latn                                             2.14.1     
+   > Humanizer.Core.sv                                                  2.14.1     
+   > Humanizer.Core.th-TH                                               2.14.1     
+   > Humanizer.Core.tr                                                  2.14.1     
+   > Humanizer.Core.uk                                                  2.14.1     
+   > Humanizer.Core.uz-Cyrl-UZ                                          2.14.1     
+   > Humanizer.Core.uz-Latn-UZ                                          2.14.1     
+   > Humanizer.Core.vi                                                  2.14.1     
+   > Humanizer.Core.zh-CN                                               2.14.1     
+   > Humanizer.Core.zh-Hans                                             2.14.1     
+   > Humanizer.Core.zh-Hant                                             2.14.1     
+   > Microsoft.AspNetCore.Razor.Language                                6.0.24     
+   > Microsoft.Bcl.AsyncInterfaces                                      8.0.0      
+   > Microsoft.Bcl.Cryptography                                         9.0.4      
+   > Microsoft.Build                                                    18.0.2     
+   > Microsoft.Build.Framework                                          18.0.2     
+   > Microsoft.Build.Tasks.Core                                         17.14.28   
+   > Microsoft.Build.Utilities.Core                                     17.14.28   
+   > Microsoft.CodeAnalysis.Analyzers                                   3.11.0     
+   > Microsoft.CodeAnalysis.AnalyzerUtilities                           4.14.0     
+   > Microsoft.CodeAnalysis.CSharp.Scripting                            4.14.0     
+   > Microsoft.CodeAnalysis.Elfie                                       1.0.0      
+   > Microsoft.CodeAnalysis.Razor                                       6.0.24     
+   > Microsoft.CodeAnalysis.Scripting                                   4.14.0     
+   > Microsoft.CodeAnalysis.Scripting.Common                            4.14.0     
+   > Microsoft.CodeAnalysis.Workspaces.MSBuild                          4.14.0     
+   > Microsoft.Data.SqlClient                                           6.1.1      
+   > Microsoft.Data.SqlClient.SNI.runtime                               6.0.2      
+   > Microsoft.DiaSymReader                                             2.0.0      
+   > Microsoft.DotNet.Scaffolding.Shared                                9.0.0      
+   > Microsoft.EntityFrameworkCore.Abstractions                         10.0.0     
+   > Microsoft.EntityFrameworkCore.Analyzers                            10.0.0     
+   > Microsoft.EntityFrameworkCore.Design                               10.0.0     
+   > Microsoft.EntityFrameworkCore.Relational                           10.0.0     
+   > Microsoft.Extensions.DependencyModel                               10.0.0     
+   > Microsoft.Identity.Client                                          4.73.1     
+   > Microsoft.Identity.Client.Extensions.Msal                          4.73.1     
+   > Microsoft.IdentityModel.Abstractions                               8.14.0     
+   > Microsoft.IdentityModel.JsonWebTokens                              7.7.1      
+   > Microsoft.IdentityModel.Logging                                    8.14.0     
+   > Microsoft.IdentityModel.Protocols                                  7.7.1      
+   > Microsoft.IdentityModel.Protocols.OpenIdConnect                    7.7.1      
+   > Microsoft.IdentityModel.Protocols.WsTrust                          6.8.0      
+   > Microsoft.IdentityModel.Tokens                                     8.14.0     
+   > Microsoft.IdentityModel.Tokens.Saml                                8.14.0     
+   > Microsoft.IdentityModel.Xml                                        8.14.0     
+   > Microsoft.NET.StringTools                                          18.0.2     
+   > Microsoft.SqlServer.Server                                         1.0.0      
+   > Microsoft.VisualStudio.Web.CodeGeneration.Core                     9.0.0      
+   > Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore      9.0.0      
+   > Microsoft.VisualStudio.Web.CodeGeneration.Templating               9.0.0      
+   > Microsoft.VisualStudio.Web.CodeGeneration.Utils                    9.0.0      
+   > Microsoft.VisualStudio.Web.CodeGenerators.Mvc                      9.0.0      
+   > Mono.TextTemplating                                                3.0.0      
+   > Newtonsoft.Json                                                    13.0.4     
+   > NuGet.Common                                                       6.11.0     
+   > NuGet.Configuration                                                6.11.0     
+   > NuGet.DependencyResolver.Core                                      6.11.0     
+   > NuGet.Frameworks                                                   6.11.0     
+   > NuGet.LibraryModel                                                 6.11.0     
+   > NuGet.Packaging                                                    6.11.0     
+   > NuGet.ProjectModel                                                 6.11.0     
+   > NuGet.Protocol                                                     6.11.0     
+   > NuGet.Versioning                                                   6.11.0     
+   > System.ClientModel                                                 1.5.1      
+   > System.CodeDom                                                     9.0.0      
+   > System.Composition                                                 9.0.0      
+   > System.Composition.AttributedModel                                 9.0.0      
+   > System.Composition.Convention                                      9.0.0      
+   > System.Composition.Hosting                                         9.0.0      
+   > System.Composition.Runtime                                         9.0.0      
+   > System.Composition.TypedParts                                      9.0.0      
+   > System.Configuration.ConfigurationManager                          9.0.4      
+   > System.Data.DataSetExtensions                                      4.5.0      
+   > System.Formats.Nrbf                                                9.0.0      
+   > System.IdentityModel.Tokens.Jwt                                    7.7.1      
+   > System.Memory.Data                                                 8.0.1      
+   > System.Reflection.MetadataLoadContext                              9.0.0      
+   > System.Resources.Extensions                                        9.0.0      
+   > System.Security.Cryptography.Pkcs                                  9.0.4      
+   > System.Security.Cryptography.ProtectedData                         9.0.6      
+   > System.Security.Permissions                                        9.0.0      
+   > System.ServiceModel.NetFramingBase                                 10.0.652802
+   > System.ServiceModel.Primitives                                     10.0.652802
+   > System.Windows.Extensions                                          9.0.0      
+
+Project 'ShahrChap.DataLayer' has the following package references
+   [net10.0]: 
+   Top-level Package                               Requested   Resolved
+   > Microsoft.Build                               18.0.2      18.0.2  
+   > Microsoft.CodeAnalysis.Common                 4.14.0      4.14.0  
+   > Microsoft.CodeAnalysis.CSharp                 4.14.0      4.14.0  
+   > Microsoft.CodeAnalysis.CSharp.Features        4.14.0      4.14.0  
+   > Microsoft.CodeAnalysis.CSharp.Workspaces      4.14.0      4.14.0  
+   > Microsoft.CodeAnalysis.Features               4.14.0      4.14.0  
+   > Microsoft.CodeAnalysis.Scripting              4.14.0      4.14.0  
+   > Microsoft.CodeAnalysis.Scripting.Common       4.14.0      4.14.0  
+   > Microsoft.CodeAnalysis.Workspaces.Common      4.14.0      4.14.0  
+   > Microsoft.EntityFrameworkCore                 10.0.0      10.0.0  
+   > Microsoft.EntityFrameworkCore.SqlServer       10.0.0      10.0.0  
+   > Microsoft.EntityFrameworkCore.Tools           10.0.0      10.0.0  
+
+   Transitive Package                                     Resolved
+   > Azure.Core                                           1.47.1  
+   > Azure.Identity                                       1.14.2  
+   > Humanizer.Core                                       2.14.1  
+   > Microsoft.Bcl.AsyncInterfaces                        8.0.0   
+   > Microsoft.Bcl.Cryptography                           9.0.4   
+   > Microsoft.Build.Framework                            18.0.2  
+   > Microsoft.Build.Tasks.Core                           17.14.28
+   > Microsoft.Build.Utilities.Core                       17.14.28
+   > Microsoft.CodeAnalysis.Analyzers                     3.11.0  
+   > Microsoft.CodeAnalysis.AnalyzerUtilities             4.14.0  
+   > Microsoft.CodeAnalysis.CSharp.Scripting              4.14.0  
+   > Microsoft.CodeAnalysis.Elfie                         1.0.0   
+   > Microsoft.CodeAnalysis.Workspaces.MSBuild            4.14.0  
+   > Microsoft.Data.SqlClient                             6.1.1   
+   > Microsoft.Data.SqlClient.SNI.runtime                 6.0.2   
+   > Microsoft.DiaSymReader                               2.0.0   
+   > Microsoft.EntityFrameworkCore.Abstractions           10.0.0  
+   > Microsoft.EntityFrameworkCore.Analyzers              10.0.0  
+   > Microsoft.EntityFrameworkCore.Design                 10.0.0  
+   > Microsoft.EntityFrameworkCore.Relational             10.0.0  
+   > Microsoft.Extensions.DependencyModel                 10.0.0  
+   > Microsoft.Identity.Client                            4.73.1  
+   > Microsoft.Identity.Client.Extensions.Msal            4.73.1  
+   > Microsoft.IdentityModel.Abstractions                 7.7.1   
+   > Microsoft.IdentityModel.JsonWebTokens                7.7.1   
+   > Microsoft.IdentityModel.Logging                      7.7.1   
+   > Microsoft.IdentityModel.Protocols                    7.7.1   
+   > Microsoft.IdentityModel.Protocols.OpenIdConnect      7.7.1   
+   > Microsoft.IdentityModel.Tokens                       7.7.1   
+   > Microsoft.NET.StringTools                            18.0.2  
+   > Microsoft.SqlServer.Server                           1.0.0   
+   > Mono.TextTemplating                                  3.0.0   
+   > Newtonsoft.Json                                      13.0.3  
+   > System.ClientModel                                   1.5.1   
+   > System.CodeDom                                       9.0.0   
+   > System.Composition                                   9.0.0   
+   > System.Composition.AttributedModel                   9.0.0   
+   > System.Composition.Convention                        9.0.0   
+   > System.Composition.Hosting                           9.0.0   
+   > System.Composition.Runtime                           9.0.0   
+   > System.Composition.TypedParts                        9.0.0   
+   > System.Configuration.ConfigurationManager            9.0.4   
+   > System.Data.DataSetExtensions                        4.5.0   
+   > System.Formats.Nrbf                                  9.0.0   
+   > System.IdentityModel.Tokens.Jwt                      7.7.1   
+   > System.Memory.Data                                   8.0.1   
+   > System.Reflection.MetadataLoadContext                9.0.0   
+   > System.Resources.Extensions                          9.0.0   
+   > System.Security.Cryptography.Pkcs                    9.0.4   
+   > System.Security.Cryptography.ProtectedData           9.0.6   
+   > System.Security.Permissions                          9.0.0   
+   > System.Windows.Extensions                            9.0.0   
+
+Project 'ShahrChap.Core' has the following package references
+   [net10.0]: 
+   Top-level Package                               Requested     Resolved   
+   > Microsoft.Build                               18.0.2        18.0.2     
+   > Microsoft.CodeAnalysis.Common                 4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.CSharp                 4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.CSharp.Features        4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.CSharp.Workspaces      4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.Features               4.14.0        4.14.0     
+   > Microsoft.CodeAnalysis.Workspaces.Common      4.14.0        4.14.0     
+   > Newtonsoft.Json                               13.0.4        13.0.4     
+   > SixLabors.ImageSharp                          3.1.12        3.1.12     
+   > System.ServiceModel.Duplex                    6.0.*         6.0.0      
+   > System.ServiceModel.Federation                10.0.652802   10.0.652802
+   > System.ServiceModel.NetTcp                    10.0.652802   10.0.652802
+   > System.ServiceModel.Security                  6.0.*         6.0.0      
+
+   Transitive Package                                     Resolved   
+   > Azure.Core                                           1.47.1     
+   > Azure.Identity                                       1.14.2     
+   > Humanizer.Core                                       2.14.1     
+   > Microsoft.Bcl.AsyncInterfaces                        8.0.0      
+   > Microsoft.Bcl.Cryptography                           9.0.4      
+   > Microsoft.Build.Framework                            18.0.2     
+   > Microsoft.CodeAnalysis.Analyzers                     3.11.0     
+   > Microsoft.CodeAnalysis.AnalyzerUtilities             4.14.0     
+   > Microsoft.CodeAnalysis.CSharp.Scripting              4.14.0     
+   > Microsoft.CodeAnalysis.Elfie                         1.0.0      
+   > Microsoft.CodeAnalysis.Scripting                     4.14.0     
+   > Microsoft.CodeAnalysis.Scripting.Common              4.14.0     
+   > Microsoft.Data.SqlClient                             6.1.1      
+   > Microsoft.Data.SqlClient.SNI.runtime                 6.0.2      
+   > Microsoft.DiaSymReader                               2.0.0      
+   > Microsoft.EntityFrameworkCore                        10.0.0     
+   > Microsoft.EntityFrameworkCore.Abstractions           10.0.0     
+   > Microsoft.EntityFrameworkCore.Analyzers              10.0.0     
+   > Microsoft.EntityFrameworkCore.Relational             10.0.0     
+   > Microsoft.EntityFrameworkCore.SqlServer              10.0.0     
+   > Microsoft.Identity.Client                            4.73.1     
+   > Microsoft.Identity.Client.Extensions.Msal            4.73.1     
+   > Microsoft.IdentityModel.Abstractions                 8.14.0     
+   > Microsoft.IdentityModel.JsonWebTokens                7.7.1      
+   > Microsoft.IdentityModel.Logging                      8.14.0     
+   > Microsoft.IdentityModel.Protocols                    7.7.1      
+   > Microsoft.IdentityModel.Protocols.OpenIdConnect      7.7.1      
+   > Microsoft.IdentityModel.Protocols.WsTrust            6.8.0      
+   > Microsoft.IdentityModel.Tokens                       8.14.0     
+   > Microsoft.IdentityModel.Tokens.Saml                  8.14.0     
+   > Microsoft.IdentityModel.Xml                          8.14.0     
+   > Microsoft.NET.StringTools                            18.0.2     
+   > Microsoft.SqlServer.Server                           1.0.0      
+   > System.ClientModel                                   1.5.1      
+   > System.Composition                                   9.0.0      
+   > System.Composition.AttributedModel                   9.0.0      
+   > System.Composition.Convention                        9.0.0      
+   > System.Composition.Hosting                           9.0.0      
+   > System.Composition.Runtime                           9.0.0      
+   > System.Composition.TypedParts                        9.0.0      
+   > System.Configuration.ConfigurationManager            9.0.4      
+   > System.Data.DataSetExtensions                        4.5.0      
+   > System.IdentityModel.Tokens.Jwt                      7.7.1      
+   > System.Memory.Data                                   8.0.1      
+   > System.Reflection.MetadataLoadContext                9.0.0      
+   > System.Security.Cryptography.Pkcs                    9.0.4      
+   > System.Security.Cryptography.ProtectedData           9.0.6      
+   > System.ServiceModel.Http                             10.0.652802
+   > System.ServiceModel.NetFramingBase                   10.0.652802
+   > System.ServiceModel.Primitives                       10.0.652802
+

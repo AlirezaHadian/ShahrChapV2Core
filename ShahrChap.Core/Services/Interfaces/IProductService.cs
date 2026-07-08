@@ -1,16 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using ShahrChap.DataLayer.Entities.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ShahrChap.Core.DTOs.Products;
-using System.ComponentModel;
-using Microsoft.AspNetCore.Razor.Language;
-using ShahrChap.DataLayer.Entities.Product.Form;
 using ShahrChap.DataLayer.Entities.Order;
+using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.Core.Services.Interfaces
 {
@@ -63,6 +55,8 @@ namespace ShahrChap.Core.Services.Interfaces
         void DeleteService(Service service);
         string GetServiceTitlesByIdList(List<int> servicesIds);
         List<OrderDetailService> GetOrderDetailsServices(int orderDetailId);
+        string GetServiceTitleById(int serviceTitleId);
+        long CalculateServicePrice(int serviceId, int productId, string combination);
         #endregion
         #region ProductGallery
         List<ProductGallery> GetProductGalleryListById(int productId);

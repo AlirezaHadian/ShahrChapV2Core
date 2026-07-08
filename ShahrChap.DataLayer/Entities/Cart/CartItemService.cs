@@ -12,6 +12,8 @@ namespace ShahrChap.DataLayer.Entities.Cart
         public int CartItemServiceID { get; set; }
         public int CartItemID { get; set; }
         public int ServiceID { get; set; }
+        public string ServiceTitle { get; set; }   // Snapshot
+        public long ServicePrice { get; set; }     // Snapshot
 
         #region Relations 
         public virtual CartItem CartItem { get; set; }

@@ -68,17 +68,10 @@ namespace ShahrChap.Web.Controllers
         public async Task<ActionResult> SubmitFinalOrder(FinalOrderViewModel model)
         {
             if (model.OrderFiles.Count > 5)
-            {
                 return Json(new { success = false, message = "حداکثر 5 فایل مجاز است." });
-            }
 
             if (model.OrderFiles == null || !model.OrderFiles.Any())
-            {
                 return Json(new { success = false, message = "لطفاً حداقل یک فایل انتخاب کنید." });
-            }
-
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".pdf", ".zip", ".rar", ".psd", ".tiff" };
-            long maxFileSize = 50 * 1024 * 1024;
 
             var validator = new FileUploadValidatior();
             foreach (var file in model.OrderFiles)
@@ -90,8 +83,8 @@ namespace ShahrChap.Web.Controllers
 
             try
             {
-                Cart cart = new Cart();
                 string token = null;
+
                 if (!User.Identity.IsAuthenticated)
                 {
                     token = Request.Cookies["cart-token"];
@@ -100,42 +93,23 @@ namespace ShahrChap.Web.Controllers
                         token = Guid.NewGuid().ToString();
                         Response.Cookies.Append("cart-token", token);
                     }
-                    cart = _cartService.GetUserActiveCart(token: token);
 
-                    _cartService.CreateCartOrAddItem(model.ProductId, model.FeaturesCombination, model.ServiceIds, token: token, cart: cart);
+                    _cartService.CreateCartOrAddItem(
+                        model.ProductId, model.OrderTitle, model.FeaturesCombination,
+                        model.ServiceIds, model.OrderFiles, token: token);
                 }
                 else
                 {
-                    cart = _cartService.GetUserActiveCart(User.Identity.Name);
-
-                    _cartService.CreateCartOrAddItem(model.ProductId, model.FeaturesCombination, model.ServiceIds, User.Identity.Name, cart: cart);
-
+                    _cartService.CreateCartOrAddItem(
+                        model.ProductId, model.OrderTitle, model.FeaturesCombination,
+                        model.ServiceIds, model.OrderFiles, userName: User.Identity.Name);
                 }
-                CreateOrderDetailDto orderDto = new CreateOrderDetailDto()
-                {
-                    ProductId = model.ProductId,
-                    ProductTitle = _productService.GetProductTitleById(model.ProductId),
-                    OrderTitle = model.OrderTitle,
-                    ServicesId = model.ServiceIds,
-                    FeaturesCombination = model.FeaturesCombination,
-                    Files = model.OrderFiles
-                };
-                if (User.Identity.IsAuthenticated)
-                    await _orderService.CreateOrderAsync(orderDto, User.Identity.Name, null);
-                else
-                    await _orderService.CreateOrderAsync(orderDto, null, token);
-
 
                 return Json(new { success = true });
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    success = false,
-                    message = "خطای غیرمنتظره در ثبت سفارش رخ داد." +
-                    ex
-                });
+                return Json(new { success = false, message = "خطای غیرمنتظره در ثبت سفارش رخ داد. " + ex.Message });
             }
         }
     }

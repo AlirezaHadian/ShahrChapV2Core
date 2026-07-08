@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShahrChap.DataLayer.Context;
 
@@ -11,9 +12,11 @@ using ShahrChap.DataLayer.Context;
 namespace ShahrChap.DataLayer.Migrations
 {
     [DbContext(typeof(ShahrChapContext))]
-    partial class ShahrChapContextModelSnapshot : ModelSnapshot
+    [Migration("20260708102448_ChangedCartModels_mig")]
+    partial class ChangedCartModels_mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +42,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("City", (string)null);
+                    b.ToTable("City");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.Province", b =>
@@ -54,7 +57,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("ProvinceId");
 
-                    b.ToTable("Provinces", (string)null);
+                    b.ToTable("Provinces");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.UserAddress", b =>
@@ -107,7 +110,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserAddresses", (string)null);
+                    b.ToTable("UserAddresses");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Cart.Cart", b =>
@@ -131,7 +134,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Cart.CartItem", b =>
@@ -167,7 +170,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("CartID");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Cart.CartItemFile", b =>
@@ -196,7 +199,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("CartItemID");
 
-                    b.ToTable("CartItemFiles", (string)null);
+                    b.ToTable("CartItemFiles");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Cart.CartItemService", b =>
@@ -226,7 +229,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ServiceID");
 
-                    b.ToTable("CartItemServices", (string)null);
+                    b.ToTable("CartItemServices");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.Order", b =>
@@ -276,7 +279,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderDetail", b =>
@@ -322,7 +325,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderDetailService", b =>
@@ -355,7 +358,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("OrderStatusStatusId");
 
-                    b.ToTable("OrderDetailServices", (string)null);
+                    b.ToTable("OrderDetailServices");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderFile", b =>
@@ -387,7 +390,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("DetailId");
 
-                    b.ToTable("OrderFiles", (string)null);
+                    b.ToTable("OrderFiles");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Order.OrderStatus", b =>
@@ -415,7 +418,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("StatusId");
 
-                    b.ToTable("OrderStatuses", (string)null);
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Permissions.Permission", b =>
@@ -438,7 +441,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Permission", (string)null);
+                    b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Permissions.RolePermission", b =>
@@ -461,7 +464,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermission", (string)null);
+                    b.ToTable("RolePermission");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.DesignPrice", b =>
@@ -483,7 +486,7 @@ namespace ShahrChap.DataLayer.Migrations
                     b.HasIndex("ProductPriceId")
                         .IsUnique();
 
-                    b.ToTable("DesignPrices", (string)null);
+                    b.ToTable("DesignPrices");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Feature", b =>
@@ -504,7 +507,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("FeatureId");
 
-                    b.ToTable("Features", (string)null);
+                    b.ToTable("Features");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.FeatureValue", b =>
@@ -530,7 +533,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("FeatureId");
 
-                    b.ToTable("FeatureValues", (string)null);
+                    b.ToTable("FeatureValues");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Form.FormInput", b =>
@@ -577,7 +580,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("FormInput", (string)null);
+                    b.ToTable("FormInput");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Form.ProductForm", b =>
@@ -609,7 +612,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductForm", (string)null);
+                    b.ToTable("ProductForm");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Product", b =>
@@ -674,7 +677,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("SubGroupId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductFeature", b =>
@@ -697,7 +700,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductFeatures", (string)null);
+                    b.ToTable("ProductFeatures");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductFeatureValue", b =>
@@ -725,7 +728,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductFeatureValues", (string)null);
+                    b.ToTable("ProductFeatureValues");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductGallery", b =>
@@ -756,7 +759,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductGalleries", (string)null);
+                    b.ToTable("ProductGalleries");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductGroup", b =>
@@ -785,7 +788,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("ProductGroups", (string)null);
+                    b.ToTable("ProductGroups");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductPrice", b =>
@@ -811,7 +814,7 @@ namespace ShahrChap.DataLayer.Migrations
                     b.HasIndex("ProductId", "Combination")
                         .IsUnique();
 
-                    b.ToTable("ProductPrices", (string)null);
+                    b.ToTable("ProductPrices");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductType", b =>
@@ -829,7 +832,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("ProductTypeId");
 
-                    b.ToTable("ProductTypes", (string)null);
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.Service", b =>
@@ -855,7 +858,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ServicePrice", b =>
@@ -881,7 +884,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("ProductServiceId");
 
-                    b.ToTable("ServicePrices", (string)null);
+                    b.ToTable("ServicePrices");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.User.Role", b =>
@@ -902,7 +905,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.User.User", b =>
@@ -955,7 +958,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.User.UserRole", b =>
@@ -978,7 +981,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Wallet.Wallet", b =>
@@ -1015,7 +1018,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasIndex("WalletTypeId");
 
-                    b.ToTable("Wallets", (string)null);
+                    b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Wallet.WalletType", b =>
@@ -1030,7 +1033,7 @@ namespace ShahrChap.DataLayer.Migrations
 
                     b.HasKey("WalletTypeId");
 
-                    b.ToTable("WalletTypes", (string)null);
+                    b.ToTable("WalletTypes");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Address.City", b =>

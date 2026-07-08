@@ -11,7 +11,8 @@ using ShahrChap.DataLayer.Context;
 using ShahrChap.DataLayer.Entities.Product;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllersWithViews(options=> options.EnableEndpointRouting = false);
+//builder.Services.AddControllersWithViews(options=> options.EnableEndpointRouting = false);
+builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddHttpContextAccessor();
 #region Authentication
@@ -56,6 +57,7 @@ builder.Services.AddTransient<IPermissionService, PermissionService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<ICartService, CartService>();
+builder.Services.AddTransient<IFileStorageService, FileStorageService>();
 #endregion
 
 var app = builder.Build();
