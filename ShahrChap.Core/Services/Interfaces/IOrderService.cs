@@ -20,7 +20,6 @@ namespace ShahrChap.Core.Services.Interfaces
         OrderStatus GetFirstOrderStatus();
         #endregion
         #region Order
-        Task<int> CreateOrderAsync(CreateOrderDetailDto orderDto, string? userName, string? cartToken);
         //void UpdateTotalPriceOrder(int orderId);
         //int CreateOrder(string userName, List<CreateOrderDetailDto> details)
         //List<OrderFile> SaveOrderFilesTemp(List<IFormFile> files);

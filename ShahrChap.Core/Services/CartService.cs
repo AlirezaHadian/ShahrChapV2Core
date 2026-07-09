@@ -211,13 +211,10 @@ namespace ShahrChap.Core.Services
 
             foreach (var file in cartItem.CartItemFiles)
             {
-                //var path = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Temp",
-                //    $"Cart_{cartItem.CartItemID}", file.FileName);
-
-                //if (File.Exists(path)) File.Delete(path);
                 _fileStorage.DeleteTempFile(file.CartItemID, file.FileName);
                 _context.CartItemFiles.Remove(file);
             }
+            _fileStorage.CleanupEmptyTempFolder(cartItem.CartItemID);
 
             _context.CartItemServices.RemoveRange(cartItem.CartItemServices);
             _context.CartItems.Remove(cartItem);
