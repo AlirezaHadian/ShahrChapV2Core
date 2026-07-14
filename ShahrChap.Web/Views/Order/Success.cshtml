@@ -1,0 +1,22 @@
+﻿@model ShahrChap.DataLayer.Entities.Order.Order
+@{
+    ViewBag.Title = "پرداخت موفق";
+}
+
+<div class="result-card">
+    <div class="status-icon icon-success">
+        <i class="uil uil-check-circle"></i>
+    </div>
+
+    <h2 class="status-title">پرداخت موفق</h2>
+    <p class="status-message">سفارش شما با موفقیت ثبت شد و در صف آماده‌سازی قرار گرفت.</p>
+
+    <div class="order-info">
+        <span>شماره پیگیری:</span>
+        <strong>#@Model.OrderId</strong>
+    </div>
+
+    <div class="actions">
+        <a href="/" class="custom-btn btn-success">بازگشت به خانه</a>
+    </div>
+</div>

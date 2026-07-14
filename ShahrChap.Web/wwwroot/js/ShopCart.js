@@ -1,27 +1,46 @@
 ﻿$(document).ready(function () {
-    const dModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
 
-    // ۱. انتخاب آدرس (کد اصلی خودت)
+    // ==============================
+    // ۱. انتخاب آدرس ارسال
+    // ==============================
+    function updateAddressUI() {
+        $('.address-card').each(function () {
+            const radio = $(this).find('input[type="radio"]');
+            $(this).toggleClass('active', radio.is(':checked'));
+        });
+    }
+
     $('.address-card').on('click', function () {
-        $('.address-card').removeClass('active');
-        $(this).addClass('active');
         $(this).find('input[type="radio"]').prop('checked', true);
+        updateAddressUI();
     });
 
+    // حل مشکل دکمه‌ی بک مرورگر (کش صفحه)
+    window.addEventListener('pageshow', function () {
+        updateAddressUI();
+    });
 
-    // ۳. اعمال کد تخفیف
+    updateAddressUI(); // اجرای اولیه در لود صفحه
+
+
+    // ==============================
+    // ۲. اعمال کد تخفیف
+    // ==============================
     $('#apply-discount').on('click', function () {
         const code = $('#discount-code').val();
+
         if (code === "WELCOME") {
-            alert("کد تخفیف ۱۰ درصدی اعمال شد!");
+            Swal.fire('موفق', 'کد تخفیف ۱۰ درصدی اعمال شد!', 'success');
         } else {
-            alert("کد تخفیف معتبر نیست.");
+            Swal.fire('خطا', 'کد تخفیف معتبر نیست.', 'error');
         }
     });
 
-    // ۴. دکمه پرداخت
-    $('#pay-btn').on('click', function () {
 
+    // ==============================
+    // ۳. دکمه‌ی پرداخت نهایی (رفتن به Checkout)
+    // ==============================
+    $('#pay-btn').on('click', function () {
         const hasAddress = $(this).data('has-address');
 
         if (!hasAddress) {
@@ -31,140 +50,69 @@
                 text: 'لطفا ابتدا آدرس ارسال خود را ثبت کنید.',
                 confirmButtonText: 'متوجه شدم'
             });
-
             return;
         }
 
-        alert("در حال هدایت به درگاه ایمن بانک...");
+        window.location.href = '/Checkout';
     });
+
 });
 
-//$(document).ready(function () {
-//    // باز کردن مودال حذف
-//    $(document).on('click', '.open-delete-modal', function () {
-//        const orderId = $(this).data('id');
-//        $('#final-delete-link').attr('href', '/Cart/Delete/' + orderId);
 
-//        // نمایش مودال بوت استرپ
-//        var myModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-//        myModal.show();
-//    });
-//});
+// ==============================
+// ۴. حذف آیتم از سبد خرید
+// (delegated - هم برای صفحه‌ی سبد، هم پاپ‌اور کار می‌کند)
+// ==============================
 
 $(document).on('click', '.open-delete-modal', function () {
     const cartItemId = $(this).data('id');
-
     $('#delete-cart-item-id').val(cartItemId);
 
-    const modal = new bootstrap.Modal(
-        document.getElementById('deleteConfirmModal')
-    );
-
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
     modal.show();
 });
-$('#final-delete-btn').on('click', function () {
 
+$(document).on('click', '#final-delete-btn', function () {
     const cartItemId = $('#delete-cart-item-id').val();
 
     $.ajax({
         url: '/Cart/DeleteCartItem',
         type: 'POST',
-        data: {
-            cartItemId: cartItemId
-        },
+        data: { cartItemId: cartItemId },
         success: function (res) {
-
             if (!res.success) {
-                Swal.fire(
-                    'خطا',
-                    res.message,
-                    'error'
-                );
+                Swal.fire('خطا', res.message || 'حذف با مشکل مواجه شد', 'error');
                 return;
             }
 
-            bootstrap.Modal
-                .getInstance(
-                    document.getElementById('deleteConfirmModal')
-                )
-                .hide();
+            bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'))?.hide();
 
-            //----------------------------------
-            // Cart Page
-            //----------------------------------
-
-            $('.cart-item[data-id="' + cartItemId + '"]')
-                .fadeOut(300, function () {
-                    $(this).remove();
-                });
-
-            //----------------------------------
-            // Counter
-            //----------------------------------
-
-            $('.cart-count')
-                .text(res.totalItems);
-
-            //----------------------------------
-            // Total Price
-            //----------------------------------
-
-            $('.cart-total-price')
-                .text(res.totalPrice.toLocaleString());
-
-            Swal.fire({
-                icon: 'success',
-                title: 'حذف شد',
-                timer: 1500,
-                showConfirmButton: false
+            // حذف کارت آیتم از هر جایی که نمایش داده شده (صفحه‌ی سبد یا پاپ‌اور)
+            $('.cart-item[data-id="' + cartItemId + '"]').fadeOut(300, function () {
+                $(this).remove();
             });
 
-            //----------------------------------
-            // اگر آخرین آیتم بود
-            //----------------------------------
-
+            // آپدیت شمارنده‌ی روی آیکون navbar
+            $('#cart-badge').text(res.totalItems);
             if (res.totalItems === 0) {
+                $('#cart-badge').hide();
+            }
+
+            // آپدیت شمارنده و مبلغ داخل پاپ‌اور
+            $('.items-count-pill').text(res.totalItems + ' آیتم');
+            $('#popover-total-price').text(res.totalPrice.toLocaleString());
+
+            // آپدیت مبلغ کل داخل صفحه‌ی سبد خرید (در صورت وجود)
+            $('#cart-total-price').text(res.totalPrice.toLocaleString());
+
+            Swal.fire({ icon: 'success', title: 'حذف شد', timer: 1500, showConfirmButton: false });
+
+            if (res.totalItems === 0 && window.location.pathname === '/Cart') {
                 location.reload();
             }
+        },
+        error: function () {
+            Swal.fire('خطا', 'ارتباط با سرور برقرار نشد', 'error');
         }
     });
 });
-
-
-$(document).ready(function () {
-    // تابعی برای هماهنگ‌سازی کلاس active با رادیوباتن انتخاب شده
-    function updateAddressUI() {
-        $('.address-card').each(function () {
-            const radio = $(this).find('input[type="radio"]');
-            if (radio.is(':checked')) {
-                $(this).addClass('active');
-            } else {
-                $(this).removeClass('active');
-            }
-        });
-    }
-
-    // ۱. مدیریت کلیک کاربر
-    $('.address-card').on('click', function () {
-        $(this).find('input[type="radio"]').prop('checked', true);
-        updateAddressUI();
-    });
-
-    // ۲. حل مشکل دکمه بک (Back Button)
-    // رویداد pageshow زمانی اجرا می‌شود که صفحه از کش مرورگر برگردد
-    window.addEventListener('pageshow', function (event) {
-        updateAddressUI();
-    });
-
-    // ۳. اجرای اولیه برای زمانی که صفحه برای اولین بار لود می‌شود
-    updateAddressUI();
-});
-
-
-//$('.open-delete-modal').on('click', function () {
-//    const orderId = $(this).data('id');
-//    // تنظیم لینک حذف نهایی
-//    $('#final-delete-link').attr('href', '/Cart/Delete/' + orderId);
-//    var myModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-//    dModal.show();
-//});

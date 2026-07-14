@@ -59,14 +59,41 @@ namespace ShahrChap.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> DeleteCartItem(int cartItemId, int orderDetailId)
+        public async Task<IActionResult> DeleteCartItem(int cartItemId)
         {
-
             var result = _cartService.DeleteCartItem(cartItemId);
+            if (!result)
+                return Json(new { success = false, message = "آیتم مورد نظر پیدا نشد." });
+
+            string userName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
+            string token = Request.Cookies["cart-token"];
+
+            var summary = _cartService.GetCartSummary(userName, token);
 
             return Json(new
             {
-                success = result
+                success = true,
+                totalItems = summary.TotalItems,
+                totalPrice = summary.TotalPrice
+            });
+        }
+
+        [HttpPost]
+        public IActionResult ProceedToPayment()
+        {
+            string userName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
+            string token = Request.Cookies["cart-token"];
+
+            var cart = _cartService.GetUserActiveCart(userName, token);
+            if (cart == null || !cart.CartItems.Any())
+                return Json(new { success = false, message = "سبد خرید شما خالی است." });
+
+            long amount = cart.CartItems.Sum(i => i.CalculatedPrice);
+
+            return Json(new
+            {
+                success = true,
+                redirectUrl = Url.Action("Gateway", "PaymentSimulation", new { cartId = cart.CartID, amount })
             });
         }
     }

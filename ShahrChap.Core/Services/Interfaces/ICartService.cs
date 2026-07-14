@@ -20,6 +20,7 @@ namespace ShahrChap.Core.Services.Interfaces
         OrderFile GetOrderFileWithFileName(int fileId);
         bool DeleteCartItem(int cartItemId);
         Order ConvertCartToOrder(int cartId, PaymentResultDto payment);
+        (int TotalItems, long TotalPrice) GetCartSummary(string userName = null, string token = null);
         CartItemFile GetCartItemFile(int cartItemFileId);
     }
 }

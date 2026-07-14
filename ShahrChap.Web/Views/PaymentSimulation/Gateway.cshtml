@@ -1,0 +1,34 @@
+﻿@model ShahrChap.Core.DTOs.Payment.PaymentGatewayViewModel
+@{
+    ViewBag.Title = "درگاه پرداخت مجازی";
+}
+
+<div class="gateway-container">
+    <div class="gateway-header">
+        <i class="uil uil-credit-card"></i>
+        <span>درگاه پرداخت مجازی</span>
+    </div>
+
+    <div class="gateway-body">
+        <div class="invoice-summary">
+            <small>مبلغ قابل پرداخت</small>
+            <div class="amount">@Model.Amount.ToString("N0") تومان</div>
+        </div>
+
+        <p class="instruction">برای شبیه‌سازی نتیجه تراکنش، یکی از دکمه‌های زیر را انتخاب کنید:</p>
+
+        <div class="test-actions">
+            <form asp-action="Callback" asp-controller="PaymentSimulation" method="post" style="display:inline;">
+                <input type="hidden" name="cartId" value="@Model.CartId" />
+                <input type="hidden" name="isSuccessful" value="true" />
+                <button type="submit" class="btn-success">پرداخت موفق</button>
+            </form>
+
+            <form asp-action="Callback" asp-controller="PaymentSimulation" method="post" style="display:inline;">
+                <input type="hidden" name="cartId" value="@Model.CartId" />
+                <input type="hidden" name="isSuccessful" value="false" />
+                <button type="submit" class="btn-failed">خطای پرداخت</button>
+            </form>
+        </div>
+    </div>
+</div>

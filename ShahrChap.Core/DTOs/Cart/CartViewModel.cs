@@ -25,7 +25,7 @@ namespace ShahrChap.Core.DTOs.Cart
 
         public string ImageName { get; set; }
 
-        public decimal Price { get; set; }
+        public long Price { get; set; }
     }
 
     public class CartDetailsViewModel

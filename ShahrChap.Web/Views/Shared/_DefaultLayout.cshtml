@@ -32,7 +32,7 @@
     <!-- Footer -->
     <partial name="_Footer" />
     <!-- Footer -->
-
+    @await Html.PartialAsync("_DeleteCartItemModal")
 </body>
 @RenderSection("Scripts", false)
 <script src="/js/bootstrap.min.js"></script>
@@ -44,4 +44,5 @@
 <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/js/toastr.min.js"></script>
 <script src="/js/lightbox-plus-jquery.min.js"></script>
+<script src="/js/shopcart.js"></script>
 </html>

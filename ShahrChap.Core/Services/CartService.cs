@@ -46,7 +46,6 @@ namespace ShahrChap.Core.Services
             }
             return cart;
         }
-
         public Cart CreateCartOrAddItem(int productId, string orderTitle, string featuresCombination,
     List<int> serviceIds, List<IFormFile> files, string userName = null, string token = null)
         {
@@ -93,7 +92,6 @@ namespace ShahrChap.Core.Services
 
             return cart;
         }
-
         private List<CartItemService> CreateCartItemServices(List<int>? serviceIds, int productId, string combination)
         {
             if (serviceIds == null || !serviceIds.Any())
@@ -127,6 +125,7 @@ namespace ShahrChap.Core.Services
                     var product = products.FirstOrDefault(p => p.ProductId == c.ProductID);
                     return new CartItemForPopoverViewModel
                     {
+                        CartItemID = c.CartItemID,
                         ProductId = c.ProductID,
                         ProductTitle = product?.ProductTitle ?? "محصول نامشخص",
                         ImageName = product?.Image ?? "default.jpg",
@@ -221,6 +220,14 @@ namespace ShahrChap.Core.Services
             _context.SaveChanges();
             return true;
         }
+        public (int TotalItems, long TotalPrice) GetCartSummary(string userName = null, string token = null)
+        {
+            var cart = GetUserActiveCart(userName, token);
+            if (cart == null) return (0, 0);
+
+            var items = _context.CartItems.Where(c => c.CartID == cart.CartID).ToList();
+            return (items.Count, items.Sum(i => i.CalculatedPrice));
+        }
         public Order ConvertCartToOrder(int cartId, PaymentResultDto payment)
         {
             if (!payment.IsSuccessful)
@@ -309,10 +316,7 @@ namespace ShahrChap.Core.Services
 
             return order;
         }
-        //روند کار رو باید عوض کرد
-        //زمانی که یه محصول به سبد خرید اضافه میشه نباید به سفارشات اضافه بشه
-        // و بعد از پرداخت به یک سفارش تبدیل بشه
-        //باید برای هندل کردن سبد خرید یک مدل برای فایل ها اضافه بشه
+
         #endregion
         #region Files
         public CartItemFile GetCartItemFile(int cartItemFileId)
@@ -351,7 +355,6 @@ namespace ShahrChap.Core.Services
 
             _context.SaveChanges();
         }
-
         private void MoveFileFromTempToPermanent(int cartItemId, string tempFileName, int orderFileId)
         {
             string sourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Temp",
@@ -366,15 +369,12 @@ namespace ShahrChap.Core.Services
             if (File.Exists(sourcePath))
                 File.Move(sourcePath, destPath, overwrite: true);
         }
-
         private void CleanupCartTempFolder(int cartItemId)
         {
             string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "Temp", $"Cart_{cartItemId}");
             if (Directory.Exists(folderPath) && !Directory.EnumerateFileSystemEntries(folderPath).Any())
                 Directory.Delete(folderPath);
         }
-
-
         #endregion
         #region Before Refactor
         //public Cart CreateCartOrAddItem(int productId, string featuresCombination, List<int> serviceIds, string userName = null, string token = null, Cart cart = null)

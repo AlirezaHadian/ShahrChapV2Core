@@ -35,12 +35,10 @@ namespace ShahrChap.Core.Services
             _context.SaveChanges();
             return status.StatusId;
         }
-
         public int GetLastSortOrder()
         {
             return _context.OrderStatuses.Max(o => o.SortOrder);
         }
-
         public void UpdateSortOrder(List<int> ids)
         {
             var allStatuses = GetOrderStatuses();
@@ -56,18 +54,15 @@ namespace ShahrChap.Core.Services
 
             _context.SaveChanges();
         }
-
         public OrderStatus GetOrderStatusById(int orderStatusId)
         {
             return _context.OrderStatuses.Find(orderStatusId);
         }
-
         public void UpdateOrderStatus(OrderStatus orderStatus)
         {
             _context.OrderStatuses.Update(orderStatus);
             _context.SaveChanges();
         }
-
         public void DeleteOrderStatus(int orderStatusId)
         {
             OrderStatus orderStatus = GetOrderStatusById(orderStatusId);
@@ -81,6 +76,16 @@ namespace ShahrChap.Core.Services
         }
         #endregion
         #region Order
+        public Order GetOrderById(int orderId)
+        {
+            return _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.OrderDetailServices)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Files)
+                .Include(o => o.Status)
+                .FirstOrDefault(o => o.OrderId == orderId);
+        }
         private async Task HandleOrderFiles(int detailId, List<IFormFile> files, bool isTemp = true, string? subDirectory = null)
         {
             if (files == null || !files.Any())

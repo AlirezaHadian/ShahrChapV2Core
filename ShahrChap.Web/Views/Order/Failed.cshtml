@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "پرداخت ناموفق";
+}
+
+<div class="result-card failed-card">
+    <div class="status-icon icon-failed">
+        <i class="uil uil-times-circle"></i>
+    </div>
+
+    <h2 class="status-title">پرداخت انجام نشد!</h2>
+    <p class="status-message">@ViewBag.ErrorMessage</p>
+
+    <div class="actions">
+        <a href="/support" class="custom-btn btn-secondary">تماس با پشتیبانی</a>
+    </div>
+</div>

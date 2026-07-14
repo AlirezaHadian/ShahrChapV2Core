@@ -40,7 +40,7 @@
         <div class="popover-scroll">
             @foreach (var item in Model.CartItems)
             {
-                <div class="cart-item">
+                <div class="cart-item" data-id="@item.CartItemID">
                     <a href="/ShowProduct/@item.ProductId"
                        class="cart-item-link">
                         <div class="cart-item-img">
@@ -62,8 +62,8 @@
                             </div>
                         </div>
                     </a>
-                    <button class="cart-item-del"
-                            data-id="@item.ProductId"
+                    <button class="cart-item-del open-delete-modal"
+                            data-id="@item.CartItemID"
                             type="button">
                         <i class="uil uil-trash-alt"></i>
                     </button>

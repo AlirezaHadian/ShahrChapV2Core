@@ -1,0 +1,39 @@
+﻿@model ShahrChap.Core.DTOs.Cart.CartDetailsViewModel
+@{
+    ViewBag.Title = "تأیید نهایی پیش از پرداخت";
+}
+
+<div class="checkout-wrapper">
+    <a href="/Cart" class="back-btn"><i class="uil uil-arrow-left"></i> بازگشت به سبد خرید</a>
+
+    <div class="main-card">
+        <h2 class="card-title">تأیید نهایی پیش از پرداخت</h2>
+
+        <div class="invoice-list">
+            @foreach (var item in Model.Items)
+            {
+                <div class="invoice-item">
+                    <span>@item.OrderTitle (@item.ProductTitle)</span>
+                    <span class="price">@item.FinalPrice.ToString("N0") تومان</span>
+                </div>
+            }
+        </div>
+
+        <div class="address-box">
+            <label><i class="uil uil-location-pin-alt"></i> آدرس ارسال</label>
+            @{
+                var selectedAddress = Model.UserAddresses?.FirstOrDefault();
+            }
+            <p>@(selectedAddress?.FullAddress ?? "آدرسی انتخاب نشده است")</p>
+        </div>
+
+        <div class="total-box">
+            <span>مبلغ قابل پرداخت</span>
+            <span class="total-amount">@Model.TotalPrice.ToString("N0") تومان</span>
+        </div>
+
+        <form asp-action="GoToGateway" asp-controller="Checkout" method="post">
+            <button type="submit" class="pay-btn">پرداخت امن آنلاین</button>
+        </form>
+    </div>
+</div>

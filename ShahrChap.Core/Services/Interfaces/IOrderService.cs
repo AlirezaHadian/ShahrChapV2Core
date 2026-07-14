@@ -20,10 +20,7 @@ namespace ShahrChap.Core.Services.Interfaces
         OrderStatus GetFirstOrderStatus();
         #endregion
         #region Order
-        //void UpdateTotalPriceOrder(int orderId);
-        //int CreateOrder(string userName, List<CreateOrderDetailDto> details)
-        //List<OrderFile> SaveOrderFilesTemp(List<IFormFile> files);
-
+        Order GetOrderById(int orderId);
         #endregion
         #region Status
         int GetInitialStatusId();

@@ -13,25 +13,25 @@
 :root {
     --body: hsl(0, 0%, 98.43%);
     --body: hsl(0, 0%, 98.43%);
-     /*Main Color*/ 
+    /*Main Color*/
     --mainWhite: hsl(0, 0%, 100%);
     --text-color: hsl(48, 6%, 33%);
     --price-color: hsl(0, 0%, 20%);
     --mainBlack: hsl(0, 0%, 10%);
     --transparent: rgba(0, 0, 0, 0.75);
-     /*Yellow*/ 
+    /*Yellow*/
     --mainYellow: hsl(46, 94%, 56%);
     --darkYellow: hsl(46, 88%, 50%);
     --lightYellow: hsl(49, 80%, 73%);
     --lighterYellow: hsla(50, 88%, 94%, 0.5);
     --beige: hsl(34, 75%, 92%);
     --transparentYellow: hsla(46, 95%, 60%, 0.8);
-     /*Grey*/ 
+    /*Grey*/
     --darkestGrey: hsl(0, 0%,53%);
     --darkGrey: hsl(30, 1%, 71%);
     --grey: hsl(48, 5%, 82%);
     --lightGrey: hsl(48, 5%, 95%);
-     /*Blue*/ 
+    /*Blue*/
     --mainBlue: hsl(198, 63%, 45%);
     --darkBlue: hsl(198, 56%, 35%);
     --footerBlue: hsl(202.86, 100%, 12.35%);
@@ -39,56 +39,56 @@
     --darkestBlue: hsl(212, 14%, 19%);
     --lighterBlue: hsla(200, 88%, 94%, 0.5);
     --transparentDarkBlue: hsla(220, 53%, 31%, 0.7);
-     /*Other*/ 
+    /*Other*/
     --mainOrange: #ff8c00;
     --mainLightGreen: #70c1b3;
     --mainGreen: #429E73;
     --mainRed: #f25f5c;
     --darkRed: #c44543;
     --search-bar: #f2f2f2;
-     /*Scroll Bar*/ 
+    /*Scroll Bar*/
     --scroll-bar-color: hsl(45, 12%, 90%);
     --scroll-thumb-color: hsl(45, 12%, 85%);
     --scroll-hover: hsl(45, 8%, 75%);
 }
-    /*:root{*/
-        /* Background */
-        /*--body: hsl(220, 15%, 12%);
+/*:root{*/
+/* Background */
+/*--body: hsl(220, 15%, 12%);
         --mainWhite: hsl(220, 15%, 16%);*/ /* کارت‌ها و باکس‌ها */
-        /* Text */
-        /*--text-color: hsl(45, 15%, 85%);
+/* Text */
+/*--text-color: hsl(45, 15%, 85%);
         --price-color: hsl(0, 0%, 95%);
         --mainBlack: hsl(0, 0%, 100%);
         --transparent: rgba(0, 0, 0, 0.6);*/
-        /* Yellow (Accent) */
-        /*--mainYellow: hsl(46, 90%, 60%);
+/* Yellow (Accent) */
+/*--mainYellow: hsl(46, 90%, 60%);
         --darkYellow: hsl(46, 90%, 50%);
         --lightYellow: hsl(46, 60%, 35%);
         --lighterYellow: hsla(46, 90%, 60%, 0.08);
         --beige: hsl(35, 25%, 18%);
         --transparentYellow: hsla(46, 90%, 60%, 0.15);*/
-        /* Grey */
-        /*--darkestGrey: hsl(220, 10%, 65%);
+/* Grey */
+/*--darkestGrey: hsl(220, 10%, 65%);
         --darkGrey: hsl(220, 10%, 45%);
         --grey: hsl(220, 10%, 25%);
         --lightGrey: hsl(220, 10%, 18%);*/
-        /* Blue */
-        /*--mainBlue: hsl(198, 70%, 55%);
+/* Blue */
+/*--mainBlue: hsl(198, 70%, 55%);
         --darkBlue: hsl(198, 65%, 45%);
         --footerBlue: hsl(220, 20%, 10%);
         --darkerBlue: hsl(220, 45%, 45%);
         --darkestBlue: hsl(220, 20%, 8%);
         --lighterBlue: hsla(198, 80%, 60%, 0.08);
         --transparentDarkBlue: hsla(220, 50%, 50%, 0.15);*/
-        /* Other */
-        /*--mainOrange: hsl(33, 100%, 55%);
+/* Other */
+/*--mainOrange: hsl(33, 100%, 55%);
         --mainLightGreen: hsl(168, 35%, 55%);
         --mainGreen: hsl(150, 45%, 45%);
         --mainRed: hsl(0, 75%, 65%);
         --darkRed: hsl(0, 60%, 50%);
         --search-bar: hsl(220, 15%, 20%);*/
-        /* Scroll Bar */
-        /*--scroll-bar-color: hsl(220, 12%, 18%);
+/* Scroll Bar */
+/*--scroll-bar-color: hsl(220, 12%, 18%);
         --scroll-thumb-color: hsl(220, 12%, 28%);
         --scroll-hover: hsl(220, 12%, 38%);
     }*/
@@ -881,6 +881,7 @@ nav {
     font-size: 22px;
     cursor: pointer;
 }
+
 .shopcart-container {
     position: relative;
 }
@@ -905,6 +906,7 @@ nav {
     transition: opacity .22s cubic-bezier(.4,0,.2,1), transform .22s cubic-bezier(.4,0,.2,1);
     z-index: 999;
 }
+
     .shopcart-popover i {
         border: none !important;
         box-shadow: none !important;
@@ -1085,7 +1087,7 @@ nav {
         font-size: 16px;
     }
 
-    .cart-item-del:hover i{
+    .cart-item-del:hover i {
         background: transparent;
         color: var(--mainRed);
     }
@@ -2953,6 +2955,7 @@ form .order-submit input {
 .text-danger-light {
     color: var(--mainRed);
 }
+
 .address-card {
     transition: all 0.2s ease;
     cursor: pointer;
@@ -2972,6 +2975,7 @@ form .order-submit input {
     background-color: var(--darkYellow);
     border-color: var(--darkYellow)
 }
+
 .cart-item {
     border-right: 5px solid var(--mainYellow) !important;
     border-radius: 12px;
@@ -3000,6 +3004,7 @@ form .order-submit input {
     background-color: #f8f9fa;
     color: #333;
 }
+
 .file-thumb {
     width: 70px;
     height: 70px;
@@ -3028,6 +3033,7 @@ form .order-submit input {
     padding: 1.2rem !important;
     position: relative;
 }
+
 .btn-light {
     background-color: #f8f9fa;
     color: #495057;
@@ -3778,11 +3784,11 @@ form .order-submit input {
 .btn-success, .btn-failed {
     padding: 14px;
     border-radius: 12px;
-    text-decoration: none !important; /* حذف خط زیر لینک */
+    text-decoration: none !important;
     font-weight: bold;
     transition: 0.3s;
     display: block;
-    color: white !important; /* تاکید بر رنگ سفید متن برای هر دو */
+    color: white !important;
 }
 
 .btn-success {
@@ -3802,6 +3808,100 @@ form .order-submit input {
     .btn-failed:hover {
         background-color: var(--darkRed) !important;
     }
+
+/*==========PAYMENT RESULT========*/
+.result-card {
+    max-width: 400px;
+    margin: 60px auto;
+    background: var(--mainWhite);
+    border: 1px solid var(--grey);
+    padding: 40px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+}
+
+.status-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+.icon-success {
+    color: var(--mainGreen);
+}
+
+.icon-failed {
+    color: var(--mainRed);
+}
+
+.status-title {
+    font-size: 1.5rem;
+    color: var(--mainBlack);
+    margin-bottom: 10px;
+}
+
+.status-message {
+    color: var(--text-color);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.order-info {
+    background: var(--lightGrey);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.custom-btn {
+    display: block;
+    padding: 15px;
+    border-radius: 12px;
+    text-decoration: none !important;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-success {
+    background-color: var(--mainYellow) !important;
+    color: var(--mainBlack) !important;
+}
+
+    .btn-success:hover {
+        background-color: var(--darkYellow) !important;
+    }
+
+.btn-failed-page {
+    background-color: var(--mainRed) !important;
+    color: var(--mainWhite) !important;
+}
+
+    .btn-failed-page:hover {
+        background-color: var(--darkRed) !important;
+    }
+
+.failed-card {
+    border-top: 5px solid var(--mainRed) !important;
+}
+
+.btn-secondary {
+    background-color: var(--lightGrey) !important;
+    color: var(--text-color) !important;
+    margin-top: 10px;
+}
+
+    .btn-secondary:hover {
+        background-color: var(--darkGrey) !important;
+    }
+
+.failed-card .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
 /*===========ALERT==============*/
 .alert {
     padding: 0 .75rem !important;
@@ -4210,6 +4310,7 @@ form .order-submit input {
         overflow: hidden;
     }
 }
+
 @media (max-width:768px) {
     .empty-cart-card {
         padding: 50px 20px;
@@ -4225,6 +4326,7 @@ form .order-submit input {
             font-size: 48px;
         }
 }
+
 @keyframes slideUp {
     from {
         transform: translateY(100%);
