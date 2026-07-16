@@ -167,11 +167,12 @@
                                     <div class="form-check address-card p-3 border rounded mb-2 @(address.index == 0 ? "active" : "")">
                                         <input class="form-check-input"
                                                type="radio"
-                                               name="address"
-                                               id="@address.item.UserAddressId"
-                                               @(address.index == 0 ? "checked" : "")>
+                                               name="selectedAddressId"
+                                               value="@address.item.UserAddressId"
+                                               id="address-@address.item.UserAddressId"
+                                        @(address.index == 0 ? "checked" : "")>
 
-                                        <label class="form-check-label small" for="@address.item.UserAddressId">
+                                        <label class="form-check-label small" for="address-@address.item.UserAddressId">
                                             <strong>@address.item.AddressTitle:</strong>
                                             @address.item.FullAddress
                                         </label>
@@ -215,14 +216,15 @@
                             <span class="h6 fw-bold mb-0">مبلغ قابل پرداخت:</span>
                             <span class="h5 fw-bold text-warning mb-0">@Model.TotalPrice.ToPersianPrice() تومان</span>
                         </div>
-
-                        <button class="btn btn-warning pay-btn w-100 py-3 fw-bold shadow-sm"
-                                id="pay-btn"
-                                data-has-address="@((Model.UserAddresses?.Any() == true).ToString().ToLower())"
+                        <form asp-action="GoToGateway" asp-controller="Cart" method="post">
+                            <button class="btn btn-warning pay-btn w-100 py-3 fw-bold shadow-sm"
+                                    id="pay-btn"
+                                    data-has-address="@((Model.UserAddresses?.Any() == true).ToString().ToLower())"
                                 @(Model.Items?.Any() == true ? "" : "disabled")>
-                            تایید و پرداخت نهایی
-                            <i class="uil uil-arrow-left ms-1"></i>
-                        </button>
+                                تایید و پرداخت نهایی
+                                <i class="uil uil-arrow-left ms-1"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

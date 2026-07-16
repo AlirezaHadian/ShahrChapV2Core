@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShahrChap.DataLayer.Entities.Address;
 
@@ -49,5 +48,6 @@ public class UserAddress
     public virtual User.User User { get; set; }
     public virtual Province Province { get; set; }
     public virtual City City { get; set; }
+    public virtual List<ShahrChap.DataLayer.Entities.Order.Order>? Orders { get; set; }
     #endregion
 }

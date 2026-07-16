@@ -15,6 +15,7 @@ namespace ShahrChap.DataLayer.Entities.Cart
         [AllowNull]
         public string? CartToken { get; set; }
         public DateTime CreateDate { get; set; }
+        public int? SelectedAddressId { get; set; }
 
         #region Relations
         public virtual User.User User { get; set; }

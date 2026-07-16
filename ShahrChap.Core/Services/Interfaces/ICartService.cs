@@ -22,5 +22,7 @@ namespace ShahrChap.Core.Services.Interfaces
         Order ConvertCartToOrder(int cartId, PaymentResultDto payment);
         (int TotalItems, long TotalPrice) GetCartSummary(string userName = null, string token = null);
         CartItemFile GetCartItemFile(int cartItemFileId);
+        bool SetSelectedAddress(int cartId, int addressId, string userName);
+        void AssignGuestCartToNewUser(string userName, string token);
     }
 }

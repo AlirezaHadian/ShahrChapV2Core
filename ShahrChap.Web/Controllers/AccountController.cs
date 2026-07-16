@@ -18,12 +18,14 @@ namespace ShahrChap.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ICartService _cartService;
         private readonly IViewRenderService _view;
         private readonly IHttpContextAccessor _context;
         private readonly MessageSender _message;
-        public AccountController(IUserService userService, IViewRenderService view, IHttpContextAccessor context, MessageSender message)
+        public AccountController(IUserService userService, ICartService cartService, IViewRenderService view, IHttpContextAccessor context, MessageSender message)
         {
             _userService = userService;
+            _cartService = cartService;
             _view = view;
             _context = context;
             _message = message;
@@ -104,7 +106,7 @@ namespace ShahrChap.Web.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(LoginViewModel login, string ReturnUrl = null)
+        public async Task<IActionResult> LoginAsync(LoginViewModel login, string ReturnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -127,7 +129,15 @@ namespace ShahrChap.Web.Controllers
                     {
                         IsPersistent = login.RememberMe
                     };
-                    HttpContext.SignInAsync(principal, properties);
+                    await HttpContext.SignInAsync(principal, properties);
+
+                    string token = Request.Cookies["cart-token"];
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        _cartService.AssignGuestCartToNewUser(user.UserName, token);
+                        Response.Cookies.Delete("cart-token");
+                    }
+                        
 
                     ViewBag.ToastrType = "Login";
                     ViewBag.ToastrMessage = "خوش آمدید!";

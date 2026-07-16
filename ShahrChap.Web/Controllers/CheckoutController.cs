@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShahrChap.Core.Services.Interfaces;
 
 namespace ShahrChap.Web.Controllers
 {
+    [Authorize]
     public class CheckoutController : Controller
     {
         private readonly ICartService _cartService;
@@ -12,23 +14,19 @@ namespace ShahrChap.Web.Controllers
             _cartService = cartService;
             _userService = userService;
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account", new { returnUrl = "/Cart/Checkout" });
-            }
-
             var cartDetails = _cartService.ShowCart(User.Identity.Name);
             if (cartDetails.Cart == null || !cartDetails.Items.Any())
                 return RedirectToAction("Index", "Cart");
 
             return View(cartDetails);
         }
-
+        [Authorize]
         [HttpPost]
-        public IActionResult GoToGateway()
+        public IActionResult GoToGateway(int selectedAddressId)
         {
             string userName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
             string token = Request.Cookies["cart-token"];

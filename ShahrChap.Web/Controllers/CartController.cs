@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.DependencyResolver;
 using ShahrChap.Core.DTOs.Cart;
 using ShahrChap.Core.Services.Interfaces;
@@ -76,6 +77,24 @@ namespace ShahrChap.Web.Controllers
                 totalItems = summary.TotalItems,
                 totalPrice = summary.TotalPrice
             });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult GoToGateway(int selectedAddressId)
+        {
+            var cart = _cartService.GetUserActiveCart(User.Identity.Name);
+            if (cart == null || !cart.CartItems.Any()) return RedirectToAction("Index");
+
+            bool addressSet = _cartService.SetSelectedAddress(cart.CartID, selectedAddressId, User.Identity.Name);
+            if (!addressSet)
+            {
+                TempData["CheckoutError"] = "آدرس انتخابی معتبر نیست.";
+                return RedirectToAction("Checkout");
+            }
+
+            long amount = cart.CartItems.Sum(i => i.CalculatedPrice);
+            return RedirectToAction("Gateway", "PaymentSimulation", new { cartId = cart.CartID, amount });
         }
 
         [HttpPost]

@@ -241,6 +241,14 @@ namespace ShahrChap.Core.Services
             if (cart == null || !cart.CartItems.Any())
                 throw new InvalidOperationException("سبد خرید خالی است.");
 
+            string addressText = null;
+            if (cart.SelectedAddressId.HasValue)
+            {
+                var address = _context.UserAddresses.Find(cart.SelectedAddressId.Value);
+                if(address != null)
+                    addressText = address.FullAddress + "، پلاک " + address.HouseNumber;
+            }
+
             var order = new Order
             {
                 UserId = cart.UserID,
@@ -253,6 +261,8 @@ namespace ShahrChap.Core.Services
                 PaymentDate = DateTime.Now,
                 TotalPrice = cart.CartItems.Sum(i => i.CalculatedPrice),
                 DiscountAmount = 0,
+                ShippingAddressId = cart.SelectedAddressId,
+                ShippingAddressText = addressText
                 OrderDetails = new List<OrderDetail>()
             };
             order.FinalPrice = order.TotalPrice - order.DiscountAmount;
@@ -376,6 +386,39 @@ namespace ShahrChap.Core.Services
                 Directory.Delete(folderPath);
         }
         #endregion
+        public bool SetSelectedAddress(int cartId, int addressId, string userName)
+        {
+            int userId = _userService.GetUserIdWithUserName(userName);
+
+            bool addressBelongsToUser = _userService.GetUserAdresses(userName)
+                .Any(a => a.AddressId == addressId);
+
+            if (!addressBelongsToUser) return false;
+
+            var cart = _context.Carts.Find(cartId);
+            if (cart == null || cart.UserID != userId) return false;
+
+            cart.SelectedAddressId = addressId;
+            _context.Carts.Update(cart);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public void AssignGuestCartToNewUser(string userName, string token)
+        {
+            if (string.IsNullOrEmpty(token)) return;
+
+            var guestCart = _context.Carts.FirstOrDefault(c => c.CartToken == token);
+            if (guestCart == null) return;
+
+            int userId = _userService.GetUserIdWithUserName(userName);
+
+            guestCart.UserID = userId;
+            guestCart.CartToken = null;
+
+            _context.Carts.Update(guestCart);
+            _context.SaveChanges();
+        }
         #region Before Refactor
         //public Cart CreateCartOrAddItem(int productId, string featuresCombination, List<int> serviceIds, string userName = null, string token = null, Cart cart = null)
         //{

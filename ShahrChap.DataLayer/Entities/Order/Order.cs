@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using ShahrChap.DataLayer.Entities.Address;
 using ShahrChap.DataLayer.Enums;
 
 namespace ShahrChap.DataLayer.Entities.Order
@@ -39,10 +40,13 @@ namespace ShahrChap.DataLayer.Entities.Order
 
         public DateTime? PaymentDate { get; set; }
 
+        public int? ShippingAddressId { get; set; }
+        public string ShippingAddressText { get; set; }
         #region Relations
         public virtual User.User? User { get; set; }
         public virtual OrderStatus? Status { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
+        public virtual UserAddress? ShippingAddress { get; set; }
         #endregion
     }
 }
