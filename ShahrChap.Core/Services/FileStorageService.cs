@@ -8,7 +8,7 @@ namespace ShahrChap.Core.Services
     {
         private readonly string _webRootPath;
         private const string TempRoot = "Uploads/Temp";
-        private const string PermanentRoot = "Uploads/Files";
+        private const string PermanentRoot = "Uploads/Orders";
         public FileStorageService(IWebHostEnvironment env)
         {
             _webRootPath = env.WebRootPath;
@@ -61,7 +61,7 @@ namespace ShahrChap.Core.Services
             Path.Combine(_webRootPath, TempRoot, $"Cart_{cartItemId}");
 
         private string GetPermanentFolder(int orderFileId) =>
-            Path.Combine(_webRootPath, PermanentRoot, $"File_{orderFileId}");
+            Path.Combine(_webRootPath, PermanentRoot, $"Order_{orderFileId}");
 
         public string GetTempFilePath(int cartItemId, string fileName) =>
     Path.Combine(GetTempFolder(cartItemId), fileName);

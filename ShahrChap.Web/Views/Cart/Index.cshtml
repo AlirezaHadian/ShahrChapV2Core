@@ -78,8 +78,8 @@
                                                                 <span class="small" style="font-size:10px;">assets.rar</span>
 
                                                                 <a asp-controller="Cart"
-                                                                   asp-action="DownloadFile"
-                                                                   asp-route-fileId="@file.Id"
+                                                                   asp-action="DownloadCartFile"
+                                                                   asp-route-cartItemFileId="@file.Id"
                                                                    download
                                                                    class="btn btn-sm btn-dark position-absolute top-0 end-0 p-0 px-1 text-white">
                                                                     <i class="uil uil-download-alt"></i>
@@ -95,7 +95,7 @@
 
                                                                 <a asp-controller="Cart"
                                                                    asp-action="DownloadCartFile"
-                                                                   asp-route-fileId="@file.Id"
+                                                                   asp-route-cartItemFileId="@file.Id"
                                                                    download
                                                                    class="btn btn-sm btn-dark position-absolute top-0 end-0 p-0 px-1 text-white">
                                                                     <i class="uil uil-download-alt"></i>
@@ -156,83 +156,91 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-body">
-                        <h6 class="fw-bold mb-3"><i class="uil uil-map-marker text-warning"></i> انتخاب آدرس ارسال</h6>
-                        <div class="address-list">
-                            @if (Model.UserAddresses?.Any() == true)
-                            {
-                                foreach (var address in Model.UserAddresses.Select((item, index) => new { item, index }))
-                                {
-                                    <div class="form-check address-card p-3 border rounded mb-2 @(address.index == 0 ? "active" : "")">
-                                        <input class="form-check-input"
-                                               type="radio"
-                                               name="selectedAddressId"
-                                               value="@address.item.UserAddressId"
-                                               id="address-@address.item.UserAddressId"
-                                        @(address.index == 0 ? "checked" : "")>
 
-                                        <label class="form-check-label small" for="address-@address.item.UserAddressId">
-                                            <strong>@address.item.AddressTitle:</strong>
-                                            @address.item.FullAddress
-                                        </label>
+                @* نکته‌ی مهم: چون هم انتخاب آدرس و هم دکمه‌ی پرداخت باید با هم submit بشن،
+                   هر دو باید داخل یک <form> باشند. *@
+                <form asp-action="SelectAddress" asp-controller="Cart" method="post">
+
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-3"><i class="uil uil-map-marker text-warning"></i> انتخاب آدرس ارسال</h6>
+                            <div class="address-list">
+                                @if (Model.UserAddresses?.Any() == true)
+                                {
+                                    foreach (var address in Model.UserAddresses.Select((item, index) => new { item, index }))
+                                    {
+                                        <div class="form-check address-card p-3 border rounded mb-2 @(address.index == 0 ? "active" : "")">
+                                            <input class="form-check-input"
+                                                   type="radio"
+                                                   name="selectedAddressId"
+                                                   value="@address.item.UserAddressId"
+                                                   id="address-@address.item.UserAddressId"
+                                            @(address.index == 0 ? "checked" : "")>
+
+                                            <label class="form-check-label small" for="address-@address.item.UserAddressId">
+                                                <strong>@address.item.AddressTitle:</strong>
+                                                @address.item.FullAddress
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning border-0 mb-0">
+                                        <i class="uil uil-map-marker-exclamation px-2 me-1"></i>
+                                        هیچ آدرسی برای ارسال ثبت نشده است.
                                     </div>
                                 }
-                            }
-                            else
-                            {
-                                <div class="alert alert-warning border-0 mb-0">
-                                    <i class="uil uil-map-marker-exclamation px-2 me-1"></i>
-                                    هیچ آدرسی برای ارسال ثبت نشده است.
-                                </div>
-                            }
-                        </div>
-                        <a href="/UserPanel/Address/AddAddress" class="btn btn-link btn-sm text-decoration-none p-0 mt-2 text-warning">+ افزودن آدرس جدید</a>
-                    </div>
-                </div>
-
-                <div class="card border-0 shadow-lg payment-final-card">
-                    <div class="card-body p-4 text-white">
-                        <h6 class="fw-bold mb-4">خلاصه فاکتور و پرداخت</h6>
-
-                        <div class="discount-box-internal mb-4 p-3 rounded">
-                            <label class="small mb-2 d-block">کد تخفیف دارید؟</label>
-                            <div class="input-group input-group-sm">
-                                <input type="text" id="discount-code" class="form-control border-0 bg-light text-dark" placeholder="کد را وارد کنید...">
-                                <button class="btn btn-warning fw-bold px-3" id="apply-discount">اعمال</button>
                             </div>
+                            <a href="/UserPanel/Address/AddAddress" class="btn btn-link btn-sm text-decoration-none p-0 mt-2 text-warning">+ افزودن آدرس جدید</a>
                         </div>
+                    </div>
 
-                        <div class="d-flex justify-content-between mb-2 text-light">
-                            <span class="small">مبلغ کل:</span>
-                            <span class="fw-bold">@Model.TotalPrice.ToPersianPrice() تومان</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3 text-danger-light">
-                            <span class="small">تخفیف:</span>
-                            <span>۰ تومان</span>
-                        </div>
+                    <div class="card border-0 shadow-lg payment-final-card">
+                        <div class="card-body p-4 text-white">
+                            <h6 class="fw-bold mb-4">خلاصه فاکتور و پرداخت</h6>
 
-                        <div class="d-flex justify-content-between mb-4 border-top border-secondary pt-3">
-                            <span class="h6 fw-bold mb-0">مبلغ قابل پرداخت:</span>
-                            <span class="h5 fw-bold text-warning mb-0">@Model.TotalPrice.ToPersianPrice() تومان</span>
-                        </div>
-                        <form asp-action="GoToGateway" asp-controller="Cart" method="post">
-                            <button class="btn btn-warning pay-btn w-100 py-3 fw-bold shadow-sm"
+                            <div class="discount-box-internal mb-4 p-3 rounded">
+                                <label class="small mb-2 d-block">کد تخفیف دارید؟</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" id="discount-code" class="form-control border-0 bg-light text-dark" placeholder="کد را وارد کنید...">
+                                    <button type="button" class="btn btn-warning fw-bold px-3" id="apply-discount">اعمال</button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2 text-light">
+                                <span class="small">مبلغ کل:</span>
+                                <span class="fw-bold" id="cart-total-price">@Model.TotalPrice.ToPersianPrice() تومان</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3 text-danger-light">
+                                <span class="small">تخفیف:</span>
+                                <span>۰ تومان</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-4 border-top border-secondary pt-3">
+                                <span class="h6 fw-bold mb-0">مبلغ قابل پرداخت:</span>
+                                <span class="h5 fw-bold text-warning mb-0" id="total-price">@Model.TotalPrice.ToPersianPrice() تومان</span>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-warning pay-btn w-100 py-3 fw-bold shadow-sm"
                                     id="pay-btn"
-                                    data-has-address="@((Model.UserAddresses?.Any() == true).ToString().ToLower())"
-                                @(Model.Items?.Any() == true ? "" : "disabled")>
+                                @(Model.Items?.Any() == true && Model.UserAddresses?.Any() == true ? "" : "disabled")>
                                 تایید و پرداخت نهایی
                                 <i class="uil uil-arrow-left ms-1"></i>
                             </button>
-                        </form>
+
+                            @if (Model.UserAddresses?.Any() != true)
+                            {
+                                <p class="small text-warning mt-2 mb-0 text-center">
+                                    برای ادامه، ابتدا یک آدرس ارسال ثبت کنید.
+                                </p>
+                            }
+                        </div>
                     </div>
-                </div>
+
+                </form>
             </div>
         </div>
     </div>
 </section>
-
-@* @section Scripts {
-    <script src="/js/shopcart.js"></script>
-    Refrenced at _DefaultLayout     
-} *@

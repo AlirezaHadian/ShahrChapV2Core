@@ -9,13 +9,11 @@ namespace ShahrChap.Web.Controllers
 {
     public class CartController : Controller
     {
-        private readonly IWebHostEnvironment _env;
         private readonly ICartService _cartService;
         private readonly IUserService _userService;
         private readonly IFileStorageService _fileStorage;
-        public CartController(IWebHostEnvironment env, ICartService cartService, IUserService userService, IFileStorageService fileStorage)
+        public CartController(ICartService cartService, IUserService userService, IFileStorageService fileStorage)
         {
-            _env = env;
             _cartService = cartService;
             _userService = userService;
             _fileStorage = fileStorage;
@@ -81,39 +79,20 @@ namespace ShahrChap.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult GoToGateway(int selectedAddressId)
+        public IActionResult SelectAddress(int selectedAddressId)
         {
             var cart = _cartService.GetUserActiveCart(User.Identity.Name);
-            if (cart == null || !cart.CartItems.Any()) return RedirectToAction("Index");
+            if (cart == null || !cart.CartItems.Any())
+                return RedirectToAction("Index");
 
             bool addressSet = _cartService.SetSelectedAddress(cart.CartID, selectedAddressId, User.Identity.Name);
             if (!addressSet)
             {
                 TempData["CheckoutError"] = "آدرس انتخابی معتبر نیست.";
-                return RedirectToAction("Checkout");
+                return RedirectToAction("Index");
             }
 
-            long amount = cart.CartItems.Sum(i => i.CalculatedPrice);
-            return RedirectToAction("Gateway", "PaymentSimulation", new { cartId = cart.CartID, amount });
-        }
-
-        [HttpPost]
-        public IActionResult ProceedToPayment()
-        {
-            string userName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
-            string token = Request.Cookies["cart-token"];
-
-            var cart = _cartService.GetUserActiveCart(userName, token);
-            if (cart == null || !cart.CartItems.Any())
-                return Json(new { success = false, message = "سبد خرید شما خالی است." });
-
-            long amount = cart.CartItems.Sum(i => i.CalculatedPrice);
-
-            return Json(new
-            {
-                success = true,
-                redirectUrl = Url.Action("Gateway", "PaymentSimulation", new { cartId = cart.CartID, amount })
-            });
+            return RedirectToAction("Index", "Checkout");
         }
     }
 }

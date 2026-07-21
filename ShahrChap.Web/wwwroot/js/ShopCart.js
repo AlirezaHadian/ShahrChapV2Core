@@ -40,21 +40,21 @@
     // ==============================
     // ۳. دکمه‌ی پرداخت نهایی (رفتن به Checkout)
     // ==============================
-    $('#pay-btn').on('click', function () {
-        const hasAddress = $(this).data('has-address');
+    // $('#pay-btn').on('click', function () {
+    //     const hasAddress = $(this).data('has-address');
 
-        if (!hasAddress) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'آدرس ارسال ثبت نشده',
-                text: 'لطفا ابتدا آدرس ارسال خود را ثبت کنید.',
-                confirmButtonText: 'متوجه شدم'
-            });
-            return;
-        }
+    //     if (!hasAddress) {
+    //         Swal.fire({
+    //             icon: 'warning',
+    //             title: 'آدرس ارسال ثبت نشده',
+    //             text: 'لطفا ابتدا آدرس ارسال خود را ثبت کنید.',
+    //             confirmButtonText: 'متوجه شدم'
+    //         });
+    //         return;
+    //     }
 
-        window.location.href = '/Checkout';
-    });
+    //     window.location.href = '/Checkout';
+    // });
 
 });
 
@@ -104,6 +104,7 @@ $(document).on('click', '#final-delete-btn', function () {
 
             // آپدیت مبلغ کل داخل صفحه‌ی سبد خرید (در صورت وجود)
             $('#cart-total-price').text(res.totalPrice.toLocaleString());
+            $('#total-price').text(res.totalPrice.toLocaleString());
 
             Swal.fire({ icon: 'success', title: 'حذف شد', timer: 1500, showConfirmButton: false });
 

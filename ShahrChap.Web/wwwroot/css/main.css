@@ -3770,7 +3770,7 @@ form .order-submit input {
 }
 
 .instruction {
-    font-size: 0.9rem;
+    font-size: .9rem;
     color: var(--text-color);
     margin-bottom: 20px;
 }
@@ -3782,13 +3782,15 @@ form .order-submit input {
 }
 
 .btn-success, .btn-failed {
+    width: 100%;
     padding: 14px;
+    border: none;
     border-radius: 12px;
-    text-decoration: none !important;
     font-weight: bold;
-    transition: 0.3s;
+    transition: .3s;
+    font-size: 15px;
+    font-family: inherit;
     display: block;
-    color: white !important;
 }
 
 .btn-success {

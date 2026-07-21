@@ -22,7 +22,7 @@
         <div class="address-box">
             <label><i class="uil uil-location-pin-alt"></i> آدرس ارسال</label>
             @{
-                var selectedAddress = Model.UserAddresses?.FirstOrDefault();
+                var selectedAddress = Model.UserAddresses?.FirstOrDefault(u=> u.UserAddressId == Model.Cart.SelectedAddressId);
             }
             <p>@(selectedAddress?.FullAddress ?? "آدرسی انتخاب نشده است")</p>
         </div>
