@@ -25,7 +25,7 @@ namespace ShahrChap.Core.DTOs.Products
         public bool IsDeleted { get; set; }
         public bool IsEdited { get; set; }
         public bool IsOwner { get; set; }
-        public bool CanDelete { get; set; }
+        public string InReplyToUserName { get; set; }
         public List<ProductCommentViewModel> Replies { get; set; } = new();
     }
 }

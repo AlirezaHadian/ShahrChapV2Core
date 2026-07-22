@@ -1,6 +1,19 @@
 ﻿@model List<ShahrChap.Core.DTOs.Products.ProductCommentViewModel>
 
-@foreach (var comment in Model)
+@if (Model == null || !Model.Any())
 {
-    @await Html.PartialAsync("_CommentItem", comment)
+    <div class="no-comments-box">
+        <div class="no-comments-icon">
+            <i class="uil uil-comment-alt-message"></i>
+        </div>
+        <p class="no-comments-text">هنوز نظری ثبت نشده</p>
+        <p class="no-comments-subtext">اولین نفری باشید که دیدگاهش رو درباره‌ی این محصول می‌نویسه!</p>
+    </div>
+}
+else
+{
+    @foreach (var comment in Model)
+    {
+        @await Html.PartialAsync("_CommentItem", comment)
+    }
 }

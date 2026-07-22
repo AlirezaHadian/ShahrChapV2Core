@@ -2642,7 +2642,29 @@ form .order-submit input {
 .comment-item.removing {
     animation: fadeOutShrink 0.3s ease forwards;
 }
+.reply-list {
+    margin-right: 60px;
+}
 
+.reply-item {
+    padding: 14px 0;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+.reply-to-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: #f4f4f4;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    color: #888;
+}
+
+    .reply-to-tag i {
+        font-size: 0.7rem;
+    }
 /* ============================= */
 /* Guest box (کوچک، وسط‌چین)     */
 /* ============================= */
@@ -2712,7 +2734,109 @@ form .order-submit input {
     .guest-login-btn:active {
         transform: scale(0.96);
     }
+/* نشانه‌ی "ویرایش شده" - شبیه تلگرام/واتساپ */
+.edited-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: #aaa;
+    font-size: 0.72rem;
+    font-style: italic;
+}
 
+    .edited-tag i {
+        font-size: 0.7rem;
+    }
+
+/* دکمه‌های آیکونی مشترک (ویرایش + حذف) */
+.btn-icon-action {
+    background: #f4f4f4;
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: #999;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+    .btn-icon-action i {
+        font-size: 0.9rem;
+        transition: transform 0.25s ease;
+    }
+
+    .btn-icon-action:active {
+        transform: scale(0.9);
+    }
+
+/* دکمه‌ی ویرایش - رنگ آبی/زرد در هاور */
+.btn-edit-comment:hover {
+    background: #f1c40f;
+    color: #fff;
+}
+
+    .btn-edit-comment:hover i {
+        transform: scale(1.1);
+    }
+
+/* دکمه‌ی حذف - رنگ قرمز در هاور */
+.btn-delete-comment:hover {
+    background: #c0392b;
+    color: #fff;
+}
+
+    .btn-delete-comment:hover i {
+        transform: scale(1.15) rotate(-6deg);
+    }
+
+/* حالت ویرایش روی باکس فرم - رنگ متفاوت از حالت پاسخ */
+.edit-context {
+    background: #eef7ff;
+    border-color: #3498db;
+    color: #2c3e50;
+}
+
+    .edit-context i {
+        color: #3498db;
+    }
+/* ============================= */
+/* NoComments                    */
+/* ============================= */
+.no-comments-box {
+    text-align: center;
+    padding: 30px 20px;
+    color: #999;
+}
+
+.no-comments-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 12px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulseSoft 2.4s ease-in-out infinite;
+}
+
+    .no-comments-icon i {
+        font-size: 1.5rem;
+        color: #f1c40f;
+    }
+
+.no-comments-text {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.no-comments-subtext {
+    font-size: 0.85rem;
+    color: #999;
+}
 /* ============================= */
 /* Keyframes                      */
 /* ============================= */

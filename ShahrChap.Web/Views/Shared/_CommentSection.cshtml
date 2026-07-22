@@ -1,0 +1,74 @@
+@using ShahrChap.Core.DTOs.Products
+@model SubProductForShowViewMode
+@using ShahrChap.Core.Services.Interfaces
+@inject IUserService _userService
+@inject IPermissionService _permissionService
+@inject IProductService _productService
+
+<div class="product-comments drop-shadow my-3 p-4">
+    <div class="title">
+        <h4 class="text-gradient">نظرات کاربران</h4>
+    </div>
+    <div class="title-underline"></div>
+
+    <div class="comments-wrapper mt-4" dir="rtl">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="comment-form-box mb-5">
+                <div id="reply-context" class="reply-context" style="display:none;">
+                    <span>در پاسخ به <strong id="reply-context-name"></strong></span>
+                    <button type="button" id="cancel-reply" class="btn-close-reply">لغو</button>
+                </div>
+
+                <div id="edit-context" class="reply-context edit-context" style="display:none;">
+                    <span><i class="uil uil-edit-alt"></i> در حال ویرایش دیدگاه</span>
+                    <button type="button" id="cancel-edit" class="btn-close-reply">انصراف</button>
+                </div>
+
+                <form id="comment-form">
+                    <input type="hidden" id="comment-product-id" value="@Model.SubProduct.ProductId" />
+                    <input type="hidden" id="comment-parent-id" value="" />
+                    <input type="hidden" id="comment-edit-id" value="" />
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="custom-field">
+                                <i class="uil uil-comment-alt-notes"></i>
+                                <textarea rows="4" id="comment-text" name="Text" placeholder="متن نظر شما..." maxlength="700"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 text-start mt-2">
+                            <button type="submit" id="comment-submit-btn" class="default-yellow-btn">
+                                <i class="uil uil-message me-2"></i>
+                                <span id="comment-submit-text">ارسال دیدگاه</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="guest-comment-box mb-5">
+                <div class="guest-icon-circle">
+                    <i class="uil uil-comment-alt-lock"></i>
+                </div>
+                <h6 class="guest-title">می‌خوای نظرت رو ثبت کنی؟</h6>
+                <p class="guest-subtitle">برای ارسال دیدگاه، ابتدا وارد حساب کاربری‌ات شو</p>
+                <a href="/Login?ReturnUrl=@Context.Request.Path" class="btn btn-yellow">
+                    <i class="uil uil-signin me-1"></i> ورود به سایت
+                </a>
+            </div>
+        }
+
+        <div class="comments-list" id="listComment">
+            @{
+                int? currentUserId = User.Identity.IsAuthenticated
+                    ? _userService.GetUserIdWithUserName(User.Identity.Name)
+                    : (int?)null;
+            }
+            @await Html.PartialAsync("_CommentList",
+                _productService.GetCommentsTree(Model.SubProduct.ProductId, currentUserId))
+        </div>
+    </div>
+</div>

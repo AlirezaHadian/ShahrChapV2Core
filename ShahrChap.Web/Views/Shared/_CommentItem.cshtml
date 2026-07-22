@@ -15,7 +15,13 @@
                         <span class="badge-role">@Model.RoleTitle</span>
                     }
                 </h6>
-                <small class="text-muted">@Model.CreateDate.ToRelativePersianTime()</small>
+                <small class="text-muted d-flex align-items-center gap-2">
+                    @Model.CreateDate.ToRelativePersianTime()
+                    @if (Model.IsEdited)
+                    {
+                        <span class="edited-tag"><i class="uil uil-pen"></i> ویرایش شده</span>
+                    }
+                </small>
             </div>
         </div>
 
@@ -29,9 +35,19 @@
                 </button>
             }
 
-            @if (Model.CanDelete)
+            @if (Model.IsOwner)
             {
-                <button type="button" class="btn-delete-comment" data-id="@Model.CommentID">
+                <button type="button" class="btn-icon-action btn-edit-comment"
+                        data-id="@Model.CommentID"
+                        data-text="@Model.Text">
+                    <i class="uil uil-edit-alt"></i>
+                </button>
+            }
+
+            @if (Model.IsOwner)
+            {
+                <button type="button" class="btn-icon-action btn-delete-comment"
+                        data-id="@Model.CommentID">
                     <i class="uil uil-trash-alt"></i>
                 </button>
             }
@@ -49,10 +65,78 @@
 
     @if (Model.Replies?.Any() == true)
     {
-        <div class="reply-list" style="margin-right: 60px;">
+        <div class="reply-list">
             @foreach (var reply in Model.Replies)
             {
-                @await Html.PartialAsync("_CommentItem", reply)
+                <div class="comment-item reply-item" id="comment-@reply.CommentID">
+                    <div class="comment-header">
+                        <div class="user-meta">
+                            <div class="user-icon-box">
+                                <i class="uil uil-user"></i>
+                            </div>
+                            <div class="ms-3 me-3">
+                                <h6 class="m-0 d-flex align-items-center gap-2">
+                                    @reply.UserFullName
+                                    @if (!string.IsNullOrEmpty(reply.RoleTitle))
+                                    {
+                                        <span class="badge-role">@reply.RoleTitle</span>
+                                    }
+                                </h6>
+                                <small class="text-muted d-flex align-items-center gap-2 flex-wrap">
+                                    @reply.CreateDate.ToRelativePersianTime()
+                                    @if (reply.IsEdited)
+                                    {
+                                        <span class="edited-tag"><i class="uil uil-pen"></i> ویرایش شده</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(reply.InReplyToUserName))
+                                    {
+                                        <span class="reply-to-tag">
+                                            <i class="uil uil-corner-up-left-alt"></i>
+                                            در پاسخ به @reply.InReplyToUserName
+                                        </span>
+                                    }
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            @if (!reply.IsDeleted)
+                            {
+                                <button type="button" class="modern-reply-btn open-reply-form"
+                                        data-id="@reply.CommentID" data-name="@reply.UserFullName">
+                                    <i class="uil uil-share"></i>
+                                    <span>پاسخ</span>
+                                </button>
+                            }
+
+                            @if (reply.IsOwner)
+                            {
+                                <button type="button" class="btn-icon-action btn-edit-comment"
+                                        data-id="@reply.CommentID"
+                                        data-text="@reply.Text">
+                                    <i class="uil uil-edit-alt"></i>
+                                </button>
+                            }
+
+                            @if (reply.IsOwner)
+                            {
+                                <button type="button" class="btn-icon-action btn-delete-comment"
+                                        data-id="@reply.CommentID">
+                                    <i class="uil uil-trash-alt"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+
+                    @if (reply.IsDeleted)
+                    {
+                        <p class="comment-content text-muted fst-italic">این دیدگاه حذف شده است.</p>
+                    }
+                    else
+                    {
+                        <p class="comment-content">@reply.Text</p>
+                    }
+                </div>
             }
         </div>
     }

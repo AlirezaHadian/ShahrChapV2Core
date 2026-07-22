@@ -682,9 +682,10 @@ namespace ShahrChap.Core.Services
 
         #endregion
         #region Comments
-        public List<ProductCommentViewModel> GetCommentsTree(int productId, int? currentUserId, bool isAdmin)
+        public List<ProductCommentViewModel> GetCommentsTree(int productId, int? currentUserId)
         {
             var allComments = _context.ProductComments
+                .IgnoreQueryFilters()
                 .Include(c => c.User)
                 .Where(c => c.ProductID == productId)
                 .OrderBy(c => c.CreateDate)
@@ -692,37 +693,60 @@ namespace ShahrChap.Core.Services
 
             var userIds = allComments.Select(c => c.UserID).Distinct().ToList();
             var roleTitles = _permissionService.GetPrimaryRoleTitles(userIds);
+            var authorNameById = allComments.ToDictionary(c => c.CommentID, c => c.User?.UserName ?? "کاربر");
+            var commentById = allComments.ToDictionary(c => c.CommentID);
 
-            var lookup = allComments.ToDictionary(c => c.CommentID, c =>
+            int GetRootId(ProductComment c)
+            {
+                var current = c;
+                while (current.ParentID.HasValue && commentById.ContainsKey(current.ParentID.Value))
+                    current = commentById[current.ParentID.Value];
+                return current.CommentID;
+            }
+
+            ProductCommentViewModel ToViewModel(ProductComment c, string inReplyTo = null)
             {
                 bool isOwner = currentUserId.HasValue && c.UserID == currentUserId.Value;
                 return new ProductCommentViewModel
                 {
                     CommentID = c.CommentID,
                     UserFullName = c.User?.UserName ?? "کاربر",
-                    RoleTitle = roleTitles.TryGetValue(c.UserID, out var title) ? title : null,
+                    RoleTitle = roleTitles.TryGetValue(c.UserID, out var rt) ? rt : null,
                     Text = c.Text,
                     CreateDate = c.CreateDate,
                     IsDeleted = c.IsDeleted,
                     IsEdited = c.IsEdited,
                     IsOwner = !c.IsDeleted && isOwner,
-                    CanDelete = !c.IsDeleted && (isOwner || isAdmin)
+                    InReplyToUserName = inReplyTo
                 };
-            });
-
-            var roots = new List<ProductCommentViewModel>();
-
-            foreach (var comment in allComments)
-            {
-                var vm = lookup[comment.CommentID];
-
-                if (comment.ParentID.HasValue && lookup.ContainsKey(comment.ParentID.Value))
-                    lookup[comment.ParentID.Value].Replies.Add(vm);
-                else
-                    roots.Add(vm);
             }
 
-            return roots;
+            var roots = allComments.Where(c => !c.ParentID.HasValue).ToList();
+            var result = new List<ProductCommentViewModel>();
+
+            foreach (var root in roots)
+            {
+                var rootVm = ToViewModel(root);
+
+                var descendants = allComments
+                    .Where(c => c.CommentID != root.CommentID && GetRootId(c) == root.CommentID)
+                    .OrderBy(c => c.CreateDate)
+                    .ToList();
+
+                foreach (var d in descendants)
+                {
+                    string inReplyTo = (d.ParentID.HasValue && d.ParentID.Value != root.CommentID
+                        && authorNameById.ContainsKey(d.ParentID.Value))
+                        ? authorNameById[d.ParentID.Value]
+                        : null;
+
+                    rootVm.Replies.Add(ToViewModel(d, inReplyTo));
+                }
+
+                result.Add(rootVm);
+            }
+
+            return result;
         }
         public (bool Success, string Message) CreateComment(CreateCommentDto dto, int userId)
         {
@@ -778,12 +802,12 @@ namespace ShahrChap.Core.Services
 
             return (true, "دیدگاه با موفقیت ویرایش شد.");
         }
-        public bool DeleteComment(int commentId, int userId, bool isAdmin)
+        public bool DeleteComment(int commentId, int userId)
         {
             var comment = _context.ProductComments.Find(commentId);
             if (comment == null) return false;
 
-            if (!isAdmin && comment.UserID != userId) return false;
+            if (comment.UserID != userId) return false;
 
             comment.IsDeleted = true;
             _context.ProductComments.Update(comment);
