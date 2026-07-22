@@ -91,5 +91,12 @@ namespace ShahrChap.Core.Services.Interfaces
         int GetProductPriceId(int productId, string combination);
         decimal CalculatePrice(int productId, string combination, List<int> services);
         #endregion
+        #region Comments
+        List<ProductCommentViewModel> GetCommentsTree(int productId, int? currentUserId, bool isAdmin);
+        (bool Success, string Message) CreateComment(CreateCommentDto dto, int userId);
+        (bool Success, string Message) EditComment(EditCommentDto dto, int userId);
+        bool DeleteComment(int commentId, int userId, bool isAdmin);
+        int GetProductIdByCommentId(int commentId);
+        #endregion
     }
 }

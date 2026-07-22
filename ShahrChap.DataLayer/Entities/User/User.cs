@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ShahrChap.DataLayer.Entities.Address;
+using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.DataLayer.Entities.User
 {
@@ -61,6 +62,7 @@ namespace ShahrChap.DataLayer.Entities.User
         public virtual List<Wallet.Wallet> Wallets { get; set; }
         public virtual List<UserAddress> UserAddresses { get; set; }
         public virtual List<Order.Order> Orders { get; set; } = new();
+        public virtual List<ProductComment> Comments { get; set; }
         #endregion
     }
 }

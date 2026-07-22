@@ -133,5 +133,19 @@ namespace ShahrChap.Core.Services
             _context.Roles.Update(role);
             _context.SaveChanges();
         }
+
+        public Dictionary<int, string> GetPrimaryRoleTitles(List<int> userIds)
+        {
+            if (userIds == null || !userIds.Any())
+                return new Dictionary<int, string>();
+
+            return _context.UserRoles
+                .Where(ur => userIds.Contains(ur.UserId))
+                .Join(_context.Roles.Where(r => !r.IsDelete),
+                    ur => ur.RoleId, r => r.RoleId,
+                    (ur, r) => new { ur.UserId, r.RoleTitle })
+                .GroupBy(x => x.UserId)
+                .ToDictionary(g => g.Key, g => g.First().RoleTitle);
+        }
     }
 }

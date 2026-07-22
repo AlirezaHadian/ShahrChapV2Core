@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShahrChap.DataLayer.Context;
 
@@ -11,9 +12,11 @@ using ShahrChap.DataLayer.Context;
 namespace ShahrChap.DataLayer.Migrations
 {
     [DbContext(typeof(ShahrChapContext))]
-    partial class ShahrChapContextModelSnapshot : ModelSnapshot
+    [Migration("20260722075613_AddCommentModel_mig")]
+    partial class AddCommentModel_mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -700,19 +703,10 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("EditDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsEdited")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("ParentID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductCommentCommentID")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductID")
@@ -727,8 +721,6 @@ namespace ShahrChap.DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CommentID");
-
-                    b.HasIndex("ProductCommentCommentID");
 
                     b.HasIndex("ProductID");
 
@@ -1367,10 +1359,6 @@ namespace ShahrChap.DataLayer.Migrations
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductComment", b =>
                 {
-                    b.HasOne("ShahrChap.DataLayer.Entities.Product.ProductComment", null)
-                        .WithMany("Replies")
-                        .HasForeignKey("ProductCommentCommentID");
-
                     b.HasOne("ShahrChap.DataLayer.Entities.Product.Product", "Product")
                         .WithMany("Comments")
                         .HasForeignKey("ProductID")
@@ -1626,11 +1614,6 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("Services");
-                });
-
-            modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductComment", b =>
-                {
-                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("ShahrChap.DataLayer.Entities.Product.ProductGroup", b =>

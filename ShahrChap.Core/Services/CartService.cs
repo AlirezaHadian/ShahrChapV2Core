@@ -378,6 +378,9 @@ namespace ShahrChap.Core.Services
                 {
                     item.CartID = cart.CartID;
                 }
+                _context.CartItems.UpdateRange(guestCart.CartItems);
+                _context.SaveChanges();
+
                 _context.Carts.Remove(guestCart);
             }
 

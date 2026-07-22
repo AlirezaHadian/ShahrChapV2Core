@@ -51,48 +51,6 @@
     --scroll-thumb-color: hsl(45, 12%, 85%);
     --scroll-hover: hsl(45, 8%, 75%);
 }
-/*:root{*/
-/* Background */
-/*--body: hsl(220, 15%, 12%);
-        --mainWhite: hsl(220, 15%, 16%);*/ /* کارت‌ها و باکس‌ها */
-/* Text */
-/*--text-color: hsl(45, 15%, 85%);
-        --price-color: hsl(0, 0%, 95%);
-        --mainBlack: hsl(0, 0%, 100%);
-        --transparent: rgba(0, 0, 0, 0.6);*/
-/* Yellow (Accent) */
-/*--mainYellow: hsl(46, 90%, 60%);
-        --darkYellow: hsl(46, 90%, 50%);
-        --lightYellow: hsl(46, 60%, 35%);
-        --lighterYellow: hsla(46, 90%, 60%, 0.08);
-        --beige: hsl(35, 25%, 18%);
-        --transparentYellow: hsla(46, 90%, 60%, 0.15);*/
-/* Grey */
-/*--darkestGrey: hsl(220, 10%, 65%);
-        --darkGrey: hsl(220, 10%, 45%);
-        --grey: hsl(220, 10%, 25%);
-        --lightGrey: hsl(220, 10%, 18%);*/
-/* Blue */
-/*--mainBlue: hsl(198, 70%, 55%);
-        --darkBlue: hsl(198, 65%, 45%);
-        --footerBlue: hsl(220, 20%, 10%);
-        --darkerBlue: hsl(220, 45%, 45%);
-        --darkestBlue: hsl(220, 20%, 8%);
-        --lighterBlue: hsla(198, 80%, 60%, 0.08);
-        --transparentDarkBlue: hsla(220, 50%, 50%, 0.15);*/
-/* Other */
-/*--mainOrange: hsl(33, 100%, 55%);
-        --mainLightGreen: hsl(168, 35%, 55%);
-        --mainGreen: hsl(150, 45%, 45%);
-        --mainRed: hsl(0, 75%, 65%);
-        --darkRed: hsl(0, 60%, 50%);
-        --search-bar: hsl(220, 15%, 20%);*/
-/* Scroll Bar */
-/*--scroll-bar-color: hsl(220, 12%, 18%);
-        --scroll-thumb-color: hsl(220, 12%, 28%);
-        --scroll-hover: hsl(220, 12%, 38%);
-    }*/
-
 checkbox ul {
     list-style: none !important;
     list-style-type: none !important;
@@ -2501,10 +2459,13 @@ form .order-submit input {
 }
 /* End Services list */
 
-/*Comments Section*/
+/* ============================= */
+/* Comments Section               */
+/* ============================= */
 .comments-wrapper {
     text-align: right;
 }
+
 /* Fields */
 .custom-field {
     position: relative;
@@ -2543,18 +2504,6 @@ form .order-submit input {
             box-shadow: 0 4px 12px rgba(241, 196, 15, 0.08);
         }
 
-.submit-btn-modern {
-    background: #f1c40f;
-    color: #fff;
-    border: none;
-    padding: 10px 30px;
-    border-radius: 10px;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    transition: 0.3s;
-}
-
 /* Avatar */
 .user-icon-box {
     width: 45px;
@@ -2569,9 +2518,11 @@ form .order-submit input {
     font-size: 1.5rem;
 }
 
+/* Comment item + entrance animation */
 .comment-item {
     padding: 20px 0;
     border-bottom: 1px solid #f5f5f5;
+    animation: fadeInUp 0.35s ease both;
 }
 
 .comment-header {
@@ -2592,6 +2543,7 @@ form .order-submit input {
     line-height: 1.8;
 }
 
+/* Reply button */
 .modern-reply-btn {
     display: flex;
     align-items: center;
@@ -2602,7 +2554,7 @@ form .order-submit input {
     border-radius: 20px;
     font-size: 0.8rem;
     color: #777;
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
     .modern-reply-btn:hover {
@@ -2610,6 +2562,11 @@ form .order-submit input {
         color: #fff;
     }
 
+    .modern-reply-btn:active {
+        transform: scale(0.94);
+    }
+
+/* Admin reply box */
 .admin-reply-box {
     margin-right: 60px;
     margin-top: 15px;
@@ -2619,13 +2576,181 @@ form .order-submit input {
     border-right: 4px solid #333;
 }
 
-.badge-admin {
+.badge-role {
     background: #333;
     color: #fff;
-    padding: 2px 8px;
+    padding: 2px 10px;
     border-radius: 6px;
-    font-size: 0.75rem;
-    margin-left: 10px;
+    font-size: 0.7rem;
+    font-weight: normal;
+    display: inline-block;
+}
+/* Reply context (وقتی روی "پاسخ" کلیک شده) */
+.reply-context {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff8e1;
+    border: 1px solid #f1c40f;
+    border-radius: 10px;
+    padding: 8px 15px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+}
+
+.btn-close-reply {
+    background: none;
+    border: none;
+    color: #c0392b;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Delete button + hover animation */
+.btn-delete-comment {
+    background: #f4f4f4;
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: #999;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+    .btn-delete-comment i {
+        font-size: 0.9rem;
+        transition: transform 0.25s ease;
+    }
+
+    .btn-delete-comment:hover {
+        background: #c0392b;
+        color: #fff;
+    }
+
+        .btn-delete-comment:hover i {
+            transform: scale(1.15) rotate(-6deg);
+        }
+
+    .btn-delete-comment:active {
+        transform: scale(0.9);
+    }
+
+/* Removing animation (قبل از حذف نهایی از DOM) */
+.comment-item.removing {
+    animation: fadeOutShrink 0.3s ease forwards;
+}
+
+/* ============================= */
+/* Guest box (کوچک، وسط‌چین)     */
+/* ============================= */
+.guest-comment-box {
+    text-align: center;
+    padding: 32px 20px;
+    background: #fffcf2;
+    border: 1px solid #f6e6b4;
+    border-radius: 16px;
+    animation: fadeInUp 0.4s ease both;
+}
+
+.guest-icon-circle {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    background: #fff;
+    border: 2px solid #f1c40f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulseSoft 2.4s ease-in-out infinite;
+}
+
+    .guest-icon-circle i {
+        font-size: 1.5rem;
+        color: #f1c40f;
+    }
+
+.guest-title {
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 6px;
+}
+
+.guest-subtitle {
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+}
+
+/* دکمه‌ی کوچیک، وسط، آیکون سفید هماهنگ با متن */
+.guest-login-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #f1c40f;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: 0.25s;
+}
+
+    .guest-login-btn i {
+        color: #fff;
+        font-size: 0.9rem;
+    }
+
+    .guest-login-btn:hover {
+        background-color: #d4ac0d;
+        color: #fff;
+    }
+
+    .guest-login-btn:active {
+        transform: scale(0.96);
+    }
+
+/* ============================= */
+/* Keyframes                      */
+/* ============================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutShrink {
+    from {
+        opacity: 1;
+        max-height: 300px;
+    }
+
+    to {
+        opacity: 0;
+        max-height: 0;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+}
+
+@keyframes pulseSoft {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.35);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(241, 196, 15, 0);
+    }
 }
 /*End Comment*/
 /*Modal*/

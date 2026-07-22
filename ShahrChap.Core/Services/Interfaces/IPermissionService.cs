@@ -18,6 +18,7 @@ namespace ShahrChap.Core.Services.Interfaces
         void DeleteRole(Role role);
         void AddRolesToUser(List<int> roleIds, int userId);
         void EditRolesUser(int userId, List<int> rolesId);
+        Dictionary<int, string> GetPrimaryRoleTitles(List<int> userIds);
 
         #endregion
         #region Permission

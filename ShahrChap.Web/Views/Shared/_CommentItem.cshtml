@@ -1,0 +1,59 @@
+﻿@using ShahrChap.Core.Convertors
+@model ShahrChap.Core.DTOs.Products.ProductCommentViewModel
+
+<div class="comment-item" id="comment-@Model.CommentID">
+    <div class="comment-header">
+        <div class="user-meta">
+            <div class="user-icon-box">
+                <i class="uil uil-user"></i>
+            </div>
+            <div class="ms-3 me-3">
+                <h6 class="m-0 d-flex align-items-center gap-2">
+                    @Model.UserFullName
+                    @if (!string.IsNullOrEmpty(Model.RoleTitle))
+                    {
+                        <span class="badge-role">@Model.RoleTitle</span>
+                    }
+                </h6>
+                <small class="text-muted">@Model.CreateDate.ToRelativePersianTime()</small>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            @if (!Model.IsDeleted)
+            {
+                <button type="button" class="modern-reply-btn open-reply-form"
+                        data-id="@Model.CommentID" data-name="@Model.UserFullName">
+                    <i class="uil uil-share"></i>
+                    <span>پاسخ</span>
+                </button>
+            }
+
+            @if (Model.CanDelete)
+            {
+                <button type="button" class="btn-delete-comment" data-id="@Model.CommentID">
+                    <i class="uil uil-trash-alt"></i>
+                </button>
+            }
+        </div>
+    </div>
+
+    @if (Model.IsDeleted)
+    {
+        <p class="comment-content text-muted fst-italic">این دیدگاه حذف شده است.</p>
+    }
+    else
+    {
+        <p class="comment-content">@Model.Text</p>
+    }
+
+    @if (Model.Replies?.Any() == true)
+    {
+        <div class="reply-list" style="margin-right: 60px;">
+            @foreach (var reply in Model.Replies)
+            {
+                @await Html.PartialAsync("_CommentItem", reply)
+            }
+        </div>
+    }
+</div>

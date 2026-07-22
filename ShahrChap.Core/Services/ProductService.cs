@@ -16,9 +16,11 @@ namespace ShahrChap.Core.Services
     public class ProductService : IProductService
     {
         private ShahrChapContext _context;
-        public ProductService(ShahrChapContext context)
+        private IPermissionService _permissionService;
+        public ProductService(ShahrChapContext context, IPermissionService permissionService)
         {
             _context = context;
+            _permissionService = permissionService;
         }
         #region Group
         public List<ProductGroup> GetAllGroups()
@@ -676,6 +678,125 @@ namespace ShahrChap.Core.Services
         public int GetProductPriceId(int productId, string combination)
         {
             return _context.ProductPrices.FirstOrDefault(p => p.ProductId == productId && p.Combination == combination).ProductPriceId;
+        }
+
+        #endregion
+        #region Comments
+        public List<ProductCommentViewModel> GetCommentsTree(int productId, int? currentUserId, bool isAdmin)
+        {
+            var allComments = _context.ProductComments
+                .Include(c => c.User)
+                .Where(c => c.ProductID == productId)
+                .OrderBy(c => c.CreateDate)
+                .ToList();
+
+            var userIds = allComments.Select(c => c.UserID).Distinct().ToList();
+            var roleTitles = _permissionService.GetPrimaryRoleTitles(userIds);
+
+            var lookup = allComments.ToDictionary(c => c.CommentID, c =>
+            {
+                bool isOwner = currentUserId.HasValue && c.UserID == currentUserId.Value;
+                return new ProductCommentViewModel
+                {
+                    CommentID = c.CommentID,
+                    UserFullName = c.User?.UserName ?? "کاربر",
+                    RoleTitle = roleTitles.TryGetValue(c.UserID, out var title) ? title : null,
+                    Text = c.Text,
+                    CreateDate = c.CreateDate,
+                    IsDeleted = c.IsDeleted,
+                    IsEdited = c.IsEdited,
+                    IsOwner = !c.IsDeleted && isOwner,
+                    CanDelete = !c.IsDeleted && (isOwner || isAdmin)
+                };
+            });
+
+            var roots = new List<ProductCommentViewModel>();
+
+            foreach (var comment in allComments)
+            {
+                var vm = lookup[comment.CommentID];
+
+                if (comment.ParentID.HasValue && lookup.ContainsKey(comment.ParentID.Value))
+                    lookup[comment.ParentID.Value].Replies.Add(vm);
+                else
+                    roots.Add(vm);
+            }
+
+            return roots;
+        }
+        public (bool Success, string Message) CreateComment(CreateCommentDto dto, int userId)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Text))
+                return (false, "متن نظر نمی‌تواند خالی باشد.");
+
+            if (dto.Text.Length > 700)
+                return (false, "متن نظر بیش از حد مجاز است.");
+
+            if (dto.ParentID.HasValue)
+            {
+                bool parentExists = _context.ProductComments
+                    .Any(c => c.CommentID == dto.ParentID.Value && c.ProductID == dto.ProductID && !c.IsDeleted);
+
+                if (!parentExists)
+                    return (false, "دیدگاه مورد نظر برای پاسخ یافت نشد.");
+            }
+
+            _context.ProductComments.Add(new ProductComment
+            {
+                ProductID = dto.ProductID,
+                UserID = userId,
+                ParentID = dto.ParentID,
+                Text = dto.Text.Trim(),
+                CreateDate = DateTime.Now
+            });
+
+            _context.SaveChanges();
+            return (true, "دیدگاه شما ثبت شد.");
+        }
+        public (bool Success, string Message) EditComment(EditCommentDto dto, int userId)
+        {
+            var comment = _context.ProductComments.Find(dto.CommentID);
+
+            if (comment == null || comment.IsDeleted)
+                return (false, "دیدگاه مورد نظر یافت نشد.");
+
+            if (comment.UserID != userId)
+                return (false, "شما اجازه‌ی ویرایش این دیدگاه را ندارید.");
+
+            if (string.IsNullOrWhiteSpace(dto.Text))
+                return (false, "متن نظر نمی‌تواند خالی باشد.");
+
+            if (dto.Text.Length > 700)
+                return (false, "متن نظر بیش از حد مجاز است.");
+
+            comment.Text = dto.Text.Trim();
+            comment.IsEdited = true;
+            comment.EditDate = DateTime.Now;
+
+            _context.ProductComments.Update(comment);
+            _context.SaveChanges();
+
+            return (true, "دیدگاه با موفقیت ویرایش شد.");
+        }
+        public bool DeleteComment(int commentId, int userId, bool isAdmin)
+        {
+            var comment = _context.ProductComments.Find(commentId);
+            if (comment == null) return false;
+
+            if (!isAdmin && comment.UserID != userId) return false;
+
+            comment.IsDeleted = true;
+            _context.ProductComments.Update(comment);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public int GetProductIdByCommentId(int commentId)
+        {
+            return _context.ProductComments
+                .Where(c => c.CommentID == commentId)
+                .Select(c => c.ProductID)
+                .FirstOrDefault();
         }
         #endregion
     }

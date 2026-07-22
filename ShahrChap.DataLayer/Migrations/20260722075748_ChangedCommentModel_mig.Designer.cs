@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShahrChap.DataLayer.Context;
 
@@ -11,9 +12,11 @@ using ShahrChap.DataLayer.Context;
 namespace ShahrChap.DataLayer.Migrations
 {
     [DbContext(typeof(ShahrChapContext))]
-    partial class ShahrChapContextModelSnapshot : ModelSnapshot
+    [Migration("20260722075748_ChangedCommentModel_mig")]
+    partial class ChangedCommentModel_mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -700,13 +703,7 @@ namespace ShahrChap.DataLayer.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("EditDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsEdited")
                         .HasColumnType("bit");
 
                     b.Property<int?>("ParentID")

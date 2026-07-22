@@ -67,6 +67,7 @@ namespace ShahrChap.DataLayer.Context
         //public DbSet<ProductForm> ProductForms { get; set; }
         //public DbSet<FormInput> FormInputs { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ProductComment> ProductComments { get; set; }
         #endregion
 
         #region Order
@@ -95,6 +96,7 @@ namespace ShahrChap.DataLayer.Context
             modelBuilder.Entity<Service>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<ProductForm>().HasQueryFilter(u => !u.IsDelete);
             modelBuilder.Entity<OrderStatus>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<ProductComment>().HasQueryFilter(u => !u.IsDeleted);
 
             modelBuilder.Entity<ProductPrice>()
                 .HasIndex(pc => new { pc.ProductId, pc.Combination })

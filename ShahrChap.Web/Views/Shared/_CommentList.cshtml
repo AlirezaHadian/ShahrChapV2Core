@@ -1,0 +1,6 @@
+﻿@model List<ShahrChap.Core.DTOs.Products.ProductCommentViewModel>
+
+@foreach (var comment in Model)
+{
+    @await Html.PartialAsync("_CommentItem", comment)
+}

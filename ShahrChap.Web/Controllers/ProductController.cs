@@ -16,11 +16,14 @@ namespace ShahrChap.Web.Controllers
         private IOrderService _orderService;
         private ICartService _cartService;
         private IUserService _userService;
-        public ProductController(IProductService productService, IOrderService orderService, ICartService cartService)
+        private IPermissionService _permissionService;
+        public ProductController(IProductService productService, IOrderService orderService, ICartService cartService, IUserService userService, IPermissionService permissionService)
         {
             _productService = productService;
             _orderService = orderService;
             _cartService = cartService;
+            _userService = userService;
+            _permissionService = permissionService;
         }
         public IActionResult Index()
         {
@@ -112,5 +115,55 @@ namespace ShahrChap.Web.Controllers
                 return Json(new { success = false, message = "خطای غیرمنتظره در ثبت سفارش رخ داد. " + ex.Message });
             }
         }
+
+        #region Comment
+        //[HttpPost]
+        //public IActionResult CreateComment(CreateCommentDto comment)
+        //{
+        //    if (!User.Identity.IsAuthenticated)
+        //        return Forbid();
+
+        //    int userId = _userService.GetUserIdWithUserName(User.Identity.Name);
+        //    var (success, message) = _productService.CreateComment(comment, userId);
+
+        //    if (!success)
+        //        return BadRequest(message);
+        //    //bool isAdmin = _permissionService.CheckPermission("مدیریت نظرات", User.Identity.Name);
+
+        //    var tree = _productService.GetCommentsTree(comment.ProductID, userId, isAdmin);
+        //    return PartialView("_CommentList", tree);
+        //}
+        //[HttpPost]
+        //public IActionResult EditComment(EditCommentDto editComment)
+        //{
+        //    if (!User.Identity.IsAuthenticated)
+        //        return Forbid();
+
+        //    int userId = _userService.GetUserIdWithUserName(User.Identity.Name);
+        //    var (success, message) = _productService.EditComment(editComment, userId);
+
+        //    if (!success)
+        //        return BadRequest(message);
+
+        //    int productId = _productService.GetProductIdByCommentId(editComment.CommentID);
+        //    bool isAdmin = _permissionService.CheckPermission("مدیریت نظرات", User.Identity.Name);
+        //    var tree = _productService.GetCommentsTree(productId, userId, isAdmin);
+        //    return PartialView("_CommentList", tree);
+        //}
+        //[HttpPost]
+        //public IActionResult DeleteComment(int commentId, int productId)
+        //{
+        //    if (!User.Identity.IsAuthenticated)
+        //        return Forbid();
+
+        //    int userId = _userService.GetUserIdWithUserName(User.Identity.Name);
+        //    bool isAdmin = _permissionService.CheckPermission("مدیریت نظرات", User.Identity.Name);
+
+        //    _productService.DeleteComment(commentId, userId, isAdmin);
+
+        //    var tree = _productService.GetCommentsTree(productId, userId, isAdmin);
+        //    return PartialView("_CommentList", tree);
+        //}
+        #endregion
     }
 }
