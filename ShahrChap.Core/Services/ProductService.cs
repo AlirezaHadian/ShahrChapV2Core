@@ -550,23 +550,26 @@ namespace ShahrChap.Core.Services
                 {
                     // Update ProductPrice fields
                     existingPrice.Price = price.Price;
-
-                    foreach (var servicePrice in price.ServicePrices)
+                    if (price.ServicePrices != null || price.ServicePrices.Any())
                     {
-                        var existingServicePrice = existingPrice.ServicePrices
-                            .FirstOrDefault(sp => sp.ProductServiceId == servicePrice.ProductServiceId);
+                        foreach (var servicePrice in price.ServicePrices)
+                        {
+                            var existingServicePrice = existingPrice.ServicePrices
+                                .FirstOrDefault(sp => sp.ProductServiceId == servicePrice.ProductServiceId);
 
-                        if (existingServicePrice != null)
-                        {
-                            // Update existing service price
-                            existingServicePrice.Price = servicePrice.Price;
-                        }
-                        else
-                        {
-                            // Add new service price if not found
-                            existingPrice.ServicePrices.Add(servicePrice);
+                            if (existingServicePrice != null)
+                            {
+                                // Update existing service price
+                                existingServicePrice.Price = servicePrice.Price;
+                            }
+                            else
+                            {
+                                // Add new service price if not found
+                                existingPrice.ServicePrices.Add(servicePrice);
+                            }
                         }
                     }
+
                     if (product.IsDesignable)
                     {
                         existingPrice.DesignPrice = price.DesignPrice;

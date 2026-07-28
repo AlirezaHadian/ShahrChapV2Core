@@ -16,6 +16,8 @@ namespace ShahrChap.Web.Pages.Admin.Roles
         }
         [BindProperty]
         public Role Role { get; set; }
+        [BindProperty]
+        public List<int> SelectedPermissions { get; set; } = new();
         public void OnGet(int id)
         {
             Role = _permissionService.GetRoleById(id);
@@ -23,7 +25,7 @@ namespace ShahrChap.Web.Pages.Admin.Roles
             ViewData["SelectedPermissions"] = _permissionService.PermissionsRole(id);
         }
 
-        public IActionResult OnPost(List<int> SelectedPermission)
+        public IActionResult OnPost()
         {
             ViewData["Permissions"] = _permissionService.GetPermissions();
             ViewData["SelectedPermissions"] = _permissionService.PermissionsRole(Role.RoleId);
@@ -33,7 +35,7 @@ namespace ShahrChap.Web.Pages.Admin.Roles
 
             _permissionService.UpdateRole(Role);
 
-            _permissionService.UpdatePermissionsRole(Role.RoleId, SelectedPermission);
+            _permissionService.UpdatePermissionsRole(Role.RoleId, SelectedPermissions);
 
             return RedirectToPage("Index");
         }

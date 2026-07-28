@@ -5,7 +5,8 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<NuGetAudit>false</NuGetAudit>
-	</PropertyGroup>
+	  <UserSecretsId>abc6bc58-e9e1-4206-8846-335b4d36d1bd</UserSecretsId>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="jQuery" Version="3.7.1" />

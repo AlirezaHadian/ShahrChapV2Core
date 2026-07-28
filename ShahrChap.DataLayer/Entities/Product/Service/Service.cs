@@ -30,7 +30,7 @@ namespace ShahrChap.DataLayer.Entities.Product
         public virtual Product? Product { get; set; }
         public virtual List<ServicePrice>? ServicePrices { get; set; }
         public virtual List<FormInput>? FormInputs { get; set; }
-        public virtual List<CartItemService> CartItemServices { get; set; }
+        public virtual List<CartItemService>? CartItemServices { get; set; }
         #endregion
     }
 }

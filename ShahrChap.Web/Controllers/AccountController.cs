@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ShahrChap.Core.Security;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using ShahrChap.Core.Convertors;
 using ShahrChap.Core.DTOs;
 using ShahrChap.Core.Generators;
@@ -8,10 +8,6 @@ using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.User;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using ShahrChap.Core.Senders;
-using static System.Net.WebRequestMethods;
 
 namespace ShahrChap.Web.Controllers
 {
@@ -21,14 +17,16 @@ namespace ShahrChap.Web.Controllers
         private readonly ICartService _cartService;
         private readonly IViewRenderService _view;
         private readonly IHttpContextAccessor _context;
-        private readonly MessageSender _message;
-        public AccountController(IUserService userService, ICartService cartService, IViewRenderService view, IHttpContextAccessor context, MessageSender message)
+        private readonly ISMSService _smsService;
+        private readonly IEmailService _emailService;
+        public AccountController(IUserService userService, ICartService cartService, IViewRenderService view, IHttpContextAccessor context, ISMSService smsService, IEmailService emailService)
         {
             _userService = userService;
             _cartService = cartService;
             _view = view;
             _context = context;
-            _message = message;
+            _smsService = smsService;
+            _emailService = emailService;
         }
         #region Register
         [Route("Register")]
@@ -74,7 +72,7 @@ namespace ShahrChap.Web.Controllers
                 user.Email = FixText.FixEmail(register.EmailOrPhone);
                 _userService.AddUser(user);
                 string emailBody = _view.RenderToStringAsync("_ActivationEmail", user);
-                SendEmail.Send(user.Email, "ایمیل فعالسازی", emailBody);
+                _emailService.Send(user.Email, "ایمیل فعالسازی", emailBody);
                 return View("SuccessEmailRegister", user);
             }
             else
@@ -264,7 +262,7 @@ namespace ShahrChap.Web.Controllers
                     return View(forgotPassword);
                 }
                 string forgotPasswordEmailBody = _view.RenderToStringAsync("_ForgotPasswordEmail", user);
-                SendEmail.Send(user.Email, "بازیابی کلمه عبور", forgotPasswordEmailBody);
+                _emailService.Send(user.Email, "بازیابی کلمه عبور", forgotPasswordEmailBody);
                 return View("SuccessForgotPasswordEmail", user);
             }
             else

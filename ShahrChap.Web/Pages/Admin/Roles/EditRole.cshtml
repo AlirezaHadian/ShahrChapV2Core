@@ -47,9 +47,12 @@
                             {
                                 <li class="permission-item">
                                     <label for="perm_@item.PermissionId">@item.PermissionTitle</label>
-                                    <input type="checkbox" id="perm_@item.PermissionId" class="permission-checkbox"
+                                    <input type="checkbox"
+                                           name="SelectedPermissions"
+                                           id="perm_@item.PermissionId"
+                                           class="permission-checkbox"
                                            value="@item.PermissionId"
-                                    @(SelectedPermissions.Any(p => p == item.PermissionId) ? "checked" : "")>
+                                    @(SelectedPermissions.Contains(item.PermissionId) ? "checked" : "") />
 
                                     @if (permissions.Any(p => p.ParentId == item.PermissionId))
                                     {
@@ -58,9 +61,12 @@
                                             {
                                                 <li class="permission-item">
                                                     <label for="perm_@sub.PermissionId">@sub.PermissionTitle</label>
-                                                    <input type="checkbox" id="perm_@sub.PermissionId" class="permission-checkbox"
+                                                    <input type="checkbox"
+                                                           name="SelectedPermissions"
+                                                           id="perm_@sub.PermissionId"
+                                                           class="permission-checkbox"
                                                            value="@sub.PermissionId"
-                                                    @(SelectedPermissions.Any(p => p == sub.PermissionId) ? "checked" : "")>
+                                                    @(SelectedPermissions.Contains(sub.PermissionId) ? "checked" : "") />
 
                                                     @if (permissions.Any(p => p.ParentId == sub.PermissionId))
                                                     {
@@ -69,9 +75,12 @@
                                                             {
                                                                 <li class="permission-item">
                                                                     <label for="perm_@underSub.PermissionId">@underSub.PermissionTitle</label>
-                                                                    <input type="checkbox" id="perm_@underSub.PermissionId" class="permission-checkbox"
+                                                                    <input type="checkbox"
+                                                                           name="SelectedPermissions"
+                                                                           id="perm_@underSub.PermissionId"
+                                                                           class="permission-checkbox"
                                                                            value="@underSub.PermissionId"
-                                                                    @(SelectedPermissions.Any(p => p == underSub.PermissionId) ? "checked" : "")>
+                                                                    @(SelectedPermissions.Contains(underSub.PermissionId) ? "checked" : "") />
                                                                 </li>
                                                             }
                                                         </ul>
@@ -84,6 +93,7 @@
                             }
                         </ul>
                     </div>
+
 
                 </div>
                 <a href="/Admin/Roles" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>

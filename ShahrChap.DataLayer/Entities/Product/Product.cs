@@ -66,7 +66,7 @@ public class Product
     public List<FormInput>? ProductAttributes { get; set; }
     [ForeignKey("ProductTypeId")]
     public ProductType? ProductType { get; set; }
-    public virtual List<OrderDetail> Details { get; set; }
-    public virtual List<ProductComment> Comments { get; set; }
+    public virtual List<OrderDetail>? Details { get; set; }
+    public virtual List<ProductComment>? Comments { get; set; } 
     #endregion
 }

@@ -23,7 +23,7 @@ public class ProductPrice
     #region Relations
 
     public virtual Product? Product { get; set; }
-    public virtual List<ServicePrice>? ServicePrices { get; set; }
+    public virtual List<ServicePrice>? ServicePrices { get; set; } = new List<ServicePrice>();
     public virtual DesignPrice? DesignPrice { get; set; }
 
     #endregion

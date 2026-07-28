@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.Identity.Client;
 using ShahrChap.Core.Convertors;
 using ShahrChap.Core.DTOs;
-using ShahrChap.Core.Senders;
 using ShahrChap.Core.Services.Interfaces;
 
 namespace ShahrChap.Web.Areas.UserPanel.Controllers;
@@ -18,14 +18,16 @@ public class HomeController : Controller
     private readonly IUserService _userService;
     private readonly IViewRenderService _view;
     private readonly IHttpContextAccessor _context;
-    private readonly MessageSender _message;
+    private readonly ISMSService _smsService;
+    private readonly IEmailService _emailService;
     
-    public HomeController(IUserService UserService, IViewRenderService view, IHttpContextAccessor context, MessageSender message)
+    public HomeController(IUserService UserService, IViewRenderService view, IHttpContextAccessor context, ISMSService smsService, IEmailService emailService)
     {
         _userService = UserService;
         _view = view;
-        context = _context;
-        _message = message;
+        _context = context;
+        _smsService = smsService;
+        _emailService = emailService;
     }
     public IActionResult Index()
     {
@@ -112,7 +114,7 @@ public class HomeController : Controller
             //string emailBody = _view.RenderToStringAsync("_ChangeEmailActivation", user);
             string emailBody =
                 _view.RenderToStringAsync("_ChangeEmailActivation", loggedInUser);
-            SendEmail.Send(loggedInUser.Email, "ایمیل فعالسازی", emailBody);
+            _emailService.Send(loggedInUser.Email, "ایمیل فعالسازی", emailBody);
         }
         
         //TODO: If phone number changed => redirect verify phone 

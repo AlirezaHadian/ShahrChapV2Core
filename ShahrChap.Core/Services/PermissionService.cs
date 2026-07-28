@@ -122,10 +122,31 @@ namespace ShahrChap.Core.Services
 
         public void UpdatePermissionsRole(int roleId, List<int> permissions)
         {
-            _context.RolePermission
-                .Where(p => p.RoleId == roleId).ToList()
-                .ForEach(p => _context.RolePermission.Remove(p));
-            AddPermissionsToRole(roleId, permissions);
+            permissions ??= new List<int>();
+
+            var newPermissions = permissions.ToHashSet();
+
+            var currentPermissions = _context.RolePermission
+                .Where(r => r.RoleId == roleId)
+                .ToList();
+
+            var currentIds = currentPermissions
+                .Select(r => r.PermissionId)
+                .ToHashSet();
+
+            _context.RolePermission.RemoveRange(
+                currentPermissions.Where(r => !newPermissions.Contains(r.PermissionId)));
+
+            _context.RolePermission.AddRange(
+                newPermissions
+                    .Except(currentIds)
+                    .Select(id => new RolePermission
+                    {
+                        RoleId = roleId,
+                        PermissionId = id
+                    }));
+
+            _context.SaveChanges();
         }
 
         public void UpdateRole(Role role)
