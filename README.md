@@ -22,7 +22,7 @@
 
 ## 📌 Overview
 
-**Shahr Chap** ("City of Print") is a complete e-commerce web application for a print & reproduction shop, originally built for a client and continued independently as a portfolio project (currently ~95% feature-complete). It covers the full commerce lifecycle: browsing a configurable product catalog, uploading custom print files, cart management, checkout, order tracking, a customer wallet, and a full admin back-office.
+**Shahr Chap** is a complete e-commerce web application for a print & reproduction shop, originally built for a client and continued independently as a portfolio project (currently ~95% feature-complete). It covers the full commerce lifecycle: browsing a configurable product catalog, uploading custom print files, cart management, checkout, order tracking, a customer wallet, and a full admin back-office.
 
 The storefront UI is in **Persian (RTL)**, since it targets the Iranian market — but the codebase itself demonstrates transferable, framework-level engineering: a clean layered architecture, a hand-built role/permission authorization system, a dynamic pricing engine driven by product feature combinations, and a well-normalized relational data model.
 
