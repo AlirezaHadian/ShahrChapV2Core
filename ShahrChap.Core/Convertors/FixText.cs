@@ -13,6 +13,20 @@ namespace ShahrChap.Core.Convertors
         {
             return email.Trim().ToLower();
         }
+        public static string FixPhone(string phone)
+        {
+            phone = phone.Trim()
+                .Replace(" ", "")
+                .Replace("-", "");
+
+            if (phone.StartsWith("+98"))
+                phone = "0" + phone.Substring(3);
+
+            else if(phone.StartsWith("0098"))
+                phone = "0" + phone.Substring(4);
+
+            return phone;
+        }
         public static string GetPlainText(string html)
         {
             return Regex.Replace(html, "<.*?>", string.Empty);

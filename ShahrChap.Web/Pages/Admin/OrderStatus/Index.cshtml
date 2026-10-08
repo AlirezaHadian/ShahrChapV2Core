@@ -5,12 +5,12 @@
     {
         return color switch
         {
-            "Green" => "🟩",
-            "Blue" => "🟦",
-            "Yellow" => "🟨",
-            "Orange" => "🟧",
-            "Red" => "🟥",
-            "White" => "⬜",
+            "green" => "🟩",
+            "blue" => "🟦",
+            "yellow" => "🟨",
+            "orange" => "🟧",
+            "red" => "🟥",
+            "white" => "⬜",
             _ => ""
         };
     }
@@ -60,7 +60,7 @@
                                         <i class="fas fa-grip-vertical handle" style="cursor:move; color:#888; font-size:20px"></i>
                                     </td>
                                     <td>
-                                        <span>@ColorEmoji(item.OrderColor)</span>
+                                        <span>@ColorEmoji(item.StatusColor)</span>
                                         @item.StatusTitle
                                     </td>
                                     <td>

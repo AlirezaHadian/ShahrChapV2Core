@@ -1,156 +1,295 @@
-﻿/*============== OTP PAGE ==========*/
-//const inputs = document.querySelectorAll(".otp-input-field input"),
-//  button = document.querySelector(".otp .otp-verify input");
+﻿document.addEventListener("DOMContentLoaded", function () {
 
-//inputs.forEach((input, index1) => {
-//  input.addEventListener("keyup", (e) => {
-//    const currentInput = input,
-//      nextInput = input.nextElementSibling,
-//      prevInput = input.previousElementSibling;
+    const inputs = document.querySelectorAll(".otp-input-field input");
+    const button = document.querySelector(".otp .otp-verify input");
+    const otpField = document.getElementById("Otp");
+    const form = document.getElementById("verify-phone");
 
-//    if (currentInput.value.length > 1) {
-//      currentInput.value = "";
-//      return;
-//    }
-
-//    if (
-//      nextInput &&
-//      nextInput.hasAttribute("disabled") &&
-//      currentInput.value !== ""
-//    ) {
-//      nextInput.removeAttribute("disabled");
-//      nextInput.focus();
-//    }
-
-//    if (e.key === "Backspace") {
-//      inputs.forEach((input, index2) => {
-//        if (index1 <= index2 && prevInput) {
-//          input.setAttribute("disabled", true);
-//          input.value = "";
-//          prevInput.focus();
-//        }
-//      });
-//    }
-
-//    if (!inputs[4].disabled && inputs[4].value !== "") {
-//      button.classList.add("active");
-//      return;
-//    }
-//    button.classList.remove("active");
-//  });
-//});
-//window.addEventListener("load", () => inputs[0].focus());
+    if (!inputs.length || !otpField || !form)
+        return;
 
 
-const inputs = document.querySelectorAll(".otp-input-field input"),
-    button = document.querySelector(".otp .otp-verify input");
-const otpField = document.getElementById('Otp');
-let backendOtp = '';
-// Fetch OTP from backend
-fetch('/Account/GetOtp')
-    .then(response => response.json())
-    .then(data => {
-        backendOtp = data.otp;
-    });
+    // ==============================
+    // OTP INPUT
+    // ==============================
 
-inputs.forEach((input, index1) => {
-    input.addEventListener("keyup", (e) => {
-        const currentInput = input, nextInput = input.nextElementSibling, prevInput = input.previousElementSibling;
+    inputs[0].focus();
 
-        if (currentInput.value.length > 1) {
-            currentInput.value = "";
-            return;
-        }
+    inputs.forEach((input, index) => {
 
-        if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
-            nextInput.removeAttribute("disabled");
-            nextInput.focus();
-        }
+        input.addEventListener("input", function () {
 
-        if (e.key === "Backspace") {
-            inputs.forEach((input, index2) => {
-                if (index1 <= index2 && prevInput) {
-                    input.setAttribute("disabled", true);
-                    input.value = "";
-                    prevInput.focus();
+            // فقط یک رقم
+            if (this.value.length > 1) {
+                this.value = this.value.slice(-1);
+            }
+
+            // اگر عدد وارد شد، برو input بعدی
+            if (this.value !== "" && index < inputs.length - 1) {
+
+                const nextInput = inputs[index + 1];
+
+                nextInput.removeAttribute("disabled");
+                nextInput.focus();
+            }
+
+            updateOtp();
+
+        });
+
+
+        input.addEventListener("keydown", function (event) {
+
+            // Backspace
+            if (event.key === "Backspace") {
+
+                if (this.value === "" && index > 0) {
+
+                    const previousInput = inputs[index - 1];
+
+                    previousInput.value = "";
+                    previousInput.focus();
+
+                    // input های بعدی را غیرفعال کن
+                    for (let i = index; i < inputs.length; i++) {
+                        inputs[i].value = "";
+
+                        if (i !== 0)
+                            inputs[i].setAttribute("disabled", true);
+                    }
+                }
+
+                updateOtp();
+            }
+
+
+            // Arrow Left
+            if (event.key === "ArrowLeft" && index > 0) {
+                inputs[index - 1].focus();
+            }
+
+            // Arrow Right
+            if (event.key === "ArrowRight" && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        });
+
+
+        // Paste کردن OTP
+        input.addEventListener("paste", function (event) {
+
+            event.preventDefault();
+
+            const pastedText = (
+                event.clipboardData || window.clipboardData
+            ).getData("text");
+
+            const otp = pastedText.replace(/\D/g, "");
+
+            if (otp.length === 0)
+                return;
+
+            const digits = otp.substring(0, inputs.length);
+
+            inputs.forEach((input, i) => {
+
+                input.value = "";
+
+                if (i < digits.length) {
+                    input.value = digits[i];
+                    input.removeAttribute("disabled");
                 }
             });
-        }
 
-        if (!inputs[4].disabled && inputs[4].value !== "") {
+            // input های باقی مانده
+            for (let i = digits.length; i < inputs.length; i++) {
+
+                if (i !== 0)
+                    inputs[i].setAttribute("disabled", true);
+            }
+
+            updateOtp();
+
+            if (digits.length === inputs.length) {
+                submitOtp();
+            }
+        });
+
+    });
+
+
+    // ==============================
+    // COMBINE OTP
+    // ==============================
+
+    function updateOtp() {
+
+        let otp = "";
+
+        inputs.forEach(input => {
+            otp += input.value;
+        });
+
+        otpField.value = otp;
+
+        const isComplete = otp.length === inputs.length;
+
+        if (isComplete) {
             button.classList.add("active");
-            combineOtp();
+        }
+        else {
+            button.classList.remove("active");
+        }
+    }
+
+
+    // ==============================
+    // SUBMIT OTP
+    // ==============================
+
+    function submitOtp() {
+
+        updateOtp();
+
+        if (otpField.value.length !== inputs.length)
+            return;
+
+        /*
+         * مهم:
+         * اینجا OTP را با Backend مقایسه نمی‌کنیم.
+         *
+         * Backend خودش OTP را بررسی می‌کند.
+         */
+        form.submit();
+    }
+
+
+    // وقتی روی دکمه تأیید کلیک شد
+    button.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        submitOtp();
+    });
+
+
+    // ==============================
+    // WRONG OTP
+    // ==============================
+
+    function showWrongOtp() {
+
+        vibratePhone();
+
+        inputs.forEach(input => {
+            input.classList.add("wrong");
+        });
+
+        setTimeout(() => {
+
+            inputs.forEach((input, index) => {
+
+                input.value = "";
+                input.classList.remove("wrong");
+
+                if (index !== 0) {
+                    input.setAttribute("disabled", true);
+                }
+            });
+
+            inputs[0].removeAttribute("disabled");
+            inputs[0].focus();
+
+            otpField.value = "";
+            button.classList.remove("active");
+
+        }, 500);
+    }
+
+
+    // ==============================
+    // HAPTIC FEEDBACK
+    // ==============================
+
+    function vibratePhone() {
+
+        if ("vibrate" in navigator) {
+
+            // ویبره کوتاه برای خطای OTP
+            navigator.vibrate([
+                100,
+                50,
+                100
+            ]);
+        }
+    }
+
+
+    // ==============================
+    // OTP TIMER
+    // ==============================
+
+    const timerElement = document.getElementById("otpTimer");
+    const resendButton = document.getElementById("resendCode");
+
+    let resendSecondsRemaining = 100;
+    let resendTimer = null;
+
+
+    function updateResendTimer() {
+
+        if (!timerElement)
+            return;
+
+        if (resendSecondsRemaining <= 0) {
+
+            timerElement.textContent = "00:00";
+
+            if (resendButton) {
+                resendButton.classList.remove("disableClick");
+                resendButton.removeAttribute("disabled");
+            }
+
+            clearInterval(resendTimer);
+
             return;
         }
-        button.classList.remove("active");
 
-        function combineOtp() {
-            let otp = '';
-            inputs.forEach(input => {
-                otp += input.value;
-            });
-            otpField.value = otp;
-
-            if (otp.length === 5) {
-                validateOtp(otp);
-            }
-        }
-        function validateOtp(otp) {
-            if (otp === backendOtp) {
-                document.getElementById('verify-phone').submit();
-            } else {
-                vibratePhone();
-                addWrongClass();
-                button.setAttribute("disabled", true);
-            }
-        }
-        function vibratePhone() {
-            if (navigator.vibrate) {
-                navigator.vibrate(500); // Vibrate for 500ms
-                window.location.href = "/Account/ResendOtp";
-            }
-        }
-
-        function addWrongClass() {
-            inputs.forEach(input => input.classList.add('wrong'));
-            setTimeout(() => {
-                inputs.forEach(input => {
-                    input.value = '';
-                    input.classList.remove('wrong');
-                    input.setAttribute("disabled", true);
-                });
-                inputs[0].removeAttribute("disabled");
-                inputs[0].focus();
-            }, 500);
-        }
-    });
-});
-window.addEventListener("load", () => inputs[0].focus());
-
-//OTP Countdown timer
-let resendSecondsRemaining = 100;
-let resendTimer;
-
-function startResendTimer() {
-    resendTimer = setInterval(updateResendTimer, 1000);
-}
-
-function updateResendTimer() {
-    if (resendSecondsRemaining > 0) {
         resendSecondsRemaining--;
-        const minutes = Math.floor(resendSecondsRemaining / 60);
-        const seconds = resendSecondsRemaining % 60;
-        document.getElementById('otpTimer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    } else {
-        document.getElementById('resendCode').classList.remove('disableClick')
-            = false;
-        clearInterval(resendTimer);
+
+        const minutes = Math.floor(
+            resendSecondsRemaining / 60
+        );
+
+        const seconds =
+            resendSecondsRemaining % 60;
+
+        timerElement.textContent =
+            `${minutes}:${seconds
+                .toString()
+                .padStart(2, "0")}`;
     }
-}
-window.onload = startResendTimer;
 
 
-//Haptic feedback => increase the number for vibration
-// const vibrate = () => {
-//   window.navigator.vibrate([20])
-// }
+    function startResendTimer() {
+
+        if (!timerElement)
+            return;
+
+        if (resendButton) {
+            resendButton.classList.add("disableClick");
+            resendButton.setAttribute("disabled", "disabled");
+        }
+
+        updateResendTimer();
+
+        resendTimer = setInterval(
+            updateResendTimer,
+            1000
+        );
+    }
+
+
+    startResendTimer();
+
+});

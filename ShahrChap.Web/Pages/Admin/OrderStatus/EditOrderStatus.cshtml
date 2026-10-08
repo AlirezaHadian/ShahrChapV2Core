@@ -31,15 +31,20 @@
                         </div>
                         <div class="form-group">
                             <label>رنگ</label>
-                            <select asp-for="OrderStatus.OrderColor" class="form-control">
+                            <select asp-for="OrderStatus.StatusColor" class="form-control">
                                 <option value="">انتخاب کنید</option>
-                                <option value="Blue">آبی</option>
-                                <option value="Green">سبز</option>
-                                <option value="Yellow">زرد</option>
-                                <option value="Red">قرمز</option>
-                                <option value="White">سفید</option>
+                                <option value="blue">آبی</option>
+                                <option value="green">سبز</option>
+                                <option value="yellow">زرد</option>
+                                <option value="red">قرمز</option>
+                                <option value="white">سفید</option>
                             </select>
-                            <span asp-validation-for="OrderStatus.OrderColor"></span>
+                            <span asp-validation-for="OrderStatus.StatusColor"></span>
+                        </div>
+                                         <div class="form-group">
+                            <label>آیکون</label>
+                            <input type="text" asp-for="OrderStatus.StatusIcon" class="form-control">
+                            <span asp-validation-for="OrderStatus.StatusIcon"></span>
                         </div>
                         <a href="/Admin/OrderStatus" class="btn btn-default"><i class="uil uil-angle-right"></i> بازگشت</a>
                         <button type="submit" class="btn btn-success"><i class="uil uil-edit"></i> ویرایش</button>

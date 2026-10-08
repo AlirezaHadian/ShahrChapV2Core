@@ -1,7 +1,11 @@
-﻿@using ShahrChap.Core.Convertors
+@using ShahrChap.Core.Convertors
 @model ShahrChap.Core.DTOs.InformationUserViewModel
 @{
     ViewData["Title"] = "پنل کاربری " + @User.Identity.Name;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/order-progress.css" />
 }
 
 <section class="container internal-style pt-3">
@@ -16,42 +20,30 @@
         <div class="row">
             <partial name="_SideBar" />
 
-
             <div class="col-md-9 col-sm-8 col-xs-12">
-                <section class="user-account-content  drop-shadow">
+                                                            @if (Model.ActiveOrders != null && Model.ActiveOrders.Any())
+                        {
+                            <div class="inner">
+                            <partial name="_OrderProgress" model="Model.ActiveOrders" />
+                        </div>
+                        }
+
+                <section class="user-account-content drop-shadow">
                     <header>
                         <h1> داشبورد </h1>
                     </header>
                     <div class="inner">
-                        @if (Model.ActiveOrders.Any())
-                        {
-                            <partial name="_OrderProgress" model="Model.ActiveOrders" />
-                        }
                         <div class="account-information">
                             <h3> اطلاعات کاربری </h3>
                             <ul>
                                 <li> <i class="uil uil-user"></i> نام کاربری : @Model.UserName </li>
-                                <li>
-                                    <i class="uil uil-envelope"></i> ایمیل :
-                                    @if (Model.Email != null)
-                                    {
-                                        @Model.Email
-                                    }
-                                    else
-                                    {
-                                        <span class="text-red">ایمیلی ثبت نشده است</span>
-                                    }
+                                <li> <i class="uil uil-envelope"></i> ایمیل :
+                                    @if (Model.Email != null) { @Model.Email }
+                                    else { <span class="text-red">ایمیلی ثبت نشده است</span> }
                                 </li>
-                                <li>
-                                    <i class="uil uil-mobile-android"></i> شماره تماس :
-                                    @if (Model.Phone != null)
-                                    {
-                                        @Model.Phone
-                                    }
-                                    else
-                                    {
-                                        <span class="text-red">شماره موبایلی ثبت نشده است</span>
-                                    }
+                                <li> <i class="uil uil-mobile-android"></i> شماره تماس :
+                                    @if (Model.Phone != null) { @Model.Phone }
+                                    else { <span class="text-red">شماره موبایلی ثبت نشده است</span> }
                                 </li>
                                 <li> <i class="uil uil-calender"></i> تاریخ عضویت : @Model.RegisterDate.ToShamsi() </li>
                                 <li> <i class="uil uil-wallet"></i> کیف پول : @Model.Wallet تومان </li>

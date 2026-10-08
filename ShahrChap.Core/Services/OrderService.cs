@@ -6,6 +6,7 @@ using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Context;
 using ShahrChap.DataLayer.Entities.Order;
 using ShahrChap.DataLayer.Entities.Product;
+using ShahrChap.DataLayer.Entities.User;
 using ShahrChap.DataLayer.Enums;
 using System;
 using System.Collections.Generic;
@@ -161,6 +162,7 @@ namespace ShahrChap.Core.Services
 
             return statusId.Value;
         }
+
         #endregion
     }
 }

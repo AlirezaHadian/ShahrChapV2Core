@@ -1,0 +1,33 @@
+@using ShahrChap.Core.Convertors
+@model List<ShahrChap.Core.DTOs.Order.OrderProgressViewModel>
+
+<section class="user-account-content drop-shadow op-section">
+    <div class="inner">
+        <div class="account-information">
+            <h3> سفارش‌های در جریان </h3>
+
+            @foreach (var order in Model)
+            {
+                <div class="op-card op-@(order.StatusColor) @(order.Percent < 100 ? "is-live" : "")"
+                     style="--pct: @(order.Percent)%;" role="status">
+                    <div class="op-top">
+                        <div class="op-icon"><i class="uil @order.StatusIcon"></i></div>
+                        <div class="op-info">
+                            <h4 class="op-title">@order.StatusTitle</h4>
+                            <p class="op-product">
+                                <span>سفارش #@order.OrderId</span>
+                                <em></em>
+                                <span>@order.CreateDate.ToShamsi()</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="op-bar">
+                        <div class="op-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="@order.Percent">
+                            <div class="op-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

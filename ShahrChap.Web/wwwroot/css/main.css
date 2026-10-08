@@ -2738,7 +2738,7 @@ form .order-submit input {
 .edited-tag {
     display: inline-flex;
     align-items: center;
-    gap: 3px;
+    gap: 3px;َ
     color: #aaa;
     font-size: 0.72rem;
     font-style: italic;
@@ -3774,6 +3774,165 @@ form .order-submit input {
                 font-size: 16px;
                 color: var(--darkGrey);
             }
+/*ORDER PROGRESS*/
+.op-blue {
+    --st: var(--mainBlue, hsl(198, 63%, 45%));
+}
+
+.op-green {
+    --st: var(--mainGreen, #429e73);
+}
+
+.op-yellow {
+    --st: var(--darkYellow, hsl(46, 88%, 50%));
+}
+
+.op-orange {
+    --st: var(--mainOrange, #dd9013);
+}
+
+.op-red {
+    --st: var(--mainRed, #f25f5c);
+}
+
+.op-white {
+    --st: hsl(30, 2%, 62%);
+}
+
+.op-section {
+    margin-bottom: 20px;
+}
+
+.op-card {
+    --op-text: var(--price-color, hsl(0, 0%, 20%));
+    --op-muted: hsl(30, 3%, 46%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: hsl(48, 5%, 97%);
+}
+
+.op-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.op-icon {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    color: var(--st);
+    background: color-mix(in srgb, var(--st) 15%, #fff);
+}
+
+.op-card.is-live .op-icon {
+    animation: op-pulse 2.4s ease-out infinite;
+}
+
+@keyframes op-pulse {
+    0% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--st) 35%, transparent);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px color-mix(in srgb, var(--st) 0%, transparent);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--st) 0%, transparent);
+    }
+}
+
+.op-info {
+    min-width: 0;
+}
+
+.op-title {
+    margin: 0;
+    font-size: .95rem;
+    font-weight: 600;
+    line-height: 1.7;
+    color: var(--op-text);
+}
+
+.op-product {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--op-muted);
+}
+
+    .op-product em {
+        flex: none;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: var(--darkGrey, hsl(30, 1%, 71%));
+    }
+
+    .op-product span {
+        white-space: nowrap;
+    }
+
+/* نوار کوتاه سمت چپ */
+.op-bar {
+    flex: none;
+    width: 190px;
+}
+
+.op-track {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: hsl(48, 5%, 90%);
+}
+
+.op-fill {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: var(--pct, 0%);
+    border-radius: inherit;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--st) 65%, #fff), var(--st));
+    animation: op-grow 1.1s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+@keyframes op-grow {
+    from {
+        width: 0;
+    }
+}
+
+.op-card.is-live .op-fill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(270deg, transparent, rgba(255,255,255,.6), transparent);
+    transform: translateX(100%);
+    animation: op-shine 2.4s ease-in-out 1.1s infinite;
+}
+
+@keyframes op-shine {
+    to {
+        transform: translateX(-100%);
+    }
+}
 /*EDIT USERPANEL*/
 .user-account .input-group {
     margin-bottom: 14px;
@@ -4585,5 +4744,29 @@ form .order-submit input {
 
     to {
         transform: translateY(0);
+    }
+}
+@media (max-width: 575.98px) {
+    .op-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .op-bar {
+        width: 100%;
+    }
+
+    .op-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .op-card.is-live .op-icon, .op-fill, .op-card.is-live .op-fill::after {
+        animation: none;
     }
 }

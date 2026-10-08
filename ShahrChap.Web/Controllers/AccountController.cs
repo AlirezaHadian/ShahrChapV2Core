@@ -19,7 +19,9 @@ namespace ShahrChap.Web.Controllers
         private readonly IHttpContextAccessor _context;
         private readonly ISMSService _smsService;
         private readonly IEmailService _emailService;
-        public AccountController(IUserService userService, ICartService cartService, IViewRenderService view, IHttpContextAccessor context, ISMSService smsService, IEmailService emailService)
+        private readonly IOtpService _otpService;
+        public AccountController(IUserService userService, ICartService cartService, IViewRenderService view, IHttpContextAccessor context,
+            ISMSService smsService, IEmailService emailService, IOtpService otpService)
         {
             _userService = userService;
             _cartService = cartService;
@@ -27,6 +29,7 @@ namespace ShahrChap.Web.Controllers
             _context = context;
             _smsService = smsService;
             _emailService = emailService;
+            _otpService = otpService;
         }
         #region Register
         [Route("Register")]
@@ -41,16 +44,31 @@ namespace ShahrChap.Web.Controllers
         {
             //Checking and validating the user inputs
             if (!ModelState.IsValid)
-                View(register);
+                return View(register);
+
+            string emailOrPhone = register.EmailOrPhone;
+
+            if (emailOrPhone.Contains("@"))
+                emailOrPhone = FixText.FixEmail(emailOrPhone);
+            else
+                emailOrPhone = FixText.FixPhone(emailOrPhone);
+
 
             if (_userService.IsUserNameExist(register.UserName))
             {
-                ModelState.AddModelError("UserName", "نام کاربری وارد شده تکراری می باشد");
+                ModelState.AddModelError(
+                    "UserName",
+                    "نام کاربری وارد شده تکراری می باشد");
+
                 return View(register);
             }
-            if (_userService.IsEmailOrPhoneExist(FixText.FixEmail(register.EmailOrPhone)))
+
+            if (_userService.IsEmailOrPhoneExist(emailOrPhone))
             {
-                ModelState.AddModelError("EmailOrPhone", "ایمیل/شماره موبایل وارد شده تکراری می باشد");
+                ModelState.AddModelError(
+                    "EmailOrPhone",
+                    "ایمیل/شماره موبایل وارد شده تکراری می باشد");
+
                 return View(register);
             }
 
@@ -69,27 +87,32 @@ namespace ShahrChap.Web.Controllers
             //Checking input is the phone number or email
             if (register.EmailOrPhone.Contains("@"))
             {
-                user.Email = FixText.FixEmail(register.EmailOrPhone);
-                _userService.AddUser(user);
-                string emailBody = _view.RenderToStringAsync("_ActivationEmail", user);
-                _emailService.Send(user.Email, "ایمیل فعالسازی", emailBody);
-                return View("SuccessEmailRegister", user);
-            }
-            else
-            {
-                user.Phone = register.EmailOrPhone;
+                user.Email = emailOrPhone;
+
                 _userService.AddUser(user);
 
-                //MessageSender.SendOtpCode(user.Phone);
-                //_message.SendOtpCode(user.Phone);
-                return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
+                string emailBody =
+                    _view.RenderToStringAsync("_ActivationEmail", user);
+
+                _emailService.Send(user.Email, "ایمیل فعالسازی", emailBody);
+
+                return View("SuccessEmailRegister", user);
             }
+
+            user.Phone = emailOrPhone;
+
+            _userService.AddUser(user);
+
+            string otp = _otpService.GeneratePhoneOtp(emailOrPhone, "VerifyPhone");
+            //send otp
+            Console.WriteLine("Otp Code: " + otp);
+            return RedirectToAction("VerifyPhone", new { actionType = "VerifyPhone" });
         }
         #endregion
 
         #region Login
         [Route("Login")]
-        public IActionResult Login(bool EditProfile =false, string ReturnUrl = null)
+        public IActionResult Login(bool EditProfile = false, string ReturnUrl = null)
         {
             ViewBag.ReturnUrl = ReturnUrl;
             if (EditProfile)
@@ -98,9 +121,9 @@ namespace ShahrChap.Web.Controllers
                 ViewBag.ToastrTitle = "حساب شما با موفقیت ویرایش شد";
                 ViewBag.ToastrMessage = "بدلیل ویرایش حساب و بارگزاری مجدد اطلاعات، لطفا مجددا وارد سایت شوید";
             }
-            
+
             return View();
-        } 
+        }
 
         [HttpPost]
         [Route("Login")]
@@ -135,7 +158,7 @@ namespace ShahrChap.Web.Controllers
                         _cartService.AssignGuestCartToNewUser(user.UserName, token);
                         Response.Cookies.Delete("cart-token");
                     }
-                        
+
 
                     ViewBag.ToastrType = "Login";
                     ViewBag.ToastrMessage = "خوش آمدید!";
@@ -164,10 +187,18 @@ namespace ShahrChap.Web.Controllers
         #endregion
 
         #region Verify Phone
-        public IActionResult VerifyPhone(string actionType)
+        public IActionResult VerifyPhone()
         {
-            ViewBag.PhoneNumber = HttpContext.Session.GetString("UserPhone");
+            var phone = _otpService.GetPhone();
+            var actionType = _otpService.GetActionType();
+
+            if (string.IsNullOrEmpty(phone) ||
+                string.IsNullOrEmpty(actionType))
+                return RedirectToAction("Login");
+
+            ViewBag.PhoneNumber = phone;
             ViewBag.ActionType = actionType;
+
             return View();
         }
         [HttpPost]
@@ -176,52 +207,68 @@ namespace ShahrChap.Web.Controllers
             if (!ModelState.IsValid)
                 return View(verifyPhone);
 
-            string otp = HttpContext.Session.GetString("OtpCode");
-            string expireTime = HttpContext.Session.GetString("OtpExpireTime");
-            DateTime expirationTime = DateTime.Parse(expireTime);
+            string? phone = _otpService.GetPhone();
+            string? actionType = _otpService.GetActionType();
+
+            if (string.IsNullOrEmpty(phone) ||
+                string.IsNullOrEmpty(actionType))
+                return RedirectToAction("Login");
+
+            bool isOtpValid = _otpService.VerifyPhoneOtp(phone, verifyPhone.Otp);
+
             //Check the otp code
-            if (otp == null && expirationTime == null)
+            if (!isOtpValid)
             {
-                ModelState.AddModelError("Otp", "کد اعتبار سنجی نامعتبر می باشد");
+                ModelState.AddModelError(
+                  "Otp",
+                  "کد اعتبار سنجی نامعتبر یا منقضی شده است");
+
+                ViewBag.PhoneNumber = phone;
+                ViewBag.ActionType = actionType;
+
                 return View(verifyPhone);
             }
 
-            if (verifyPhone.Otp == otp && expirationTime > DateTime.Now)
+            if (verifyPhone.ActionType == "VerifyPhone")
             {
-                if (verifyPhone.ActionType == "VerifyPhone")
+                if (_userService.ActivePhone(verifyPhone.PhoneNumber))
                 {
-                    if (_userService.ActivePhone(verifyPhone.PhoneNumber))
-                    {
-                        ViewBag.ToastrType = "Success";
-                        ViewBag.ToastrMessage = "با ورود به سایت از خدمات شهر چاپ بهره مند شوید.";
-                        ViewBag.ToastrTitle = "فعالسازی با موفقیت انجام شد";
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else if (verifyPhone.ActionType == "ForgotPassword")
-                {
-                    return RedirectToAction("ResetPassword", new { resetValue = verifyPhone.PhoneNumber });
+                    ViewBag.ToastrType = "Success";
+                    ViewBag.ToastrMessage =
+                        "با ورود به سایت از خدمات شهر چاپ بهره مند شوید.";
+                    ViewBag.ToastrTitle =
+                        "فعالسازی با موفقیت انجام شد";
+
+                    return View("SuccessPhoneRegister");
                 }
             }
-            else if (expirationTime < DateTime.Now)
+            else if (verifyPhone.ActionType == "ForgotPassword")
             {
-                ModelState.AddModelError("Otp", "کد اعتبار سنجی منقضی شده است");
-                return View(verifyPhone);
+                return RedirectToAction(
+            "ResetPassword",
+            new { resetValue = phone });
             }
-            else if (verifyPhone.Otp != otp)
-            {
-                ModelState.AddModelError("Otp", "کد اعتبارسنجی نامعتبر می باشد");
-                return View(verifyPhone);
-            }
-            return View();
+
+           return RedirectToAction("Login");
         }
 
         //This Actionresult is for the resend button in verify phone page
         //It will create a new otp, and then redirect to verify phone action
-        public IActionResult ResendOtpCode(string phone, string type)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ResendOtpCode()
         {
+            string? phone = _otpService.GetPhone();
+            string? actionType = _otpService.GetActionType();
+
+            if (string.IsNullOrEmpty(phone) ||
+                string.IsNullOrEmpty(actionType))
+                return RedirectToAction("Login");
+
+            string opt = _otpService.GeneratePhoneOtp(phone, actionType);
             //_message.SendOtpCode(phone);
-            return RedirectToAction("VerifyPhone", new {actionType = type});
+
+            return RedirectToAction("VerifyPhone");
         }
         [HttpGet]
         public IActionResult GetOtp()

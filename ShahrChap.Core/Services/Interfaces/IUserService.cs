@@ -1,13 +1,14 @@
-﻿using ShahrChap.Core.DTOs;
+﻿using Microsoft.AspNetCore.Http;
+using ShahrChap.Core.DTOs;
+using ShahrChap.Core.DTOs.Order;
+using ShahrChap.DataLayer.Entities.Address;
 using ShahrChap.DataLayer.Entities.User;
+using ShahrChap.DataLayer.Entities.Wallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using ShahrChap.DataLayer.Entities.Address;
-using ShahrChap.DataLayer.Entities.Wallet;
 
 namespace ShahrChap.Core.Services.Interfaces
 {
@@ -16,6 +17,8 @@ namespace ShahrChap.Core.Services.Interfaces
         bool IsUserNameExist(string userName);
         bool IsEmailOrPhoneExist(string emailOrPhone);
         int AddUser(User user);
+        //public void RegisterPhoneUser(User user);
+        //public void RegisterEmailUser(User user);
         User LoginUser(LoginViewModel login);
         User GetUserWithId(int userId);
         User GetUserWithEmail(string email);
@@ -35,9 +38,8 @@ namespace ShahrChap.Core.Services.Interfaces
         void EditProfile(string username, EditProfileViewModel profile);
         bool CompareOldPassword(string oldPassword, string username);
         void ChangePassword(string username, string newPassword);
-
+        List<OrderProgressViewModel> GetActiveOrders(int userId);
         #endregion
-
         #region Wallet
         int BalanceUserWallet(string username);
         List<WalletViewModel> GetWalletDetailUser(string username);
@@ -59,7 +61,6 @@ namespace ShahrChap.Core.Services.Interfaces
         bool DeleteAddress(UserAddress address);
 
         #endregion
-
         #region Admin Panel
         InformationUserViewModel GetUserInformation(int userId);
         UserForAdminViewModel GetUsers(int pageId = 1, string filterUser = "");

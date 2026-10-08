@@ -1,20 +1,21 @@
-﻿using ShahrChap.Core.Services.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using ShahrChap.Core.Convertors;
+using ShahrChap.Core.DTOs;
+using ShahrChap.Core.DTOs.Order;
+using ShahrChap.Core.Generators;
+using ShahrChap.Core.Security;
+using ShahrChap.Core.Services.Interfaces;
+using ShahrChap.DataLayer.Context;
+using ShahrChap.DataLayer.Entities.Address;
+using ShahrChap.DataLayer.Entities.User;
+using ShahrChap.DataLayer.Entities.Wallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using ShahrChap.DataLayer.Context;
-using ShahrChap.DataLayer.Entities.User;
-using ShahrChap.Core.DTOs;
-using ShahrChap.Core.Security;
-using ShahrChap.Core.Convertors;
-using ShahrChap.Core.Generators;
-using ShahrChap.DataLayer.Entities.Address;
-using ShahrChap.DataLayer.Entities.Wallet;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace ShahrChap.Core.Services
 {
@@ -22,10 +23,12 @@ namespace ShahrChap.Core.Services
     {
         private ShahrChapContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(ShahrChapContext context, IHttpContextAccessor httpContextAccessor)
+        private readonly IViewRenderService _view;
+        public UserService(ShahrChapContext context, IHttpContextAccessor httpContextAccessor, IViewRenderService view)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _view = view;
         }
         public bool ActiveEmail(string activeCode)
         {
@@ -38,22 +41,21 @@ namespace ShahrChap.Core.Services
             _context.SaveChanges();
             return true;
         }
-
         public bool ActivePhone(string phoneNumber)
         {
+            phoneNumber = FixText.FixPhone(phoneNumber);
             var user = _context.Users.SingleOrDefault(u => u.Phone == phoneNumber);
+
             if (user == null || user.IsPhoneActive) return false;
 
             user.IsPhoneActive = true;
             _context.SaveChanges();
             return true;
         }
-
         public int GetUserIdWithUserName(string username)
         {
             return _context.Users.Single(u => u.UserName == username).UserId;
         }
-
         private string AddProfileImage(IFormFile profileImage)
         {
             string avatarName = NameGenerator.GenerateUniqCode() + Path.GetExtension(profileImage.FileName);
@@ -64,7 +66,6 @@ namespace ShahrChap.Core.Services
             }
             return avatarName;
         }
-
         private void DeleteProfileImage(string currentAvatarName)
         {
             if (currentAvatarName != "DefaultAvatar.jpg")
@@ -77,7 +78,87 @@ namespace ShahrChap.Core.Services
                 }
             }
         }
+        public int AddUser(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return user.UserId;
+        }
+        //public int AddUser(RegisterViewModel register)
+        //{
+        //    User user = new User()
+        //    {
+        //        UserName = register.UserName,
+        //        Password = PasswordHelper.EncodePasswordMd5(register.Password),
+        //        ActiveCode = NameGenerator.GenerateUniqCode(),
+        //        IsEmailActive = false,
+        //        IsPhoneActive = false,
+        //        RegisterDate = DateTime.Now,
+        //        UserAvatar = "DefaultAvatar.jpg"
+        //    };
 
+        //    if(register.EmailOrPhone.Contains("@"))
+        //    {
+        //        user.Email = FixText.FixEmail(register.EmailOrPhone);
+        //        _context.Users.Add(user);
+        //        string emailBody = _view.RenderToStringAsync("_ActivationEmail", user);
+        //        _emailService.Send(user.Email, "ایمیل فعالسازی", emailBody);
+        //    }
+        //    else
+        //    {
+        //        //user.Phone = FixText.FixPhoneNumber(register.EmailOrPhone);
+        //    }
+        //    _context.Users.Add(user);
+        //    _context.SaveChanges();
+        //    return user.UserId;
+        //}
+        public User GetUserWithActiveCode(string activeCode)
+        {
+            return _context.Users.SingleOrDefault(u => u.ActiveCode == activeCode);
+        }
+        public User GetUserWithUserName(string username)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserName == username);
+        }
+        public User GetUserWithId(int userId)
+        {
+            return _context.Users.Find(userId);
+        }
+        public User GetUserWithEmail(string email)
+        {
+            return _context.Users.SingleOrDefault(u => u.Email == email);
+        }
+        public User GetUserWithPhoneNumber(string phoneNumber)
+        {
+            return _context.Users.SingleOrDefault(u => u.Phone == phoneNumber);
+        }
+        public bool IsEmailOrPhoneExist(string emailOrPhone)
+        {
+            return _context.Users.Any(u => u.Email == emailOrPhone || u.Phone == emailOrPhone);
+        }
+        public bool IsUserNameExist(string userName)
+        {
+            return _context.Users.Any(u => u.UserName == userName);
+        }
+        public User LoginUser(LoginViewModel login)
+        {
+            string hashPassword = PasswordHelper.EncodePasswordMd5(login.Password);
+            string emailOrPhone = FixText.FixEmail(login.EmailOrPhone);
+            if (login.EmailOrPhone.Contains("@"))
+            {
+                return _context.Users.SingleOrDefault(u => u.Email == emailOrPhone && u.Password == hashPassword);
+            }
+            else
+            {
+                return _context.Users.SingleOrDefault(u => u.Phone == emailOrPhone && u.Password == hashPassword);
+            }
+        }
+        public void UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
+        #region User Panel
         public InformationUserViewModel GetUserInformation(string username)
         {
             var user = GetUserWithUserName(username);
@@ -87,11 +168,11 @@ namespace ShahrChap.Core.Services
                 Phone = user.Phone,
                 UserName = user.UserName,
                 RegisterDate = user.RegisterDate,
-                Wallet = BalanceUserWallet(username)
+                Wallet = BalanceUserWallet(username),
+                ActiveOrders = GetActiveOrders(user.UserId)
             };
             return informationUser;
         }
-
         public SideBarUserPanelViewMode GetSideBarUserPanelData(string username)
         {
             return _context.Users.Where(u => u.UserName == username).Select(u => new SideBarUserPanelViewMode()
@@ -101,7 +182,6 @@ namespace ShahrChap.Core.Services
                 RegisterDate = u.RegisterDate
             }).Single();
         }
-
         public EditProfileViewModel GetDataForEditProfileUser(string username)
         {
             return _context.Users.Where(u => u.UserName == username).Select(u => new EditProfileViewModel()
@@ -112,7 +192,6 @@ namespace ShahrChap.Core.Services
                 CurrentAvatarName = u.UserAvatar
             }).Single();
         }
-
         public void EditProfile(string username, EditProfileViewModel profile)
         {
             var user = GetUserWithUserName(username);
@@ -138,13 +217,11 @@ namespace ShahrChap.Core.Services
             //user.UserAvatar = profile.CurrentAvatarName;
             UpdateUser(user);
         }
-
         public bool CompareOldPassword(string oldPassword, string username)
         {
             string hashOldPassword = PasswordHelper.EncodePasswordMd5(oldPassword);
             return _context.Users.Any(u => u.UserName == username && hashOldPassword == u.Password);
         }
-
         public void ChangePassword(string username, string newPassword)
         {
             var user = _context.Users.SingleOrDefault(u => u.UserName == username);
@@ -152,7 +229,35 @@ namespace ShahrChap.Core.Services
             _context.Update(user);
             _context.SaveChanges();
         }
+        public List<OrderProgressViewModel> GetActiveOrders(int userId)
+        {
+            var statuses = _context.OrderStatuses.Where(s => !s.IsDeleted).ToList();
+            if (statuses.Count == 0) return new List<OrderProgressViewModel>();
 
+            int total = statuses.Count;
+            int lastSort = statuses.Max(s => s.SortOrder);
+
+            var orders = _context.Orders
+                .Include(o => o.Status)
+                .Where(o => o.UserId == userId
+                && o.Status != null
+                && o.Status.SortOrder < lastSort)
+                .OrderByDescending(o => o.CreateDate)
+                .ToArray();
+
+            return orders.Select(o => new OrderProgressViewModel
+            {
+                OrderId = o.OrderId,
+                CreateDate = o.CreateDate,
+                StatusTitle = o.Status.StatusTitle,
+                StatusColor = o.Status.StatusColor,
+                Percent = (int)Math.Round(
+                    statuses.Count(s => s.SortOrder <= o.Status.SortOrder) * 100.0 / total),
+                StatusIcon = o.Status.StatusIcon
+            }).ToList();
+        }
+        #endregion
+        #region Wallet
         public int BalanceUserWallet(string username)
         {
             int userId = GetUserIdWithUserName(username);
@@ -160,7 +265,6 @@ namespace ShahrChap.Core.Services
             var withdrawal = _context.Wallets.Where(w => w.UserId == userId && w.WalletTypeId == 2 && w.IsPay).Select(w => w.Amount);
             return (deposit.Sum() - withdrawal.Sum());
         }
-
         public List<WalletViewModel> GetWalletDetailUser(string username)
         {
             int userId = GetUserIdWithUserName(username);
@@ -172,7 +276,6 @@ namespace ShahrChap.Core.Services
                 Descirption = w.Description
             }).ToList();
         }
-
         public int ChargeWallet(string username, int amount, string description, bool isPay = false)
         {
             Wallet wallet = new Wallet()
@@ -186,92 +289,27 @@ namespace ShahrChap.Core.Services
             };
             return AddWallet(wallet);
         }
-
         public int AddWallet(Wallet wallet)
         {
             _context.Wallets.Add(wallet);
             _context.SaveChanges();
             return wallet.WalletId;
         }
-
         public Wallet GetWalletWithWalletId(int walletId)
         {
             return _context.Wallets.Find(walletId);
         }
-
         public void UpdateWallet(Wallet wallet)
         {
             _context.Wallets.Update(wallet);
             _context.SaveChanges();
         }
-
+        #endregion
+        #region Address 
         public UserAddress GetUserAddressWithAddressId(int userAddressId)
         {
             return _context.UserAddresses.SingleOrDefault(a => a.UserAddressId == userAddressId);
         }
-
-        public int AddUser(User user)
-        {
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return user.UserId;
-        }
-
-        public User GetUserWithActiveCode(string activeCode)
-        {
-            return _context.Users.SingleOrDefault(u => u.ActiveCode == activeCode);
-        }
-
-        public User GetUserWithUserName(string username)
-        {
-            return _context.Users.SingleOrDefault(u => u.UserName == username);
-        }
-
-        public User GetUserWithId(int userId)
-        {
-            return _context.Users.Find(userId);
-        }
-
-        public User GetUserWithEmail(string email)
-        {
-            return _context.Users.SingleOrDefault(u => u.Email == email);
-        }
-
-        public User GetUserWithPhoneNumber(string phoneNumber)
-        {
-            return _context.Users.SingleOrDefault(u => u.Phone == phoneNumber);
-        }
-
-        public bool IsEmailOrPhoneExist(string emailOrPhone)
-        {
-            return _context.Users.Any(u => u.Email == emailOrPhone || u.Phone == emailOrPhone);
-        }
-
-        public bool IsUserNameExist(string userName)
-        {
-            return _context.Users.Any(u => u.UserName == userName);
-        }
-
-        public User LoginUser(LoginViewModel login)
-        {
-            string hashPassword = PasswordHelper.EncodePasswordMd5(login.Password);
-            string emailOrPhone = FixText.FixEmail(login.EmailOrPhone);
-            if (login.EmailOrPhone.Contains("@"))
-            {
-                return _context.Users.SingleOrDefault(u => u.Email == emailOrPhone && u.Password == hashPassword);
-            }
-            else
-            {
-                return _context.Users.SingleOrDefault(u => u.Phone == emailOrPhone && u.Password == hashPassword);
-            }
-        }
-
-        public void UpdateUser(User user)
-        {
-            _context.Users.Update(user);
-            _context.SaveChanges();
-        }
-
         public List<ShowAddressViewModel> GetUserAdresses(string username)
         {
             int userId = GetUserIdWithUserName(username);
@@ -287,33 +325,27 @@ namespace ShahrChap.Core.Services
                 AddressTitle = u.AddressTitle
             }).ToList();
         }
-
         public List<Province> GetAllProvince()
         {
             return _context.Provinces.ToList();
         }
-
         public List<City> GetProvincCities(int provinceId)
         {
             return _context.City.Where(c => c.ProvinceId == provinceId).ToList();
         }
-
         public City GetCityWithCityId(int cityId)
         {
             return _context.City.Find(cityId);
         }
-
         public Province GetProvinceWithProvinceId(int provinceId)
         {
             return _context.Provinces.Find(provinceId);
         }
-
         public void AddAddress(UserAddress address)
         {
             _context.UserAddresses.Add(address);
             _context.SaveChanges();
         }
-
         public bool UpdateAddress(UserAddress address)
         {
             try
@@ -327,7 +359,6 @@ namespace ShahrChap.Core.Services
                 return false;
             }
         }
-
         public bool DeleteAddress(UserAddress address)
         {
             try
@@ -341,7 +372,21 @@ namespace ShahrChap.Core.Services
                 return false;
             }
         }
-
+        #endregion
+        #region Admin Panel
+        public InformationUserViewModel GetUserInformation(int userId)
+        {
+            var user = GetUserWithId(userId);
+            InformationUserViewModel informationUser = new InformationUserViewModel()
+            {
+                Email = user.Email,
+                Phone = user.Phone,
+                UserName = user.UserName,
+                RegisterDate = user.RegisterDate,
+                Wallet = BalanceUserWallet(user.UserName)
+            };
+            return informationUser;
+        }
         public UserForAdminViewModel GetUsers(int pageId = 1, string filterUser = "")
         {
             IQueryable<User> result = _context.Users;
@@ -361,7 +406,25 @@ namespace ShahrChap.Core.Services
             list.Users = result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take).ToList();
             return list;
         }
+        public UserForAdminViewModel GetDeleteUsers(int pageId = 1, string filterUser = "")
+        {
+            IQueryable<User> result = _context.Users.IgnoreQueryFilters().Where(u=> u.IsDelete);
 
+            if (!string.IsNullOrEmpty(filterUser))
+            {
+                result = result.Where(u =>
+                    u.Email.Contains(filterUser) || u.Phone.Contains(filterUser) || u.UserName.Contains(filterUser));
+            }
+
+            int take = 20;
+            int skip = (pageId - 1) * take;
+
+            UserForAdminViewModel list = new UserForAdminViewModel();
+            list.CurrentPage = pageId;
+            list.PageCount = result.Count() / take;
+            list.Users = result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take).ToList();
+            return list;
+        }
         public int AddUserForAdmin(CreateUserViewModel user)
         {
             User addUser = new User()
@@ -389,7 +452,6 @@ namespace ShahrChap.Core.Services
             #endregion
             return AddUser(addUser);
         }
-
         public EditUserViewModel GetUserForShowInEditMode(int userId)
         {
             return _context.Users.Where(u => u.UserId == userId).Select(u => new EditUserViewModel()
@@ -402,7 +464,6 @@ namespace ShahrChap.Core.Services
                 UserRoles = u.UserRoles.Select(r => r.RoleId).ToList()
             }).Single();
         }
-
         public void EditUserForAdmin(EditUserViewModel editUser)
         {
             User user = GetUserWithId(editUser.UserId);
@@ -439,48 +500,12 @@ namespace ShahrChap.Core.Services
             _context.Users.Update(user);
             _context.SaveChanges();
         }
-
-        public UserForAdminViewModel GetDeleteUsers(int pageId = 1, string filterUser = "")
-        {
-            IQueryable<User> result = _context.Users.IgnoreQueryFilters().Where(u=> u.IsDelete);
-
-            if (!string.IsNullOrEmpty(filterUser))
-            {
-                result = result.Where(u =>
-                    u.Email.Contains(filterUser) || u.Phone.Contains(filterUser) || u.UserName.Contains(filterUser));
-            }
-
-            int take = 20;
-            int skip = (pageId - 1) * take;
-
-            UserForAdminViewModel list = new UserForAdminViewModel();
-            list.CurrentPage = pageId;
-            list.PageCount = result.Count() / take;
-            list.Users = result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take).ToList();
-            return list;
-        }
-
         public void DeleteUser(int userId)
         {
             User user = GetUserWithId(userId);
             user.IsDelete = true;
             UpdateUser(user);
         }
-
-        public InformationUserViewModel GetUserInformation(int userId)
-        {
-            var user = GetUserWithId(userId);
-            InformationUserViewModel informationUser = new InformationUserViewModel()
-            {
-                Email = user.Email,
-                Phone = user.Phone,
-                UserName = user.UserName,
-                RegisterDate = user.RegisterDate,
-                Wallet = BalanceUserWallet(user.UserName)
-            };
-            return informationUser;
-        }
-
         public string GetCurrentUserRole()
         {
             int userId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
@@ -493,5 +518,6 @@ namespace ShahrChap.Core.Services
             string userRoleTitle = _context.UserRoles.Where(u=> u.UserId == userId).Select(u=> u.Role.RoleTitle).FirstOrDefault();
             return userRoleTitle;
         }
+        #endregion
     }
 }

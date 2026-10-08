@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using ShahrChap.Core.DTOs.Order;
 
 namespace ShahrChap.Core.DTOs;
 
@@ -10,6 +11,7 @@ public class InformationUserViewModel
     public string? Phone { get; set; }
     public DateTime RegisterDate { get; set; }
     public int Wallet { get; set; }
+    public List<OrderProgressViewModel>? ActiveOrders { get; set; }
 }
 
 public class SideBarUserPanelViewMode
