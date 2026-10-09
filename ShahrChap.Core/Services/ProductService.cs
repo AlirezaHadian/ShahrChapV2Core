@@ -139,7 +139,7 @@ namespace ShahrChap.Core.Services
             UpdateProduct(product, null);
             _context.SaveChanges();
         }
-        public List<ShowProductListViewModel> GetProducts(int take = 0, string filter = "", int? parentId = null)
+        public List<ShowProductListViewModel> GetProducts(int take = 0, string filter = "", int? parentId = null, int? subGroupId = null)
         {
             if (take == 0)
                 take = 8;
@@ -151,13 +151,19 @@ namespace ShahrChap.Core.Services
                 result = result.Where(p => p.ProductTitle.Contains(filter));
             }
 
-            if (parentId != null)
+            if (parentId.HasValue)
             {
-                result = result.Where(p => p.ParentId == parentId);
+                result = result.Where(p => p.ParentId == parentId.Value);
             }
             else
             {
                 result = result.Where(p => p.ParentId == null);
+            }
+
+            if (subGroupId.HasValue)
+            {
+                result = result.Where(p =>
+                    p.SubGroupId == subGroupId.Value);
             }
 
             result = result.OrderByDescending(p => p.CreateDate);
@@ -167,8 +173,44 @@ namespace ShahrChap.Core.Services
                 ProductId = p.ProductId,
                 ImageName = p.Image,
                 ProductName = p.ProductTitle,
-                GroupName = p.Group.GroupTitle
+                GroupName = p.SubGroup.GroupTitle
             }).Take(take).ToList();
+        }
+        public List<HomeProductSectionViewModel> GetProductSections()
+        {
+            List<int> parentsGroupId = _context.ProductGroups
+                .Where(g => g.ParentId == null)
+                .Select(g => g.GroupId)
+                .ToList();
+
+            var groups = _context.ProductGroups
+                .Where(g => g.ParentId.HasValue &&
+                parentsGroupId.Contains(g.ParentId.Value))
+                .Select(g => new
+                {
+                    Id = g.GroupId,
+                    Title = g.GroupTitle
+                }).ToList();
+
+            var sections = new List<HomeProductSectionViewModel>();
+            foreach (var group in groups)
+            {
+                var products = GetProducts(
+                    take: 8,
+                    subGroupId: group.Id
+                    );
+
+                if (products.Count == 0)
+                    continue;
+
+                sections.Add(new HomeProductSectionViewModel
+                {
+                    Title = group.Title,
+                    Products = products
+                });
+
+            }
+            return sections;
         }
         public Product GetProductForShow(int productId)
         {

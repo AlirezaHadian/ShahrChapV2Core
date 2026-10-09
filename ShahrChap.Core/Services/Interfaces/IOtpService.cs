@@ -11,5 +11,6 @@ namespace ShahrChap.Core.Services.Interfaces
         string? GetPhone();
         string? GetActionType();
         void RemoveOtp();
+        DateTime? GetExpireTime();
     }
 }

@@ -56,5 +56,14 @@ namespace ShahrChap.Core.Services
         {
             _otpStorage.Remove();
         }
+        public DateTime? GetExpireTime()
+        {
+            string? phone = _otpStorage.GetPhone();
+
+            if (string.IsNullOrWhiteSpace(phone))
+                return null;
+
+            return _otpStorage.GetExpireTime(phone);
+        }
     }
 }

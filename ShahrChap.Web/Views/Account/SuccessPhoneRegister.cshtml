@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "فعالسازی موفق";
+}
+
+<section class="container internal-style pt-3">
+    <ol class="breadcrumb drop-shadow">
+        <li class="breadcrumb-item">
+            <a href="/">خانه</a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">
+            فعالسازی حساب کاربری
+        </li>
+    </ol>
+</section>
+
+<div class="register-page success-page drop-shadow">
+    <div class="container register-container text-center">
+
+        <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="64"
+                 height="64"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m8 12 2.5 2.5L16 9"></path>
+            </svg>
+        </div>
+
+        <h1 class="success-title">
+            حساب کاربری شما فعال شد!
+        </h1>
+
+        <p class="success-description">
+            شماره موبایل شما با موفقیت تأیید شد.
+            اکنون می‌توانید وارد حساب کاربری خود شوید و از خدمات شهر چاپ استفاده کنید.
+        </p>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="signup-btn success-home-btn">
+            ورود به شهر چاپ
+        </a>
+
+    </div>
+</div>

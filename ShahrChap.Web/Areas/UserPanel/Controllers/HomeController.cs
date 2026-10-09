@@ -113,7 +113,7 @@ public class HomeController : Controller
         {                                                          
             //string emailBody = _view.RenderToStringAsync("_ChangeEmailActivation", user);
             string emailBody =
-                _view.RenderToStringAsync("_ChangeEmailActivation", loggedInUser);
+                await _view.RenderToStringAsync("_ChangeEmailActivation", loggedInUser);
             _emailService.Send(loggedInUser.Email, "ایمیل فعالسازی", emailBody);
         }
         

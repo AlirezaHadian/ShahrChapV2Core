@@ -3467,12 +3467,14 @@ form .order-submit input {
     margin-top: 30px;
     text-align: center;
 }
+
 /* OTP Page */
+
 .otp-page {
     max-width: 450px;
 }
 
-.otp form {
+.otp #verify-phone {
     margin-top: 30px;
 }
 
@@ -3496,52 +3498,141 @@ form .order-submit input {
     font-size: 1.125rem;
     text-align: center;
     border: 1px solid #ddd;
+    background-color: #fff;
 }
 
 .otp .otp-input-field input:focus {
     box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+    border-color: var(--mainBlue);
 }
 
-.input-field input::-webkit-inner-spin-button,
-.input-field input::-webkit-outer-spin-button {
+.otp-input-field input::-webkit-inner-spin-button,
+.otp-input-field input::-webkit-outer-spin-button {
     display: none;
 }
 
-.otp form .signup-btn {
+/* Verify button */
+
+.otp #verify-phone .signup-btn {
     pointer-events: none;
     transition: all 0.2s ease;
     background-color: var(--lightYellow);
+    cursor: not-allowed;
 }
 
-    .otp form .signup-btn.active {
+    .otp #verify-phone .signup-btn.active {
         background-color: var(--mainYellow);
         pointer-events: auto;
+        cursor: pointer;
     }
 
-    .otp form .signup-btn:hover {
-        background-color: var(--darkYellow);
-        pointer-events: auto;
+        .otp #verify-phone .signup-btn.active:hover {
+            background-color: var(--darkYellow);
+        }
+
+    .otp #verify-phone .signup-btn:disabled {
+        opacity: 1;
     }
+
+/* Resend timer */
 
 .otp .resend span {
     font-weight: 200;
     font-size: 12px;
 }
 
-.otp .resend-text a {
-    color: var(--mainBlue);
-    font-weight: 500;
+.otp .resend-text {
+    margin-bottom: 0;
 }
 
-.otp .resend .disableClick {
+.otp .resend-form {
+    display: inline;
+    margin: 0;
+}
+
+/* Resend button styled like the old link */
+
+.otp .resend-button {
+    appearance: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    color: var(--mainBlue);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+    .otp .resend-button:hover:not(:disabled) {
+        text-decoration: underline;
+    }
+
+.otp .resend .resend-button.disableClick,
+.otp .resend .resend-button:disabled {
     color: var(--darkGrey);
     pointer-events: none;
+    cursor: default;
 }
 
-.wrong {
+/* Wrong OTP */
+
+.otp-input-field input.wrong {
     border: 1px solid var(--mainRed) !important;
     box-shadow: 2px 2px 4px var(--mainRed);
 }
+
+/* Success Phone Registration */
+
+.success-page {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 40px 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+    .success-page .success-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 22px;
+        border-radius: 50%;
+        color: #23865b;
+        background-color: #e8f6ef;
+    }
+
+    .success-page .success-title {
+        margin-bottom: 16px;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .success-page .success-description {
+        margin: 0 auto 26px;
+        max-width: 360px;
+        font-size: 14px;
+        line-height: 2;
+        color: var(--darkGrey);
+    }
+
+    .success-page .success-home-btn {
+        display: inline-block;
+        padding: 12px 28px;
+        border: none;
+        border-radius: 6px;
+        background-color: var(--mainYellow);
+        color: #222;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+
+        .success-page .success-home-btn:hover {
+            background-color: var(--darkYellow);
+        }
 /*404 Webpage*/
 .error-page {
     background: linear-gradient(45deg, #ff9100, #f4ff5a);

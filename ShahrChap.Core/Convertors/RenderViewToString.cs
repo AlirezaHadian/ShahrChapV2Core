@@ -14,7 +14,7 @@ namespace ShahrChap.Core.Convertors
 {
     public interface IViewRenderService
     {
-        string RenderToStringAsync(string viewName, object model);
+        Task<string> RenderToStringAsync(string viewName, object model);
     }
     public class RenderViewToString : IViewRenderService
     {
@@ -31,37 +31,59 @@ namespace ShahrChap.Core.Convertors
             _serviceProvider = serviceProvider;
         }
 
-        public string RenderToStringAsync(string viewName, object model)
+        public async Task<string> RenderToStringAsync(string viewName, object model)
         {
-            var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
-            var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
-
-            using (var sw = new StringWriter())
+            var httpContext = new DefaultHttpContext
             {
-                var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
+                RequestServices = _serviceProvider
+            };
 
-                if (viewResult.View == null)
-                {
-                    throw new ArgumentNullException($"{viewName} does not match any available view");
-                }
+            var actionContext = new ActionContext(
+                httpContext,
+                new RouteData(),
+                new ActionDescriptor()
+            );
 
-                var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-                {
-                    Model = model
-                };
+            var viewResult = _razorViewEngine.FindView(
+                actionContext,
+                viewName,
+                isMainPage: false
+            );
 
-                var viewContext = new ViewContext(
-                    actionContext,
-                    viewResult.View,
-                    viewDictionary,
-                    new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
-                    sw,
-                    new HtmlHelperOptions()
+            if (!viewResult.Success)
+            {
+                throw new InvalidOperationException(
+                    $"View '{viewName}' پیدا نشد."
                 );
-
-                viewResult.View.RenderAsync(viewContext);
-                return sw.ToString();
             }
+
+            using var sw = new StringWriter();
+
+            var viewData = new ViewDataDictionary(
+                new EmptyModelMetadataProvider(),
+                new ModelStateDictionary()
+            )
+            {
+                Model = model
+            };
+
+            var tempData = new TempDataDictionary(
+                actionContext.HttpContext,
+                _tempDataProvider
+            );
+
+            var viewContext = new ViewContext(
+                actionContext,
+                viewResult.View,
+                viewData,
+                tempData,
+                sw,
+                new HtmlHelperOptions()
+            );
+
+            await viewResult.View.RenderAsync(viewContext);
+
+            return sw.ToString();
         }
     }
 

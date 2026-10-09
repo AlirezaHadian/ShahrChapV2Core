@@ -3,8 +3,9 @@
 @{
     ViewData["Title"] = "کد تایید";
 
-    string phoneNumber = ViewBag.PhoneNumber;
-    string actionType = ViewBag.ActionType;
+    string phoneNumber = ViewBag.PhoneNumber as string ?? "";
+    DateTime? otpExpireTime = ViewBag.OtpExpireTime as DateTime?;
+    bool otpError = ViewBag.OtpError is bool error && error;
 }
 
 @if (ViewBag.ToastrMessage != null)
@@ -13,11 +14,10 @@
 
     <script>
         setTimeout(function () {
-            window.location = "/Login";
+            window.location.href = "/Login";
         }, 3000);
     </script>
 }
-
 
 <section class="container internal-style pt-3">
     <ol class="breadcrumb drop-shadow">
@@ -31,9 +31,7 @@
     </ol>
 </section>
 
-
 <div class="register-page otp-page drop-shadow">
-
     <div class="container register-container otp">
 
         <span class="register-title">
@@ -46,100 +44,96 @@
             پیامک شد.
         </p>
 
-
         <form asp-action="VerifyPhone"
               method="post"
               id="verify-phone">
 
             @Html.AntiForgeryToken()
 
+            <div class="otp-input-field"
+                 id="otpInputs"
+                 dir="ltr"
+                 data-otp-error="@(otpError ? "true" : "false")">
 
-            <div class="otp-input-field" dir="ltr">
-
-                <input type="number"
+                <input type="text"
                        inputmode="numeric"
+                       pattern="[0-9]*"
+                       maxlength="1"
                        autocomplete="one-time-code"
-                       maxlength="1" />
+                       aria-label="رقم اول کد تایید" />
 
-                <input type="number"
+                <input type="text"
                        inputmode="numeric"
+                       pattern="[0-9]*"
                        maxlength="1"
-                       disabled />
+                       aria-label="رقم دوم کد تایید" />
 
-                <input type="number"
+                <input type="text"
                        inputmode="numeric"
+                       pattern="[0-9]*"
                        maxlength="1"
-                       disabled />
+                       aria-label="رقم سوم کد تایید" />
 
-                <input type="number"
+                <input type="text"
                        inputmode="numeric"
+                       pattern="[0-9]*"
                        maxlength="1"
-                       disabled />
+                       aria-label="رقم چهارم کد تایید" />
 
-                <input type="number"
+                <input type="text"
                        inputmode="numeric"
+                       pattern="[0-9]*"
                        maxlength="1"
-                       disabled />
+                       aria-label="رقم پنجم کد تایید" />
 
             </div>
 
-
-            <input type="hidden"
-                   asp-for="Otp"
-                   id="Otp" />
-
+            <input type="hidden" asp-for="Otp" id="Otp" />
 
             <span asp-validation-for="Otp"
-                  class="text-danger mt-2">
+                  class="text-danger mt-2 d-block">
             </span>
 
-
             <div class="register-btn otp-verify">
-
                 <input type="submit"
                        class="signup-btn"
-                       value="تایید" />
-
+                       value="تایید"
+                       disabled />
             </div>
-
-
-            <div class="resend d-flex flex-column align-items-center mt-3">
-
-                <span class="otp-timer"
-                      id="otpTimer">
-                    1:40
-                </span>
-
-
-                <p class="resend-text">
-
-                    کد تایید را دریافت نکردید؟
-
-                    <button type="submit"
-                            formaction="@Url.Action("ResendOtpCode")"
-                            formmethod="post"
-                            class="disableClick"
-                            id="resendCode"
-                            disabled>
-
-                        ارسال مجدد
-
-                    </button>
-
-                </p>
-
-            </div>
-
         </form>
 
-    </div>
+        <div class="resend d-flex flex-column align-items-center mt-3">
 
+            <span class="otp-timer"
+                  id="otpTimer"
+                  data-expire-time="@otpExpireTime?.ToString("O")">
+                --:--
+            </span>
+
+            <p class="resend-text">
+                کد تایید را دریافت نکردید؟
+
+                <form asp-action="ResendOtpCode"
+                      method="post"
+                      id="resend-form">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="resend-button disableClick"
+                            id="resendCode"
+                            disabled>
+                        ارسال مجدد
+                    </button>
+                </form>
+            </p>
+        </div>
+
+    </div>
 </div>
 
-
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
 
-    <script src="~/js/VerifyPhone.js"></script>
+    <script src="~/js/VerifyPhone.js" asp-append-version="true"></script>
 }

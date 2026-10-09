@@ -17,8 +17,13 @@ namespace ShahrChap.Web.Controllers
         }
         public IActionResult Index()
         {
-            List<ShowProductListViewModel> products = _productService.GetProducts();
-            return View(_productService.GetProducts());
+            var model = new HomeCarouselViewModel
+            {
+                   BestSellers = _productService.GetProducts(),
+                   ProductSections = _productService.GetProductSections()
+            };
+            
+            return View(model);
         }
 
 

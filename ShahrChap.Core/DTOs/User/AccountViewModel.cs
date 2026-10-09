@@ -52,12 +52,12 @@ namespace ShahrChap.Core.DTOs
     }
     public class VerifyPhoneViewModel
     {
-        [Display(Name = "شماره موبایل")]
-        public string PhoneNumber { get; set; }
+    //    [Display(Name = "شماره موبایل")]
+    //    public string PhoneNumber { get; set; }
         [Display(Name = "کد فعالسازی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Otp { get; set; }
-        public string ActionType { get; set; }
+        //public string ActionType { get; set; }
     }
     public class ForgotPasswordViewModel
     {
@@ -72,10 +72,12 @@ namespace ShahrChap.Core.DTOs
         public string ResetValue { get; set; }
         [Display(Name = "کلمه عبور")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [DataType(DataType.Password)]
         //[MinLength(8, ErrorMessage = "{0} باید بیشتر از ۸ کاراکتر باشد")]
         public string Password { get; set; }
         [Display(Name = "تکرار کلمه عبور")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [DataType(DataType.Password)]
         //[MinLength(8, ErrorMessage = "{0} باید بیشتر از ۸ کاراکتر باشد")]
         public string ConfirmPassword { get; set; }
     }

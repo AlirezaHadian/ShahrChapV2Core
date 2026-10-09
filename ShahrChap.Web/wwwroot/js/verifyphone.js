@@ -1,184 +1,168 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿
+document.addEventListener("DOMContentLoaded", function () {
+    const inputs = Array.from(
+        document.querySelectorAll(".otp-input-field input")
+    );
 
-    const inputs = document.querySelectorAll(".otp-input-field input");
-    const button = document.querySelector(".otp .otp-verify input");
+    const button = document.querySelector(
+        "#verify-phone .signup-btn"
+    );
+
     const otpField = document.getElementById("Otp");
-    const form = document.getElementById("verify-phone");
+    const verifyForm = document.getElementById("verify-phone");
+    const timerElement = document.getElementById("otpTimer");
+    const resendButton = document.getElementById("resendCode");
+    const otpContainer = document.getElementById("otpInputs");
 
-    if (!inputs.length || !otpField || !form)
+    if (!inputs.length || !button || !otpField || !verifyForm) {
         return;
+    }
 
+    let resendTimer = null;
 
-    // ==============================
+    // =====================================
     // OTP INPUT
-    // ==============================
+    // =====================================
 
-    inputs[0].focus();
+    function updateOtp() {
+        const otp = inputs.map(input => input.value).join("");
+
+        otpField.value = otp;
+
+        const isComplete =
+            otp.length === inputs.length &&
+            inputs.every(input => /^\d$/.test(input.value));
+
+        button.classList.toggle("active", isComplete);
+        button.disabled = !isComplete;
+
+        return isComplete;
+    }
+
+    function focusNext(index) {
+        if (index < inputs.length - 1) {
+            inputs[index + 1].focus();
+        }
+    }
 
     inputs.forEach((input, index) => {
-
         input.addEventListener("input", function () {
+            // فقط ارقام انگلیسی 0 تا 9
+            const digits = this.value.replace(/[^0-9]/g, "");
 
-            // فقط یک رقم
-            if (this.value.length > 1) {
-                this.value = this.value.slice(-1);
-            }
+            // پشتیبانی از واردکردن یک کد کامل توسط Autofill
+            if (digits.length > 1) {
+                const otp = digits.slice(0, inputs.length);
 
-            // اگر عدد وارد شد، برو input بعدی
-            if (this.value !== "" && index < inputs.length - 1) {
+                inputs.forEach((item, i) => {
+                    item.value = otp[i] || "";
+                });
 
-                const nextInput = inputs[index + 1];
+                const nextEmptyIndex = inputs.findIndex(
+                    item => item.value === ""
+                );
 
-                nextInput.removeAttribute("disabled");
-                nextInput.focus();
-            }
-
-            updateOtp();
-
-        });
-
-
-        input.addEventListener("keydown", function (event) {
-
-            // Backspace
-            if (event.key === "Backspace") {
-
-                if (this.value === "" && index > 0) {
-
-                    const previousInput = inputs[index - 1];
-
-                    previousInput.value = "";
-                    previousInput.focus();
-
-                    // input های بعدی را غیرفعال کن
-                    for (let i = index; i < inputs.length; i++) {
-                        inputs[i].value = "";
-
-                        if (i !== 0)
-                            inputs[i].setAttribute("disabled", true);
-                    }
+                if (nextEmptyIndex === -1) {
+                    inputs[inputs.length - 1].focus();
+                } else {
+                    inputs[nextEmptyIndex].focus();
                 }
 
                 updateOtp();
+                return;
             }
 
+            this.value = digits;
 
-            // Arrow Left
+            if (this.value !== "") {
+                focusNext(index);
+            }
+
+            updateOtp();
+        });
+
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Backspace") {
+                event.preventDefault();
+
+                if (this.value !== "") {
+                    // ابتدا مقدار همین کادر پاک می‌شود
+                    this.value = "";
+                } else if (index > 0) {
+                    // اگر خالی بود، به کادر قبلی برمی‌گردیم
+                    inputs[index - 1].focus();
+                    inputs[index - 1].value = "";
+                }
+
+                updateOtp();
+                return;
+            }
+
             if (event.key === "ArrowLeft" && index > 0) {
+                event.preventDefault();
                 inputs[index - 1].focus();
             }
 
-            // Arrow Right
             if (event.key === "ArrowRight" && index < inputs.length - 1) {
+                event.preventDefault();
                 inputs[index + 1].focus();
             }
         });
 
-
-        // Paste کردن OTP
         input.addEventListener("paste", function (event) {
-
             event.preventDefault();
 
-            const pastedText = (
-                event.clipboardData || window.clipboardData
-            ).getData("text");
+            const clipboard = event.clipboardData ||
+                window.clipboardData;
 
-            const otp = pastedText.replace(/\D/g, "");
+            const digits = clipboard
+                .getData("text")
+                .replace(/[^0-9]/g, "")
+                .slice(0, inputs.length);
 
-            if (otp.length === 0)
+            if (!digits) {
                 return;
+            }
 
-            const digits = otp.substring(0, inputs.length);
-
-            inputs.forEach((input, i) => {
-
-                input.value = "";
-
-                if (i < digits.length) {
-                    input.value = digits[i];
-                    input.removeAttribute("disabled");
-                }
+            inputs.forEach((item, i) => {
+                item.value = digits[i] || "";
             });
 
-            // input های باقی مانده
-            for (let i = digits.length; i < inputs.length; i++) {
+            const nextEmptyIndex = inputs.findIndex(
+                item => item.value === ""
+            );
 
-                if (i !== 0)
-                    inputs[i].setAttribute("disabled", true);
+            if (nextEmptyIndex === -1) {
+                inputs[inputs.length - 1].focus();
+            } else {
+                inputs[nextEmptyIndex].focus();
             }
 
             updateOtp();
-
-            if (digits.length === inputs.length) {
-                submitOtp();
-            }
         });
-
     });
 
-
-    // ==============================
-    // COMBINE OTP
-    // ==============================
-
-    function updateOtp() {
-
-        let otp = "";
-
-        inputs.forEach(input => {
-            otp += input.value;
-        });
-
-        otpField.value = otp;
-
-        const isComplete = otp.length === inputs.length;
-
-        if (isComplete) {
-            button.classList.add("active");
-        }
-        else {
-            button.classList.remove("active");
-        }
-    }
-
-
-    // ==============================
-    // SUBMIT OTP
-    // ==============================
-
-    function submitOtp() {
-
-        updateOtp();
-
-        if (otpField.value.length !== inputs.length)
+    // قبل از ارسال فرم، مقدار نهایی را به فیلد مخفی منتقل کن
+    verifyForm.addEventListener("submit", function (event) {
+        if (!updateOtp()) {
+            event.preventDefault();
             return;
+        }
 
-        /*
-         * مهم:
-         * اینجا OTP را با Backend مقایسه نمی‌کنیم.
-         *
-         * Backend خودش OTP را بررسی می‌کند.
-         */
-        form.submit();
-    }
-
-
-    // وقتی روی دکمه تأیید کلیک شد
-    button.addEventListener("click", function (event) {
-
-        event.preventDefault();
-
-        submitOtp();
+        button.disabled = true;
     });
 
+    // =====================================
+    // HAPTIC FEEDBACK / WRONG OTP
+    // =====================================
 
-    // ==============================
-    // WRONG OTP
-    // ==============================
+    function vibratePhone() {
+        if (typeof navigator.vibrate === "function") {
+            navigator.vibrate([100, 50, 100]);
+        }
+    }
 
     function showWrongOtp() {
-
         vibratePhone();
 
         inputs.forEach(input => {
@@ -186,110 +170,97 @@
         });
 
         setTimeout(() => {
-
-            inputs.forEach((input, index) => {
-
+            inputs.forEach(input => {
                 input.value = "";
                 input.classList.remove("wrong");
-
-                if (index !== 0) {
-                    input.setAttribute("disabled", true);
-                }
             });
-
-            inputs[0].removeAttribute("disabled");
-            inputs[0].focus();
 
             otpField.value = "";
             button.classList.remove("active");
+            button.disabled = true;
 
+            inputs[0].focus();
         }, 500);
     }
 
-
-    // ==============================
-    // HAPTIC FEEDBACK
-    // ==============================
-
-    function vibratePhone() {
-
-        if ("vibrate" in navigator) {
-
-            // ویبره کوتاه برای خطای OTP
-            navigator.vibrate([
-                100,
-                50,
-                100
-            ]);
-        }
+    // این وضعیت را سرور هنگام OTP اشتباه به View می‌فرستد
+    if (otpContainer?.dataset.otpError === "true") {
+        showWrongOtp();
     }
 
-
-    // ==============================
+    // =====================================
     // OTP TIMER
-    // ==============================
-
-    const timerElement = document.getElementById("otpTimer");
-    const resendButton = document.getElementById("resendCode");
-
-    let resendSecondsRemaining = 100;
-    let resendTimer = null;
-
-
-    function updateResendTimer() {
-
-        if (!timerElement)
-            return;
-
-        if (resendSecondsRemaining <= 0) {
-
-            timerElement.textContent = "00:00";
-
-            if (resendButton) {
-                resendButton.classList.remove("disableClick");
-                resendButton.removeAttribute("disabled");
-            }
-
-            clearInterval(resendTimer);
-
-            return;
-        }
-
-        resendSecondsRemaining--;
-
-        const minutes = Math.floor(
-            resendSecondsRemaining / 60
-        );
-
-        const seconds =
-            resendSecondsRemaining % 60;
-
-        timerElement.textContent =
-            `${minutes}:${seconds
-                .toString()
-                .padStart(2, "0")}`;
-    }
-
+    // =====================================
 
     function startResendTimer() {
-
-        if (!timerElement)
+        if (!timerElement || !resendButton) {
             return;
-
-        if (resendButton) {
-            resendButton.classList.add("disableClick");
-            resendButton.setAttribute("disabled", "disabled");
         }
 
-        updateResendTimer();
+        clearInterval(resendTimer);
 
-        resendTimer = setInterval(
-            updateResendTimer,
-            1000
-        );
+        const expireTimeString = timerElement.dataset.expireTime;
+
+        if (!expireTimeString) {
+            timerElement.textContent = "00:00";
+            enableResendButton();
+            return;
+        }
+
+        const expireTime = new Date(expireTimeString).getTime();
+
+        if (Number.isNaN(expireTime)) {
+            timerElement.textContent = "00:00";
+            enableResendButton();
+            return;
+        }
+
+        resendButton.disabled = true;
+        resendButton.classList.add("disableClick");
+
+        function updateTimer() {
+            const remainingMilliseconds = expireTime - Date.now();
+
+            if (remainingMilliseconds <= 0) {
+                timerElement.textContent = "00:00";
+                enableResendButton();
+                clearInterval(resendTimer);
+                return;
+            }
+
+            const totalSeconds = Math.ceil(
+                remainingMilliseconds / 1000
+            );
+
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            timerElement.textContent =
+                `${minutes}:${seconds.toString().padStart(2, "0")}`;
+        }
+
+        updateTimer();
+        resendTimer = setInterval(updateTimer, 1000);
     }
 
+    function enableResendButton() {
+        if (!resendButton) {
+            return;
+        }
 
+        resendButton.disabled = false;
+        resendButton.classList.remove("disableClick");
+    }
+
+    // =====================================
+    // INITIALIZATION
+    // =====================================
+
+    updateOtp();
     startResendTimer();
 
+    // اگر خطای سرور وجود نداشت، اولین کادر فوکوس شود
+    if (otpContainer?.dataset.otpError !== "true") {
+        inputs[0].focus();
+    }
 });

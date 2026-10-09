@@ -25,7 +25,8 @@ namespace ShahrChap.Core.Services.Interfaces
         void DeleteProduct(Product product);
         string AddProductImage(IFormFile productImage);
         void DeleteProductImage(string currentProductName);
-        List<ShowProductListViewModel> GetProducts(int take=0,string filter="" , int? parentId = null);
+        List<ShowProductListViewModel> GetProducts(int take=0,string filter="" , int? parentId = null, int? subGroupId = null);
+        List<HomeProductSectionViewModel> GetProductSections();
         Product GetProductForShow(int productId);
         List<ShowProductListViewModel> GetSubProductForBox(int parentId);
         string GetProductTitleById(int productId);

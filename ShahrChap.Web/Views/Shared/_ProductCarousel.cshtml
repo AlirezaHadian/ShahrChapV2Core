@@ -1,0 +1,32 @@
+﻿@using ShahrChap.Core.DTOs.Products
+@model HomeProductSectionViewModel
+
+<div class="container mt-5">
+    <div class="bestsellers">
+        <div class="title">
+            <h4 class="text-gradient">
+                محصولات @Model.Title
+            </h4>
+
+@*             <a href="#" class="view-more">
+                نمایش همه
+                <i class="uil uil-arrow-left view-more-icon"></i>
+            </a> *@
+        </div>
+
+        <div class="title-underline"></div>
+
+        <div dir="rtl" class="swiper products-swiper">
+            <div class="swiper-wrapper">
+
+                @foreach (var item in Model.Products)
+                {
+                    <div class="swiper-slide">
+                        <partial name="_ProductBox" model="item" />
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
