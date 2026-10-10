@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.Web.Pages.Admin.Features
 {
+    [PermissionChecker(1019)]
     public class CreateFeatureModel : PageModel
     {
         private IProductService _productService;

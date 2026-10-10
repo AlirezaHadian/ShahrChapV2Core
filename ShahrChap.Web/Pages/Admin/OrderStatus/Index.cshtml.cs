@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 
 namespace ShahrChap.Web.Pages.Admin.OrderStatus
 {
+    [PermissionChecker(1023)]
     public class IndexModel : PageModel
     {
         private IOrderService _orderService;

@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShahrChap.Core.Convertors;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.Web.Pages.Admin.Products
 {
+    [PermissionChecker(1013)]
     public class DeleteProductModel : PageModel
     {
         private IProductService _productService;

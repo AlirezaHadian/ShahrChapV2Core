@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using ShahrChap.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,36 +12,44 @@ using System.Threading.Tasks;
 
 namespace ShahrChap.Core.Security
 {
+
     public class PermissionCheckerAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
-        private IPermissionService _permissionService;
-        private int _permissionId = 0;
-        public PermissionCheckerAttribute(int permissionId)
+        private readonly int[] _permissionIds;
+
+        public PermissionCheckerAttribute(params int[] permissionIds)
         {
-            _permissionId = permissionId;
+            _permissionIds = permissionIds;
         }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            _permissionService = (IPermissionService)context.HttpContext.RequestServices.GetService(typeof(IPermissionService));
-            if (context.HttpContext.User.Identity.IsAuthenticated)
-            {
-                string username = context.HttpContext.User.Identity.Name;
-                if (!_permissionService.CheckPermission(_permissionId, username))
-                {
-                    if (_permissionId == 1) //تلاش کاربر عادی برای ورود به پنل ادمین
-                    {
-                        context.Result = new RedirectResult("/AccessDenied");
-                    }
-                    else
-                    {
-                        context.Result = new RedirectResult("/Admin/AdminAccessDenied");
-                    }
-                }
-            }
-            else
+            if (context.HttpContext.User.Identity?.IsAuthenticated != true)
             {
                 context.Result = new RedirectResult("/Login");
+                return;
+            }
+
+            var permissionService = context.HttpContext.RequestServices
+                .GetRequiredService<IPermissionService>();
+
+            string username = context.HttpContext.User.Identity.Name!;
+
+            bool hasPermission = _permissionIds.Any(permissionId =>
+                permissionService.CheckPermission(permissionId, username));
+
+            if (!hasPermission)
+            {
+                if (_permissionIds.Contains(1))
+                {
+                    context.Result = new RedirectResult("/AccessDenied");
+                }
+                else
+                {
+                    context.Result = new RedirectResult("/Admin/AdminAccessDenied");
+                }
             }
         }
     }
+
 }

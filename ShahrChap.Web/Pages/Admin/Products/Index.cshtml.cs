@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShahrChap.Core.DTOs.Products;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 
 namespace ShahrChap.Web.Pages.Admin.Products
 {
+    [PermissionChecker(1010)]
     public class IndexModel : PageModel
     {
         private IProductService _productService;

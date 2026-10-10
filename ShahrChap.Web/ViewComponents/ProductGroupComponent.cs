@@ -11,9 +11,18 @@ namespace ShahrChap.Web.ViewComponents
             _productService = productService;
         }
 
+
+        //public IViewComponentResult Invoke()
+        //{
+        //    var menu = _productService.GetMainMenu();
+
+        //    return View(menu);
+        //}
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return await Task.FromResult((IViewComponentResult) View("ProductGroup", _productService.GetAllGroups()));
+            var menu = _productService.GetMainMenu();
+
+            return await Task.FromResult((IViewComponentResult) View("ProductGroup", menu));
         }
     }
 }

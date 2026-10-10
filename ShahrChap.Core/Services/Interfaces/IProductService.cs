@@ -10,6 +10,7 @@ namespace ShahrChap.Core.Services.Interfaces
     {
         #region Group
         List<ProductGroup> GetAllGroups();
+        public List<MainMenuViewModel> GetMainMenu();
         List<SelectListItem> GetGroupForManageProducts();
         List<SelectListItem> GetSubGroupForManageProducts(int groupId);
         #endregion

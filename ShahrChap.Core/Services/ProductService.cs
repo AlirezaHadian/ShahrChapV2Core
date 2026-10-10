@@ -9,6 +9,7 @@ using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Context;
 using ShahrChap.DataLayer.Entities.Order;
 using ShahrChap.DataLayer.Entities.Product;
+using System.ComponentModel;
 
 
 namespace ShahrChap.Core.Services
@@ -27,7 +28,46 @@ namespace ShahrChap.Core.Services
         {
             return _context.ProductGroups.ToList();
         }
+        public List<MainMenuViewModel> GetMainMenu()
+        {
+            var groups = _context.ProductGroups
+                .Where(g => !g.IsDelete)
+                .ToList();
 
+            var products = _context.Products
+                .Where(p => p.ParentId == null)
+                .ToList();
+
+            var result = groups
+                .Where(g => g.ParentId == null)
+                .Select(parent => new MainMenuViewModel
+                {
+                    GroupId = parent.GroupId,
+                    GroupTitle = parent.GroupTitle,
+                    IconClass = parent.IconClass,
+
+                    SubGroups = groups
+                        .Where(sub => sub.ParentId == parent.GroupId)
+                        .Select(sub => new MainMenuSubGroupViewModel
+                        {
+                            GroupId = sub.GroupId,
+                            GroupTitle = sub.GroupTitle,
+
+                            Products = products
+                                .Where(p => p.SubGroupId == sub.GroupId)
+                                .Select(p => new MainMenuProductViewModel
+                                {
+                                    ProductId = p.ProductId,
+                                    ProductTitle = p.ProductTitle
+                                })
+                                .ToList()
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+            return result;
+        }
         public List<SelectListItem> GetGroupForManageProducts()
         {
             return _context.ProductGroups.Where(g => g.ParentId == null).Select(g => new SelectListItem()

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
@@ -7,6 +8,7 @@ using System.CodeDom;
 
 namespace ShahrChap.Web.Pages.Admin.OrderStatus
 {
+    [PermissionChecker(1026)]
     public class EditOrderStatusModel : PageModel
     {
         private IOrderService _orderService;

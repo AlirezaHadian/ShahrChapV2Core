@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.Web.Pages.Admin.ImageGallery
 {
+    [PermissionChecker(1014)]
     public class IndexModel : PageModel
     {
         private IProductService _productService;

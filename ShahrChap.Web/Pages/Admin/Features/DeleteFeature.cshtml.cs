@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
@@ -7,6 +8,7 @@ using ShahrChap.DataLayer.Entities.User;
 
 namespace ShahrChap.Web.Pages.Admin.Features
 {
+    [PermissionChecker(1022)]
     public class DeleteFeatureModel : PageModel
     {
         private IProductService _productService;

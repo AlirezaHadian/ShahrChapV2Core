@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShahrChap.Core.DTOs.Products;
+using ShahrChap.Core.Security;
 using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Entities.Product;
 
 namespace ShahrChap.Web.Pages.Admin.Products
 {
+    [PermissionChecker(1017)]
     public class IndexSubProductModel : PageModel
     {
         private IProductService _productService;
