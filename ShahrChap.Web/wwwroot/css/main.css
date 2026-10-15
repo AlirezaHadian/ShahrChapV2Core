@@ -5526,3 +5526,1039 @@ form .order-submit input {
         animation: none;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.sr-scope {
+    padding-bottom: 30px;
+}
+
+/* ---------- باکس جستجو ---------- */
+.sr-hero {
+    margin-bottom: 16px;
+    padding: 22px 24px;
+    border-radius: 16px;
+    background: var(--mainWhite);
+}
+
+.sr-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sr-field {
+    position: relative;
+    flex: 1;
+}
+
+    .sr-field i {
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 16px;
+        display: grid;
+        place-items: center;
+        font-size: 22px;
+        color: var(--mainYellow);
+        pointer-events: none;
+    }
+
+    .sr-field input {
+        width: 100%;
+        height: 52px;
+        padding: 0 14px;
+        padding-inline-start: 50px;
+        border: 2px solid transparent;
+        border-radius: 14px;
+        background: var(--search-bar);
+        font: inherit;
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--mainBlack);
+        outline: 0;
+        transition: background .2s, border-color .2s, box-shadow .2s;
+    }
+
+        .sr-field input::placeholder {
+            color: var(--darkestGrey);
+            font-weight: 400;
+        }
+
+        .sr-field input:focus {
+            background: var(--mainWhite);
+            border-color: var(--mainYellow);
+            box-shadow: 0 0 0 4px hsla(46, 95%, 60%, .18);
+        }
+
+.sr-submit {
+    height: 52px;
+    padding: 0 28px;
+    border: 0;
+    border-radius: 14px;
+    background: var(--mainYellow);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--mainWhite);
+    cursor: pointer;
+    transition: background .25s, transform .15s;
+}
+
+    .sr-submit:hover {
+        background: var(--darkYellow);
+    }
+
+    .sr-submit:active {
+        transform: scale(.97);
+    }
+
+.sr-sum {
+    margin: 14px 2px 0;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+    .sr-sum b {
+        color: var(--mainBlack);
+    }
+
+    .sr-sum em {
+        font-style: normal;
+        margin-inline-end: 2px;
+        padding: 1px 10px;
+        border-radius: 99px;
+        background: var(--lighterYellow);
+        font-weight: 700;
+        color: var(--mainBlack);
+    }
+
+/* ---------- نوار فیلتر و مرتب‌سازی ---------- */
+.sr-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.sr-filters {
+    display: flex;
+    gap: 8px;
+    padding: 4px 2px 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+    .sr-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+.sr-chip {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 99px;
+    background: var(--mainWhite);
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, .15);
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: transform .2s, color .2s, background .2s;
+}
+
+    .sr-chip em {
+        min-width: 22px;
+        padding: 0 7px;
+        border-radius: 99px;
+        background: var(--lightGrey);
+        font-style: normal;
+        font-size: .7rem;
+        text-align: center;
+        color: var(--darkestGrey);
+    }
+
+    .sr-chip:hover {
+        transform: translateY(-1px);
+        color: var(--mainBlack);
+    }
+
+    .sr-chip.on {
+        background: var(--mainYellow);
+        color: var(--mainWhite);
+    }
+
+        .sr-chip.on em {
+            background: rgba(255, 255, 255, .3);
+            color: var(--mainWhite);
+        }
+
+.sr-tools {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sr-sort {
+    position: relative;
+    display: block;
+}
+
+    .sr-sort i {
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 11px;
+        display: grid;
+        place-items: center;
+        font-size: 18px;
+        color: var(--darkestGrey);
+        pointer-events: none;
+    }
+
+    .sr-sort select {
+        height: 40px;
+        padding: 0 14px;
+        padding-inline-start: 36px;
+        border: 0;
+        border-radius: 12px;
+        background: var(--mainWhite);
+        box-shadow: 0 2px 6px -2px rgba(0, 0, 0, .15);
+        font: inherit;
+        font-size: .8rem;
+        font-weight: 600;
+        color: var(--text-color);
+        cursor: pointer;
+        outline: 0;
+    }
+
+.sr-view {
+    display: flex;
+    padding: 3px;
+    border-radius: 12px;
+    background: var(--mainWhite);
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, .15);
+}
+
+    .sr-view button {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border: 0;
+        border-radius: 9px;
+        background: transparent;
+        font-size: 18px;
+        color: var(--darkestGrey);
+        cursor: pointer;
+        transition: background .2s, color .2s;
+    }
+
+        .sr-view button.on {
+            background: var(--mainYellow);
+            color: var(--mainWhite);
+        }
+
+/* ---------- کارت نتیجه ---------- */
+.sr-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.sr-item {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 14px;
+    background: var(--mainWhite);
+    box-shadow: 0 5px 8px -3px rgba(0, 0, 0, .1);
+    transition: transform .3s ease, box-shadow .3s ease;
+    animation: sr-in .45s ease both;
+}
+
+    .sr-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 30px -14px rgba(0, 0, 0, .28);
+    }
+
+@keyframes sr-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.sr-img {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--lightGrey);
+}
+
+    .sr-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .5s ease;
+    }
+
+.sr-item:hover .sr-img img {
+    transform: scale(1.07);
+}
+
+.sr-tag {
+    position: absolute;
+    top: 10px;
+    inset-inline-start: 10px;
+    padding: 3px 11px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: blur(4px);
+    font-size: .7rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.sr-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px 14px;
+}
+
+.sr-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: .92rem;
+    font-weight: 700;
+    line-height: 1.8;
+    color: #222;
+}
+
+    .sr-name mark {
+        padding: 0 2px;
+        border-radius: 4px;
+        background: hsla(46, 95%, 60%, .45);
+        color: inherit;
+    }
+
+.sr-meta {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.sr-more {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: color .25s;
+}
+
+.sr-item:hover .sr-more {
+    color: var(--mainBlack);
+}
+
+.sr-go {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: var(--lightGrey);
+    font-size: 19px;
+    color: var(--text-color);
+    transition: background .25s, color .25s, transform .25s;
+}
+
+.sr-item:hover .sr-go {
+    background: var(--mainYellow);
+    color: var(--mainWhite);
+    transform: translateX(-3px);
+}
+
+/* نمای لیستی */
+.sr-grid.is-list {
+    grid-template-columns: 1fr;
+}
+
+.is-list .sr-item {
+    flex-direction: row;
+}
+
+.is-list .sr-img {
+    width: 220px;
+    flex: none;
+    aspect-ratio: 4 / 3;
+}
+
+.is-list .sr-info {
+    justify-content: center;
+    padding: 14px 20px;
+}
+
+.is-list .sr-name {
+    font-size: 1rem;
+}
+
+.is-list .sr-meta {
+    margin-top: 6px;
+}
+
+/* ---------- صفحه‌بندی ---------- */
+.sr-pg {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 28px 0 6px;
+}
+
+    .sr-pg a {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 10px;
+        display: grid;
+        place-items: center;
+        border-radius: 11px;
+        background: var(--mainWhite);
+        box-shadow: 0 2px 6px -2px rgba(0, 0, 0, .15);
+        font-weight: 600;
+        color: var(--text-color);
+        transition: background .2s, color .2s, transform .2s;
+    }
+
+        .sr-pg a:hover {
+            transform: translateY(-1px);
+            color: var(--mainBlack);
+        }
+
+        .sr-pg a.on {
+            background: var(--mainYellow);
+            color: var(--mainWhite);
+        }
+
+        .sr-pg a.dis {
+            opacity: .4;
+            pointer-events: none;
+        }
+
+/* ---------- بدون نتیجه ---------- */
+.sr-empty {
+    padding: 44px 20px 40px;
+    border-radius: 16px;
+    background: var(--mainWhite);
+    text-align: center;
+}
+
+    .sr-empty .ic {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 14px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--lighterYellow);
+        font-size: 38px;
+        color: var(--darkYellow);
+    }
+
+    .sr-empty h2 {
+        margin: 0 0 6px;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .sr-empty p {
+        margin: 0 auto;
+        max-width: 440px;
+        font-size: .85rem;
+        font-weight: 400;
+        line-height: 2;
+        color: var(--text-color);
+    }
+
+.sr-tips {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 14px auto 18px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: var(--lightGrey);
+    text-align: start;
+}
+
+    .sr-tips span {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: .8rem;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+
+    .sr-tips i {
+        font-size: 16px;
+        color: var(--darkYellow);
+    }
+
+.sr-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    border-radius: 12px;
+    background: var(--mainYellow);
+    font-weight: 600;
+    color: var(--mainWhite);
+    transition: background .25s;
+}
+
+    .sr-back:hover {
+        background: var(--darkYellow);
+        color: var(--mainWhite);
+    }
+
+/* ---------- ریسپانسیو ---------- */
+@media (max-width: 1100px) {
+    .sr-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .sr-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .sr-hero {
+        padding: 16px 14px;
+        border-radius: 14px;
+    }
+
+    .sr-submit {
+        padding: 0 18px;
+    }
+
+    .sr-field input, .sr-submit {
+        height: 48px;
+    }
+
+    .sr-bar {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .sr-tools {
+        justify-content: space-between;
+    }
+
+    .sr-sort {
+        flex: 1;
+    }
+
+        .sr-sort select {
+            width: 100%;
+        }
+
+    .sr-grid {
+        gap: 10px;
+    }
+
+    .sr-info {
+        padding: 10px 11px 12px;
+        gap: 8px;
+    }
+
+    .sr-name {
+        font-size: .82rem;
+        line-height: 1.7;
+    }
+
+    .sr-more {
+        font-size: .76rem;
+    }
+
+    .sr-go {
+        width: 30px;
+        height: 30px;
+        font-size: 17px;
+    }
+
+    .sr-grid.is-list {
+        grid-template-columns: 1fr;
+    }
+
+    .is-list .sr-img {
+        width: 118px;
+        aspect-ratio: 1 / 1;
+    }
+
+    .is-list .sr-info {
+        padding: 10px 12px;
+    }
+
+    .is-list .sr-tag {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sr-item, .sr-img img, .sr-go {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* ===================================================
+   SEARCH SUGGEST — اتوکامپلیت جستجو
+   این بلوک رو آخر فایل CSS اصلی بذار.
+   توی پنل از <i> استفاده نکردم (.search-field i قانون مخصوص خودش رو داره)،
+   آیکون‌ها <span class="uil ..."> هستن.
+   =================================================== */
+.ac-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    inset-inline: 0;
+    z-index: 60;
+    max-height: var(--ac-max, min(72vh, 540px));
+    overflow-y: auto;
+    padding: 8px;
+    border-radius: 16px;
+    background: var(--mainWhite);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .04), 0 20px 60px rgba(0, 0, 0, .18), 0 0 0 1px rgba(0, 0, 0, .06);
+    font-weight: 500;
+    text-align: start;
+    scrollbar-width: thin;
+    animation: ac-in .18s ease;
+}
+
+    .ac-panel[hidden] {
+        display: none;
+    }
+
+@keyframes ac-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+}
+
+/* توی هدر: پنل از فیلد ۳۰۰ پیکسلی عریض‌تره */
+.search-field .ac-panel {
+    inset-inline: auto;
+    left: 0;
+    width: 390px;
+}
+
+.ac-panel mark {
+    padding: 0 1px;
+    border-radius: 4px;
+    background: hsla(46, 95%, 60%, .45);
+    color: inherit;
+}
+
+/* عنوان بخش‌ها */
+.ac-lbl {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--darkestGrey);
+}
+
+.ac-clear {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--mainBlue);
+    cursor: pointer;
+}
+
+/* ردیف محصول / جستجوی اخیر */
+.ac-panel .ac-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    border-inline-start: 3px solid transparent;
+    border-radius: 12px;
+    color: var(--mainBlack);
+    cursor: pointer;
+    transition: background .15s;
+}
+
+    .ac-panel .ac-item.is-active {
+        background: var(--lighterYellow);
+        border-inline-start-color: var(--mainYellow);
+    }
+
+.ac-th {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--lightGrey);
+}
+
+    .ac-th img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.ac-tx {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.ac-tt {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height: 1.8;
+}
+
+.ac-sub {
+    font-size: 11.5px;
+    font-weight: 400;
+    color: var(--darkestGrey);
+    line-height: 1.6;
+}
+/* فلش انتهای ردیف محصول (به‌جای قیمت) */
+.ac-chev {
+    flex: none;
+    font-size: 20px;
+    color: var(--darkGrey);
+    transition: transform .2s, color .2s;
+}
+
+.ac-item.is-active .ac-chev {
+    color: var(--mainBlack);
+    transform: translateX(-3px);
+}
+
+.ac-recent {
+    padding-block: 6px;
+}
+
+    .ac-recent .ac-tt {
+        flex: 1;
+        font-weight: 500;
+    }
+
+.ac-ico {
+    font-size: 18px;
+    color: var(--darkGrey);
+}
+
+.ac-x {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    font-size: 16px;
+    color: var(--darkGrey);
+    cursor: pointer;
+}
+
+    .ac-x:hover {
+        background: var(--lightGrey);
+        color: var(--mainRed);
+    }
+
+/* چیپ گروه‌ها */
+.ac-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 2px 8px 8px;
+}
+
+.ac-panel .ac-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 99px;
+    background: var(--lightGrey);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: background .15s, color .15s;
+}
+
+.ac-chip .uil {
+    font-size: 15px;
+    color: var(--darkYellow);
+}
+
+.ac-chip em {
+    padding: 0 7px;
+    border-radius: 99px;
+    background: var(--mainWhite);
+    font-style: normal;
+    font-size: 11px;
+    color: var(--darkestGrey);
+}
+
+.ac-panel .ac-chip.is-active, .ac-panel .ac-chip:hover {
+    background: var(--mainYellow);
+    color: var(--mainWhite);
+}
+
+    .ac-panel .ac-chip.is-active .uil, .ac-panel .ac-chip:hover .uil {
+        color: var(--mainWhite);
+    }
+
+/* «مشاهده همه نتایج» */
+.ac-panel .ac-all {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 6px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: var(--lightGrey);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: background .15s, color .15s;
+}
+
+.ac-all b {
+    color: var(--mainBlack);
+}
+
+.ac-panel .ac-all.is-active, .ac-panel .ac-all:hover {
+    background: var(--mainYellow);
+    color: var(--mainWhite);
+}
+
+.ac-all.is-active b, .ac-all:hover b {
+    color: var(--mainWhite);
+}
+
+/* پیام‌ها */
+.ac-hint, .ac-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 22px 14px;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--darkestGrey);
+}
+
+    .ac-hint .uil, .ac-empty .uil {
+        font-size: 30px;
+        color: var(--darkYellow);
+    }
+
+    .ac-empty b {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--mainBlack);
+    }
+
+    .ac-empty small {
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+/* اسکلت لودینگ */
+.ac-sk {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+}
+
+.ac-sk-th, .ac-sk-tx span {
+    display: block;
+    background: linear-gradient(90deg, var(--lightGrey) 25%, #fff 50%, var(--lightGrey) 75%);
+    background-size: 200% 100%;
+    animation: ac-sh 1.1s linear infinite;
+}
+
+.ac-sk-th {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+}
+
+.ac-sk-tx {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+    .ac-sk-tx span {
+        height: 10px;
+        border-radius: 6px;
+    }
+
+        .ac-sk-tx span:last-child {
+            width: 55%;
+        }
+
+@keyframes ac-sh {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ac-panel, .ac-sk-th, .ac-sk-tx span {
+        animation: none;
+    }
+}
+
+/* دکمه‌ی ثبت داخل فیلد هدر (آیکون ذره‌بین قبلی حالا دکمه است) */
+.search-field .ac-submit {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 48px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+    .search-field .ac-submit i {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+/* ---------- موبایل ----------
+   فیلد جستجوی هدر روی موبایل تمام‌عرض می‌شه (زیر نوار بالا) و پنل درست زیر خودش باز می‌شه.
+   قبلاً پنل با top ثابت می‌اومد و روی خود فیلد می‌افتاد. */
+@media (max-width: 766px) {
+    .searchBox .search-field {
+        position: fixed;
+        top: 78px;
+        bottom: auto;
+        left: 10px;
+        right: 10px;
+        width: auto !important; /* قانون قبلی: width: 225px !important */
+        height: 54px;
+        padding: 4px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+        transform: translateY(-8px);
+        transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .searchBox .searchToggle.active ~ .search-field {
+        bottom: auto;
+        transform: none;
+    }
+
+    .search-field::before {
+        display: none;
+    }
+
+    .search-field input {
+        font-size: 16px;
+        border-radius: 10px;
+    }
+    /* 16px: جلوگیری از زوم خودکار iOS */
+
+    .search-field .ac-panel {
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        width: auto;
+        max-height: var(--ac-max, min(60vh, 420px));
+    }
+
+    .ac-panel {
+        padding: 6px;
+        border-radius: 16px;
+    }
+
+        .ac-panel .ac-item {
+            padding: 10px;
+            gap: 12px;
+        }
+
+    .ac-th, .ac-sk-th {
+        width: 52px;
+        height: 52px;
+    }
+
+    .ac-tt {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .ac-recent .ac-tt {
+        display: block;
+        white-space: nowrap;
+    }
+
+    .ac-x {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .ac-panel .ac-chip {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .ac-panel .ac-all {
+        padding: 14px;
+        font-size: 13.5px;
+    }
+}

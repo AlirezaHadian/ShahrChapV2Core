@@ -1,0 +1,137 @@
+﻿@using ShahrChap.Core.DTOs.Products
+@model SearchResultViewModel
+
+@* Views/Search/Index.cshtml *@
+@{
+    ViewBag.Title = string.IsNullOrWhiteSpace(Model.Query) ? "جستجو" : "جستجو: " + Model.Query;
+    int all = Model.Groups.Sum(g => g.Count);
+}
+
+<section class="container internal-style pt-3">
+    <ol class="breadcrumb drop-shadow">
+        <li class="breadcrumb-item"><a href="/">خانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">جستجو</li>
+    </ol>
+</section>
+
+<section class="container sr-scope" data-q="@Model.Query">
+
+    @* ===== باکس جستجو ===== *@
+    <div class="sr-hero drop-shadow">
+        <form class="sr-form" method="get" asp-controller="Search" asp-action="Index">
+            <div class="sr-field">
+                <i class="uil uil-search"></i>
+                <input type="search" name="q" value="@Model.Query" placeholder="دنبال چه محصولی می‌گردی؟ مثلاً کارت ویزیت" autocomplete="off" data-ac="/Search/Suggest" />
+            </div>
+            <button class="sr-submit" type="submit">جستجو</button>
+        </form>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Query))
+        {
+            <p class="sr-sum"><em>@Model.TotalCount</em> نتیجه برای «<b>@Model.Query</b>»</p>
+        }
+    </div>
+
+    @if (Model.Products.Count == 0)
+    {
+        @* ===== بدون نتیجه ===== *@
+        <div class="sr-empty drop-shadow">
+            <div class="ic"><i class="uil uil-search-alt"></i></div>
+            <h2>نتیجه‌ای پیدا نشد</h2>
+            <p>برای «@Model.Query» محصولی ثبت نشده است. این پیشنهادها را امتحان کن:</p>
+            <div class="sr-tips">
+                <span><i class="uil uil-check-circle"></i> املای کلمه را بررسی کن</span>
+                <span><i class="uil uil-check-circle"></i> از کلمه‌های کلی‌تر استفاده کن، مثلاً «کارت» به‌جای «کارت ویزیت لمینت»</span>
+                <span><i class="uil uil-check-circle"></i> یا از منوی بالای سایت گروه‌ها را ببین</span>
+            </div>
+            <div><a class="sr-back" href="/"><i class="uil uil-estate"></i> بازگشت به صفحه‌ی اصلی</a></div>
+        </div>
+    }
+    else
+    {
+        @* ===== فیلتر و مرتب‌سازی ===== *@
+        <div class="sr-bar">
+            <div class="sr-filters">
+                <a class="sr-chip @(Model.GroupId == null ? "on" : "")" asp-action="Index" asp-route-q="@Model.Query" asp-route-sort="@Model.Sort">
+                    همه<em>@all</em>
+                </a>
+                @foreach (var g in Model.Groups)
+                {
+                    <a class="sr-chip @(Model.GroupId == g.GroupId ? "on" : "")" asp-action="Index"
+                       asp-route-q="@Model.Query" asp-route-groupId="@g.GroupId" asp-route-sort="@Model.Sort">
+                        @g.GroupTitle<em>@g.Count</em>
+                    </a>
+                }
+            </div>
+
+            <div class="sr-tools">
+                <label class="sr-sort">
+                    <i class="uil uil-sort-amount-down"></i>
+                    <select id="srSort" aria-label="مرتب‌سازی">
+                        <option value="relevant" selected="@(Model.Sort != "new")">مرتبط‌ترین</option>
+                        <option value="new" selected="@(Model.Sort == "new")">جدیدترین</option>
+                    </select>
+                </label>
+                <div class="sr-view">
+                    <button type="button" class="on" data-v="grid" aria-label="نمای شبکه‌ای"><i class="uil uil-apps"></i></button>
+                    <button type="button" data-v="list" aria-label="نمای لیستی"><i class="uil uil-bars"></i></button>
+                </div>
+            </div>
+        </div>
+
+        @* ===== نتایج ===== *@
+        <div class="sr-grid">
+            @for (int i = 0; i < Model.Products.Count; i++)
+            {
+                var p = Model.Products[i];
+                <a class="sr-item" style="animation-delay:@(i * 40)ms"
+                   asp-controller="Product" asp-action="ShowProduct" asp-route-id="@p.ProductId">
+                    <span class="sr-img">
+                        @if (!string.IsNullOrEmpty(p.ImageName))
+                        {
+                            <img src="~/product/thumb/@p.ImageName" alt="@p.ProductTitle" loading="lazy" />
+                        }
+                        <span class="sr-tag">@p.GroupTitle</span>
+                    </span>
+                    <span class="sr-info">
+                        <b class="sr-name">@p.ProductTitle</b>
+                        <span class="sr-meta">
+                            <span class="sr-more">مشاهده محصول</span>
+                            <span class="sr-go"><i class="uil uil-arrow-left"></i></span>
+                        </span>
+                    </span>
+                </a>
+            }
+        </div>
+
+        @* ===== صفحه‌بندی ===== *@
+        @if (Model.PageCount > 1)
+        {
+            <nav class="sr-pg" aria-label="صفحه‌بندی">
+                <a class="@(Model.Page <= 1 ? "dis" : "")" asp-action="Index" asp-route-q="@Model.Query" asp-route-groupId="@Model.GroupId"
+                   asp-route-sort="@Model.Sort" asp-route-page="@(Model.Page - 1)"><i class="uil uil-angle-right"></i></a>
+
+                @for (int pg = Math.Max(1, Model.Page - 2); pg <= Math.Min(Model.TotalCount, Model.Page + 2); pg++)
+                {
+                    <a class="@(pg == Model.Page ? "on" : "")" asp-action="Index" asp-route-q="@Model.Query" asp-route-groupId="@Model.GroupId"
+                       asp-route-sort="@Model.Sort" asp-route-page="@pg">@pg</a>
+                }
+
+                <a class="@(Model.Page >= Model.PageCount ? "dis" : "")" asp-action="Index" asp-route-q="@Model.Query" asp-route-groupId="@Model.GroupId"
+                   asp-route-sort="@Model.Sort" asp-route-page="@(Model.Page + 1)"><i class="uil uil-angle-left"></i></a>
+            </nav>
+        }
+    }
+</section>
+
+<script src="~/js/search.js"></script>
+<script>
+    // تغییر مرتب‌سازی: sort رو توی آدرس می‌ذاره و برمی‌گرده صفحه‌ی ۱
+    var srSort = document.getElementById('srSort');
+    if (srSort) srSort.addEventListener('change', function () {
+        var u = new URL(location.href);
+        u.searchParams.set('sort', this.value);
+        u.searchParams.delete('page');
+        location.href = u.toString();
+    });
+</script>

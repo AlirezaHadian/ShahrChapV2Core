@@ -4,6 +4,7 @@ using ShahrChap.Core.Services.Interfaces;
 using ShahrChap.DataLayer.Context;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -13,7 +14,7 @@ namespace ShahrChap.Core.Services
     {
         private const int PageSize = 12;
         private const int MaxQueryLength = 100;
-        private const string ThumbFolder = "/product/thumb";
+        private const string ThumbFolder = "/product/thumb/";
 
         private readonly ShahrChapContext _context;
         public SearchService(ShahrChapContext context) => _context = context;
@@ -25,7 +26,6 @@ namespace ShahrChap.Core.Services
             public string? Image { get; set; }
             public int? GroupId { get; set; }
             public string GroupTitle { get; set; } = "";
-            public long? Price { get; set; }
         }
 
         private IQueryable<Row> BaseQuery()
@@ -41,8 +41,7 @@ namespace ShahrChap.Core.Services
                        Title = p.ProductTitle,
                        Image = p.Image,
                        GroupId = p.SubGroupId,
-                       GroupTitle = g != null ? g.GroupTitle : "",
-                       Price = null
+                       GroupTitle = g != null ? g.GroupTitle : ""
                    };
         }
 
@@ -70,16 +69,17 @@ namespace ShahrChap.Core.Services
         private static string? ImageUrl(string? file) =>
             string.IsNullOrWhiteSpace(file) ? null : ThumbFolder + file;
 
+        /* ---------- صفحه‌ی نتایج ---------- */
         public SearchResultViewModel Search(string? q, int? groupId, string? sort, int page)
         {
             q = Normalize(q);
-            var sortKey = (sort == "cheap" || sort == "expensive") ? sort : "new";
+            var sortKey = sort == "new" ? "new" : "relevant";
 
             var vm = new SearchResultViewModel
             {
                 Query = q,
                 GroupId = groupId,
-                Sort = sortKey!,
+                Sort = sortKey,
                 Page = Math.Max(page, 1)
             };
 
@@ -87,7 +87,6 @@ namespace ShahrChap.Core.Services
             if (words.Length == 0) return vm;
 
             var matched = Filter(BaseQuery(), words);
-
 
             vm.Groups = matched
                 .Where(x => x.GroupId != null)
@@ -104,13 +103,11 @@ namespace ShahrChap.Core.Services
             if (groupId.HasValue)
                 matched = matched.Where(x => x.GroupId == groupId);
 
+            var first = words[0];
+            matched = sortKey == "new"
+                ? matched.OrderByDescending(x => x.ProductId)
+                : matched.OrderBy(x => x.Title.StartsWith(first) ? 0 : 1).ThenByDescending(x => x.ProductId);
 
-            matched = sortKey switch
-            {
-                "cheap" => matched.OrderBy(x => x.Price == null).ThenBy(x => x.Price).ThenByDescending(x => x.ProductId),
-                "expensive" => matched.OrderByDescending(x => x.Price).ThenByDescending(x => x.ProductId),
-                _ => matched.OrderByDescending(x => x.ProductId)
-            };
 
             vm.TotalCount = matched.Count();
             vm.PageCount = Math.Max(1, (int)Math.Ceiling(vm.TotalCount / (double)PageSize));
@@ -125,14 +122,14 @@ namespace ShahrChap.Core.Services
                     ProductId = x.ProductId,
                     ProductTitle = x.Title,
                     GroupTitle = x.GroupTitle,
-                    ImageName = x.Image,
-                    Price = x.Price
+                    ImageName = x.Image
                 })
                 .ToList();
 
             return vm;
         }
 
+        /* ---------- پیشنهاد لحظه‌ای (اتوکامپلیت) ---------- */
         public SuggestResultDto Suggest(string? q)
         {
             q = Normalize(q);
@@ -156,8 +153,7 @@ namespace ShahrChap.Core.Services
                     Id = x.ProductId,
                     Title = x.Title,
                     Group = x.GroupTitle,
-                    Image = ImageUrl(x.Image),
-                    Price = x.Price
+                    Image = ImageUrl(x.Image)
                 })
                 .ToList();
 

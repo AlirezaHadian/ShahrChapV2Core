@@ -57,6 +57,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddScoped<IOtpService, OtpService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 #endregion
 
 var app = builder.Build();

@@ -1,4 +1,4 @@
-﻿/* MEGA MENU — باز و بسته شدن (بدون jQuery و بدون Bootstrap)
+/* MEGA MENU — باز و بسته شدن (بدون jQuery و بدون Bootstrap)
    با event delegation روی document کار می‌کنه، پس مهم نیست
    اسکریپت توی <head> باشه یا آخر صفحه، یا منو دیرتر ساخته بشه. */
 (function () {
@@ -48,6 +48,9 @@
     }
     var tab = e.target.closest('.mm-tab');
     if (tab) { e.stopPropagation(); activate(tab.parentElement); return; }
+    // کلیک روی جاهای خالی پنل (غیر لینک) هم نباید به کد سایت برسه
+    // (script.js با هر کلیکی که روی .menu نباشه سایدبار رو می‌بنده)
+    if (e.target.closest('.mm-panel') && !e.target.closest('a')) { e.stopPropagation(); return; }
     if (!e.target.closest('[data-mm]')) closeAll();
   }, true);
 
