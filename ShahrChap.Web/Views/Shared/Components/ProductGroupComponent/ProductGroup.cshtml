@@ -1,49 +1,57 @@
 ﻿@using ShahrChap.Core.DTOs.Products
 @model List<MainMenuViewModel>
-
 @foreach (var item in Model)
 {
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle"
-           href="#"
-           role="button"
-           data-bs-toggle="dropdown"
-           aria-expanded="false">
+    if (!item.SubGroups.Any())
+    {
+        <li class="nav-item">
+            <a asp-controller="Product" asp-action="ShowGroup" asp-route-id="@item.GroupId">
+                <i class="@item.IconClass"></i> @item.GroupTitle
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item mm" data-mm>
+            <a class="mm-top" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="@item.IconClass"></i> @item.GroupTitle
+                <i class="uil uil-angle-down mm-chev"></i>
+            </a>
 
-            <i class="@item.IconClass"></i> @item.GroupTitle
-        </a>
+            <div class="mm-panel" style="--n:@item.SubGroups.Count">
+                @for (int i = 0; i < item.SubGroups.Count; i++)
+                {
+                    var sub = item.SubGroups[i];
+                    <div class="mm-sub @(i == 0 ? "is-active" : "")">
+                        <button type="button" class="mm-tab">
+                            <span>@sub.GroupTitle</span>
+                            <i class="uil uil-angle-left"></i>
+                        </button>
 
-        @if (item.SubGroups.Any())
-        {
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <ul>
-                    @foreach (var sub in item.SubGroups)
-                    {
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                @sub.GroupTitle
-                            </a>
+                        <div class="mm-pane">
+                            <div class="mm-head">
+                                <b>@sub.GroupTitle</b>
+                            </div>
 
                             @if (sub.Products.Any())
                             {
-                                <ul>
+                                <div class="mm-grid">
                                     @foreach (var product in sub.Products)
                                     {
-                                        <li>
-                                            <a class="dropdown-item"
-   asp-controller="Product"
-   asp-action="ShowProduct"
-   asp-route-id="@product.ProductId">
-    @product.ProductTitle
-</a>
-                                        </li>
+                                        <a class="mm-link" asp-controller="Product" asp-action="ShowProduct" asp-route-id="@product.ProductId">
+                                            @product.ProductTitle
+                                        </a>
                                     }
-                                </ul>
+                                </div>
                             }
-                        </li>
-                    }
-                </ul>
+                            else
+                            {
+                                <p class="mm-empty">محصولی در این بخش ثبت نشده است.</p>
+                            }
+                        </div>
+                    </div>
+                }
             </div>
-        }
-    </li>
+        </li>
+    }
 }

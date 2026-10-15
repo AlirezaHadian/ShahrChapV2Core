@@ -55,11 +55,10 @@
                         <i class="uil uil-search search"></i>
                         @* <i class="icon-search search"></i> *@
                     </div>
-                    <div class="search-field">
-                        <input type="text" placeholder="دنبال چه میگردی؟">
-                        <i class='uil uil-search'></i>
-                        @* <i class="icon-search search"></i> *@
-                    </div>
+                    <form class="search-field" action="/Search" method="get">
+                        <input type="text" name="q" placeholder="دنبال چه میگردی؟" data-ac="/Search/Suggest">
+                        <button type="submit" class="ac-submit" aria-label="جستجو"><i class="uil uil-search"></i></button>
+                    </form>
                 </div>
 
 
