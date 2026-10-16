@@ -939,345 +939,6 @@ nav {
             color: var(--mainWhite);
             border-radius: 8px;
         }
-/* ===================================================
-   SEARCH SUGGEST — اتوکامپلیت جستجو
-   =================================================== */
-.ac-panel {
-    position: absolute;
-    top: calc(100% + 10px);
-    inset-inline: 0;
-    z-index: 60;
-    max-height: min(72vh, 540px);
-    overflow-y: auto;
-    padding: 8px;
-    border-radius: 16px;
-    background: var(--mainWhite);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, .04), 0 20px 60px rgba(0, 0, 0, .18), 0 0 0 1px rgba(0, 0, 0, .06);
-    font-weight: 500;
-    text-align: start;
-    scrollbar-width: thin;
-    animation: ac-in .18s ease;
-}
-
-    .ac-panel[hidden] {
-        display: none;
-    }
-
-@keyframes ac-in {
-    from {
-        opacity: 0;
-        transform: translateY(-6px);
-    }
-}
-
-/* توی هدر: پنل از فیلد ۳۰۰ پیکسلی عریض‌تره */
-.search-field .ac-panel {
-    inset-inline: auto;
-    left: 0;
-    width: 390px;
-}
-
-.ac-panel mark {
-    padding: 0 1px;
-    border-radius: 4px;
-    background: hsla(46, 95%, 60%, .45);
-    color: inherit;
-}
-
-/* عنوان بخش‌ها */
-.ac-lbl {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 10px 4px;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--darkestGrey);
-}
-
-.ac-clear {
-    padding: 0;
-    border: 0;
-    background: none;
-    font: inherit;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--mainBlue);
-    cursor: pointer;
-}
-
-/* ردیف محصول / جستجوی اخیر */
-.ac-panel .ac-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 10px;
-    border-inline-start: 3px solid transparent;
-    border-radius: 12px;
-    color: var(--mainBlack);
-    cursor: pointer;
-    transition: background .15s;
-}
-
-    .ac-panel .ac-item.is-active {
-        background: var(--lighterYellow);
-        border-inline-start-color: var(--mainYellow);
-    }
-
-.ac-th {
-    flex: none;
-    width: 48px;
-    height: 48px;
-    overflow: hidden;
-    border-radius: 10px;
-    background: var(--lightGrey);
-}
-
-    .ac-th img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-.ac-tx {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.ac-tt {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 13.5px;
-    font-weight: 700;
-    line-height: 1.8;
-}
-
-.ac-sub {
-    font-size: 11.5px;
-    font-weight: 400;
-    color: var(--darkestGrey);
-    line-height: 1.6;
-}
-
-.ac-pr {
-    flex: none;
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--price-color);
-    white-space: nowrap;
-}
-
-    .ac-pr small {
-        font-size: 10.5px;
-        font-weight: 400;
-        color: var(--darkestGrey);
-    }
-
-.ac-recent {
-    padding-block: 6px;
-}
-
-    .ac-recent .ac-tt {
-        flex: 1;
-        font-weight: 500;
-    }
-
-.ac-ico {
-    font-size: 18px;
-    color: var(--darkGrey);
-}
-
-.ac-x {
-    flex: none;
-    width: 26px;
-    height: 26px;
-    display: grid;
-    place-items: center;
-    border: 0;
-    border-radius: 8px;
-    background: transparent;
-    font-size: 16px;
-    color: var(--darkGrey);
-    cursor: pointer;
-}
-
-    .ac-x:hover {
-        background: var(--lightGrey);
-        color: var(--mainRed);
-    }
-
-/* چیپ گروه‌ها */
-.ac-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 2px 8px 8px;
-}
-
-.ac-panel .ac-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 99px;
-    background: var(--lightGrey);
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--text-color);
-    transition: background .15s, color .15s;
-}
-
-.ac-chip .uil {
-    font-size: 15px;
-    color: var(--darkYellow);
-}
-
-.ac-chip em {
-    padding: 0 7px;
-    border-radius: 99px;
-    background: var(--mainWhite);
-    font-style: normal;
-    font-size: 11px;
-    color: var(--darkestGrey);
-}
-
-.ac-panel .ac-chip.is-active, .ac-panel .ac-chip:hover {
-    background: var(--mainYellow);
-    color: var(--mainWhite);
-}
-
-    .ac-panel .ac-chip.is-active .uil, .ac-panel .ac-chip:hover .uil {
-        color: var(--mainWhite);
-    }
-
-/* «مشاهده همه نتایج» */
-.ac-panel .ac-all {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 6px;
-    padding: 11px 14px;
-    border-radius: 12px;
-    background: var(--lightGrey);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-color);
-    transition: background .15s, color .15s;
-}
-
-.ac-all b {
-    color: var(--mainBlack);
-}
-
-.ac-panel .ac-all.is-active, .ac-panel .ac-all:hover {
-    background: var(--mainYellow);
-    color: var(--mainWhite);
-}
-
-.ac-all.is-active b, .ac-all:hover b {
-    color: var(--mainWhite);
-}
-
-/* پیام‌ها */
-.ac-hint, .ac-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 22px 14px;
-    text-align: center;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--darkestGrey);
-}
-
-    .ac-hint .uil, .ac-empty .uil {
-        font-size: 30px;
-        color: var(--darkYellow);
-    }
-
-    .ac-empty b {
-        font-size: 13.5px;
-        font-weight: 700;
-        color: var(--mainBlack);
-    }
-
-    .ac-empty small {
-        font-size: 12px;
-        font-weight: 400;
-    }
-
-/* اسکلت لودینگ */
-.ac-sk {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 10px;
-}
-
-.ac-sk-th, .ac-sk-tx span {
-    display: block;
-    background: linear-gradient(90deg, var(--lightGrey) 25%, #fff 50%, var(--lightGrey) 75%);
-    background-size: 200% 100%;
-    animation: ac-sh 1.1s linear infinite;
-}
-
-.ac-sk-th {
-    flex: none;
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-}
-
-.ac-sk-tx {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-    .ac-sk-tx span {
-        height: 10px;
-        border-radius: 6px;
-    }
-
-        .ac-sk-tx span:last-child {
-            width: 55%;
-        }
-
-@keyframes ac-sh {
-    to {
-        background-position: -200% 0;
-    }
-}
-
-
-/* دکمه‌ی ثبت داخل فیلد هدر (آیکون ذره‌بین قبلی حالا دکمه است) */
-.search-field .ac-submit {
-    position: absolute;
-    inset-block: 0;
-    left: 0;
-    width: 48px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-}
-
-    .search-field .ac-submit i {
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-/* ===================================================
-   END SEARCH SUGGEST — اتوکامپلیت جستجو
-   =================================================== */
     .shopcart i {
         color: var(--mainWhite);
         background-color: var(--mainYellow);
@@ -5452,16 +5113,6 @@ form .order-submit input {
         margin: 12px auto 0;
     }
 }
-@media (max-width: 766px) {
-    .search-field .ac-panel {
-        position: fixed;
-        left: 10px;
-        right: 10px;
-        top: 76px;
-        width: auto;
-        max-height: calc(100vh - 96px);
-    }
-}
 @media (min-width: 768px) {
     .bottom-sheet-custom .modal-content {
         border-radius: 20px !important;
@@ -6476,89 +6127,58 @@ form .order-submit input {
     }
 
 /* ---------- موبایل ----------
-   فیلد جستجوی هدر روی موبایل تمام‌عرض می‌شه (زیر نوار بالا) و پنل درست زیر خودش باز می‌شه.
-   قبلاً پنل با top ثابت می‌اومد و روی خود فیلد می‌افتاد. */
+   فیلد جستجوی هدر تمام‌عرض زیر نوار بالا می‌شه و نتایج داخل همون کارت، درست زیر ورودی باز می‌شن.
+   پنل توی جریان صفحه‌ست (نه شناور)، پس هیچ‌وقت روی ورودی نمی‌افته.
+   !important ها عمداً هستن تا قانون قدیمی یا کش‌شده نتونه جای پنل رو خراب کنه. */
 @media (max-width: 766px) {
-    .searchBox .search-field {
-        position: fixed;
-        top: 78px;
-        bottom: auto;
-        left: 10px;
-        right: 10px;
-        width: auto !important; /* قانون قبلی: width: 225px !important */
-        height: 54px;
-        padding: 4px;
-        border-radius: 14px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
-        transform: translateY(-8px);
-        transition: opacity .2s ease, transform .2s ease;
-    }
+  .searchBox .search-field {
+    position: fixed !important;
+    top: 78px !important;
+    bottom: auto !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;          /* قانون قبلی: width: 225px !important */
+    height: auto !important;
+    min-height: 54px;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 4px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+    transform: translateY(-8px);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .searchBox .searchToggle.active ~ .search-field { bottom: auto !important; transform: none; }
+  .search-field::before { display: none; }
+  .search-field input { flex: none; height: 46px; font-size: 16px; border-radius: 10px; }   /* 16px: جلوگیری از زوم خودکار iOS */
+  .search-field .ac-submit { top: 4px; bottom: auto; height: 46px; }
 
-    .searchBox .searchToggle.active ~ .search-field {
-        bottom: auto;
-        transform: none;
-    }
+  .search-field .ac-panel {
+    position: static !important;
+    inset: auto !important;
+    width: auto !important;
+    margin-top: 6px;
+    padding: 2px;
+    border-radius: 0 0 10px 10px;
+    background: transparent;
+    box-shadow: none;
+    animation: none;
+    max-height: var(--ac-max, min(60vh, 420px));
+  }
 
-    .search-field::before {
-        display: none;
-    }
-
-    .search-field input {
-        font-size: 16px;
-        border-radius: 10px;
-    }
-    /* 16px: جلوگیری از زوم خودکار iOS */
-
-    .search-field .ac-panel {
-        top: calc(100% + 8px);
-        left: 0;
-        right: 0;
-        width: auto;
-        max-height: var(--ac-max, min(60vh, 420px));
-    }
-
-    .ac-panel {
-        padding: 6px;
-        border-radius: 16px;
-    }
-
-        .ac-panel .ac-item {
-            padding: 10px;
-            gap: 12px;
-        }
-
-    .ac-th, .ac-sk-th {
-        width: 52px;
-        height: 52px;
-    }
-
-    .ac-tt {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        white-space: normal;
-        font-size: 14px;
-        line-height: 1.7;
-    }
-
-    .ac-recent .ac-tt {
-        display: block;
-        white-space: nowrap;
-    }
-
-    .ac-x {
-        width: 38px;
-        height: 38px;
-        font-size: 18px;
-    }
-
-    .ac-panel .ac-chip {
-        padding: 8px 14px;
-        font-size: 13px;
-    }
-
-    .ac-panel .ac-all {
-        padding: 14px;
-        font-size: 13.5px;
-    }
+  .ac-panel { padding: 6px; border-radius: 16px; }
+  .ac-panel .ac-item { padding: 10px; gap: 12px; }
+  .ac-th, .ac-sk-th { width: 52px; height: 52px; }
+  .ac-tt {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .ac-recent .ac-tt { display: block; white-space: nowrap; }
+  .ac-x { width: 38px; height: 38px; font-size: 18px; }
+  .ac-panel .ac-chip { padding: 8px 14px; font-size: 13px; }
+  .ac-panel .ac-all { padding: 14px; font-size: 13.5px; }
 }
